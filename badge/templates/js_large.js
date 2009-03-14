@@ -1,0 +1,3 @@
+{% load avatar %}document.write('<a href="{{view.url}}" style="border: none; text-decoration: none;"><div style="overflow: hidden; background: url(http://{{DOMAIN}}/images/largebadge{{light}}.gif) #fff no-repeat; width: 164px; height: 66px;"><div style="overflow: hidden; color: #666; font-family: trebuchet ms, arial, helvetica; font-size: 11px; padding: 4px 0 0 6px; line-height: 15px"><div style="overflow: hidden; height: 58px;"><span style="float: left; border: none;"><img src="{{view|avatar_url:"u"}}" class="photo" /></span><div style="padding: 0 15px 0 40px;"><span style="color: #333;">{{view.display_nick}}</span><br/>{{truncated_line|escapejs}}{{location|yesno:" in ,"}}{{location}}</div></div></div></div></a>');
+
+

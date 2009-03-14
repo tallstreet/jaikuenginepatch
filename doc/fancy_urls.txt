@@ -1,0 +1,62 @@
+==========
+Fancy Urls
+========== 
+
+On some good advice we have designed most of our API around the idea that
+things on the web should look like things on the web, that the unique
+identifier for something should be the same unique identifier that we are
+all familiar with, its url.
+
+Throughout the next set of urls, wherever possible we have returned the
+pplicable url to further your queries. Whenever you see a user, you will
+also see the url at which more information about that user can be located.
+
+In almost all cases the way to see an alternate format for a resource is just
+to attach **/json** or **/atom** to its url, as will be evidenced below
+
+
+Explore Stream
+==============
+
+::
+  
+  /explore/(json|rss|atom)            # no auth required
+
+
+User's Stream
+=============
+
+::
+  
+  /user/$username/(json|rss|atom)       # no auth required for public users
+  $username.jaiku.com/(json|rss|atom)   # same as above, where supported
+
+  
+User's Contacts
+===============
+
+::
+
+  /user/$username/contacts/(json)       # no auth required for public users
+  $username.jaiku.com/(json)            # same as above, where supported
+
+
+User's Current Presence
+=======================
+
+::
+
+  /user/$username/presence/(json|atom)  # no auth required for public users
+  $username.jaiku.com/presence(json|atom)     
+                                        # same as above, where supported
+
+
+
+An Entry
+========
+Will contain the entry, user who created it, comments and users who created them
+
+::
+
+  /user/$username/entry/$id/(json)      # no auth required for public users
+  $username.jaiku.com/entry/$id/(json)  # same as above, where supported

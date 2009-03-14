@@ -1,0 +1,25 @@
+{% extends 'common/templates/base_single.html' %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+
+<div class="body" id="welcome-start">
+  <img src="/themes/{{DEFAULT_THEME|urlencode}}/logo-welcome.gif" height="179" width="189" alt="Jaiku" />
+
+  <h1>Welcome to Jaiku!</h1>
+  <p>
+  Follow these 3 easy steps to get started:
+  </p>
+  <ul>
+    <li id="step-1">Add your photo</li>
+    <li id="step-2">Activate messaging</li>
+    <li id="step-3">Find your friends</li>
+  </ul>
+  <p>
+  <big><a href="/welcome/1?redirect_to={{redirect_to|urlencode}}">&#8250; Start</a></big>
+  </p>
+  <p class="clear">
+  <small><a href="{{redirect_to}}">Skip the setup</a></small>
+  </p>
+</div>
+
+{% endblock %}

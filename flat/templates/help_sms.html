@@ -1,0 +1,29 @@
+{% extends 'flat/templates/help_base.html' %}
+
+{% block help %}
+<p>
+    If you have a mobile phone, you can text updates to {{SITE_NAME}} and follow 
+    your contacts and channels on the go. 
+</p>  
+
+<h2>Pricing information</h2>
+<p>
+    Normal operator rates apply to SMS updates sent to or received from 
+    {{SITE_NAME}}. {{SITE_NAME}} does not charge you for these messages. In Europe 
+    receiving SMS is usually free, in the USA operators tend to charge for 
+    received messages. Check with your operator if you're uncertain about 
+    SMS pricing in your mobile plan. 
+</p>
+
+<ul>
+    <li>
+        <a href="/settings/mobile">Activate Your Mobile Number</a>
+    </li>
+    <li>
+        <a href="/settings/notifications">Select Notification Options</a>
+    </li>
+    <li>
+        <a href="/help/commands">Quick Guide to SMS Commands</a>
+    </li>
+</li>
+{% endblock %}

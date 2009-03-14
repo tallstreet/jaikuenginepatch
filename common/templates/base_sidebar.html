@@ -1,0 +1,12 @@
+{% extends 'common/templates/base_navbar.html' %}
+
+{% block container %}
+<div id="content"><div class="top{% if green_top %} b{% endif %}"><div class="bottom">
+{% block content %}{% endblock %}
+{% include 'common/templates/footnav.html' %}
+</div></div></div>
+
+<div id="sidebar"><div class="top{% if sidebar_green_top %} b{% endif %}"><div class="bottom">
+{% block sidebar %}{% endblock %}
+</div></div></div>
+{% endblock %}

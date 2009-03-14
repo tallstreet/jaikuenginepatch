@@ -1,0 +1,31 @@
+{% load nonce %}
+<h2>Change Design</h2>
+{% include 'form_error.html' %}
+<form action="" method="post" enctype="multipart/form-data">
+  {{request.user|noncefield:"update_design"}}
+  <div id="picker" style="float: right;"></div>
+  <div>
+    <label id="bg_color">Background color</label>
+    <input type="text" name="bg_color" id="bg_color" class="colorwell" value="{{view.extra.bg_color|default:"#F1F1F1"}}" />
+  </div>
+  <div>
+    <label id="bg_image">Background image</label>
+    <input type="hidden" name="MAX_FILE_SIZE" value="400000" /> 
+    <input type="hidden" name="action" value="upload" /> 
+    <input type="file" name="bg_image" id="bg_image" value="" />
+    <p class="help">
+    Only up to about 200k, please.
+    </p>
+  </div>
+  <div>
+    <label id="bg_repeat">Background repeat</label>
+    <input type="checkbox" name="bg_repeat" id="bg_repeat" 
+    {% ifnotequal view.extra.bg_repeat "no-repeat" %}checked="checked"{% endifnotequal %} />
+  </div>
+  <div class="buttons">
+    <input type="submit" value="Save Changes"/>
+    or <a href="?restore=1">Restore defaults</a>
+  </div>
+</form>
+<script type="text/javascript" src="/js/badge.js"></script>
+

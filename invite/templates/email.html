@@ -1,0 +1,18 @@
+{% extends 'invite/templates/invite_base.html' %}
+{% load nonce %}
+
+{% block content %}
+  {% include 'common/templates/form_invite_accept.html' %}
+  
+  <h2>{{view.display_nick}}'s Profile</h2>
+  {% with view as actor %}
+
+  {% include 'common/templates/vcard_full.html' %}
+
+  {% endwith %}
+
+  <h2>{{view.display_nick}}'s 3 Most Recent Jaikus</h2>
+  <div id="stream">
+    {% include 'common/templates/stream.html' %}
+  </div>
+{% endblock %}

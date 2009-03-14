@@ -1,0 +1,11 @@
+{% extends 'channel/templates/settings_base.html' %}
+{% load nonce base %}
+{% block settings %}
+
+  {% include_extend 'common/templates/form_photo.html' %}
+  {% block title %}Upload an Icon{% endblock %}
+  {% block blurb %} Upload an icon for this channel - or pick one of our
+  beastly defaults {% endblock %}
+  {% endinclude_extend %}
+
+{% endblock %}

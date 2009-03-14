@@ -1,0 +1,2 @@
+TODO(termie): this document should describe how to enable sms support for
+              and instance of JaikuEngine

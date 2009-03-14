@@ -1,0 +1,16 @@
+{% if view.extra.description or view.extra.external_url %}
+<div class="first" id="description">
+  <h2>About {{view.display_nick}}</h2>
+  {% if user_is_admin %}
+    <a class="edit" href="{{view.url}}/settings/details">Edit</a>
+  {% endif %}
+  <p>{{view.extra.description}}</p>
+  <p>
+    {% if view.extra.external_url %}
+      <a href="{{view.extra.external_url}}" target=_new>
+        {{view.extra.external_url}}
+      </a>
+    {% endif %}
+  </p>
+</div>
+{% endif %}

@@ -1,0 +1,40 @@
+{% extends 'api/templates/api_base.html' %}
+{% load nonce %}
+{% block api %}
+
+<p>These are the apps that are authorized to access your account.</p>
+
+
+<h2>Activated API Tokens</h2>
+
+{% for consumer_token_ref in consumer_tokens %}
+<div class="boxy" 
+     style="margin-bottom: 10px; background-color: {% cycle 'white' '#DDD' %}">
+	<div style="font-size: 12px;">
+		<div style="float: right;">
+			Secret:<br />
+      <span><strong>{{consumer_token_ref.secret}}</strong></span>
+		</div>
+
+		Key:<br />
+    <span style="font-weight: bold; font-size: 16px;">{{consumer_token_ref.key_}}</span>
+	</div>
+
+	<div style="clear: both; font-size: 12px; padding: 1em 0;">
+    <b>Permissions:</b> <i>{{consumer_token_ref.perms}}</i><br />
+    <b>Issued:</b>{{consumer_token_ref.created_at|timesince}} ago<br />
+		<b>Consumer:</b> 
+    <span style="color: #0c0; font-weight: bold;">
+      {{consumer_token_ref.consumer}}
+    </span>
+    <br />
+    <a style="position:relative;top:0px;left:0px"
+       href="?oauth_revoke_access_token=&amp;{{request.user|nonceparam:"oauth_revoke_access_token"}}&amp;key={{consumer_token_ref.key_}}" class="confirm-delete" title="Delete this key">
+      Delete
+    </a>
+    <br />
+	</div>
+</div>
+
+{% endfor %}
+{% endblock %}

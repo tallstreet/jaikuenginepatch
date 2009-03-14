@@ -1,0 +1,42 @@
+{% extends 'flat/templates/help_base.html' %}
+
+{% block help %}
+<p>
+    {{SITE_NAME}} IM, our Instant Messaging bot, allows you to communicate with all your {{SITE_NAME}} contacts using your (XMPP based) instant messaging client. The supported services are: Google Talk, LiveJournal, and Jabber.
+</p>
+<h2>What you get</h2>
+<p>
+    You get notified of posts, comments and Web feed updates from your contacts, and you can post your own messages and comments (even to channels!) right from your desktop.
+</p>
+<p>
+    Of course, sometimes you might want to not have all that going on in your Instant Messenger, so you can even stop the updates for a while (we don't mind, honestly - we know you actually need to work sometimes).
+</p>
+<h2>Activating</h2>
+<p>
+To get started, go to your IM client, and add {{IM_BOT}} to your buddy list. Then, send us an IM message containing the text (without the &lt; and &gt;): <strong>"SIGN IN &lt;your {{SITE_NAME}} screen name&gt; &lt;your {{SITE_NAME}} password&gt;"</strong>
+</p>
+<p>
+    After your account has been verified, you'll start receiving notifications from your contacts.  It's that easy! 
+</p>
+<h2>Communicating with the bot</h2>
+<p>
+    If you want to stop receiving notifications, you can simply send 'STOP' via IM, and we'll stop.
+</p>
+<p>
+    To post to your stream, you just type in your message and hit Send.  You'll get a notification (kinda like an echo) of your post, just so you know it's gone through as it should. 
+</p>
+<p>
+    To comment on a post (or a comment), use the @ symbol to direct your comment to a user (example: "@lordi Rock on!") Doing this will add your comment to the most recent thread that person participated in.
+</p>
+<p>
+    If you want to add a new contact, you can FOLLOW [contact]  ( e.g. "FOLLOW jyri").  If you want to remove a contact, you can LEAVE [contact].
+</p>
+<p>
+    Similarly, you can join and leave our channels - with JOIN or LEAVE (e.g. "JOIN #squid").  You can also post to channels by prefixing your message with #channelname ( e.g. "#squid Fresh squid fried with lime juice and garlic, served on a bed of crispy noodles = YUMMY!")
+</p>
+<ul>
+    <li><a href="/help/commands">List of SMS and IM commands</a></li>
+    <li><a href="/settings/im">Set your IM address</a></li>
+    <li><a href="/settings/notifications"> Notification options</a></li>
+</ul>
+{% endblock %}

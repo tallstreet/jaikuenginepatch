@@ -1,0 +1,14 @@
+<div id="welcome">
+    <ul class="steps"> 
+      <li{% ifequal page "photo" %} class="current"{% else %}{% if welcome_photo %} class="done"{% endif %}{% endifequal %} id="step-1">
+        <a href="/welcome/1">Photo</a>
+      </li> 
+      <li{% ifequal page "mobile" %} class="current"{% else %}{% if welcome_mobile %} class="done"{% endif %}{% endifequal %} id="step-2">
+        <a href="/welcome/2">Messaging</a>
+      </li> 
+      <li{% ifequal page "contacts" %} class="current"{% else %}{% if welcome_contacts %} class="done"{% endif %}{% endifequal %} id="step-3">
+        <a href="/welcome/3">Friends</a>
+      </li> 
+    </ul>
+</div>
+{% include 'common/templates/flash.html' %}

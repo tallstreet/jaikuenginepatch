@@ -1,0 +1,44 @@
+[{"pk": "relation/email/obligated@example.com/obligated@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "obligated@example.com",
+             "target": "obligated@example.com",
+             "relation": "email"
+             }
+  },
+ {"pk": "relation/email/popular@example.com/popular@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "popular@example.com",
+             "target": "popular@example.com",
+             "relation": "email"
+             }
+  },
+ {"pk": "relation/email/unpopular@example.com/unpopular@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "unpopular@example.com",
+             "target": "unpopular@example.com",
+             "relation": "email"
+             }
+  },
+ {"pk": "relation/email/celebrity@example.com/celebrity@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "celebrity@example.com",
+             "target": "celebrity@example.com",
+             "relation": "email"
+             }
+  },
+ {"pk": "relation/email/boyfriend@example.com/boyfriend@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "boyfriend@example.com",
+             "target": "boyfriend@example.com",
+             "relation": "email"
+             }
+  },
+ {"pk": "relation/email/hotness@example.com/hotness@foobar.com",
+  "model": "common.Relation",
+  "fields": {"owner": "hotness@example.com",
+             "target": "hotness@foobar.com",
+             "relation": "email"
+             }
+  }
+]
+

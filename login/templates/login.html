@@ -1,0 +1,41 @@
+{% extends 'common/templates/base_single.html' %}
+{% block title %}Sign In{% endblock %}
+{% block content %}
+
+{% include 'form_error.html' %}
+<form id="loginform" action="/login" method="post">
+  {% if redirect_to %}
+  <input type="hidden" name="redirect_to" value="{{redirect_to}}" />
+  {% endif %}
+
+  <div>
+    <label for="field-log"><strong>Screen name:</strong></label>
+    <input id="field-log" name="log" type="text" tabindex="1" value="{{user_login}}" />
+  </div>
+
+  <div>
+    <label for="field-pwd"><strong>Password:</strong></label>
+    <input id="field-pwd" name="pwd" type="password" tabindex="2" value="" />
+  </div>
+
+  <div class="radio">
+    <input type="checkbox" id="field-rememberme" name="rememberme" tabindex="3" value="1" {% if rememberme %}checked="checked"{% endif %}/> Remember me on this computer
+  </div>
+
+  <div class="buttons">
+    <input type="submit" tabindex="4" value="SIGN IN"/>
+  </div>
+</form>
+
+<br />
+
+<p class="centered">
+<a href="http://{{DOMAIN}}/login/forgot">Forgot your password?</a>
+</p>
+
+<p class="centered">
+<a href="http://{{DOMAIN}}">Return to Home</a>
+</p>
+
+{% endblock %}
+

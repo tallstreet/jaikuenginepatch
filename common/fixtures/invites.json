@@ -1,0 +1,17 @@
+[{"pk": "invite/ACTORINVITE",
+  "model": "common.invite",
+  "fields": {"code": "ACTORINVITE",
+             "email": "demo@example.com",
+             "from_actor": "popular@example.com",
+             "for_actor": "popular@example.com"
+             }
+  },
+ {"pk": "invite/CHANNELINVITE",
+  "model": "common.invite",
+  "fields": {"code": "CHANNELINVITE",
+             "email": "demo2@example.com",
+             "from_actor": "popular@example.com",
+             "for_actor": "#popular@example.com"
+             }
+  }
+]

@@ -1,0 +1,9 @@
+{% load avatar json %}
+    {
+      "avatar": {{actor_ref|avatar_url:"t"|escapejson}},
+      "first_name": {{actor_ref.extra.given_name|escapejson}},
+      "last_name": {{actor_ref.actra.family_name|escapejson}},
+      "nick": {{actor_ref.display_nick|escapejson}},
+      "full_nick": {{actor_ref.nick|escapejson}},
+      "url": {{actor_ref.url|escapejson}}
+    }

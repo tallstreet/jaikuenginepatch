@@ -1,0 +1,10 @@
+{% load json %}
+{ 
+  "title": {% filter escapejson %}{{SITE_NAME}} | Posts from {{view.display_nick}}{% endfilter %},
+  "url": {{view.url|escapejson}},
+  "contacts": {% filter escapejson %}{{view.url}}/contacts{% endfilter %},
+  {% with view as actor_ref %}
+  "user": {% include 'common/templates/user.json' %},
+  {% endwith %}
+  "stream": {% include 'common/templates/stream.json' %}
+}

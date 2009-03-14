@@ -1,0 +1,24 @@
+{% extends 'common/templates/base_sidebar.html' %}
+{% load avatar nonce %}
+{% block title %}Create Channel{% endblock %}
+
+{% block content %}
+  <h1>Create a Channel</h1>
+  {% include 'form_error.html' %}
+  <form action="" method="post">
+    {{request.user|noncefield:"channel_create"}}
+    <input type="hidden" name="nick" value="{{request.user.nick}}" />
+    <input type="hidden" name="channel_create" value="" />
+    <div>
+      <label for="channel">Name of the channel</label>
+      <input type="text" name="channel" id="channel" class="text" 
+          value="{{channel}}" />
+      <p class="help">
+        Please use only letters and numbers.
+      </p>
+    </div>
+    <div class="buttons">
+      <input type="submit" value="Create"/>
+    </div>
+  </form>
+{% endblock %}

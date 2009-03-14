@@ -1,0 +1,3414 @@
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font: 80%/1.4em Arial, Helvetica, sans-serif;
+    background: #f1f1f1;
+    text-align: center;
+    color: #000;
+}
+
+/* --- Container --------------------------------------- */
+
+div#container {
+    position: relative;
+    text-align: left;
+    margin: 0 auto;
+    width: 856px;
+    padding: 0;
+}
+
+body.single div#container {
+    margin: 0 auto;
+    position: relative;
+    border-top: none;
+    width: 606px;
+}
+
+/* --- Header ------------------------------------------ */
+
+div#header-container {
+    margin-bottom: 40px;
+    color: #666;
+    padding: 0;
+}
+
+div#header {
+    position: relative;
+    padding-bottom: 8px;
+    margin: 0 auto;
+    z-index: 100;
+    width: 840px;
+}
+
+#frontpage div#header-container {
+    margin-bottom: 20px;
+}
+
+div#header div#helper-nav {
+    margin: 0.6em 100px 0.6em 0;
+    font-size: 0.96em;
+    float: right;
+}
+
+body#frontpage div#header div#helper-nav {
+    margin-right: 0.6em;
+}
+
+body.single div#header div#helper-nav {
+    margin-right: 25px;
+}
+
+div#header p#login {
+    text-align: left;
+    margin: 0;
+}
+
+div#header p#beta {
+    float: left;
+}
+
+div#header a#logo {
+    position: absolute;
+    display: block;
+    top: 0.5em;
+    right: 0;
+}
+
+body#welcome div#header a#logo {
+    position: absolute;
+    display: block;
+    top: -45px;
+    right: 30px;
+}
+
+div#header a#logo:hover {
+    background: transparent;
+}
+
+body.single div#header-container {
+    margin: 2em auto 0 auto;
+    padding: 15px 0 0 0;
+    width: 606px;
+}
+
+body#welcome div#header-container {
+    margin-top: 40px;
+}
+
+body.single div#header {
+    padding: 25px 25px 0 25px;
+    overflow: hidden;
+    width: auto;
+    margin: 0;
+}
+
+body#welcome div#header {
+    overflow: visible;
+}
+
+body.single div#header a#logo {
+    margin-left: 25px;
+    position: static;
+    float: left;
+}
+
+body#frontpage div#header a#logo {
+    position: absolute;
+    z-index: 1000;
+    width: 115px;
+    left: 20px;
+    top: 7em;
+}
+
+body#welcome div#header h1 {
+    font-size: 1.8em;
+    position: absolute;
+    display: block;
+    left: 25px;
+    top: -50px;
+}
+
+/* --- Main Navigation ----------------------------------------- */
+
+ul#main-nav {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    list-style-type: none;
+    overflow: hidden;
+    font-size: 1.2em;
+    padding: 0;
+    margin: 0;
+}
+
+ul#main-nav li {
+    text-align: center;
+    float: left;
+    padding: 0;
+    margin: 0 10px 0 0;
+}
+
+ul#main-nav li a {
+    padding: 0.5em 0.75em;
+    text-decoration: none;
+    display: block;
+    color: #666;
+}
+
+ul#main-nav li a:hover {
+    background-color: transparent;
+}
+
+ul#main-nav li:hover, ul#main-nav li.hover {
+    background: #ebebeb;
+}
+
+ul#main-nav li.current a {
+    color: #fff;
+}
+
+/* --- Sub Navigation ----------------------------------------- */
+
+ul#sub-nav {
+    margin: 0 -15px 1em -15px;
+    list-style-type: none;
+    overflow: hidden;
+    padding: 0 15px;
+    clear: left;
+}
+
+ul#sub-nav li {
+    margin: 0.5em 2px 0 0;
+    font-size: 0.95em;
+    line-height: 1.5em;
+    float: left;
+    color: #aaa;
+    padding: 0;
+}
+
+ul#sub-nav.b li {
+    margin-top: 0.2em;
+}
+
+ul#sub-nav li a {
+    text-decoration: none;
+    padding: 0.6em 0.8em 0.2em 0.8em;
+    font: 1.2em "Trebuchet MS", Arial, Helvetica, sans-serif;
+    line-height: 1.8em;
+}
+
+ul#sub-nav li a:hover {
+    background: transparent;
+}
+
+ul#sub-nav li.current {
+    border-bottom: 1px solid #fff;
+    background: #fff;
+}
+
+ul#sub-nav li.current a {
+    font-weight: bold;
+    color: #666;
+}
+
+ul#sub-nav a:hover {
+    text-decoration: underline;
+}
+
+/* --- Sub Navigation ----------------------------------------- */
+div.path {
+    border-bottom: solid 1px #ededed;
+}
+
+#mobile div.path {
+    border-bottom: none;
+}
+
+
+div.path h1 a:hover {
+    text-decoration: underline;
+    background: transparent;
+}
+
+div#side-nav {
+    border-left: solid 1px #ededed;
+    background: #fff;
+    padding: 10px;
+    width: 200px;
+    float: right;
+}
+
+#settings div#side-nav {
+    border-left: solid 1px #ededed;
+    background: #fff;
+    background: #ededed;
+    float: left;
+}
+
+div#side-nav h3 {
+    margin-bottom: 0.5em;
+    color: #000;
+}
+
+div#side-nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+div#side-nav ul li {
+    border: 1px solid #fff;
+    padding: 0;
+    margin: 0;
+}
+
+#settings div#side-nav ul li {
+    border: 1px solid #ededed;
+}
+
+div#side-nav ul a {
+    background: url(../images/bg_side_nav.gif) no-repeat 0 0.4em;
+    padding: 0.1em 0 0.1em 10px;
+    text-decoration: none;
+    display: block;
+    color: #666;
+}
+
+div#side-nav ul a:hover {
+    background-color: #fff;
+    text-decoration: underline;
+}
+
+ul#foot-nav {
+    border-top: 1px solid #f1f1f1;
+    list-style-type: none;
+    font-size: 0.96em;
+    overflow: hidden;
+    margin: 2em 0 0 0;
+    padding: 0;
+}
+
+ul#foot-nav li {
+    margin: 1em 0 0 0;
+    font-size: 0.95em;
+    line-height: 1.5em;
+    width: 25%;
+    float: left;
+    padding: 0;
+}
+
+ul#foot-nav li h3 {
+    margin: 0 0 0.1em 0;
+}
+
+ul#foot-nav ul {
+    padding: 0;
+    margin: 0;
+}
+
+ul#foot-nav ul li {
+    margin: 0 0 0 1.5em;
+    width: auto;
+    float: none;
+}
+
+ul#foot-nav ul li a {
+    color: #666;
+}
+
+ul#foot-nav ul li a:hover {
+    text-decoration: underline;
+    background: transparent;
+}
+
+ul#foot-nav ul li.current a {
+    color: #000;
+}
+
+/* --- Content ----------------------------------------- */
+
+div#content {
+    padding-bottom: 15px;
+    margin-bottom: 2em;
+    margin-right: 4px;
+    width: 606px;
+    clear: left;
+    float: left;
+}
+
+div#content div.top {
+    padding-top: 15px;
+}
+
+div#content div.bottom {
+    padding: 0 23px 0.5em 23px;
+    overflow: hidden;
+}
+
+body.single div#content div.top {
+    background: transparent;
+    padding: 0;
+}
+
+body.single div#content div.bottom {
+    padding: 0 45px 0.5em 45px;
+}
+
+body#welcome div#content div.bottom{
+    min-height: 565px;
+}
+
+div.wide div#content {
+    margin-right: 0;
+    overflow: hidden;
+    width: auto;
+    float: none;
+}
+
+div.cols div#content {
+    width: 606px;
+}
+
+div#content p.lead {
+    font-weight: bold;
+}
+
+div#content div.main {
+    padding: 7px 15px 15px 15px;
+    margin: 0 -15px;
+    color: #fff;
+}
+
+div#content div.main h1 {
+    margin: 0 0 0.2em 0;
+    font-size: 2em;
+}
+
+div#content div.main p {
+    font-size: 1.2em;
+    color: #fff;
+}
+
+div#content div.main p a {
+}
+
+div#content div.main a:hover {
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+div#content div.main h1 a {
+    text-decoration: underline;
+    color: #fff;
+}
+
+div#content div.main ul.float {
+    margin: 1em 0 0.5em 0;
+    float: right;
+}
+
+div#content div.main ul.float li {
+    margin: 0 1em 0 0;
+}
+
+div#content div.secondary {
+}
+
+div.split {
+    padding-right: 20px;
+    width: 260px;
+    float: left;
+}
+
+div.body {
+    padding-top: 1em;
+    width: 580px;
+    float: left;
+}
+
+#channel div.body {
+    width: 530px;
+}
+
+#settings div.body {
+    padding-top: 0;
+    margin-left: 20px;
+    width: 560px;
+}
+
+#contacts div.body {
+/*    width: auto;*/
+}
+
+body.single div.body {
+    margin: 0;
+    width: auto;
+    float: none;
+}
+
+/* --- Sidebar ----------------------------------------- */
+
+div#sidebar {
+    padding-bottom: 15px;
+    width: 246px;
+    float: left;
+}
+
+div#content div#sidebar {
+    background-image: none;
+    float: right;
+    width: 260px;
+}
+
+div#sidebar div.top {
+    padding-top: 15px;
+}
+
+div#sidebar div.bottom {
+    padding: 0 18px 1.5em 18px;
+}
+
+#frontpage div#sidebar div.bottom {
+    min-height: 500px;
+}
+
+div.cols div#sidebar {
+    width: 120px;
+}
+
+body.single div#sidebar {
+    position: absolute; 
+    width: 150px;
+    right: 120px;
+    top: 180px;
+}
+
+div#sidebar iframe { /* ADS */
+    margin-top: 0.5em;
+}
+
+div#sidebar a.ad {
+    display: block;
+    padding: 1em 0;
+}
+
+div#sidebar a.ad.first {
+    padding-top: 0.4em;
+}
+
+div#sidebar a.ad:hover {
+    background: #fff;
+}
+
+div#sidebar a.ad img {
+    margin: 0 auto;
+}
+
+div#sidebar div.highlight {
+    padding: 0;
+    margin: 0;
+}
+
+div#side-search {
+    margin-top: 3em;
+}
+
+div#sidebar div#mobile h3 {
+    background: transparent url(../images/red.png) no-repeat 0% 50%;
+    padding: 0.5em 0 0.3em 30px;
+    margin: 0;
+}
+
+div#sidebar div#mobile p {
+    word-wrap: break-word;
+    overflow: hidden;
+    margin-left: 30px;
+}
+
+div#sidebar div#mobile h3.location {
+    background-image: url(../images/location.gif);
+    border-top: solid 1px #f1f1f1;
+}
+
+div#sidebar div#mobile h3.near-by {
+    background-image: url(../images/near-by.gif);
+    border-top: solid 1px #f1f1f1;
+}
+
+div#sidebar div#mobile h3.calendar {
+    background-image: url(../images/calendar.gif);
+    border-top: solid 1px #f1f1f1;
+}
+
+div#sidebar div#mobile h3.availability-green {
+    background-image: url(../images/green.png);
+}
+
+div#sidebar div#mobile h3.availability-orange {
+    background-image: url(../images/orange.png);
+}
+
+div#sidebar div#mobile h3.availability-red {
+    background-image: url(../images/red.png);
+}
+
+div#sidebar div#mobile h3.availability-gray {
+    background-image: url(../images/gray.png);
+}
+
+div#sidebar div#streams a.edit, 
+div#sidebar div#contacts a.edit, 
+div#sidebar div#members a.edit, 
+div#sidebar div#admins a.edit, 
+div#sidebar div.first a.edit {
+    margin-top: -2.2em;
+    float: right;
+}
+
+div#streams ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+div#streams ul li {
+    margin: 0 0 0.5em 0;
+    clear: left;
+    padding: 0;
+}
+
+div#streams img.icon {
+    float: left;
+    margin: 0 7px 0 7px;
+    height: 16px;
+    width: 16px;
+}
+
+div#streams ul li h4 {
+    font-weight: normal;
+    margin: 0;
+}
+
+div#streams ul li a.unsubscribe, div#streams ul li a.subscribe {
+    margin-left: 30px;
+    font-size: 0.85em;
+    width: 100%;
+    color: #333;
+}
+
+div#streams ul li a.unsubscribe:hover, div#streams ul li a.subscribe:hover {
+    text-decoration: underline;
+    background: transparent;
+    color: #009bc7;
+}
+
+div#sidebar div.location p {
+    background: transparent url(../images/location.gif) no-repeat 0 50%;
+    padding: 0.5em 0 0.3em 30px;
+}
+
+div#sidebar div.location form div {
+    background: transparent url(../images/location.gif) no-repeat 0 50%;    
+    padding: 0.5em 0 0.3em 30px;
+}
+
+div#sidebar div.location form div.buttons {
+    background: transparent;
+}
+
+div#sidebar div.location form {
+    display: none;
+}
+
+div#sidebar div.location input#loc {
+  width: 165px;
+}
+
+/* --- For frontpage --------------------------------------- */
+
+div#intro {
+    margin: 0 10px 0 140px;
+    position: relative;
+    padding-top: 1em;
+    z-index: 2;
+    color: #666;
+}
+
+#frontpage div#content div#intro h2 {
+    font-weight: normal;
+    font-size: 1.2em;
+    background: transparent;
+    margin: 0 0 0.2em 0;
+    color: #ccc;
+    padding: 0;
+}
+
+div#intro h1 {
+    font-size: 2.8em;
+    float: none;
+    padding: 0;
+    margin: 0;
+}
+
+div#intro p {
+    margin-bottom: 1.5em;
+    line-height: 1.4em;
+}
+
+#frontpage p.more {
+    margin: 0;
+}
+
+#frontpage div#sidebar p.more, div#sidebar p.more {
+    margin-right: 10px;
+    text-align: right;
+}
+
+div#intro p.more {
+    margin-right: 25px;
+    text-align: right;
+}
+
+div#intro ul {
+    list-style-type: none;
+    margin: 0.5em 0 0 0;
+    padding: 0;
+}
+
+div#intro ul li {
+    padding: 0.6em 0 1em 45px;
+    margin: 0;
+}
+
+div#intro ul li p {
+    margin-bottom: 0em;
+}
+
+
+
+div#intro ul li h3 {
+    font: normal 1.4em "Trebuchet MS", Arial, Helvetica, sans-serif;
+    margin: 0;
+}
+
+div#intro h3 a:link, div#intro h3 a:visited {
+    color: #333;
+}
+
+div#intro h3 a:hover {
+    text-decoration: underline;
+    background: none;
+    color: #333;
+}
+
+div#map {
+    position: relative;
+    margin: 0 -15px;
+    height: 354px;
+    z-index: 0;
+}
+
+/* --- Take Tour -------------------------------------------- */
+
+div#tour-3 img {
+    margin-top: 60px;
+}
+
+#tour h1 {
+    margin: 0.5em 0 0 10px;
+}
+
+div#tour-3 div.note {
+    padding: 1em 1em 0em 1em;
+    position: absolute;
+    width: 170px;
+    right: -415px;
+    bottom: 300px;
+}
+
+div.tour {
+    overflow: hidden;
+    margin: 0 10px;
+}
+
+div.tour div.body {
+    padding: 2em 0 2em 0;
+    margin: 0 430px 0 0;
+    position: relative;
+    min-height: 420px;
+    width: auto;
+    float: none;
+}
+
+div.tour div.body h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: #000;
+}
+
+div.tour div.body ul, #join #sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+div.tour div.body ul li, #join #sidebar ul li {
+    background: transparent url(../images/dot.gif) no-repeat 0 0.3em;
+    padding-left: 20px;
+    font-size: 1.2em;
+    color: #8f8f8f;
+    margin: 0.5em 0;
+}
+
+div.tour ul#more li {
+    background-image: none;
+    padding-left: 0;
+    margin: 1em 0;
+}
+
+div.tour ul#more li#learn-more {
+    text-align: left;
+    width: auto;
+}
+
+
+/* --- Sign Up & More Links --------------------------------------- */
+ul#more {
+    list-style-type: none;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+#frontpage ul#more {
+    position: absolute;
+    z-index: 2;
+    width: 170px;
+    top: 80px;
+    right: 25px !important;
+    right: 60px;
+}
+
+div#sign-up, li#sign-up {
+    text-align: center;
+    color: #a70086;
+    margin: 0 0 1em 0;
+		padding-top: 1.5em;
+}
+
+div#sign-up a, li#sign-up a {
+    display: block;
+    height: 78px;
+}
+
+div#sign-up a strong, li#sign-up a strong {
+    display: none;
+}
+
+div#sign-up a:hover {
+    background-position: 50% -78px;
+}
+
+li#learn-more {
+    margin: 2em 0 0 0;
+    padding: 0.45em 0;
+    text-align: right;
+    display: block;
+}
+
+div#sidebar li#learn-more {
+    text-align: left;
+}
+
+li#learn-more a {
+    font-family: "trebuchet ms";
+    font-size: 1.3em;
+}
+
+li#learn-more a:hover {
+
+}
+
+#user ul#more {
+    margin: 2em auto 2em 5em;
+}
+
+#user ul#more li {
+    margin: 1em;
+    float: left;
+}
+
+/* --- Footer ------------------------------------------ */
+
+div#footer {
+    padding-top: 2em;
+    line-height: 1.4em;
+    font-size: 0.86em;
+    clear: both;
+}
+
+div#footer p {
+    margin: 0;
+}
+
+/* --- Reminder ------------------------------------------- */
+div.highlight {
+    margin-bottom: 1em;
+    padding: 1em 1em 0.1em 1em; 
+}
+
+form div.highlight {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+div.notice {
+    padding: 0.7em 0.7em 0.1em 0.7em;
+    margin: -35px 100px 1em 8px;
+    position: relative;
+}
+
+div.notice p {
+    margin-bottom: 0.7em;
+}
+
+p.notice {
+    margin: 0 0 0.5em 0;
+    padding: 0.5em;
+}
+
+div#content div.notice, body.single div#content div.notice {
+    position: static;
+    margin: 0 0 1em 0;
+    width: auto;
+}
+
+body.single div.notice {
+    position: absolute;
+    width: 380px;
+    right: 25px;
+    top: -70px;
+    margin: 0;
+}
+
+div.message {
+    background: #d6d6d6;
+    margin-bottom: 1em;
+    padding: 1em 1em 0.1em 1em;
+}
+
+div.reminder {
+    margin: -60px 250px 1em 0;
+    padding: 0.5em 1em 0em 1em;
+}
+
+div.reminder p {
+    margin-bottom: 0.5em;
+}
+
+div.reminder p {
+    margin-bottom: 0;
+}
+
+div.notice h3 {
+    margin: 0.2em 0;
+}
+
+div.error {
+    margin-bottom: 1em;
+    padding: 1em 1em 0.1em 1em;
+    color: #000;
+}
+
+p.error, span.error {
+  font-weight: bold;
+}
+
+div#contacts p.error {
+    padding: 1em 1em 0.1em 1em;
+}
+
+p.success {
+  font-weight: bold;
+}
+
+div#start-mobile {
+    overflow: hidden;
+}
+
+div#client, div#texting {
+    float: left;
+    width: 50%;
+}
+
+/* --- Welcome ------------------------------------------- */
+ul.steps {
+    list-style-type: none;
+    overflow: hidden;
+    font-size: 1.1em;
+    margin: 0.5em 20px 0 20px;
+    padding: 0;
+}
+
+ul.steps li {
+    line-height: 1.2em;
+    float: left;
+    width: 82px;
+    padding: 0;
+    margin: 0;
+}
+
+ul.steps li a,  ul.steps li strong{
+    padding: 0.5em 0 135px 0;
+    text-align: center;
+    display: block;
+    height: 100%;
+    color: #999;
+}
+
+ul.steps li#step-2 {
+    margin: 0 115px;
+}
+
+#contacts div.body {
+    margin-left: 0;
+}
+
+div#welcome-start {
+    font-size: 1.2em;
+}
+
+div#welcome-start img {
+    margin: 0 auto 1em auto;
+}
+
+div#welcome-start p, div#welcome-start h1 {
+    margin: inherit auto;
+    text-align: center;
+}
+
+div#welcome-start ul {
+    list-style-type: none;
+    margin: 1em auto;
+    width: 160px;
+    padding: 0;
+}
+
+div#welcome-start ul li {
+    padding: 0.5em 0 0.4em 20px;
+    color: #666;
+    margin: 0;
+}
+
+
+
+div#welcome-done {
+    padding: 60px 0 100px 220px;
+}
+
+div#find-friends div#contacts ul {
+    border: 2px solid #fff;
+    background: #fff;
+    margin: 1em 0;
+    overflow: auto;
+    height: 300px;
+}
+
+div#find-friends div#contacts div.buttons {
+    text-align: right;
+    padding: 0;
+}
+
+div#find-friends div#contacts div.buttons span {
+    float: left;
+}
+
+div#find-friends div#contacts ul li {
+    border-top: 1px solid #eee;
+    overflow: hidden;
+    padding: 0.4em 0;
+    clear: both;
+}
+
+div#find-friends div#contacts ul li.alternate {
+    background: #e9e9e9;
+}
+
+div#find-friends div#contacts ul li img.photo {
+    margin: 0 5px;
+    height: 20px;
+    width: 20px;
+}
+
+div#find-friends div#contacts ul li h3 {
+    margin-top: 0.1em;
+    float: left;
+    padding: 0;
+}
+
+div#find-friends div#contacts ul li p {
+    margin: 0.2em 0 0 0;
+    line-height: 1em;
+    padding: 0;
+    float: left;
+}
+
+div#find-friends div#contacts ul li p.foot {
+    width: 200px;
+    float: right;
+    padding: 0;
+}
+
+div#find-friends div#contacts ul li input {
+    margin-top: 0.2em;
+    float: left;
+}
+
+div#find-friends div#contacts ul li span.checked {
+    background: transparent url(../images/checked.gif) no-repeat 0% 50%;
+    margin-top: 5px;
+    display: block;    
+    height: 16px;
+    width: 16px;
+    float: left;
+}
+
+#welcome div.buttons {
+    text-align: right;
+}
+
+div.buttons button {
+    background: transparent;
+    white-space: nowrap;
+    line-height: 1em;
+    font-size: 0.9em;
+    display: block;
+    border: none;
+    float: right;
+    padding: 0;
+    margin: 0;
+}
+
+div.buttons big, div#welcome-start big {
+    text-align: center;
+    overflow: hidden;
+    display: block;
+    height: 32px;
+    float: right;
+    padding: 0;
+    margin: 0;
+}
+
+
+div#welcome-start big {
+    margin: 0 auto 1em auto;
+    width: 140px;
+    float: none;
+}
+
+div.buttons button:hover big.active, div.buttons big.active:hover, div#welcome-start big:hover {
+    background-position: 0 -32px;
+}
+
+div.buttons big a, div.buttons big span,
+div.buttons big.active a, div#welcome-start big a {
+    padding: 8px 30px 10px 30px;
+    display: block;
+    height: 14px;
+    color: #fff;
+    margin: 0;
+}
+
+
+div.buttons button:hover big.active span, div.buttons big.active:hover a, div#welcome-start big:hover a {
+    background-position: 100% -32px;
+}
+
+p.foot-note {
+    font-size: 0.86em;
+    color: #666;
+}
+
+/* --- Search ------------------------------------------- */
+
+div#side-nav div#search h2 { /*override*/
+    margin-bottom: 0.5em;
+}
+
+div#search form {
+    overflow: hidden;
+    display: block;
+}
+
+div.wide div#search form {
+    margin: 0 10px;
+}
+
+div#side-nav div#search form {
+    margin: 0;
+}
+
+
+div#search p {
+    float: left;
+    margin: 0;
+}
+
+div#search p.buttons {
+    float: right;
+}
+
+div#search p.buttons input, div.wide div#search p.buttons input,
+div#side-nav div#search p.buttons input {
+    width: 70px;
+}
+
+div#search input {
+    width: 130px;
+}
+
+div.wide div#search input {
+    width: 160px;
+}
+
+div#side-nav div#search input {
+    width: 120px;
+}
+
+
+
+/* --- Links ------------------------------------------- */
+
+a:link, a:visited {
+    text-decoration: none;
+}
+
+a:hover, a:link:hover, a:visited:hover {
+    text-decoration: none;
+}
+
+a img, a:link img, a:visited img {
+    border: 0;
+}
+
+/* --- Lists ------------------------------------------- */
+
+ul {
+    list-style-type: square;
+    padding: 0;
+    margin: 0;
+}
+
+li, dd, blockquote {margin-left: 2em}
+
+ul.float {
+    list-style-type: none;
+}
+
+ul.float li {
+    margin-right: 1em;
+    float: left;
+}
+
+ul.float li img {
+    margin-bottom: 1em;
+}
+
+#sidebar ul.float li {
+    overflow: hidden;
+    margin: 1px;
+    float: left;
+}
+
+#sidebar ul.float li img.photo {
+    height: 30px;
+    width: 30px;
+}
+
+ul.phone-models li {
+    text-align: center;
+    margin-bottom: 1em;
+    margin-left: 0;
+}
+
+ul.phone-models {
+    margin-bottom: 2em;
+    overflow: hidden;
+}
+
+/* --- Contacts --------------------------------------- */
+div#self {
+    margin: 0 0 1em 0;
+}
+
+.vcard {
+    border-top: solid 1px #d6d6d6;
+    position: relative;
+    overflow: hidden;
+    padding: 0 10px;
+    clear: left;
+    color: #000;
+}
+
+.vcard .details {
+    position: relative;
+}
+
+div#sidebar .vcard {
+    border-top: none;
+    font-size: 0.85em;
+    padding: 0;
+}
+
+div#actor .vcard {
+    border-top: solid 1px #d6d6d6;
+    font-size: 1em;
+    padding: 0;
+}
+
+div#actor .vcard img.photo {
+    margin: 0 10px;
+}
+
+div#self .vcard{
+    border: solid 1px #d6d6d6;
+    padding-right: 5px;
+}
+
+div#sidebar .vcard p {
+    color: #7a7a7a;
+}
+
+.vcard.hover {
+    background: #d6d6d6;
+}
+
+#current-card {
+    border: solid 5px #d6d6d6;
+    margin-bottom: 1em;
+}
+
+.vcard img.photo {
+    margin: 9px 9px 9px 0;
+    border: solid 1px #fff;
+    float: left;
+}
+
+#ssidebar .vcard img.photo {
+    margin: 10px 10px 0 0;
+    width: 30px;
+}
+
+#sidebar .vcard img.photo {
+    border: solid 2px #fff;
+    width: 30px;
+    padding: 0;
+    margin: 0;
+}
+
+#sidebar #self .vcard img.photo {
+    margin: 10px 5px;
+    width: 40px;
+}
+
+.vcard span.status {
+    position: absolute;
+    text-align: right;
+    width: auto;
+    margin: 10px 8px;
+    right: 0;
+    top: 0;
+}
+
+#profile .vcard span.status {
+    margin: 5px 0;
+}
+
+#sidebar .vcard span.status {
+    margin: 5px 0;
+}
+
+.vcard a.remove:hover {
+    background: transparent;
+}
+
+.vcard p {
+    margin-bottom: 0.5em;
+    color: #666;
+}
+
+#sidebar .vcard p, #sidebar .vcard h3 {
+    margin-left: 42px;
+}
+
+#sidebar #self .vcard p,
+#sidebar #self .vcard h3 {
+    margin-left: 62px;
+}
+
+#actor .vcard p, #actor .vcard h3 {
+    margin-left: 10px;
+}
+
+.vcard p.message {
+    margin: 0 0 0 50px;
+}
+
+#sidebar .vcard p.message {
+    line-height: 1.4em;
+    font-size: 1em;
+}
+
+.vcard p.message a {
+    color: #666;
+}
+
+.vcard p.message a:hover {
+    text-decoration: underline;
+    background: transparent;
+}
+
+.vcard h3 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
+    font-size: 1.2em;
+    padding: 0.5em 0 0.1em 0;
+    color: #000;
+    margin: 0;
+}
+
+.vcard .nickname, .vcard a.nickname {
+    margin: 0.75em 0 0.25em 0;
+    font-size: 0.9em;
+    color: #888;
+}
+
+.vcard h3 .fn {
+    margin: 0.5em 0 0 0;
+}
+
+.vcard .url, .vcard .url:visited {
+    text-decoration: none;
+    background: transparent;
+    color: #000;
+}
+
+.vcard .url:hover {
+    text-decoration: underline;
+    background: transparent;
+    color: #000;
+}
+
+.vcard p span {
+    display: block;
+}
+
+.vcard p span.tel span.value, .vcard p span.email {
+    display: inline;
+}
+
+div#content div.contacts {
+}
+
+div.contacts ul, div#actors ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#sidebar div.contacts ul, #sidebar div#actors ul,
+#sidebar div#self .vcard {
+    padding: 0.5em 0 1em 0;
+    overflow: hidden;
+}
+
+div.contacts ul li, div#actors ul li {
+    word-wrap: break-word;
+    padding: 0;
+    margin: 0;
+}
+
+div.contacts ul.float li {
+    margin: 0 5px 0.5em 0;
+    padding: 0.25em 0;
+    border: none;
+    clear: none;
+    width: 185px;
+}
+
+#welcome div.contacts ul.float li {
+    width: 165px;
+}
+
+div.contacts ul.float li.more {
+    font-size: 1.2em;
+    padding: 0.5em 0;
+}
+
+div.contacts ul.float li.clear {
+    clear: left;
+}
+
+div.contacts ul.float li span.status {
+    margin-top: 5px;
+}
+
+div.contacts h2 {
+    clear: left;
+}
+
+div.contacts ul.float li h3 {
+    font-size: 1.25em;
+    letter-spacing: -1px;
+    margin: 0 0 0 45px;
+    line-height: 1em;
+    padding: 0;
+}
+
+div.contacts ul.float li img.photo {
+    border: solid 1px #e5e5e5;
+    margin: 0 0 0 3px;
+    padding: 2px;
+}
+
+
+div.contacts ul.float li p {
+    font-size: 0.86em;
+    margin: 0 0 0 45px;
+    line-height: 1.3em;
+}
+
+div.contacts ul.float li p.foot a.remove,
+div.contacts ul.float li p.foot a.add {
+    margin: 0;
+    float: none;
+    color: #333;
+}
+
+div.contacts ul.float li p.foot a.remove:hover,
+div.contacts ul.float li p.foot a.add:hover {
+    text-decoration: underline;
+}
+
+div.contacts ul.float li p.foot a.add {
+    background: transparent url(../images/add.gif) no-repeat 0% 50%;
+    padding-left: 12px;
+}
+
+div.contacts ul.float li p.foot a.remove {
+    background: transparent url(../images/remove.gif) no-repeat 0% 50%;
+    padding-left: 12px;
+}
+
+/* --- USER PROFILE ---------------------------------- */
+
+div#content div#profile {
+    border: none;
+    padding: 0;
+}
+
+div.main a img.photo, div.main img.photo {
+    margin: 0 5px 0 0;
+    background: #fff;
+    padding: 4px;
+    width: 60px;
+    float: left;
+}
+
+div#profile p {
+    border-top: dashed 1px #fff;
+    margin: 0 0 0.5em 85px;
+    padding-top: 0.5em;
+}
+
+div#profile p.message {
+    padding-top: 0;
+    border: none;
+}
+
+div#profile p.message a {
+    color: #fff;
+}
+
+#profile h3 {
+    padding-top: 0.5em;
+    margin-right: 25px;
+    font-weight: bold;
+    font-size: 1.5em;
+    background: red;
+}
+
+div#content div#profile h1, div#content div.main h1 {
+    margin: 0 0 0 85px;
+    font-size: 1.8em;
+    line-height: 1.2em;
+    color: #fff;
+    float: none;
+    clear: none;
+}
+
+div#content div.main h1 {
+    margin: 0 0 0.2em 0;
+    padding: 0;
+}
+
+div#profile h1 span.nickname, div#content div.main h1 span.nickname {
+    font-size: 1.5em;
+    color: #fff;
+}
+
+div#sidebar div.contacts ul li {
+    width: 34px;
+    float: left;
+}
+
+#frontpage div#sidebar div#contacts ul {
+    margin: 0 8px;
+}
+
+#frontpage div#sidebar div#contacts ul li {
+    width: 64px;
+}
+
+#frontpage div#sidebar div#contacts ul li img.photo {
+    padding: 4px;
+    margin: 2px;
+}
+
+div#sidebar div#channels ul {
+    list-style-type: none;
+    overflow: hidden;
+    margin: 0 8px;
+}
+
+div#sidebar div#channels ul li {
+    clear: left;
+    margin: 0;
+}
+
+div#sidebar div#channels ul li img.photo {
+    padding: 4px;
+    float: left;
+}
+
+#frontpage div#sidebar div#channels ul li {
+    border-bottom: none;
+    clear: none;
+    float: left;
+    width: 64px;
+}
+
+div#sidebar div#channels ul li img.photo {
+    border: solid 1px #fff;
+    padding: 2px;
+}
+
+#frontpage div#sidebar div#channels ul li img.photo {
+    border: solid 1px #e5e5e5;
+    padding: 4px;
+    margin: 2px;
+}
+
+div#sidebar div#channels ul li {
+    border-bottom: solid 1px #f1f1f1;
+    overflow: hidden;
+    padding: 0.2em 0;
+}
+
+div#sidebar div#channels ul li h3 {
+    margin-bottom: 0;
+}
+
+div#sidebar div#channels ul li h3, div#sidebar div#channels ul li p {
+    margin-left: 45px;
+}
+
+div#sidebar div.contacts ul li div.bubble {
+    display: none;
+}
+
+#welcome div.avatars {
+    margin: 0 1em 0 -90px;
+    overflow: hidden;
+    width: 440px;
+    padding: 0;
+}
+
+#settings div.avatars {
+    margin: 0 1em 0 0;
+    width: 390px;
+    padding: 0;
+}
+
+div.avatars ul, div.tabs div.avatars ul,
+#settings div.tabs div.avatars ul {
+    list-style-type: none;
+    margin: 6px 0 1em 6px;
+    overflow: hidden;
+    padding: 0;
+}
+
+#settings div.tabs div.avatars ul {
+    margin: 0 0 1em 0;
+}
+
+div.avatars li, div.tabs div.avatars ul li {
+    background: transparent;
+    width: auto;
+    margin: 4px;
+    float: left;
+    padding: 0;
+}
+
+div.avatars li label, #welcome div.tabs div.tab div.avatars label,
+#settings div.avatars li label {
+    cursor: pointer;
+    display: block;
+    padding: 2px;
+    width: 75px;
+    margin: 0;
+}
+
+div.avatars li label input {
+    position: absolute;
+    left: -100px;
+    top: -100px;
+}
+
+div.avatars li label img {
+    display: block;
+    height: 75px;
+    width: 75px;
+    margin: 0;
+}
+
+p.avatar-nav {
+    text-align: center;
+}
+
+#settings div.body dd {
+    padding-left: 20px;
+    margin: 0 0 0 -20px;
+    min-height: 200px;
+}
+
+div#list-select ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+div#list-select ul {
+    clear: left;
+}
+
+div#list-select ul input {
+    float: left;
+}
+
+div#list-select ul h3, div#list-select ul p {
+    margin-left: 30px;
+}
+
+div#list-select div.buttons {
+    padding-left: 30px;
+}
+
+/* --- Groups listing -------------------------------------- */
+
+div#group-intro {
+    background: #f0f0f0;
+    padding: 15px 15px 1px 15px;
+}
+
+div#group-intro p {
+    line-height: 1.4em;
+    font-size: 1.1em;
+    color: #333;
+}
+
+div.tip {
+    font-size: 1.1em;
+    margin-left: 15px;
+    padding: 10px;
+    float: right;
+    width: 245px;
+}
+
+div#sidebar div.tip {
+    margin: 1em 0;
+    float: none;
+    margin-left: 0;
+    width: auto;
+}
+
+div#group-intro div.tip p {
+    color: #fff;
+}
+
+div#group-intro p.description {
+    font: bold 1.2em/1.2em "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+div.groups ul {
+    border-top: solid 1px #f1f1f1;
+    list-style-type: none;
+    padding-top: 1em;
+    overflow: hidden;
+    margin: 0;
+}
+
+#sidebar div.groups ul {
+    border-top: none;
+    padding-top: 0;
+}
+
+div.groups ul li {
+    overflow: hidden;
+    padding: 0 15px 0.5em 0;
+    width: 245px;
+    margin: 0;
+}
+
+#sidebar div.groups ul li {
+    border-bottom: solid 1px #f1f1f1;
+    padding: 0.5em 0;
+    width: auto;
+}
+
+div.groups ul li.odd {
+    clear: left;
+}
+
+div.groups ul li img {
+    margin-right: 10px;
+    float: left;
+}
+
+div.groups ul li h3 {
+    font-size: 1.25em;
+    letter-spacing: -1px;
+    margin: 0 0 0 65px;
+    width: 175px;
+}
+
+div.groups ul li p {
+    font-size: 0.86em;
+    margin: 0 0 0 65px;
+    color: #666;
+}
+
+#sidebar div.groups ul li h3,
+#sidebar div.groups ul li p {
+    margin-left: 45px;
+}
+
+div.groups ul p a {
+    color: #333;
+}
+
+div.groups ul p a:hover {
+    text-decoration: underline;
+    background: transparent;
+    color: #333;
+}
+
+
+/* --- Single Stream --------------------------------------- */
+
+div#current-stream {
+    clear: left;
+}
+
+div#content div#current-stream div.top {
+    margin: 0 0 0 75px;
+    padding-top: 0;
+    color: #999;
+}
+
+div#content div#current-stream div.bottom {
+    padding: 0 10px 0 0;
+    overflow: visible;
+    min-height: 70px;
+    width: 474px;
+}
+
+div#current-stream div.bottom h2, div#current-stream div.bottom p {
+    overflow: hidden;
+}
+
+div#content div#current-stream a {
+    text-decoration: underline;
+    color: #000;
+}
+
+div#content div#current-stream a:hover {
+    text-decoration: none;
+}
+
+div#current-stream img.photo {
+    float: left;
+}
+
+div#current-stream img.icon {
+    margin: 8px 5px 0 15px;
+    float: left;
+}
+
+div#current-stream h2 {
+    padding: 0.2em 0 0 15px;
+    margin-bottom: 0.2em;
+    color: #666;
+}
+
+div#current-stream h2 strong {
+    color: #000;
+}
+
+div#content div#current-stream p {
+    padding: 0 0 0.5em 15px;
+    font-size: 0.9em;
+    color: #666;
+    margin: 0;
+}
+
+div#current-stream a.confirm-delete {
+    background: transparent url(../images/delete.gif) no-repeat 0% 50%;
+    padding-left: 12px;
+}
+
+div#current-stream a.confirm-delete:hover {
+    text-decoration: underline;
+}
+
+div#current-stream a.confirm-spam {
+    background: transparent url(../images/remove.gif) no-repeat 0% 50%;
+    padding-left: 12px;
+}
+
+/* --- Set presence line form --------------------------------------- */
+
+div#content div#form-message {
+    position: relative;
+    padding-bottom: 0;
+    z-index: 3;
+}
+
+div#form-message form {
+    zoom: 1; /* for ie 7 */
+}
+
+div#form-message .icon {
+    height: 36px;
+    width: 36px;
+    float: left;
+}
+
+div#form-message p {
+    float: left;
+    margin: 0;
+}
+
+div#content div#form-message p {
+    font-size: 1em;
+}
+
+div#form-message p#icons {
+    margin: 0 0 0 85px;
+    line-height: 1.8em;
+    clear: left;
+    float: none;
+}
+
+div#form-message p#icons a {
+    color: #fff;
+}
+
+div#form-message p#icons select {
+    display: none;
+}
+
+div#form-message p#counter {
+    margin: 0 75px 0 0;
+    text-align: right;
+    line-height: 1.8em;
+    float: right;
+}
+
+div#form-message p label {
+    display: none;
+}
+
+p#message-container {
+    background: transparent url(../images/bg-form-bubble.gif) no-repeat 0 50%;
+    padding: 5px 5px 5px 14px;
+    text-align: center;
+    line-height: 1em;
+    width: 389px;
+    height: 60px;
+}
+
+p#message-container img {
+    padding: 10px 2px 10px 0;
+}
+
+div#form-message textarea#message {
+    border: solid 1px #c3c3c3;
+    border-top: solid 1px #7c7c7c;
+    border-bottom: solid 1px #ddd;
+    background: #fff;
+    font-size: 1.2em;
+    height: 58px;
+    width: 387px;
+    color: #ccc;
+    padding: 0; /*TODO 2px*/
+    margin: 0;
+}
+
+div#form-message input#location {
+    display: none;
+    width: 150px;
+}
+
+div#form-message p.buttons {
+    margin: 2em 0 0 10px;
+}
+
+div#form-message p.buttons input {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+img#current-icon {
+    background: transparent url(../images/bg_select.gif) no-repeat 100% 100%;
+    border: solid 1px #d6d6d6;
+    cursor: pointer;
+    padding: 5px;
+    float: left;
+}
+
+img#current-icon:hover {
+    border-color: #9e9e9e;
+}
+
+div#form-icons {
+    border: solid 5px #9e9e9e;
+    background: #fff;
+    position: absolute;
+    overflow: hidden;
+    padding: 0;
+    z-index: 3;
+    display: none;
+    width: 390px;
+    left: 100px;
+    top: 8.1em;
+}
+
+div#form-icons label {
+    border-bottom: solid 1px #d9d9d9;
+    border-right: solid 1px #d9d9d9;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 1px;
+    height: 36px;
+    width: 36px;
+    margin: 0;
+}
+
+div#form-icons label img {
+    float: left;
+}
+
+div#form-icons label h4 {
+    text-align: left;
+    margin-left: 50px;
+    width: 175px;
+}
+
+div#form-icons label input {
+    position: absolute;
+    left: -100px;
+    top: -100px;
+}
+
+div#form-icons label img {
+    background: #fff;
+    margin: 0;
+}
+
+/* --- Streams --------------------------------------- */
+
+ul.stream img.photo {
+    margin: 7px 7px 0 7px;
+}
+
+div.cols div#stream {
+    margin-left: 20px;
+    float: left;
+    width: 388px;
+}
+
+div#stream div.controls {
+    margin: 0 5px -1.5em 0;
+    z-index: 2;
+    position: relative;
+    text-align: right;
+    font-size: 0.9em;
+}
+
+div#stream div.controls a {
+    color: #666;
+}
+
+div#stream div.controls a:hover {
+    text-decoration: underline;
+    background: transparent;
+    color: #666;
+}
+
+div#stream div.controls a.comment {
+    padding-left: 12px;
+}
+
+ul.stream {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul.stream li {
+    word-wrap: break-word;
+    overflow: hidden;
+    clear: left;
+    padding: 0;
+    margin: 0;
+}
+
+#sidebar ul.stream li {
+    border-top: solid 1px #ddd;
+    padding: 3px 0 0 0;
+}
+
+#sidebar ul.stream li.presence {
+    border-top: none;
+}
+
+#sidebar ul.stream li div.bottom, #sidebar ul.stream li div.top {
+    background: transparent;
+    padding: 0;
+}
+
+#sidebar ul.stream {
+    border-bottom: solid 1px #ddd;
+}
+
+ul.stream li.vcard {
+    padding: 0;
+}
+
+#account-form ul.stream li {
+    position: relative;
+}
+
+ul.stream li.inline {
+    margin-left: 50px;
+}
+
+/* Bubbles */
+ul.stream li.presence, ul.stream li.comment {
+    border-top: none;
+}
+
+#content ul.stream li.presence div.top, #content ul.stream li.comment div.top {
+    margin: 0 0 5px 37px;
+}
+
+#sidebar ul.stream li.presence div.top {
+    margin: 0 0 5px 0;
+}
+
+#content ul.stream li.presence div.bottom, #content ul.stream li.comment div.bottom {
+    padding: 0 7px 0 13px;
+    position:relative;
+    overflow: visible;
+    min-height: 40px;
+}
+
+#sidebar ul.stream li.presence div.bottom {
+    padding: 0 7px 0 7px;
+    position:relative;
+    overflow: visible;
+    min-height: 40px;
+}
+
+ul.stream li.presence div.bottom {
+    min-height: 40px;
+}
+
+ul.stream li.presence img.photo, ul.stream li.comment img.photo {
+    margin: 5px 10px 5px -50px;
+    position: relative;
+}
+
+#content ul.stream li.presence h3 {
+    font-size: 1.1em;
+}
+
+ul.stream li img.photo {
+    border: solid 1px #e5e5e5;
+    margin: 5px 10px 5px 0;
+    padding: 2px;
+    float: left;
+    height: 30px;
+    width: 30px;
+}
+
+
+ul.stream li {
+    border-top: solid 1px #f1f1f1;
+}
+
+#content ul.stream li div.top {
+    background: transparent;
+    padding: 0;
+}
+
+#content ul.stream li div.bottom {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+ul.stream li h3 {
+    padding-left: 0;
+}
+
+ul.stream li p {
+    padding-left: 0;
+}
+
+ul.stream li img.icon {
+    margin: 5px 3px 0 0;
+    height: 16px;
+    width: 16px;
+    float: left;
+}
+
+#sidebar ul.stream li img.icon {
+    margin-top: 0.2em;
+    margin-left: 0;
+}
+
+#sidebar ul.stream li.presence img.icon {
+    height: 36px;
+    width: 36px;
+}
+
+ul.stream li img.ext {
+    margin: 4px 5px 4px -6px;
+    padding: 5px 5px 11px 12px;
+    height: 60px;
+    width: 60px;
+    float: left;
+}
+
+ul.stream li.comment div.bottom {
+    min-height: 40px;
+}
+
+ul.stream li.comment p {
+
+}
+
+ul.stream li.presence img.icon {
+    margin: 5px 0 5px 5px;
+    height: 36px;
+    width: 36px;
+    float: left;
+}
+
+#presence div#stream img.icon, #user div#stream img.icon,
+#sidebar div.stream img.icon {
+    margin-left: 0;
+}
+
+ul.stream li div {
+    padding-left: 0;
+}
+
+ul.stream li h3 {
+    font: 0.96em/1.4em Arial, Helvetica, sans-serif;
+    padding: 0.5em 0 0 5px;
+    margin-bottom: 0;
+    color: #888;
+}
+
+#sidebar ul.stream li h3 {
+    padding-top: 0.2em;
+}
+
+ul.stream li a, ul.stream li a:visited {
+    color: #333;
+}
+
+ul.stream li a:hover {
+    text-decoration: underline;
+    background: transparent;
+    color: #333;
+}
+
+ul.stream li h3 a:hover {
+    background: transparent;
+}
+
+ul.stream li h3 a.url {
+    color: #333;
+}
+
+ul.stream li h3 a.url:hover {
+    text-decoration: underline;
+    background: transparent;
+}
+
+ul.stream li a.comments, ul.stream li a.add-comment,
+ul.stream li a.confirm-delete, div#comments ul li a.confirm-delete,
+ul.stream li a.confirm-subscribe, div#comments ul li a.confirm-subscribe {
+    background:transparent url(../images/comment.gif) no-repeat scroll 0 50%;
+    white-space: nowrap;
+    padding-left: 12px;
+}
+
+ul.stream li a.confirm-delete, div#comments ul li a.confirm-delete {
+    background:transparent url(../images/delete.gif) no-repeat scroll 0 50%;
+}
+
+ul.stream li a.confirm-subscribe, div#comments ul li a.confirm-subscribe {
+    background-image: url(../images/remove.gif);
+}
+
+ul.stream li a.comments:hover, ul.stream li a.add-comment:hover,
+ul.stream li a.confirm-delete:hover, div#comments ul li a.confirm-delete:hover,
+ul.stream li a.confirm-subscribe:hover, div#comments ul li a.confirm-subscribe:hover {
+    text-decoration: underline;
+}
+
+ul.stream li p {
+    padding: 0 0 0 5px;
+    line-height: 1.4em;
+    font-size: 0.96em;
+    margin: 0;
+}
+
+ul.stream li.comment img.photo {
+    margin-top: 2px;
+}
+
+ul.stream li p.comment, ul.stream li div.comment-all p {
+    font-size: 0.96em;
+    line-height: 1.3em;
+    padding-top: 0.7em;
+    color: #333;
+}
+
+ul.stream li div.comment-all {
+    display: none;
+}
+
+ul.stream li p.comment a {
+    text-decoration: underline;
+}
+
+ul.stream li p.comment a:hover {
+    text-decoration: none;
+}
+
+ul.stream li p.meta {
+    padding-bottom: 0.8em;
+    font-size: 0.8em;
+    color: #999;
+}
+
+ul.stream li a.more {
+    color: #999;
+}
+
+ul.stream li a.more:hover {
+    background: #999;
+    color: #fff;
+}
+
+ul.stream li.date {
+    border-top: none;
+    margin: 0.3em 0;
+}
+
+ul.stream li.date h3 {
+    font: bold 0.9em "Trebuchet MS", Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
+    color: #666;
+    padding: 0;
+    margin: 0;
+}
+
+#account-form ul.stream li h3, #account-form ul.stream li p {
+    padding-left: 50px;
+}
+
+#sidebar ul.stream li h3, #sidebar ul.stream li p {
+    padding-left: 0;
+}
+
+div#stream a.rss {
+    background: transparent url(../images/icons/feed-atom.gif) no-repeat 0% 50%;
+    padding-left: 20px;
+    margin-top: 1em;
+}
+
+div#stream p.tools {
+    padding-top: 0.4em;
+    clear: left;
+}
+
+div#stream {
+  min-height: 300px;
+}
+
+div.paging {
+    text-align: center;
+    margin: 0.5em 0;
+    clear: both;
+    float: right;
+}
+
+div.paging a {
+    padding: 0.1em 0.3em;
+    margin: 0 0.1em;
+}
+
+div.paging a:hover {
+    text-decoration: underline;
+    background: transparent;
+}
+
+/* --- Comments --------------------------------------- */
+
+div#comments {
+    margin: 0 0 1em 0;
+    line-height: 1.4em;
+    font-size: 0.96em;
+}
+
+div#comments ul {
+    border-top: none;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+div#comments ul li {
+    min-height: 50px;
+    padding: 0;
+    clear: left;
+    margin: 0 0 5px 0;
+    height: 1%; /* for ie 7 */
+}
+
+div#comments ul li.spam {
+    margin: 0 0 5px 0;
+    min-height: 1em;
+    color: #666;
+}
+
+div#comments ul li.spam p {
+    background: #f5f5f5;
+    padding: 5px 7px;
+    margin-left: 45px;
+    font-size: 0.9em;
+}
+
+div#comments ul li div.top, div#comments ul li div.bottom {
+    padding: 0;
+}
+
+div#comments ul li div.top {
+    margin: 0 0 5px 37px;
+    padding-left: 0;
+}
+
+div#comments ul li div.bottom {
+    overflow: visible;
+    padding-left: 10px;
+    min-height: 40px;
+    height: 1%; /* for ie 7 */
+}
+
+div#comments ul li img.photo {
+    border: solid 1px #e5e5e5;
+    margin: 3px 10px 5px -47px;
+    position: relative;
+    padding: 2px;
+    float: left;
+    height: 30px;
+    width: 30px;
+}
+
+div#comments ul li pre {
+    font-size: 1.1em;
+    overflow: hidden;
+}
+
+div#comments ul li a {
+    text-decoration: underline;
+    color: #000;
+}
+
+div#comments ul li p.meta a, div#comments ul li p.meta a.confirm-delete {
+    text-decoration: none;
+    color: #000;
+}
+
+div#comments ul li a.confirm-spam {
+    background: transparent url(../images/remove.gif) no-repeat 0% 50%;
+    padding-left: 12px;
+}
+
+div#comments ul li a:hover, div#comments ul li a.confirm-delete:hover {
+    text-decoration: underline;
+    background-color: transparent;
+    color: #000;
+}
+
+div#comments ul li pre code {
+    padding: 0;
+}
+
+div#comments ul li p code {
+    font-size: 1.1em;
+    display: inline;
+    padding: 0.2em;
+}
+
+div#comments ul li p, div#comments ul li blockquote, 
+div#comments ul li pre, div#comments ul li ul {
+    padding: 0.3em 0 0.2em 0;
+    margin: 0 5px;
+}
+
+div#comments ul li ul {
+    list-style-type: square;
+    margin-left: 1.8em;
+}
+
+div#comments ul li ol {
+    margin-left: 1.8em;
+}
+
+div#comments ul li ul ul {
+    margin-left: 1.4em;
+}
+
+div#comments ul li ul li,
+div#comments ul li ol li {
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    clear: none;
+}
+
+div#comments ul li blockquote {
+    color: #666;
+}
+
+div#comments ul li p.meta {
+    padding: 0 0 0.3em 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+div#comments ul li img.photo {
+    margin-right: 10px;
+    float: left;
+}
+
+div#leave-comment h2 {
+    color: #000;
+}
+
+div#leave-comment label {
+    float: none;
+    padding: 0;
+}
+
+div#leave-comment textarea {
+    width: 550px;
+}
+
+div#leave-comment div.buttons {
+    padding-left: 0;
+}
+
+div#leave-comment div p.help {
+    margin: 0;
+}
+
+/* --- Bubble --------------------------------------- */
+
+div#status-bubble {
+    visibility: hidden;
+    position: absolute;
+    text-align: center;
+    font-size: 0.9em;
+    z-index: 10;
+    width: 180px;
+    left: 500px;
+    top: -100px;
+}
+
+div#status-bubble span.status {
+    position: absolute;
+    text-align: right;
+    width: auto;
+    margin: 0.5em;
+    right: 0;
+    top: 0; 
+}
+
+div#status-bubble div {
+    text-align: left;
+    border: solid 1px #999;
+    border-bottom: none;
+    margin: 0 0 20px 0;
+    background: #fff;
+    padding: 0.5em 20px 0.5em 0.5em;
+    overflow: hidden;
+}
+
+div#status-bubble div h3{
+    margin-bottom: 0;
+    color: #000;
+}
+
+div#status-bubble div h3 span{
+    margin-bottom: 0;
+    color: #666;
+}
+
+/* --- Tabs --------------------------------------- */
+
+div.tabs {
+    background: #e7e7e7;
+    padding: 5px 15px 15px 15px;
+    margin: 0 0 1em 0;
+}
+
+div.box {
+    background: #e7e7e7;
+    margin: 0 0 1em 0;
+    padding: 15px;
+}
+
+div.box form {
+    background: #fff;
+}
+
+div.tabs ul, #settings div.tabs ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+div.tabs ul li {
+    margin: 0.5em 0 0 0;
+    background: #ddd;
+    padding: 0;
+    float: left;
+}
+
+div.tabs ul li a {
+    text-decoration: none;
+    padding: 0.2em 1.5em;
+    line-height: 1.5em;
+    font-size: 1.2em;
+    display: block;
+    color: #999;
+}
+
+div.tabs ul li a:hover {
+    background: #e5e5e5;
+    color: #333;
+}
+
+div.tabs ul li.current, div.tabs ul li.current a:hover {
+    background: #fff;
+}
+
+div.tabs ul li.current a {
+    color: #000;
+}
+
+div.tabs div.tab {
+    margin: 0;
+    padding: 15px;
+    display: none;
+}
+
+#welcome div.tabs div.tab {
+    overflow: auto;
+    height: 180px;
+    width: 365px;
+}
+
+#settings div.tabs div.tab {
+    overflow: auto;
+    height: 220px;
+    width: 410px;
+}
+
+div.tabs div.tab.current {
+    background: #fff;
+    display: block;
+    clear: left;
+}
+
+div.tabs div.tab p {
+    line-height: 1.4em;
+}
+
+#welcome div.tabs, #settings div.tabs {
+    position: relative;
+    overflow: hidden;
+}
+
+#welcome div.tabs ul, #welcome div.tabs div.tab,
+#settings div.tabs ul, #settings div.tabs div.tab {
+    margin-left: 90px;
+/*    float: right;*/
+}
+
+#welcome a.confirm-delete, #settings a.confirm-delete {
+    margin-top: 1em;
+    position: absolute;
+    line-height: 1em;
+    left: 15px;
+    top: 90px;
+}
+
+#settings div#stream {
+    margin-bottom: 1em;
+}
+
+#settings div#stream a.confirm-delete {
+    position: static;
+    margin: 0;
+}
+
+#welcome img#current, #settings img#current {
+    border: solid 1px #ccc;
+    position: absolute;
+    margin: 5px 10px;
+    background: #fff;
+    display: block;
+    padding: 4px;
+    width: 75px;
+    right: 0;
+    left: 0;
+}
+
+div#new div.buttons {
+    padding: 0;
+}
+
+div#new div label {
+    text-align: left;
+    display: block;
+    width: 300px;    
+}
+
+div#new div p.help {
+    margin: 0;
+}
+
+/* --- Tabs --------------------------------------- */
+
+div.accordion {
+    background: #e7e7e7;
+    margin: 0 0 1em 0;
+    overflow: hidden;
+    padding: 15px;
+}
+
+div.accordion ul {
+    list-style-type: none;
+    background: #e7e7e7;
+    height: 230px;
+    width: 110px;
+    float: left;
+    padding: 0;
+    margin: 0;
+}
+
+div.accordion ul li {
+    background: #ddd;
+    padding: 0;
+    margin: 0;
+}
+
+div.accordion ul li.msn a {
+    text-indent: -1000em;
+}
+
+div.accordion ul li.gtalk a {
+    text-indent: -1000em;
+}
+
+div.accordion ul li a {
+    text-decoration: none;
+    text-align: center;
+    line-height: 1.5em;
+    font-size: 1.2em;
+    padding: 0.5em;
+    display: block;
+    height: 1.5em;
+    color: #999;
+}
+
+div.accordion ul li a:hover {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+div.accordion ul li.current,
+div.accordion ul li.current a:hover {
+    background-color: #fff;
+    display: block;
+}
+
+div.accordion ul li.current a {
+    color: #000;
+}
+
+div.accordion div.tab {
+    padding: 15px;
+    display: none;
+}
+
+#welcome div.accordion div.tab {
+    overflow: auto;
+    height: 210px;
+}
+
+#contacts div.accordion div.tab {
+    overflow: auto;
+    height: 230px;
+}
+
+div.accordion div.tab.current {
+    background: #fff;
+    display: block;
+}
+
+/* --- Headings ---------------------------------------- */
+
+h1, h2, h3, h4, h5, h6,
+p, pre, blockquote, ul,
+ol, dl, address, code {
+    margin: 0 0 1em 0;
+    padding: 0;
+}
+
+h1 {
+    font: normal 2.2em "Trebuchet MS", Arial, Helvetica, sans-serif;
+    margin: 0 0 0.5em 0;
+    padding-top: 0.2em;
+}
+
+h1 span.beta {
+    vertical-align: super;
+    font-style: italic;
+    font-size: 0.6em;
+}
+
+h2 {
+    font: normal 1.5em "Trebuchet MS", Arial, Helvetica, sans-serif;
+    margin: 0.5em 0;
+    color: #333;
+}
+
+div#sidebar h2, div#side-nav h2, div#leave-comment h2 {
+    font-size: 1.2em;
+    padding: 0.2em 10px;
+    margin: 0 -10px 0.5em -10px;
+    color: #fff;
+}
+
+div#content div#sidebar h2 {
+    margin: 0 0 0.5em 0;
+}
+
+div#side-nav h2 {
+    margin: 0;
+}
+
+#frontpage div#sidebar h2 {
+    font: normal 1.5em "Trebuchet MS", Arial, Helvetica, sans-serif;
+    background: transparent;
+    margin: 0.5em 0;
+    color: #333;
+}
+
+div#sidebar div#mobile h2, div#sidebar div.first h2 {
+    line-height: 1em;
+    padding-top: 0;
+}
+
+#frontpage div#content h2 {
+    margin: 0 0 0.5em 0;
+    padding: 0 0 0.2em 0;
+}
+
+h3 {
+    font: normal 1.2em Arial, Helvetica, sans-serif;
+    color: #666;
+}
+
+h4 {
+    font-size: 1em;
+}
+/* --- Tables ------------------------------------------- */
+
+table {
+    border-collapse: collapse;
+    width: 100%; 
+}
+
+td, th {
+    vertical-align: top;
+    text-align: left;
+}
+
+th big {
+    display: block;
+    margin: 0 0 0.5em -1em;
+}
+thead th {
+    text-align: center;
+}   
+
+table.sharing tbody th, table.sharing tbody td {
+    vertical-align: middle;
+}
+
+table.sharing thead th {
+    white-space: nowrap;
+    padding: 0 0.3em;
+}
+
+table.sharing tbody th {
+    padding-left:  1em;
+}
+
+/* --- Lists ------------------------------------------- */
+
+dd img {
+    margin: 0 0 0 -40px;
+    float: left;
+}
+
+dd {
+    margin-left: 40px;
+}
+
+/* --- Images ------------------------------------------- */
+
+img {
+    display: block;
+}
+
+img.float-right {
+    float: right;
+}
+
+a img.photo, a:visited img.photo {
+    padding: 2px;
+}
+
+/* --- Forms ------------------------------------------- */
+
+form {
+    display: inline;
+}
+
+form#change-number{
+    display: none;
+}
+
+input, select, textarea {
+    font: 1.2em Arial, Geneva, sans-serif;
+}
+
+fieldset {
+    margin: 0; padding: 0;
+}
+
+form div {
+    line-height: 2em;
+}
+
+label, div.wide div.highlight label {
+    text-align: right;
+    padding: 0 10px 0 0;
+    float: left;
+    width: 180px;
+}
+
+#settings div.wide div.box label {
+    width: 180px;
+}
+
+#settings div.wide div.box div.buttons {
+    padding-left: 190px;
+}
+
+div.tabs div.tab label {
+    width: 150px;
+}
+
+div.accordion div.tab label {
+    width: 100px;
+}
+
+#sidebar ul li label {
+    padding-left: 0;
+    display: inline;
+    float: none;
+}
+
+#sidebar label {
+    text-align: left;
+    margin-top: 0.2em;
+    display: block;
+    padding: 0 5px;
+    float: none;
+    width: auto;
+}
+
+#signup label {
+    margin-top: 0.3em;
+    font-size: 1.2em;
+}
+
+#settings label, #api label {
+    width: 150px;
+}
+
+div.wide label, div.tabs div.tab div.wide label,
+div.accordion div.tab div.wide label {
+    padding-left: 0;
+    display: block;
+    width: auto;    
+}
+
+form h3 {
+    margin-bottom: 0;
+}
+
+form big { 
+    vertical-align: bottom;
+    line-height: 1.3em;
+    color: #666;
+}
+
+form div.radio {
+    padding-left: 190px;
+}
+
+form div.wide.radio {
+    padding-left: 10px;
+}
+
+form div.radio input {
+    display: inline;
+}
+
+form div.radio label {
+    display: inline;
+    width: auto;
+    float: none;
+}
+
+#signup div.radio label {
+    font-size: 1em;
+}
+
+form div.radio p {
+    margin: 1em 0 0 0;
+}
+
+form div {
+    padding: 0.5em 0;
+    clear: left;
+}
+
+form div.required {
+    font-weight: bold;
+}
+
+form div p.help {
+    font-weight: normal;
+    margin-left: 190px;
+    font-size: 0.85em;
+    padding: 0.2em;
+    display: block;
+    color: #666;
+}
+
+#settings div.wide div.box p.help {
+    margin-left: 190px;
+}
+
+div.tabs div.tab p.help {
+    margin-left: 160px;
+}
+
+div.accordion div.tab p.help {
+    margin-left: 110px;
+}
+
+form div.highlight p.help {
+    line-height: 1.5em;
+    color: #000;
+}
+
+#settings form div p.help {
+    margin-left: 160px;
+}
+
+form div p.label-help {
+    font-weight: normal;
+    font-size: 0.85em;
+    text-align: right;
+    line-height: 1.4em;
+    padding: 0.2em;
+    display: block;
+    width: 180px;
+    color: #666;
+}
+
+form table p.help {
+    text-align: left;
+    font-size: 0.9em;
+    padding: 0;
+    color: #666;
+    margin: 0 0 0 1em;
+}
+
+form div.radio span.former-field-error {
+    display: none;
+}
+
+form div p.help img {
+    border: solid 1px #ccc;
+    margin: 10px 10px 0 0;
+    float: left;
+}
+
+input#imgfile {
+    width: auto;
+}
+
+input[type='text'], textarea {
+    font-size: 1.2em;
+    padding: 0.2em;
+}
+
+#content input.text {
+    width: 240px;
+}
+
+textarea.wide, div.wide textarea, div.wide select {
+    width: 478px;
+}
+
+#settings form div textarea, #api form div textarea, #settings form div input[type='text'] {
+    width: 300px;
+}
+
+div.accordion div.wide textarea {
+    width: 320px;
+}
+
+textarea {
+    overflow: visible !important;
+    height: 7em;
+}
+
+input.smaller, select.smaller {
+    width: 125px;
+}
+
+form div.required input.text, form div.required textarea {
+    font-size: 1.2em;
+}
+
+div.buttons {
+    padding-left: 190px;
+    overflow: hidden;
+}
+
+#welcome div.buttons {
+    padding-top: 0;
+}
+
+#welcome div.buttons p {
+    padding-top: 0.5em;
+    margin: 0 0 0.5em 0;
+    clear: both;
+}
+
+#welcome div.buttons p a {
+    text-decoration: underline;
+    color: #666;
+}
+
+#welcome div.buttons p a:hover {
+    background: transparent;
+    text-decoration: none;
+    color: #666;
+}
+
+div.tabs div.tab div.buttons {
+    padding-left: 160px;
+}
+
+div.accordion div.tab div.buttons {
+    padding-left: 110px;
+}
+
+#settings div.buttons {
+    padding: 1em 0 1em 160px;
+}
+
+#sidebar div.buttons {
+    text-align: right;
+    padding-left: 0;
+}
+
+div.buttons span.loader, p.buttons span.loader {
+    background: transparent url(../images/throbber.gif) no-repeat 50% 50%;
+    margin: 0 0.2em 0 0;
+    display: block;
+    font-size: 2.5em;
+    width: 16px;
+    display: none;
+    float: left;
+}
+
+div.main p.buttons span.loader {
+    background: transparent;
+    height: 41px;
+    width: 41px;
+}
+
+div.buttons input {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+div#loginform-msg {
+    display: none;    
+}
+
+/* --- Badges --------------------------------- */
+
+#settings ul#badges {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#settings ul#badges div {
+    padding: 20px 0;
+    text-align: center;
+    background: #ccc;
+    margin-right: 20px;
+    width: 250px;
+    float: left;
+}
+
+#settings ul#badges h2, #settings ul#badges h4 {
+    margin: 0 0 0 270px;
+}
+
+#settings ul#badges h4 {
+    padding: 1em 0 0 0;
+}
+
+#settings ul#badges p {
+    margin: 0.5em 0 0 270px;
+}
+
+#settings ul#badges div.settings {
+    background: #f1f1f1;
+    padding: 0 10px;
+    margin: 0.5em 0;
+}
+
+#settings ul#badges p.settings {
+    margin: 0.2em 0 0 270px;
+    background: #f1f1f1;
+    text-align: left;
+    padding: 10px;
+}
+
+#settings ul#badges p.settings a {
+    font-size: 0.86em;
+}
+
+#settings ul#badges select {
+    margin-bottom: 0.2em;
+    width: 260px;
+}
+
+#settings ul#badges textarea.badge-code {
+    font-size: 0.8em;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 260px;
+}
+
+#settings ul#badges li {
+    margin: 0 0 1em 0;
+    overflow: hidden;
+    clear: both;
+}
+
+#badge-config {
+    background: #f1f1f1;
+    display: none;
+}
+
+#badges #badge-config {
+    margin-left: 270px;
+    padding: 0 10px;
+    display: block;
+}
+
+#badge-config table {
+    width: 260px;
+}
+
+#settings ul#badges #badge-config table p {
+    white-space: nowrap;
+    margin-left: 130px;
+}
+
+#badge-config tr td {
+    padding: 0.5em 0;
+    width: 60px;
+}
+
+#badge-config tbody tr th {
+    vertical-align: middle;
+    font-weight: normal;
+    width: 140px;
+}
+
+#badge-config label {
+    display: block;
+    width: auto;
+}
+
+#badge-config input.badge-color {
+    font-size: 0.9em;
+    width: 55px;
+}   
+/* --- Search results --------------------------------- */
+ul.search-list {
+    border-top: solid 1px #d6d6d6;
+    list-style-type: none;
+    clear: left;
+    padding: 0;
+    margin: 0;
+}
+
+ul.search-list li {
+    border-bottom: solid 1px #d6d6d6;
+    overflow: hidden;
+    padding: 0.5em 0;
+    clear: left;
+    margin: 0;
+}
+
+ul.search-list li img.photo {
+    margin: 0 10px 0 0;
+    float: left;
+}
+
+ul.search-list li h3 {
+    margin: 0.1em 0 0.2em 60px;
+    font-weight: bold;
+}
+
+ul.search-list li p {
+    margin: 0 0 0 60px;
+}
+
+
+/* --- Misc -------------------------------------------- */
+.clear {
+    clear: both;
+}
+
+.hidden {
+    display: none;    
+}
+
+.centered {
+    text-align: center;
+}
+
+code {
+    background: #ffc;
+    font: 1.2em courier new, monospace;
+    padding: 0.5em;
+    overflow: auto;
+}
+
+div.highlight code {
+    padding: 0.1em;
+}
+
+dl dd code {
+    padding: 0.1em;
+}
+
+div#comments code, div#stream code{
+    background: transparent;
+    padding: 0.2em;
+}
+
+div#a {
+    border: solid 1px #ccc;
+    padding: 10px 15px 0 15px;
+    line-height: 1.4em;
+}
+
+div#a img {
+    margin: 0 5px;
+}
+
+/* --- Helps -------------------------------------------- */
+
+div#form-help {
+    display: none;
+}
+
+div#pwstatus {
+    background: #fff url(../images/pwstatus.gif) repeat-x 0 0;
+    padding: 0;
+    position: absolute;
+    margin-top: -2em;
+    right: 280px;
+    width: 100px;
+    height: 20px;
+}

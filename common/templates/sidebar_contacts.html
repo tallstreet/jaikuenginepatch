@@ -1,0 +1,42 @@
+{% load vcard %}
+<div id="contacts" class='contacts'>
+  {% ifequal request.user.nick view.nick %}
+    <h2>Contacts ({{contacts_count}})</h2>
+    <a href="{{view.url}}/contacts" class="edit">Manage</a>
+  {% else %}
+    <h2>{{view.display_nick}}'s contacts ({{contacts_count}})</h2>
+  {% endifequal %}
+
+	{% if contacts|length %}
+    <ul>
+    {% for contact in contacts %}
+      <li>
+        {% with contact as actor %}
+        {% include 'common/templates/vcard_tile_rel.html' %}
+        {% endwith %}
+      </li>
+    {% endfor %}
+    </ul>
+    
+    {% if contacts_more %}
+    <p class="more">
+      {% ifequal request.user.nick view.nick %}
+      <a href="{{request.user.url}}/contacts">&#8250; More</a>
+      {% else %}
+      <a href="{{view.url}}/contacts">&#8250; More</a>
+      {% endifequal %}
+    </p>
+    {% endif %}
+	{% else %}
+    {% ifequal request.user.nick view.nick %}
+    <p>
+    No contacts yet. You can start by <a href="/invite">inviting some friends</a>.
+    </p>
+    {% else %}
+    <p>
+      You could be {{view.display_nick}}'s first contact.
+    </p>
+    {% endifequal %}
+	{% endif %}
+</div>
+

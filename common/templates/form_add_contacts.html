@@ -1,0 +1,33 @@
+{% load nonce avatar %}
+<h2>Add Contacts</h2>
+<div id="contacts">
+  <form id="add-contacts" action="{{request.path}}" method="post">
+    {% if contacts %}
+      <ul>
+        {% for contact in contacts %}
+        <li class="vcard {% cycle '' 'alternate' %}">
+        <input type="checkbox" name="targets" value="{{contact.nick}}" />
+        {{contact|avatar:"u"}}
+        <h3>
+          <strong>{{contact.display_nick}}</strong> 
+          <span class="fn">{{contact.extra.name|escape}}</span>
+        </h3>
+        </li>
+        {% endfor %}
+      </ul>
+      <input type="hidden" name="contacts_more" value="{{contacts_more}}" />
+      <input type="hidden" name="token" value="{{token}}" />
+      <input type="hidden" name="index" value="{{start_index}}" />
+    {% else %}
+      <p>None of those contacts were found on {{SITE_NAME}}.</p>
+    {% endif %}
+    <div class="buttons">
+      {{request.user|noncefield:"actor_add_contacts"}}
+      <input type="hidden" name="actor_add_contacts" value="" />
+      <input type="hidden" name="owner" value="{{view.nick}}" />
+      {% block buttons %}
+      <input type="submit" value="Add Contacts" />
+      {% endblock %}
+    </div>
+  </form>
+</div>

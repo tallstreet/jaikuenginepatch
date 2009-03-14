@@ -1,0 +1,149 @@
+[{"pk": "relation/contact/obligated@example.com/annoying@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "obligated@example.com",
+             "target": "annoying@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/obligated@example.com/root@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "obligated@example.com",
+             "target": "root@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/obligated@example.com/popular@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "obligated@example.com",
+             "target": "popular@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/obligated@example.com/celebrity@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "obligated@example.com",
+             "target": "celebrity@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/annoying@example.com/obligated@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "annoying@example.com",
+             "target": "obligated@example.com",
+             "relation": "contact"
+             }
+  },
+  {"pk": "relation/contact/annoying@example.com/root@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "annoying@example.com",
+             "target": "root@example.com",
+             "relation": "contact"
+             }
+  },
+  {"pk": "relation/contact/annoying@example.com/popular@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "annoying@example.com",
+             "target": "popular@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/annoying@example.com/celebrity@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "annoying@example.com",
+             "target": "celebrity@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/unpopular@example.com/root@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "unpopular@example.com",
+             "target": "root@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/unpopular@example.com/deleted@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "unpopular@example.com",
+             "target": "deleted@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/unpopular@example.com/popular@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "unpopular@example.com",
+             "target": "popular@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/unpopular@example.com/celebrity@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "unpopular@example.com",
+             "target": "celebrity@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/popular@example.com/root@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "popular@example.com",
+             "target": "root@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/popular@example.com/celebrity@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "popular@example.com",
+             "target": "celebrity@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/celebrity@example.com/root@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "celebrity@example.com",
+             "target": "root@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/celebrity@example.com/popular@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "celebrity@example.com",
+             "target": "popular@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/boyfriend@example.com/girlfriend@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "boyfriend@example.com",
+             "target": "girlfriend@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/girlfriend@example.com/boyfriend@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "girlfriend@example.com",
+             "target": "boyfriend@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/channeladmin/#popular@example.com/popular@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "#popular@example.com",
+             "target": "popular@example.com",
+             "relation": "channeladmin"
+             }
+  },
+ {"pk": "relation/channelmember/#popular@example.com/popular@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "#popular@example.com",
+             "target": "popular@example.com",
+             "relation": "channelmember"
+             }
+  },
+ {"pk": "relation/channelmember/#popular@example.com/unpopular@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "#popular@example.com",
+             "target": "unpopular@example.com",
+             "relation": "channelmember"
+             }
+  }
+]
+

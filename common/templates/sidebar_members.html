@@ -1,0 +1,34 @@
+{% load vcard %}
+<div id="contacts" class='contacts'>
+  <h2>Members ({{members_count}})</h2>
+  {% if PRIVATE_CHANNELS_ENABLED and user_is_admin %}
+  <a href="{{view.url}}/members/manage" class="edit">Manage</a>
+  {% endif %}
+
+	{% if members|length %}
+    <ul>
+    {% for member in members %}
+      <li>
+        {% with member as actor %}
+        {% include 'common/templates/vcard_tile.html' %}
+        {% endwith %}
+      </li>
+    {% endfor %}
+    </ul>
+    
+    {% if members_more %}
+    <p class="more">
+      {% if user_is_admin %}
+      <a href="{{view.url}}/members/manage">&#8250; More</a>
+      {% else %}
+      <a href="{{view.url}}/members">&#8250; More</a>
+      {% endif %}
+    </p>
+    {% endif %}
+	{% else %}
+    <p>
+      You could be {{view.display_nick}}'s first member.
+    </p>
+	{% endif %}
+</div>
+

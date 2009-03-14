@@ -1,0 +1,21 @@
+{% extends 'common/templates/base_wide.html' %}
+{% block title %}Tour{% endblock %}
+{% block content %}
+  <ul id="sub-nav" class="b">
+    <li class="first {% ifequal page "create" %} current{% endifequal %}">
+    <a href="/tour/1">Create your activity stream</a>
+    </li>
+    <li {% ifequal page "contacts" %}class="current"{% endifequal %} >
+    <a href="/tour/2">Add contacts, get updates</a>
+    </li>
+  </ul>
+
+  <h1>Jaiku Tour</h1>
+  <div class="tour" id="tour-{{page_num}}">
+    <img src="/themes/{{DEFAULT_THEME}}/take-tour-{{page_num}}.jpg" class="float-right" alt="" />
+    {% block tour %}
+    {% endblock %}
+  </div>
+
+
+{% endblock %}

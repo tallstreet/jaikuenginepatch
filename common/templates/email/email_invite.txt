@@ -1,0 +1,13 @@
+{% filter wordwrap:60 %}
+{{full_name}} ({{nick_name}}) has invited you to join {{SITE_NAME}}.
+
+{{SITE_NAME}} is a way to connect with the people you care about by sharing updates about what you're up to. You can create your own profile and follow your friends. It works right from your web browser, and you can also use it on your phone. Simply click on the link below (or copy and paste it into your browser) to accept or decline.
+
+................
+
+{{accept_url}}
+
+................
+
+See you in there!
+{% endfilter %}

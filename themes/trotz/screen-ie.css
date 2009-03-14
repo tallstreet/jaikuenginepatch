@@ -1,0 +1,27 @@
+div#content {
+    background-image: url(bg-content-bottom.gif);
+}
+
+div#content div.top.b {
+    background-image: url(bg-content-top-g.gif);
+}
+
+div#content div.bottom {
+    background-image: url(bg-content.gif);
+}
+
+div#sidebar {
+    background-image: url(bg-sidebar-bottom.gif);
+}
+
+div#sidebar div.top {
+    background-image: url(bg-sidebar-top.gif);
+}
+
+div#sidebar div.top.b {
+    background-image: url(bg-sidebar-top-g.gif);
+}
+
+div#sidebar div.bottom {
+    background-image: url(bg-sidebar.gif);
+}

@@ -1,0 +1,9 @@
+{% load json %}
+{ 
+  "title": {% filter escapejson %}{{SITE_NAME}} | Latest from {{view.display_nick}}{% endfilter %},
+  "url": {{view.url|escapejson}},
+  {% with view as actor_ref %}
+  "channel": {% include 'common/templates/user.json' %},
+  {% endwith %}
+  "stream": {% include 'common/templates/stream.json' %}
+}

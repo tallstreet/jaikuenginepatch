@@ -1,0 +1,120 @@
+{% extends 'actor/templates/settings_base.html' %}
+{% load nonce format %}
+{% block settings %}
+
+{# Another multi-phase form #}
+{% if feed_count %}
+  {% include 'form_error.html' %}
+  <p>
+  Your presence stream is currently displaying updates from these feeds
+  </p>
+  <div id="stream">
+    <ul class="stream">
+      {% for feed in feeds %}
+      <li>
+      {{feed|stream_icon}}
+      <h3>
+        {% if feed.stream_url %}
+        <a href="{{feed.stream_url}}">{{feed.stream_title}}</a>
+        {% else %}
+        {{feed.stream_title}}
+        {% endif %}
+      </h3>
+      <p class="foot">
+      {% if feed.stream_url %}
+      <!--<a href="?delete={{feed.stream_url}}&{{request.user|nonceparam:"delete_feed"}}" class="confirm-delete" title="Delete this feed">Delete</a>-->
+      {% endif %}
+      </p>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <h3 class="clear">Add More</h3>
+{% else %}
+  <h2>Web Feeds</h2>
+  {% include 'form_error.html' %}
+  <p>
+  {% ifequal view.nick request.user.nick %}
+    If you have a blog, or use <a href="http://www.flickr.com">Flickr</a> to 
+    share your photos, you can add your blog posts and photos to your presence 
+    stream. If you publish other Atom and RSS feeds, you can add those too.
+  {% else %}
+    Add blogs, photos, and other RSS or Atom feeds to the channel. Note: 
+    <a href="http://www.flickr.com">Flickr</a> photos will be displayed 
+    with thumbnails.
+  {% endifequal %}
+  </p>
+{% endif %}
+
+{% if found_count %}
+  <div class="found">
+    <p>Found the following feeds at <strong>{{find}}</strong>, please select the feed you would like to add.</p>
+    <div id="list-select">
+      <form id="addstream" action="" method="POST">
+        {{request.user|noncefield:"add_feed"}}
+        <input type="hidden" name="kind" value="{{kind}}" />
+        <ul>
+          {% for key, feed in found %}
+          <li>
+          <input type="radio" name="add" id="url-{{key}}" value="{{key}}" {% ifequal key 0 %} checked="checked"{% endifequal %}>
+          <input type="hidden" name="feed-{{key}}-url" value="{{feed.url}}" />
+          <input type="hidden" name="feed-{{key}}-title" value="{{feed.title}}" />
+          <h3>{{feed.title}} - {{feed.version}}</h3>
+          <p>
+          <a href="{{feed.url}}">{{feed.url|truncate:"50"}}</a>
+          </p>
+          </li>
+          {% endfor %}
+        </ul>
+        <div class="buttons">
+          <input type="submit" value="Add feed"/>
+          <span class="cancel">or <a href="{{view.url}}/settings/feeds">Cancel</a></span>
+        </div>
+      </form>
+    </div>
+  </div> 
+{% else %}
+  {% if not new and not found %}
+  <ul id="feed-types">
+    <li><a href="?new=blog">Add a blog</a></li>
+    <li><a href="?new=photo">Add photos</a></li>
+    <li><a href="?new=bookmark">Add bookmarks</a></li>
+    <li><a href="?new=music">Add music</a></li>
+    <li><a href="?new=places">Add places</a></li>
+    <li><a href="?new=event">Add event</a></li>
+    <li><a href="?new=video">Add video</a></li>
+    <li><a href="?new=atom">Add another Atom or RSS feed</a></li>
+  </ul>
+  {% else %}
+  <p>
+  Please enter the address of the blog / photo page / bookmarks page / etc., 
+  and we will find the feeds associated with it.
+  </p>
+  <form id="addstream" action="" method="post">
+    {{request.user|noncefield:"find_feeds"}}
+    <div>
+      <label for="field-find">Page address (URL):</label>
+      <input type="text" size="48" class="text" id="field-find" name="find" value="{{find}}"/>
+      <input type="hidden" name="kind" value="{{new}}">
+      <p class="help">e.g. jaikido.blogspot.com</p>
+    </div>
+    <div class="buttons">
+      <input type="submit" value="Find feeds"/>
+      <span class="cancel">or <a href="{view.url}/settings/feeds">Cancel</a></span>
+    </div>
+    <div class="notice">
+      <p>
+      It may take a little while to find and fetch the feeds, please be patient
+      </p>
+    </div>
+  </form>
+
+
+  {% endif %}
+{% endif %}
+
+
+
+
+{% endblock %}

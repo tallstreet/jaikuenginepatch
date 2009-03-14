@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en	">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>{{SITE_NAME}} | Something Broke :(</title>
+    <style type="text/css">
+      body {
+        background: #fff;
+        font: 80% arial;
+        margin: 2em;
+      }
+
+      div#content {
+        background: #fff url(/themes/{{DEFAULT_THEME|urlencode}}/maintenance-bird.gif) no-repeat;
+        padding: 5px 25px 0 90px;
+        width: 345px;
+        height: 190px;
+        margin: 6em;
+      }
+
+      div#content h1 {
+        font-weight: normal;
+        font-size: 1.4em;
+        margin: 0;
+      }
+
+      div#content p {
+        margin: 70px 0 0 50px;
+        font-size: 1.1em;
+      }
+
+
+      a img {
+        border: none; 
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="header">    
+      <a href="http://{{DOMAIN}}" id="logo">
+        <img src="/themes/{{DEFAULT_THEME|urlencode}}/logo-big.gif" alt="{{SITE_NAME}}" />
+      </a>
+    </div>
+    <div id="content">
+      <h1>
+        Whoa! That was *not* what I was expecting.
+      </h1>
+    </div>
+  </body>
+</html>

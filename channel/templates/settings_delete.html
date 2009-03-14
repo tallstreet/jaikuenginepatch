@@ -1,0 +1,30 @@
+{% extends 'channel/templates/settings_base.html' %}
+{% load nonce %}
+{% block settings %}
+
+<div class="body">
+  <h2>Delete the Channel {{view.display_nick}}</h2>
+  <p>
+    There is no way to undo this, are you sure you want to delete your channel?
+  </p>
+  {% include 'form_error.html' %}
+  {% ifequal view.extra.member_count 1 %}
+    <form action="" method="post">
+      {{request.user|noncefield:"actor_remove"}}
+      <input type="hidden" name="actor_remove" />
+      <input type="hidden" name="nick" value="{{view.nick}}"/>
+      <div class="buttons">
+        <input type="submit" value="I'm aware, please delete {{view.display_nick}}" />
+        or <a href="{{view.url}}/settings">cancel</a>
+      </div>
+    </form>
+  {% else %}
+    <div class="highlight">
+      <p>
+        There seems to be still {{view.extra.member_count}} members on your 
+        channel.  You can delete the channel when you're the last member.
+      </p>
+    </div>
+  {% endifequal %}
+</div>
+{% endblock %}

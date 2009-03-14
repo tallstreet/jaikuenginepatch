@@ -1,0 +1,11 @@
+========================
+Error Codes Are Nonsense
+========================
+
+At least in our code. If one is set it is probably meaningful, but not
+necessarily, and they aren't really set very often, so our recommendation is:
+
+Don't Sweat It
+==============
+
+Really, it's not such a big deal.

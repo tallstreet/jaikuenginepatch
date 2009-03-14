@@ -1,0 +1,27 @@
+{% extends 'actor/templates/settings_base.html' %}
+{% load nonce %}
+{% block settings %}
+
+<h2>Delete Yourself</h2>
+
+{% include 'form_error.html' %}
+<div id="account-form">
+  <p>
+    There is no way to undo this, are you sure you want to erase all
+    traces of your presence from our life?
+  </p>
+  <p>
+    I mean, give us another chance, we can change, we'll do the
+    dishes more often, we swear.
+  </p>
+  <form action="" method="post">
+    {{request.user|noncefield:"actor_remove"}}
+    <input type="hidden" name="actor_remove" />
+    <input type="hidden" name="nick" value="{{request.user.nick}}" />
+    <div class="buttons">
+      <input type="submit" value="Goodbye Cruel World, Goodbye" />
+      or <a href="{{view.url}}/settings">cancel</a>, we'll forgive you.
+    </div>
+  </form>
+</div>
+{% endblock %}

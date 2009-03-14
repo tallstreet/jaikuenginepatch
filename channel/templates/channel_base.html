@@ -1,0 +1,36 @@
+{% extends 'common/templates/base_wide.html' %}
+{% load nonce avatar vcard %}
+{% block title %}Channels{% endblock %}
+
+{% block content %}
+
+<div class="path">
+  <h1>{{SITE_NAME}} Channels</h1>
+</div>
+
+{% if not mobile_browser %}
+<div id="sidebar">
+  <div class="tip">
+    <p>
+      <strong>How to post to a channel?</strong><br/>
+      From any {{SITE_NAME}} interface you can post to a channel
+      by prefixing your message with the channelname.<br />
+      Example: <br/><strong>#example Hello everyone!</strong>
+    </p>
+    {% if component.loaded.sms_service %}
+    <p>
+      This is available via the SMS on<br />
+      <strong>30300</strong><br />
+    </p>
+    {% endif %}
+  </div>
+  {% include 'channel/templates/sidebar_ourpicks.html' %}
+  {% include 'common/templates/sidebar_search.html' %}
+</div>
+{% endif %}
+
+<div class="body">
+  {% block channel_body %}{% endblock %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+<div id="ourpicks" class="groups">
+  <h2>Our Picks</h2>
+  {% with ourpicks_channels as channel_tiles %}
+  {% include 'channel/templates/channel_tiles.html' %}
+  {% endwith %}
+
+  <p class="more">
+  <a href="/channel/browse">&#8250; More</a>
+  </p>
+</div>

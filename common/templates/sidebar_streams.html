@@ -1,0 +1,63 @@
+{% load format nonce %}
+<div id="streams">
+  <h2>Feeds</h2>
+  {% if FEEDS_ENABLED %}
+    {% ifequal request.user.nick view.nick %}
+      <a href="{{view.url}}/settings/feeds" class="edit">Manage</a>
+    {% else %}
+      {% if user_is_admin %}
+      <a href="{{view.url}}/settings/feeds" class="edit">Manage</a>
+      {% endif %}
+    {% endifequal %}
+  {% endif %}
+
+  {% if streams|length %}
+    <ul>
+    {% for stream in streams.values %}
+      <li>
+        <h4>
+        {{stream|stream_icon}}
+        {% if stream.extra.display_url %}
+          <a href="{{stream.extra.display_url|escape}}">{{stream.title}}</a>
+        {% else %}
+          {% ifequal stream.title "presence" %}
+            Posts from {{stream.owner_ref.display_nick}}
+          {% else %}
+            {% ifequal stream.title "comments" %}
+              Comments from {{stream.owner_ref.display_nick}}
+            {% else %}
+              {{stream.title}}
+            {% endifequal %}
+          {% endifequal %}
+        {% endif %}
+        </h4>
+        {% if request.user %}
+        {% ifnotequal request.user.nick view.nick %}
+          {% if stream.subscribed %}
+          <a
+            href="{{view.url}}?subscription_remove={{stream.key.name|urlencode}}&amp;{{request.user|nonceparam:"subscription_remove"}}&amp;target=inbox/{{request.user.nick|urlencode}}/overview"
+             class="unsubscribe">Unsubscribe</a>
+          {% else %}
+          <a
+            href="{{view.url}}?subscription_request={{stream.key.name|urlencode}}&amp;{{request.user|nonceparam:"subscription_request"}}&amp;target=inbox/{{request.user.nick|urlencode}}/overview"
+            class="subscribe">Subscribe</a>
+          {% endif %}
+        {% endifnotequal %}
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+	{% else %}
+    {% ifequal request.user.nick view.nick %}
+    <p>
+      {{108|stream_icon}}
+      <a href="{{view.url}}/settings/feeds">+ Add your Web feeds</a>
+    </p>
+    {% else %}
+    <p>
+      No streams yet.
+    </p>
+    {% endifequal %}
+	{% endif %}
+</div>
+

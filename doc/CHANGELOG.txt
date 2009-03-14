@@ -1,0 +1,8 @@
+2008.07.22
+	now requires zip files to get uploaded, run ./zip_all.sh before uploading
+
+2008.05.20
+	Changed users to things like popular, unpopular, hermit and so on
+
+2008.05.09
+	Added google_appengine directly to the checkout, no more download and link

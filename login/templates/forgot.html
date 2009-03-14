@@ -1,0 +1,30 @@
+{% extends 'common/templates/base_single.html' %}
+{% block title %}Forgot Your Password?{% endblock %}
+{% load nonce %}
+
+{% block content %}
+
+{% include 'form_error.html' %}
+<h1>Forgot Your Password?</h1>
+
+<form action="" method="post" id="lostpass">
+  <input type="hidden" name="login_forgot" />
+  {{None|noncefield:"login_forgot"}}
+  
+  <div>
+    <label for="nick_or_email">Email address or screen name</label>
+    <input type="text" name="nick_or_email" id="nick_or_email" value="" />
+  </div>
+  <div class="buttons">
+    <input type="submit" value="Request new password" />
+  </div>
+</form>
+
+<p class="centered">
+  <a href="http://{{DOMAIN}}/login">Return to Log In page</a>
+</p>
+<p class="centered">
+  or <a href="http://{{DOMAIN}}/">proceed to the home page</a>
+</p>
+
+{% endblock %}

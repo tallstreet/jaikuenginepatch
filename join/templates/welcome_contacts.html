@@ -1,0 +1,22 @@
+{% extends 'common/templates/base_single.html' %}
+{% load avatar %}
+
+{% block content %}
+
+{% include 'join/templates/welcome_header.html' %}
+
+<div class="body" id="welcome-contacts">
+  {% include 'form_error.html' %}
+
+  {% if contacts_found %}
+    {% include 'join/templates/welcome_form_add_contacts.html' %}
+  {% else %}
+    {% if not contacts_more %}
+      {% include 'join/templates/welcome_form_find_contacts.html' %}
+    {% endif %}
+  {% endif %}
+  {% if contacts_more %}
+    {% include 'join/templates/welcome_form_find_more_contacts.html' %}
+  {% endif %}
+  
+{% endblock %}

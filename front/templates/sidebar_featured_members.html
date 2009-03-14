@@ -1,0 +1,13 @@
+{% load avatar format %}
+<div id="channels">
+    <h2>Featured Members</h2>
+    <ul>
+      {% for member in featured_members %}
+        <li title="{{member.extra.description}}">
+            <a class="url" href="{{member.url}}">
+              {{member|linked_avatar:"t"}}
+      			</a>
+        </li>
+      {% endfor %}
+    </ul>
+</div>

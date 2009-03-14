@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>
+    {{SITE_NAME}} {{DEBUG|yesno:"DEBUG ,"}}| {% block title %} {% endblock %}
+  </title>
+  <meta name="description" content="Create your own microblog and connect with your friends. Post from the Web, by SMS, or from desktop clients. Add comments, use icons, link Webfeeds. Take it with you on your phone." />
+
+  {{component.best.analytics.header|safe}}
+
+  <link rel="icon" href="/themes/{{DEFAULT_THEME|urlencode}}/favicon.ico" type="image/x-icon" />
+
+  {# base stylesheet #}
+  <link rel="stylesheet" type="text/css" href="http://{{DOMAIN}}/css/core.css?17" media="screen,projection" />
+  <!--[if lte IE 6]>
+  <link rel="stylesheet" type="text/css" href="http://{{DOMAIN}}/css/ie.css?13"/>
+  <![endif]-->
+
+  {# per-user theme override, usually set by a site admin #}
+  {% if view.extra.theme %}
+    <link rel="stylesheet" type="text/css" href="http://{{DOMAIN}}/themes/{{view.extra.theme|urlencode}}/screen.css" media="screen,projection" />
+    <!--[if lte IE 6]>
+      <link rel="stylesheet" type="text/css" href="http://{{DOMAIN}}/themes/{{view.extra.theme|urlencode}}/screen-ie.css"/>
+    <![endif]-->
+  {% else %}
+    <link rel="stylesheet" type="text/css" href="http://{{DOMAIN}}/themes/{{DEFAULT_THEME|urlencode}}/screen.css" media="screen,projection" />
+    <!--[if lte IE 6]>
+      <link rel="stylesheet" type="text/css" href="http://{{DOMAIN}}/themes/{{DEFAULT_THEME|urlencode}}/screen-ie.css"/>
+    <![endif]-->
+
+
+  {% endif %}
+
+  {# per-user custom background #}
+  <style type="text/css">
+    body {
+      {% if view.extra.bg_image %}
+      background-image: url("http://{{DOMAIN}}/image/{{view.extra.bg_image|urlencode}}");
+      {% endif %}
+      {% if view.extra.bg_color %}
+      background-color: {{view.extra.bg_color}};
+      {% endif %}
+      {% if view.extra.bg_position %}
+      background-repeat: {{view.bg_position}};
+      {% endif %}
+      {% if view.extra.bg_repeat %}
+      background-repeat: {{view.extra.bg_repeat}};
+      {% endif %}
+    }
+  {% block style %}
+  {% endblock %}
+  </style>
+
+  {% for feed in feeds %}
+  <link rel="alternate" type="application/{{feed.type}}+xml" title="{{feed.title}} ({{feed.type}})" href="{{feed.url}}" />
+  {% endfor %}
+
+  {% block head %}
+  {% endblock %}
+</head>
+<body {% block bodytag %}{% if area %}id="{{area}}" {% endif %}{% if not request.user %}class="global"{% endif %}{% endblock %}>
+  {% block body %}
+  {% endblock %}
+
+  {% if DEBUG and 0 %}
+  <div id="debug" class="clear">
+    <a href="#dbg" onclick="$('div#dbg').toggle();">Toggle debug</a>
+    <div id="dbg" style="display: none; text-align: left;">
+      <pre><![CDATA[
+      {% debug %}
+      ]]></pre>
+    </div>
+  </div>
+  {% endif %}
+
+  {{component.best.analytics.footer|safe}}
+</body>
+</html>

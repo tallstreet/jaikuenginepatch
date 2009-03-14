@@ -1,0 +1,21 @@
+========================
+Request Format: REST
+========================
+
+Rest is Simple
+==============
+
+The endpoint is ``http://api.jaiku.com/json``
+
+You'll make a standard POST to it with a couple standard variables::
+  
+  method    # the method name you wish to call
+  oauth_*   # all the oauth signing stuff}
+
+The rest of the variables available to the call can be found on the
+description page for that call.
+
+`More info on authentication`_
+
+.. _more info on authentication: /api/docs/authentication
+

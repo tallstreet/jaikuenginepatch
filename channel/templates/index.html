@@ -1,0 +1,52 @@
+{% extends 'channel/templates/channel_base.html' %}
+{% load nonce avatar vcard %}
+
+{% block channel_body %}
+  <div id="group-intro">
+    <p class="centered">
+      <a href="/channel/create">Create a New Channel</a>
+    </p>
+  </div>
+  
+  
+  {% if not owned_channels|length and not followed_channels|length %}
+    <p class="description">
+      Channels are a way for multiple people to post to the same stream.
+    </p>
+    <p>
+      To start posting to a channel, go to its page, click Join, and type your message in the 
+      field that appears.
+    </p>
+    <p>
+      Channels allow you to separate conversations, because messages posted to a channel are not 
+      displayed on your personal stream. If you think your followers should 
+      follow the topic, tell them to join the channel!
+    </p>
+  {% endif %}
+
+  <h2>Channels You Administer</h2>
+  {% if owned_channels|length %}
+    <div class="groups">
+      {% with owned_channels as channel_tiles %}
+        {% include 'channel/templates/channel_tiles.html' %}
+      {% endwith %}
+    </div>
+  {% else %}
+    <p>
+      No channels - go <a href="/channel/create">create one</a> first!
+    </p>
+  {% endif %}
+
+  <h2>Channels You Are a Member of</h2>
+  {% if followed_channels|length %}
+    <div class="groups">
+      {% with followed_channels as channel_tiles %}
+        {% include 'channel/templates/channel_tiles.html' %}
+      {% endwith %}
+    </div>
+  {% else %}
+    <p>
+    Joining channels created by others can be fun. We recommend that you start by joining <a href="/channel/{{SUPPORT_CHANNEL}}">#{{SUPPORT_CHANNEL}}</a> to get support and share ideas about improving {{SITE_NAME}}.
+    </p>
+  {% endif %}
+{% endblock %}

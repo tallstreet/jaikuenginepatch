@@ -1,0 +1,35 @@
+{% extends 'common/templates/base_wide.html' %}
+
+{% block title %}API {{full_page|yesno:"|,"}} {{full_page}}{% endblock %}
+
+{% block content %}
+<div class="path">
+  <h1>
+    {% block path %}
+      <a href="http://{{DOMAIN}}/api">API</a>
+      {% if full_page %}
+        / {{full_page}}
+      {% endif %}
+    {% endblock %}
+  </h1>
+</div>
+<div id="side-nav">
+{% block sidenav %}
+  <ul>
+    <li{% ifequal page "docs" %} class="current"{% endifequal %}>
+      <a href="/api/docs">Documentation</a>
+    </li>
+    <li{% ifequal page "keys" %} class="current"{% endifequal %}>
+      <a href="/api/keys">Your API keys</a>
+    </li>
+    <li{% ifequal page "tokens" %} class="current"{% endifequal %}>
+      <a href="/api/tokens">Activated API Tokens</a>
+    </li>
+  </ul>
+{% endblock %}
+</div>
+<div class="body">
+  {% block api %}
+  {% endblock %}
+</div>
+{% endblock %}

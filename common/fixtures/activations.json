@@ -1,0 +1,10 @@
+[{"pk": "activation/hermit@example.com/email/hermit@example.com",
+  "model": "common.Activation",
+  "fields": {"actor": "hermit@example.com",
+             "content": "hermit@example.com",
+             "type": "email",
+             "code": "TESTCODE"
+             }
+  } 
+]
+

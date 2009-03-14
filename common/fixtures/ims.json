@@ -1,0 +1,37 @@
+[{"pk": "relation/im_account/obligated@example.com/obligated@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "obligated@example.com",
+             "target": "obligated@example.com",
+             "relation": "im_account"
+             }
+  },
+ {"pk": "relation/im_account/popular@example.com/popular@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "popular@example.com",
+             "target": "popular@example.com",
+             "relation": "im_account"
+             }
+  },
+ {"pk": "relation/im_account/unpopular@example.com/unpopular@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "unpopular@example.com",
+             "target": "unpopular@example.com",
+             "relation": "im_account"
+             }
+  },
+ {"pk": "relation/im_account/celebrity@example.com/celebrity@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "celebrity@example.com",
+             "target": "celebrity@example.com",
+             "relation": "im_account"
+             }
+  },
+ {"pk": "relation/im_account/boyfriend@example.com/boyfriend@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "boyfriend@example.com",
+             "target": "boyfriend@example.com",
+             "relation": "im_account"
+             }
+  }
+]
+

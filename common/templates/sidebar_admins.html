@@ -1,0 +1,34 @@
+{% load vcard %}
+<div id="admins" class='contacts'>
+  <h2>Admins ({{admins_count}})</h2>
+  {% if MULTIADMIN_ENABLED and user_is_admin %}
+  <a href="{{view.url}}/admins/manage" class="edit">Manage</a>
+  {% endif %}
+
+	{% if admins|length %}
+    <ul>
+    {% for admin in admins %}
+      <li>
+        {% with admin as actor %}
+        {% include 'common/templates/vcard_tile.html' %}
+        {% endwith %}
+      </li>
+    {% endfor %}
+    </ul>
+    
+    {% if admins_more %}
+    <p class="more">
+      {% if user_is_admin %}
+      <a href="{{view.url}}/admins/manage">&#8250; More</a>
+      {% else %}
+      <a href="{{view.url}}/admins">&#8250; More</a>
+      {% endif %}
+    </p>
+    {% endif %}
+	{% else %}
+    <p>
+      You could be {{view.display_nick}}'s first admin.
+    </p>
+	{% endif %}
+</div>
+

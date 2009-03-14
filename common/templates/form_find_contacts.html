@@ -1,0 +1,25 @@
+{% load nonce %}
+<h2>Find some friends</h2>
+
+<div id="find-friends">
+  <form id="form-find-friends" action="" method="post">
+    <div class="box">
+      <p>
+      {{SITE_NAME}} is able to look at list of your friends to see which are
+      already using {{SITE_NAME}}. You will be redirected to another site
+      so that you can authorize {{SITE_NAME}} to access a list of your contacts.
+      </p>
+      <p>
+      We don't store any of this information.
+      </p>
+    </div>
+    <div class="buttons">
+      {{request.user|noncefield:"lookup_remote_contacts"}}
+      <input type="hidden" name="lookup_remote_contacts" />
+      <input type="hidden" name="nick" value="{{view.nick}}" />
+      {% block buttons %}
+        <input type="submit" value="Lookup Contacts" />
+      {% endblock %}
+    </div>
+  </form>
+</div>

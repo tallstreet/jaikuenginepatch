@@ -1,0 +1,10 @@
+{% extends 'common/templates/form_mobile_activate.html' %}
+{% block buttons %}
+<input type="hidden" name="redirect_to" value="{{redirect_to}}" />
+<button type="submit">
+  <big class="active"><span>&#8250; Send activation message</span></big>
+</button>
+<p style="float: right;">
+  or <a href="/welcome/3?redirect_to={{redirect_to|urlencode}}">skip this now</a>
+</p>
+{% endblock %}

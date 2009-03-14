@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:jaiku="http://jaiku.com/ns">
+  <channel>
+    <title>{{SITE_NAME}} | Overview</title>
+    <link>{{view.url}}/overview</link>
+    <description>Overview</description>
+    <language>en</language>
+    <copyright>Copyright 2009 {{SITE_NAME}}</copyright>
+    {% with entries|first as first_entry %} 
+    <lastBuildDate>{{first_entry.created_at|date:"r"}}</lastBuildDate>
+    {% endwith %}        
+    <image>
+      <link>http://{{DOMAIN}}</link>
+      <url>http://{{DOMAIN}}/themes/{{DEFAULT_THEME|urlencode}}/logo.gif</url>
+      <title>{{SITE_NAME}}</title>
+    </image>
+    {% include 'common/templates/stream.rss' %}
+  </channel>
+</rss>

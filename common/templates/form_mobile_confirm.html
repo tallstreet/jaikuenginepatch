@@ -1,0 +1,34 @@
+{% load nonce %}
+<h2>Activate Your Mobile Number</h2>
+<div id="activation">
+  <div class="highlight">
+    <p>
+      An activation code has been sent to your mobile number at
+      {{activation.mobile}} (<a href="#change-number" class="toggleable">change</a>). Check your phone for the text message,
+      and enter the activation code in the field below.
+    </p>
+  </div>
+
+  {% include 'form_error.html' %}
+  <form action="" method="post" id="activation">
+    <div class="box">
+      <h3>Enter the Activation Code from Your Mobile</h3>
+      <div>
+        <label for="activation">Activation code</label>
+        <input type="text" name="code" id="activation" value="" />
+      </div>
+    </div>
+    <p class="foot-note">
+      If the message doesn't appear on your phone in 2 minutes, you can <a href="#change-number" class="toggleable">send it again</a>.
+    </p>
+
+    <div class="buttons">
+      {{request.user|noncefield:"activation_activate_mobile"}}
+      <input type="hidden" name="activation_activate_mobile" value="" />
+      <input type="hidden" name="nick" value="{{view.nick}}" />
+      {% block buttons %}
+      <input type="submit" value="Activate"/>
+      {% endblock %}
+    </div>
+  </form>
+</div>

@@ -1,0 +1,34 @@
+[{"pk": "oauth/consumer/TESTWEBCONSUMER", 
+  "model": "common.oauthconsumer", 
+  "fields": {"key_": "TESTWEBCONSUMER",
+             "secret": "secret",
+             "actor": "popular@example.com",
+             "status": "active",
+             "type": "web",
+             "app_name": "Web App",
+             "commercial": 0
+             }
+  },
+  {"pk": "oauth/consumer/TESTMOBILECONSUMER", 
+  "model": "common.oauthconsumer", 
+  "fields": {"key_": "TESTMOBILECONSUMER",
+             "secret": "secret",
+             "actor": "popular@example.com",
+             "status": "active",
+             "type": "mobile",
+             "app_name": "Mobile App",
+             "commercial": 0
+             }
+  },
+  {"pk": "oauth/consumer/TESTDESKTOPCONSUMER", 
+  "model": "common.oauthconsumer", 
+  "fields": {"key_": "TESTDESKTOPCONSUMER",
+             "secret": "secret",
+             "actor": "popular@example.com",
+             "status": "active",
+             "type": "desktop",
+             "app_name": "Desktop App",
+             "commercial": 0
+             }
+  }
+]

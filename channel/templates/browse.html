@@ -1,0 +1,14 @@
+{% extends 'channel/templates/channel_base.html' %}
+{% load nonce avatar vcard %}
+
+{# TODO(termie): there is a double line happening at the top of
+                 the page beneath "Channels"
+#}
+{% block channel_body %}
+  <div class="groups">
+    {% with actors as channel_tiles %}
+      {% include 'channel/templates/channel_tiles.html' %}
+    {% endwith %}
+    {% include 'common/templates/paging.html' %}
+  </div>
+{% endblock %}

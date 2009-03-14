@@ -1,0 +1,34 @@
+{% if mobile_browser %}
+<div id="footer">
+  <ul>
+  {% if request.user %}
+    <li><a href="http://{{DOMAIN}}/" accesskey="0">Overview</a> [0]</li>
+    <li><a href="http://{{DOMAIN}}/user/{{request.user.nick}}" accesskey="1">Your Posts</a> [1]</li>
+    <li><a href="http://{{DOMAIN}}/contacts" accesskey="2">People</a> [2]</li>
+    <li><a href="http://{{DOMAIN}}/channel" accesskey="3">Channels</a> [3]</li>
+    <li><a href="http://{{DOMAIN}}/explore">Explore</a></li>
+    <li><a href="http://{{DOMAIN}}/logout">Sign out</a></li>
+  {% else %}
+    <li><a href="http://{{DOMAIN}}/login">Sign in</a></li>
+    <li><a href="http://{{DOMAIN}}/join?redirect_to=/&amp;force=1">Join {{SITE_NAME}}</a></li>
+    <li><a href="http://{{DOMAIN}}/explore">Explore</a></li>
+  {% endif %}
+  </ul>
+</div>
+{% else %}
+  {% ifnotequal area 'welcome' %}
+  <div id="footer">
+    &#169; {{component.best.legal.copyright}}
+    <a href="http://{{DOMAIN}}/about">About</a> |
+    <a href="http://{{DOMAIN}}/help">FAQ</a> |
+    <a href="http://{{DOMAIN}}/channel/{{SUPPORT_CHANNEL}}">Support</a> |
+    <a href="http://{{DOMAIN}}/privacy">Privacy</a> |
+    <a href="http://{{DOMAIN}}/terms">{{component.best.legal.terms_title}}</a>
+    | <a href="http://{{DOMAIN}}/api">API</a>
+    {% if BLOG_ENABLED %}
+    | <a href="{{BLOG_URL}}">Blog</a>
+    {% endif %}
+  </div>
+  {% endifnotequal %}
+{% endif %}
+

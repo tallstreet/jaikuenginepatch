@@ -1,0 +1,85 @@
+{% extends 'common/templates/base_wide.html' %}
+
+{% block title %}Settings {{full_page|yesno:"|,"}} {{full_page}}{% endblock %}
+
+{% block content %}
+<div class="path">
+  <h1>
+    {% block path %}
+      <a href="{{view.url}}">{{view.display_nick}}</a> /
+    
+    {% ifnotequal page "index" %}
+      <a href="{{view.url}}/settings">
+    {% endifnotequal %}
+    Settings
+    {% if full_page %}
+      </a> / {{full_page}}
+    {% endif %}
+    {% endblock %}
+  </h1>
+</div>
+<div id="side-nav">
+{% block sidenav %}
+  <h3>Account</h3>
+  <ul>
+    <li{% ifequal page "profile" %} class="current"{% endifequal %}>
+      <a href="{{view.url}}/settings/profile">Your profile</a>
+    </li>
+    <li{% ifequal page "email" %} class="current"{% endifequal %}>
+      <a href="{{view.url}}/settings/email">Your email address</a>
+    </li>
+    {% if SMS_ENABLED %}
+      <li{% ifequal page "mobile" %} class="current"{% endifequal %}>
+        <a href="{{view.url}}/settings/mobile">Your mobile number</a>
+      </li>
+    {% endif %}
+    {% if IM_ENABLED %}
+    <li{% ifequal page "im" %} class="current"{% endifequal %}>
+      <a href="{{view.url}}/settings/im">Your IM address</a>
+    </li>
+    {% endif %}
+    <li{% ifequal page "password" %} class="current"{% endifequal %}>
+      <a href="{{view.url}}/settings/password">Your password</a>
+    </li>
+    <li{% ifequal page "photo" %} class="current"{% endifequal %}>
+      <a href="{{view.url}}/settings/photo">Your photo</a>
+    </li>
+    <li{% ifequal page "privacy" %} class="current"{% endifequal %}>
+      <a href="{{view.url}}/settings/privacy">Your privacy</a>
+    </li>
+    {% if FEEDS_ENABLED %}
+      <li{% ifequal page "feeds" %} class="current"{% endifequal %}>
+        <a href="{{view.url}}/settings/feeds">Your web feeds</a>
+      </li>
+    {% endif %}
+    <!-- I'm not ready yet
+    <li{% ifequal page "api" %} class="current"{% endifequal %}>
+      <a href="{{view.url}}/settings/api">API access</a>
+    -->
+  </ul>
+
+  <h3>Preferences</h3>
+  <ul>
+    <li{% ifequal page "notifications" %} class="current"{% endifequal %}>
+      <a href="{{view.url}}/settings/notifications">Notification options</a>
+    </li>
+  </ul>
+
+  <h3>Presentation</h3>
+  <ul>
+    <li{% ifequal page "design" %} class="current"{% endifequal %}>
+      <a href="{{view.url}}/settings/design">Look and feel</a>
+    </li>
+    {% if BADGES_ENABLED %}
+      <li{% ifequal page "badge" %} class="current"{% endifequal %}>
+        <a href="{{view.url}}/settings/badge">Badges</a>
+      </li>
+    {% endif %}
+  </ul>
+{% endblock %}
+</div>
+<div class="body">
+  {% block settings %}
+  {% endblock %}
+</div>
+{% endblock %}

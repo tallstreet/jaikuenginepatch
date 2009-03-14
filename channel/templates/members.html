@@ -1,0 +1,23 @@
+{% extends 'common/templates/base_wide.html' %}
+{% load nonce avatar vcard %}
+
+{% block title %}{{whose}} members{% endblock %}
+{% block content %}
+
+<div class="path">
+  <h1><a href="{{view.url}}/members">People</a> / {{whose}} members</h1>
+</div>
+
+<div class="body">
+  {% include 'form_error.html' %}
+  <div id="followers" class='contacts'>
+    {% if actor_tiles_count %}
+      {% include 'common/templates/actor_tiles.html' %}
+    {% else %}
+      <p>No members yet, but maybe soon :)</p>
+    {% endif %}
+
+  </div>
+</div>
+
+{% endblock %}

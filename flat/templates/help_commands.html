@@ -1,0 +1,75 @@
+{% extends 'flat/templates/help_base.html' %}
+
+{% block help %}
+<h2>Posts and Comments</h2>
+
+<dl>
+    <dt><strong>To your stream</strong></dt>
+    <dd>
+        <p>
+            Just type a message, it will be added as your latest post
+        </p>
+    <dd>
+    <dt><strong>To a channel</strong></dt>
+    <dd>
+        <p>
+            Start your message with <code>#channelname</code>
+        </p>
+        <p>
+            Example: <code>#example Hello everyone!</code>
+        </p>
+    </dd>
+    <dt><strong>Comments</strong> - CURRENTLY IM ONLY</dt>
+    <dd>
+        <p>
+            Use <code>@username</code> to add a comment to the latest update from that user. 
+        </p>
+        <p>
+            Example: <code>@lordi Rock!</code>
+        </p>
+    </dd>
+</dl>
+
+<p>
+You can post to channels using the #channelname prefix also from other {{SITE_NAME}} interfaces, including the Web and desktop and mobile clients.
+</p>
+
+<h2>Commands</h2>
+
+<dl>
+    <dt><strong>sign in &lt;screenname&gt; &lt;password&gt;</strong> - CURRENTLY IM ONLY</dt>
+    <dd><p>Sign in with your {{SITE_NAME}} account credentials to start posting and receiving updates</p></dd>
+    <dt><strong>start</strong></dt>
+    <dd><p>Activates updates</p></dd>
+    <dt><strong>stop</strong></dt>
+    <dd><p>Stops updates</p></dd>
+    <dt><strong>help</strong></dt>
+    <dd><p>Returns help message</p></dd>
+    <dt><strong>follow username / #channelname</strong></dt>
+    <dd><p>Adds the {{SITE_NAME}} member or channel to your contacts</p></dd>
+    <dt><strong>leave username / #channelname</strong></dt>
+    <dd><p>Removes the {{SITE_NAME}} member or channel from your contacts</p></dd>
+    <dt><strong>sign out</strong> - CURRENTLY IM ONLY</dt>
+    <dd><p>Sign out of your current {{SITE_NAME}} account so you can log in with a different user</p></dd>
+    <dt><strong>delete me</strong></dt>
+    <dd><p>Deletes your {{SITE_NAME}} account</p></dd>
+</p>
+
+<p>
+    The following synonyms are also supported: "on, wake" for start; "end, quit, off, unsubscribe, pause" for stop; "add, join, F" for follow; and "remove, L" for leave. The commands are not case sensitive.
+</p>
+<ul>
+{% if SMS_ENABLED %}
+    <li>
+        <a href="/settings/mobile">Activate Your Mobile Number</a>
+    </li>
+{% endif %}
+    <li>
+        <a href="/settings/im">Activate Your IM Address</a>
+    </li>
+    <li>
+        <a href="/settings/notifications">Select Notification Options</a>
+    </li>
+</li>
+
+{% endblock %}

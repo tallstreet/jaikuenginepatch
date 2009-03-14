@@ -1,0 +1,13 @@
+{% filter wordwrap:60 %}
+
+Thanks for joining {{SITE_NAME}}, {{email_first}}!
+Can you help us validate your email address? This gives you access to all the functionality {{SITE_NAME}} has to offer, including notifications about new comments and followers. Simply click on the link below (or copy and paste it into your browser) to confirm.
+
+................
+
+{{email_link}}
+
+................
+
+{% include "common/templates/email/signature.txt" %}
+{% endfilter %}

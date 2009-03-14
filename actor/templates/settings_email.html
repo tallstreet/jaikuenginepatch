@@ -1,0 +1,53 @@
+{% extends 'actor/templates/settings_base.html' %}
+{% load nonce %}
+{% block settings %}
+
+{% if email %}{# already active #}
+  <h2>Your email address is {{email}}</h2>
+
+  <div class="highlight">
+    <p>You are {{email_notify|yesno:",not"}} currently 
+    receiving notifications via email 
+    <a href="{{view.url}}/settings/notifications">(Change notification options)</a>
+    </p>
+  </div>
+  <h2>Use a different email address</h2>
+{% else %}
+  {% if unconfirmed_email %}
+    <h2>Waiting to confirm {{unconfirmed_email}}</h2>
+    <div class="highlight">
+      <p>A confimation message has been sent to {{unconfirmed_email}},
+      please follow the link in it to confirm your email address.
+      </p>
+      <p>If the message doesn't arrive in a few minutes, you can
+      request another message below.
+      </p>
+    </div>
+    <h2>Use a different email address</h2>
+  {% else %}
+    <h2>Add your email address</h2>
+  {% endif %}
+{% endif %}
+
+<div> 
+  {% include 'form_error.html' %}
+  <form action="" method="post">
+    <div>
+      <label for="email">Email address</label>
+      {% if email %}
+      <input type="text" name="email" id="email" value="{{email}}" />
+      {% else %}
+      <input type="text" name="email" id="email" value="{{unconfirmed_email}}" />
+      {% endif %}
+      <p class="help">A new confirmation will be sent.</p>
+    </div>
+    <div class="buttons">
+      {{request.user|noncefield:"activation_request_email"}}
+      <input type="hidden" name="nick" value="{{view.nick}}" />
+      <input type="hidden" name="activation_request_email" value="" />
+      <input type="submit" value="Send confirmation message"/>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

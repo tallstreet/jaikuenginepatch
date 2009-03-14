@@ -1,0 +1,31 @@
+{% load nonce avatar vcard actor %}
+
+{% if actor_tiles_count %}
+<ul class="float">
+  {% for actor in actor_tiles %}
+  <li class="vcard{{actor.my_follower|yesno:" follower,"}}{{actor.my_contact|yesno:" contact,"}}{% cycle ' clear' '' ''%}">
+    {{actor|linked_avatar:"u"}}
+    <h3><a class="url" href="{{actor.url}}" rel="{{actor.rel}}">
+        {{actor.display_nick}}
+    </a></h3>
+    <p class="fn message">
+    {{actor.extra.given_name}} {{actor.extra.family_name}}
+    </p>
+    <p class="foot">
+      {% actor_add_contact request.user view actor %}
+      {% actor_remove_contact request.user view actor %}
+    </p>
+  </li>
+  {% endfor %}
+</ul>
+{% if actor_tiles_more %}
+<div class="paging">
+  Browse: <a href="?offset={{actor_tiles_more|escape}}">More</a>
+</div>
+{% endif %}
+{% else %}
+<p>
+Nobody found.
+</p>
+{% endif %}
+

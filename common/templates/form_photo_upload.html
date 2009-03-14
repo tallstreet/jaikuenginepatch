@@ -1,0 +1,42 @@
+{% load avatar nonce %}
+
+<div class="tab current" id="new">
+  {% if own_photos %}
+    {{request.user|noncefield:"change_photo"}}
+    <input type=hidden name="change_photo" />
+    <div class="avatars">
+      <ul>
+        {% for icon in own_photos %}
+          <li{% ifequal icon.name view.extra.icon %} class="selected"
+             {% endifequal %}>
+            <label>
+              <img src="/{{icon.path|urlencode}}" alt=""/>
+              {# TODO id=current querystring=nochacheingpplease #}
+              <input type="radio" name="avatar"
+                     {% ifequal icon.name view.extra.icon %}
+                       checked="checked"
+                     {% endifequal %}
+                     value="{{icon.name}}" />
+            </label>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <p>
+      To upload a photo, choose the file from your computer and click "Upload"
+    </p>
+  {% endif %}
+  <div>
+    <label for="imgfile">Upload a new photo</label>
+    <input type="file" name="imgfile" id="imgfile"/>
+    <p class="help">
+      Under {{settings.MAX_AVATAR_PHOTO_KB}} kb, please.
+    </p>
+  </div>
+  <div class="buttons">
+    <input type="submit" value="Upload" />
+  </div>
+</div>
+
+

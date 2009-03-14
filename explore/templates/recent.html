@@ -1,0 +1,21 @@
+{% extends 'common/templates/base_sidebar.html' %}
+{% block title %}Latest Public Posts{% endblock %}
+{% block content %}
+  <h1>Latest Public Posts</h1>
+
+  <div id='stream'>
+    {% include 'common/templates/stream.html' %}
+    {% include 'common/templates/paging.html' %}
+
+    <p class="tools">
+      {% if feeds %}
+        <a href="{{feeds.0.url}}" class="rss" title="{{feeds.0.title}} ({{feeds.0.type}})">{{feeds.0.title}}</a>
+      {% endif %}
+    </p>
+  </div>
+
+{% endblock %}
+
+{% block sidebar %}
+  {% include 'common/templates/sidebar_search.html' %}
+{% endblock %}

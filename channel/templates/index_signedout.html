@@ -1,0 +1,25 @@
+{% extends 'channel/templates/channel_base.html' %}
+
+{% block channel_body %}
+  <div id="group-intro">
+    <p class="description">
+    Channels are a way for multiple people to post to the same stream.
+    </p>
+    <p>
+    To start posting to a channel, go to its page, click Join, and type 
+    your message in the field that appears.
+    </p>
+    <p>
+    Channels allow you to separate conversations, because messages posted to 
+    a channel are not displayed on your personal stream. 
+    If you think your followers should follow the topic, tell them to join 
+    the channel!
+    </p>
+  </div>
+  <h2>Want your own channels?</h2>
+  <p>
+  To create your own channels you'll need to 
+  <a href="/login?redirect_to={{request.path}}">Sign in</a> or
+  <a href="/join">Sign up</a>.
+  </p>
+{% endblock %}

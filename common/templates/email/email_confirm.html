@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block body %}
+<p>
+Thanks for joining {{SITE_NAME}}, {{email_first}}!<br/>
+Can you help us validate your email address? This gives you access to all the functionality {{SITE_NAME}} has to offer, including notifications about new comments and followers. Simply click on the link to confirm.
+</p>
+<p><a href="{{email_link}}">Confirm</a></p>
+<p>{% include "common/templates/email/signature.txt" %}</p>
+{% endblock %}

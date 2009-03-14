@@ -1,0 +1,14 @@
+<div class="tab" id="defaults">
+  <div class="avatars">
+    <ul>
+      {% for icon in avatars %}
+      <li{% ifequal icon.path view.extra.icon %} class="selected"{% endifequal %}>
+      <label>
+        <img src="/image/{{icon.path}}_f.jpg" alt=""/>
+        <input type="radio" name="avatar"{% ifequal icon.path view.extra.icon %} checked="checked"{% endifequal %} value="{{icon.path}}" />
+      </label>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>

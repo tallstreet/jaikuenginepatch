@@ -1,0 +1,11 @@
+{% load avatar %}
+<div class="vcard" id="jaiku:{{actor.nick}}">
+  {{actor|linked_avatar:"u"}}
+  <div class="bubble">
+    {# {compile_include presence-light.tpl} #}
+    <h3>
+      <span class="fn nickname">{{actor.display_nick}}:</span>
+      {% include 'common/templates/presence_line.html' %}
+    </h3>
+  </div>
+</div>

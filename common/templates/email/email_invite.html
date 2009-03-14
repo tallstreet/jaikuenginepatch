@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block body %}
+<p>{{full_name}} ({{nick_name}}) has invited you to join {{SITE_NAME}}.</p>
+<p>{{SITE_NAME}} is a way to connect with the people you care about by sharing updates about what you're up to. You can create your own profile and follow your friends. It works right from your web browser, and you can also use it on your phone. Simply click on the link to accept or decline.</p>
+<p><a href="{{accept_url}}">View invitation</a></p>
+<p>See you in there!</p>
+{% endblock %}

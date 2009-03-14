@@ -1,0 +1,49 @@
+{% extends 'api/templates/api_base.html' %}
+{% load nonce %}
+{% block api %}
+
+<!-- left column -->
+<div class="split">
+  <dl>
+    <dt><h2>Overview</h2></dt>
+    <dd class='yellowy'>
+      <ul>
+        <li><a href="/api/docs/authentication">Authentication</a></li>
+        <li><a href="/api/docs/fancy_urls">Fancy Urls</a></li>
+        <li><a href="/api/docs/error_codes">Error Codes</a></li>
+      </ul>
+    </dd>
+    <dt><h2>Request Formats</h2></dt>
+    <dd>
+      <ul>
+        <li><a href="/api/docs/request_rest">REST</a></li>
+      </ul>
+    </dd>
+    <dt><h2>Get Involved</h2></dt>
+    <dd>
+      <p>{{SITE_NAME}} is based on JaikuEngine, an open source project. Check out <a href='http://code.google.com/p/jaikuengine'>the project page</a> for more info on how to add features or run your own instance.</p>
+    </dd>
+  </dl>
+</div>
+
+<!-- right column -->
+<div class="split">
+  <h2>API Methods</h2>
+  <dl>
+    {% for category, methods in api_methods %}
+    <dt><h3>{{category}}</h3></dt>
+    <dd>
+      <ul>
+      {% for method in methods %}
+        <li><a href='/api/docs/method_{{method}}'>{{method}}</a></li>
+      {% endfor %}
+      </ul>
+    </dd>
+    {% endfor %}
+  </dl>
+
+</div>
+
+
+
+{% endblock %}

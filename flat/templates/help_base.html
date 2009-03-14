@@ -1,0 +1,32 @@
+{% extends 'common/templates/base_wide.html' %}
+{% block title %}Help{% endblock %}
+{% block content %}
+<div class="path">
+  <h1>{{path}}</h1>
+</div>
+
+<div id="side-nav">
+  <ul>
+    <li class="first{% ifequal page "index" %} current{% endifequal %}">
+    <a href="/help">{{SITE_NAME}} FAQ</a>
+    </li>
+    {% if SMS_ENABLED %}
+    <li {% ifequal page "sms" %}class="current"{% endifequal %} >
+    <a href="/sms">SMS Updates</a>
+    </li>
+    {% endif %}
+    <li {% ifequal page "im" %}class="current"{% endifequal %} >
+    <a href="/help/im">Instant Messaging Updates</a>
+    </li>
+    <li {% ifequal page "commands" %}class="current"{% endifequal %} >
+    <a href="/help/commands">List of SMS and IM Commands</a>
+    </li>
+  </ul>
+</div>
+
+<div class="body">
+  {% block help %}
+  {% endblock %}
+</div>
+
+{% endblock %}

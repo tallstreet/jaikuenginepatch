@@ -1,0 +1,13 @@
+{% filter wordwrap:60 %}
+{{owner_ref.display_nick}} is now following you on {{SITE_NAME}}.
+
+To follow {{owner_ref.display_nick}} back, click on the link below (or copy and paste it into your browser).
+
+................
+
+{{email_url}}
+
+................
+
+{% include "common/templates/email/signature.txt" %}
+{% endfilter %}

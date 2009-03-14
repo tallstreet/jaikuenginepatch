@@ -1,0 +1,28 @@
+{# the main post section for actor and channel item pages without the #}
+{# 'x posted' #}
+
+{% load nonce avatar format entry %}
+<div id="current-stream">
+  {% ifnotequal entry.owner entry.actor %}
+    {{entry.actor_ref|linked_avatar:"f"}}
+  {% else %}
+    {{entry.owner_ref|linked_avatar:"f"}}
+  {% endifnotequal %}
+
+  <div class="top"><div class="bottom">
+    {{entry|entry_icon}}
+    <h2>
+      <strong>
+        {{entry.extra.title|format_fancy|format_links|format_actor_links|urlize}}
+      </strong>
+    </h2>
+    {# TODO photo stuff here #}
+    {# TODO url stuff here #}
+    <p class="meta">
+      {# TODO presence source #}
+      {{entry.created_at|je_timesince}} ago.
+      {% entry_remove request.user entry %}
+      {% entry_mark_as_spam request.user entry %}
+    </p>
+  </div></div>
+</div>

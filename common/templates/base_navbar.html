@@ -1,0 +1,82 @@
+{% extends 'common/templates/base.html' %}
+{% load format %}
+{% block body %}
+  <div id="header-container">
+    <div id="header">
+      <div id="helper-nav">
+        <p id="login">
+          {% block login %}
+            {% if request.user %}
+              Signed in as {{request.user|actor_link}} | 
+              <a href="{{request.user.url}}/settings">Settings</a> | 
+              <a href="http://{{DOMAIN}}/logout">Sign Out</a>
+            {% else %}
+              Already a member? 
+              {% if SUBDOMAINS_ENABLED %}
+                <a href="http://{{DOMAIN}}/login?redirect_to=http://{{request.META.HTTP_HOST}}{{request.META.PATH_INFO}}">Sign In</a>
+              {% else %}
+                <a href="http://{{DOMAIN}}/login?redirect_to={{request.META.PATH_INFO}}">Sign In</a>
+              {% endif %}
+            {% endif %}
+          {% endblock %}
+        </p>
+      </div>
+      
+      {% block logo %}
+      <a href="/" id="logo">
+        <img src="/themes/{{DEFAULT_THEME|urlencode}}/logo.png" height="73" width="89" alt="{{SITE_NAME}}" />
+      </a>
+      {% endblock %}
+      
+      {% block mainnav %}
+      <ul id="main-nav">
+        {% if request.user %} {# The logged-in navigation #}
+        <li {% ifequal area "home" %}class="current"{% endifequal %} >
+          <span><a href="{{request.user.url}}/overview">Home</a></span>
+        </li>
+        <li {% ifequal area "people" %}class="current"{% endifequal %} >
+          <span><a href="{{request.user.url}}/contacts">People</a></span>
+        </li>
+        <li {% ifequal area "channel" %}class="current"{% endifequal %} >
+          <span><a href="http://{{DOMAIN}}/channel">Channels</a></span>
+        </li>
+        <li {% ifequal area "explore"%}class="current"{% endifequal %} >
+          <span><a href="http://{{DOMAIN}}/explore">Explore</a></span>
+        </li>
+        {% else %}
+        <li {% ifequal area "frontpage" %}class="current"{% endifequal %} >
+          <span><a href="http://{{DOMAIN}}/">Home</a></span>
+        </li>
+        <li {% ifequal area "tour" %}class="current"{% endifequal %} >
+          <span><a href="http://{{DOMAIN}}/tour">Take the Tour</a></span>
+        </li>
+        <li {% ifequal area "channel" %}class="current"{% endifequal %} >
+          <span><a href="http://{{DOMAIN}}/channel">Channels</a></span>
+        </li>
+        <li {% ifequal area "explore" %}class="current"{% endifequal %} >
+          <span><a href="http://{{DOMAIN}}/explore">Explore</a></span>
+        </li>
+        {% endif %}
+      </ul>
+      {% endblock %}
+    </div>
+  </div>
+  <div id="container" {% block containertag %}{% if style %} class="{{style}}"{% endif %}{% endblock %}>
+  {% block flash %}
+  {% include 'common/templates/flash.html' %}  
+  {% endblock %}
+  {% block above_container %}{% endblock %}
+    
+  {% block container %}
+
+  {% endblock %}
+
+
+  </div>
+  {% if not mobile_browser %}
+  <script type="text/javascript" src="/js/jquery.js?10"></script>
+  <script type="text/javascript" src="/js/core.js?16"></script>
+  {% block bottomscripts %}
+  {% endblock %}
+  {% endif %}
+{% endblock %}

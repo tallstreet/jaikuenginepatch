@@ -1,0 +1,50 @@
+{% extends 'actor/templates/settings_base.html' %}
+{% load nonce %}
+{% block settings %}
+
+<h2>Change Your IM Address</h2>
+
+{% if im_address %} {# already active #}
+  <p>
+  Your IM has been activated. Notifications are currently 
+    {{im_notify|yesno:"ON,OFF"}}
+    <a href="{{view.url}}/settings/notifications">
+      (Change notification options)
+    </a>
+  </p>
+  <div class="box">
+    <p>
+    Your IM address is:
+    </p>
+    <p class="centered">
+    <big><strong>{{im_address.base}}</strong></big>
+    </p>
+    <p class="centered">
+    You may clear it by sending SIGN OUT to <strong>{{IM_BOT}}</strong>
+    </p>
+  </div>
+{% else %}
+  <p>
+  Activate your Google Talk, LiveJournal, or Jabber address to post and 
+  receive notifications from IM.
+  </p>
+  <div class="box">
+    <h3>Add the {{SITE_NAME}} bot as your buddy</h3>
+    <ol>
+      <li>Add <strong>{{IM_BOT}}</strong> to your buddy list using your IM application</li>
+      <li>Send it the IM message: <strong>SIGN IN &lt;your screenname&gt; &lt;your password&gt;</strong></li>
+    </ol>
+    <p>
+    Using Adium on MacOSX? Click to send it a command: <a href="xmpp:{{IM_BOT}}?message;body=SIGN%20IN%20">Add the bot</a>
+    </p>
+  </div>
+{% endif %}
+
+
+<ul>
+  <li><a href="http://{{DOMAIN}}/help/im">IM Help</a></li>
+  <li><a href="http://{{DOMAIN}}/settings/notifications">Notification Options</a></li>
+  <li><a href="http://{{DOMAIN}}/help/commands">List of IM Commands</a></li>
+</ul>
+
+{% endblock %}

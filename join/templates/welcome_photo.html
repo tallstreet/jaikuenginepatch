@@ -1,0 +1,17 @@
+{% extends 'common/templates/base_single.html' %}
+{% load avatar nonce %}
+
+{# don't show flash from parent because we want it in a different position #}
+{% block flash %}{% endblock %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+
+{% include 'join/templates/welcome_header.html' %}
+
+<div class="body" id="welcome">
+
+    {% include 'join/templates/welcome_form_photo.html' %}
+
+</div>
+
+{% endblock %}

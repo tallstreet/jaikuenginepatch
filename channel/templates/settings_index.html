@@ -1,0 +1,52 @@
+{% extends 'channel/templates/settings_base.html' %}
+
+{% block settings %}
+<div class="split">
+   <dl>
+       <dt><h2>Basic Details</h2></dt>
+       <dd id="profile">
+           <p>Edit the channel description and URL or upload an icon</p>
+           <ul>
+               <li><a href="./settings/details">Edit details</a></li>
+               <li><a href="./settings/photo">Upload an icon</a></li>
+               <li><a href="./settings/delete">Delete this channel</a></li>
+           </ul>
+       </dd>
+
+       <dt><h2>Presentation</h2></dt>
+       <dd id="design">
+           <p>Select a custom color or upload an image as your 
+              background.
+           </p>
+           <ul>
+               <li><a href="./settings/design">Change background</a></li>
+           </ul>
+       </dd>
+
+   </dl>
+</div>
+<div class="split">
+   <dl>
+       {% if FEEDS_ENABLED %}
+         <dt><h2>Web Feeds</h2></dt>
+         <dd id="feeds">
+             <p>Add blogs, photos, and other RSS or Atom feeds to the channel
+             </p>
+             <ul>
+                 <li><a href="./settings/feeds">Manage web feeds</a></li>
+             </ul>
+         </dd>
+       {% endif %}
+       {% if BADGES_ENABLED %}
+         <dt><h2>Badges</h2></dt>
+         <dd id="feeds">
+             <p>Create a channel badge for placing on another Web site.</p>
+             <ul>
+                 <li><a href="./settings/badge">Get a badge</a></li>
+             </ul>
+         </dd>
+       {% endif %}
+   </dl>
+</div>
+
+{% endblock %}

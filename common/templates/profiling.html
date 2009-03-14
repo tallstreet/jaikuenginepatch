@@ -1,0 +1,61 @@
+<style type='text/css'>
+.profiling {
+  display: block;
+  clear: both;
+  padding-left: 20px;
+}
+
+.profiling dl {
+  margin: 0; 
+  padding: 0 0 15px 0; 
+  width: 801px; 
+  height: auto; 
+  background: #fff;
+  }
+
+.profiling  dt {
+  text-align: left; 
+  border-bottom: 3px solid #fff;
+  }
+
+.profiling  dd.left {
+  text-align: right;
+  margin: 0; 
+  display: block; 
+  width: 800px; 
+  height: 1.5em; 
+  background: #EEF; 
+  border-bottom: 1px solid #fff;
+  }
+
+.profiling  dd span.bar {
+  float: left;
+  display: block; 
+  margin-left: auto; 
+  background: #00F; 
+  height: 1.5em; 
+  line-height: 1.5em; 
+  text-align: right;
+  } 
+
+.profiling span.label {
+  float: right;
+  margin-left: auto;
+  display: block;
+}
+
+  
+</style>
+<div class="profiling">
+  <dl>
+    {% for tag, calls in timing.items %}
+    <dt>{{tag}}</dt>
+    {% for key, times in calls.sub %}
+    <dd class='left'>
+    <span class='bar' style="width: {% widthratio times.time_ms 3000 800 %}px">
+    </span><span class='label'>{{key}} <b>{{times.time_ms|floatformat:"2"}}</b> <em>n={{times.each|length}}</em></span>
+    </dd>
+    {% endfor %}
+    {% endfor %}
+  </dl>
+<div>

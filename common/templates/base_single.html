@@ -1,0 +1,32 @@
+{% extends 'common/templates/base_navbar.html' %}
+{% load format %}
+{% block bodytag %}class="single"{% endblock %}
+
+{% block login %}
+{% ifnotequal area 'welcome' %}
+  {% if request.user %}
+    Signed in as {{request.user|actor_link}} | 
+    <a href="http://{{DOMAIN}}/logout">Sign Out</a>
+  {% else %}
+    Don't have an account? <a href="/join?redirect_to={{redirect_to|urlencode}}">Sign Up Now</a>
+  {% endif %}
+{% endifnotequal %}
+{% endblock %}
+
+{% block logo %}
+{% ifnotequal area 'welcome' %}
+<a href="http://{{DOMAIN}}" id="logo">
+  <img src="/themes/{{DEFAULT_THEME|urlencode}}/logo-big.gif" height="95" width="115" alt="{{SITE_NAME}}" />
+</a>
+{% endifnotequal %}
+{% endblock %}
+
+{% block mainnav %}{%endblock%}
+
+{% block container %}
+<div id="content"><div class="top b"><div class="bottom">
+{% block content %}{% endblock %}
+
+{% include 'common/templates/footnav.html' %}
+</div></div></div>
+{% endblock %}

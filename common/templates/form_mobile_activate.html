@@ -1,0 +1,46 @@
+{% load nonce %}
+
+{% if request.user.extra.mobile or activation %}
+<form action="" method="post" id="change-number">
+{% else %}
+<form action="" method="post" id="activate-number">
+  <h2>Activate Your Mobile Number</h2>
+{% endif %}
+
+  <p>
+    Your mobile phone is the quickest ticket to 
+    posting on the go. Enter your mobile number in the field 
+    below and click the button to send the activation message to your 
+    phone.
+  </p>
+  {% include 'form_error.html' %}
+  <div class="box">
+    <h3>Enter Your Mobile Number</h3>
+    <div>
+      <label for="mobile">Mobile Phone Number</label>
+      {% if view.extra.mobile %}
+      <input type="text" name="mobile" id="mobile" value="{{request.user.mobile}}" />
+      {% else %}
+      <input type="text" name="mobile" id="mobile" value="{{activation.content}}" />
+      {% endif %}
+      <p class="help">
+      <strong>U.S. Only</strong><br />
+      In international format (+1204134567) <br />
+      If the U.S., add +1 before your area code
+      </p>
+    </div>
+  </div>
+  <div class="buttons">
+    {{request.user|noncefield:"activation_request_mobile"}}      
+    <input type="hidden" name="activation_request_mobile" value="" />
+    <input type="hidden" name="nick" value="{{view.nick}}" />
+    {% block buttons %}
+    {% if SMS_ENABLED %}
+    <input type="submit" value="Activate"/>
+    {% else %}
+    <span class="error">Mobile activation is currently disabled</span>
+    <input type="submit" value="Activate" disabled="disabled"/>
+    {% endif %}
+    {% endblock %}
+  </div>
+</form>

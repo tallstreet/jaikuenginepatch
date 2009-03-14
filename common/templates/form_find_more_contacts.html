@@ -1,0 +1,18 @@
+{% load nonce %}
+<h2>Find More Contacts</h2>
+<div id="contacts">
+  <form id='find-more-contacts' action="" method="get">
+    <p><strong>Wait! There's more!</strong></p>
+    <p>We've only gone through <strong>{{contacts_so_far}}</strong> of your contacts and it looks like there are more.</p>
+    <input type="hidden" name="token" value="{{token}}" />
+    <input type="hidden" name="index" value="{{contacts_more}}" />
+    <div class="buttons">
+      {{request.user|noncefield:"fetch_contacts"}}
+      <input type="hidden" name="fetch_contacts" />
+      {% block buttons %}
+      <input type="submit" value="Find More Contacts" />
+      {% endblock %}
+    </div>
+
+  </form>
+</div>

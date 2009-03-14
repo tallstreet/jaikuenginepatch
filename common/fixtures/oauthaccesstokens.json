@@ -1,0 +1,10 @@
+[{"pk": "oauth/accesstoken/POPULARDESKTOPACCESSTOKEN", 
+  "model": "common.OAuthAccessToken", 
+  "fields": {"key_": "POPULARDESKTOPACCESSTOKEN",
+             "secret": "secret",
+             "consumer": "TESTDESKTOPCONSUMER",
+             "actor": "popular@example.com",
+             "perms": "delete"
+             }
+  }
+]

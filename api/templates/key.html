@@ -1,0 +1,77 @@
+{% extends 'api/templates/api_base.html' %}
+{% load nonce %}
+{% block api %}
+
+<div class="boxy" style="margin-bottom: 10px;">
+	<div style="font-size: 12px;">
+		<div style="float: right;">
+			Secret:<br />
+      <span><strong>{{consumer_token_ref.secret}}</strong></span>
+		</div>
+
+		Key:<br />
+    <span style="font-weight: bold; font-size: 16px;">
+      {{consumer_token_ref.key_}}
+    </span>
+	</div>
+
+	<div style="clear: both; font-size: 12px; padding: 1em 0;">
+    <form method="post" action="">
+      {{request.user|noncefield:"oauth_consumer_update"}}
+      <input type="hidden" name="oauth_consumer_update" />
+      <input type="hidden" name="nick" value="{{request.user.nick}}" />
+      <input type="hidden" name="consumer_key"
+             value="{{consumer_token_ref.key_}}" />
+
+      <br />
+      <b><label>App Title:</label></b>
+      <input type="text" name="app_name"
+        value="{{consumer_token_ref.app_name|default_if_none:""}}" />
+      <br />
+
+      <b>Issued:</b>{{consumer_token_ref.created_at|timesince}} ago<br />
+		  <b>Status:</b>
+      <span style="color: #0c0; font-weight: bold;">
+        {{consumer_token_ref.status}}
+      </span>
+      <br />
+
+		  <b>Auth mode:</b>
+      <span style="color: #000; font-weight: bold;">
+        {{consumer_token_ref.type}}
+      </span>
+      {% comment %}
+      <br />
+      <label for="web">Web</label>
+      <input type="radio" id="web" name="consumer_type" value="{{OAUTH_WEB}}"
+             {% ifequal consumer_token_ref.type "web" %}
+               checked="checked"
+             {% endifequal %} />
+      <br />
+      <label for="desktop">Desktop</label>
+      <input type="radio" id="desktop" name="consumer_type"
+             value="{{OAUTH_DESKTOP}}"
+             {% ifequal consumer_token_ref.type "desktop" %}
+               checked="checked"
+             {% endifequal %} />
+      <br />
+      <label for="mobile">Mobile</label>
+      <input type="radio" id="mobile" name="consumer_type"
+             value="{{OAUTH_MOBILE}}"
+             {% ifequal consumer_token_ref.type "mobile" %}
+               checked="checked"
+             {% endifequal %} />
+      {% endcomment %}
+      <br />
+      <a style="position:relative;top:0px;left:0px"
+         href="?oauth_consumer_delete=&amp;{{request.user|nonceparam:"oauth_consumer_delete"}}&amp;nick={{request.user.nick}}&amp;consumer_key={{consumer_token_ref.key_}}" class="confirm-delete" title="Delete this key">
+        Delete
+      </a>
+      <br />
+      <input type="submit" value="Save Changes" />
+      <br />
+    </form>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% load avatar nonce %}
+
+{% if not request.user.spam %}
+<div id="form-message" class="main">
+
+  {% include 'form_error.html' %}
+  {% block message_title %}{% endblock %}
+  <form action="" method="POST">
+    {% if not mobile_browser %}
+    <a href="{{request.user.url}}/settings/photo">{{ request.user|avatar:"f" }}</a>
+    {% endif %}
+    <p id="message-container">
+			<label for="message" id="message-label">Type your new message here</label>
+      <textarea id="message" name="message" rows="4" cols="25">{% if message %}{{ message|escape }}{% else %}{% if not mobile_browser %}Type your new message here{% endif %}{% endif %}</textarea>
+    </p>
+		<p class="buttons">
+      <input type="hidden" id="location" name="location" value="{{ request.user.extra.location }}"/>
+      <input type="submit" value="Post" />
+      <input type="hidden" name="nick" value="{{request.user.nick}}" />
+      {% ifequal view.type 'user' %}
+      {{request.user|noncefield:"post"}}
+      <input type="hidden" name="post" value="" />
+      {% else %}
+      {{request.user|noncefield:"channel_post"}}
+      <input type="hidden" name="channel_post" value="" />
+      <input type="hidden" name="channel" value="{{view.nick}}" />
+      {% endifequal %}
+    </p>
+    {% if not mobile_browser %}
+    <p id="counter">140 characters left</p>
+		<p id="icons">
+		  <label for="icon" id="icon-label">Icon</label>
+      <select name="icon" id="icon">
+			  <option value="">Select icon</option>
+				{% for key, icon in selectable_icons.items %}
+        <option value="{{ key }}" id="/themes/{{DEFAULT_THEME|urlencode}}/icons/{{ icon.0 }}.gif" title="{{ icon.2 }}"{% ifequal key current_icon %} selected="selected"{% endifequal %}>{{ icon.1 }}</option>
+        {% endfor %}
+      </select>
+      <a href="#" id="add-icons">+ Add Icon</a>
+		</p>
+
+    {% endif %}
+  </form>
+</div>
+{% else %}
+<div class="main">
+  <h3>Posting suspended</h3>
+  <p>
+  Your posting rights have been suspended because your activities triggered our spam watchdog. If you think this was a mistake, please contact us by email at <a href="mailto:support@{{NS_DOMAIN}}">support@{{NS_DOMAIN}}</a> and we'll sort out your case.
+  </p>
+</div>
+{% endif %}

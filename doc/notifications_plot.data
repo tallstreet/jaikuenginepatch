@@ -1,0 +1,65 @@
+# draw the notifications design diagram using R
+
+# dump this to a png
+png("./who_cares_small.png")
+
+# set up margins
+par(mar=c(1, 1, 1, 1))
+
+# our points
+l_vector <- c('Uu', 'Uc', 'Eu', 'Ec', 'Cu', 'Cc', 'Cs', 'Cx')
+x_points <- c(   5,    5,   -8,   -8,   -1,   -9,    8,    7)
+y_points <- c(   3,   -2,   -5,   -7,   -1,   -6,    8,    6)
+
+# plot the points and label them
+plot(x_points, y_points, pch=16, main="Who Cares?", xlim=c(-10, 10), ylim=c(-10, 10), axes=FALSE, col="#CC4444", mar=c(0, 0, 0, 0))
+text(x_points, y_points, l_vector, pos=3, col="#000000")
+
+# set up the fake axis lines
+abline(h=c(0), v=c(0), lty=2, col="#FFCCCC")
+
+# label them lines
+labels_t <- c('random', 'rare', 'frequent', 'relevant')
+labels_x <- c(-10, 0, 0, 10)
+labels_y <- c(0, 10, -10, 0)
+text(labels_x, labels_y, labels_t, pos=c(4, 1, 3, 2))
+
+# oh, the colors!
+#sectcol <- rainbow(4)
+sectcol <- c("#444444", "#666666", "#888888", "#AAAAAA")
+
+# email
+email_col <- sectcol[1]
+email_x <- c(6.5, 6, 6, 10, 10)
+email_y <- c(10, 10, 4, 4, 4.5)
+
+lines(email_x, email_y, lty=3, col=email_col); 
+text(min(email_x), max(email_y), "email", pos=2, col=email_col)
+
+# sms
+sms_col <- sectcol[2]
+sms_x <- c(2.5,   2,  2, 10,  10)
+sms_y <- c(10, 10, -4,  -4, -3.5)
+
+lines(sms_x, sms_y, lty=3, col=sms_col); 
+text(min(sms_x), max(sms_y), "sms", pos=2, col=sms_col)
+
+# im
+im_col <- sectcol[3]
+im_x <- c(-2.5,  -3, -3, 10,  10)
+im_y <- c( 10, 10, -5,  -5, -4.5)
+
+lines(im_x, im_y, lty=3, col=im_col); 
+text(min(im_x), max(im_y), "im", pos=2, col=im_col)
+
+
+# web
+web_col <- sectcol[4]
+web_x <- c(-8,  -8.5, -8.5, 10,  10)
+web_y <- c( 10,   10,   -8,  -8, -7.5)
+
+lines(web_x, web_y, lty=3, col=web_col); 
+text(min(web_x), max(web_y), "web", pos=2, col=web_col)
+
+# turn off the device and save the png
+dev.off()

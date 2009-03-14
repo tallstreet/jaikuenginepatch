@@ -1,0 +1,22 @@
+{% extends 'common/templates/base_single.html' %}
+{% block title %}Password Reset{% endblock %}
+{% block content %}
+
+{% include 'form_error.html' %}
+<h1>Password Recovery</h1>
+
+{% if new_password %}
+<div class='new-password'>
+  Your password has been reset, you can now sign in as: 
+  Username: <strong>{{nick}}</strong><br />
+  Password: <strong>{{new_password}}</strong>
+</div>
+{% endif %}
+
+<p class="centered">
+  <a href="http://{{DOMAIN}}/login">Return to Log In page</a>
+</p>
+<p class="centered">
+  or <a href="http://{{DOMAIN}}/">proceed to the home page</a>
+</p>
+{% endblock %}

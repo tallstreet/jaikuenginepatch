@@ -1,0 +1,106 @@
+div#header-container {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 47px;
+    background: #fff;
+}
+
+div#header {
+    padding-bottom: 0;
+}
+
+div#content {
+    width: 590px;
+}
+
+div#content, div.wide div#content {
+    background: transparent;
+    padding: 8px;
+}
+
+div#content div.top, div#content div.top.b,
+div.wide div#content div.top {
+    border: 1px solid #ccc;
+    background: transparent;
+    padding: 0;
+}
+
+div#content div.bottom, div.wide div#content div.bottom {
+    padding: 6px 14px 0.5em 14px;
+    background: #fff;
+}
+
+div#content div.main {
+    background: #212121 url(../images/themes/bw/bg-main.gif) repeat-x 0% 0%;
+}
+
+div.main a img.photo, div.main img.photo {
+    border: 1px solid #333;
+}
+
+div#sidebar {
+    background: transparent;
+    padding: 8px;
+    width: 230px;
+}
+
+div#sidebar div.top, div#sidebar div.top.b {
+    border: 1px solid #ccc;
+    background: transparent;
+    padding: 0;
+}
+
+div#sidebar div.bottom {
+    padding: 6px 10px 0.5em 10px;
+    background: #fff;
+}
+
+ul#sub-nav {
+    background: #212121;
+}
+
+div.path h1 a {
+    color: #03f;
+}
+
+div.path h1 a:hover {
+    text-decoration: none;
+    background: #03f;
+    color: #fff;
+}
+
+div#side-nav ul li.current a {
+    background: #03f;
+    color: #fff;
+}
+
+div#sidebar h2, div#side-nav h2, div#leave-comment h2 {
+    background: #03f;
+}
+
+div#sidebar h2 a, div#side-nav h2 a {
+    color: #fff;
+}
+
+h1.group {
+    background: #03f;
+}
+
+ul#sub-nav li {
+    border-bottom: 1px solid #212121;
+    background: #03f;
+}
+
+ul#main-nav li.current {
+    background: #03f;
+}
+
+a:link, a:visited {
+    text-decoration: none;
+    color: #03f;
+}
+
+a:hover, a:link:hover, a:visited:hover {
+    text-decoration: none;
+    background: #03f;
+    color: #fff;
+}

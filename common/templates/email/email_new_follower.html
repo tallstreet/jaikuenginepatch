@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block body %}
+<p>{{owner_ref.display_nick}} is now following you on {{SITE_NAME}}.</p>
+<p><a href="{{email_url}}">Follow {{owner_ref.display_nick}} back</a></p>
+<p>{% include "common/templates/email/signature.txt" %}</p>
+{% endblock %}
+

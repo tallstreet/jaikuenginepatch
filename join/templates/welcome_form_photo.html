@@ -1,0 +1,8 @@
+{% extends 'common/templates/form_photo.html' %}
+
+{% block buttons %}
+<div class="buttons">
+  <button type="submit" name="continue" value="1"><big class="active"><span>&#8250; Continue</span></big></button>
+  <p>or <a href="/welcome/2?redirect_to={{redirect_to|urlencode}}">skip this now</a></p>
+</div>
+{% endblock %}

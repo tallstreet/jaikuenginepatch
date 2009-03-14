@@ -1,0 +1,130 @@
+body {
+    font: 0.85em arial, sans-serif;
+    background: #fff;
+}
+
+div#footer {
+    border-top: solid 1px #bbe1ec;
+    padding-top: 1em;
+    margin-top: 1em;
+    clear: left;
+}
+
+div#form-icons {
+    overflow: auto;
+    height: 100px;
+}
+
+div#form-icons label {
+    float: left;
+}
+
+ul {
+    padding-left: 1em;
+    margin-left: 0;
+}
+
+ul.float {
+    list-style-type: none;
+    margin: 1em 0;
+    padding: 0;
+}
+
+ul.float li {
+    float: left;
+}
+
+div#contacts ul.float li, div.groups ul.float li {
+    overflow: hidden;
+    float: none;
+}
+
+div.main h1 {
+    clear: left;
+}
+
+ul.phone-models li {
+    text-align: center;
+    margin-right: 0.5em;
+    margin-left: 0;
+}
+
+ul.phone-models li h3 {
+    font-weight: normal;
+    font-size: 1em;
+}
+
+div#stream ul, div#contacts ul, div#comments ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+div#stream ul li, div#contacts ul li, div#comments ul li, div.groups ul li {
+    padding: 0.2em 0;
+    margin: 0.5em 0;
+    clear: left;
+}
+
+div#stream ul li.presence {
+    background: #eef9f9;
+}
+
+div#stream ul li.comment, div#comments ul li {
+    background: #fffbdc;
+}
+
+div#stream ul li h3, div#contacts ul li h3, div.groups ul li h3 {
+    margin: 0 0 0.2em 0;
+}
+
+div#stream ul li p, div#contacts ul li p, div#comments ul li p,
+div.groups ul li p {
+    margin: 0 0 0.3em 0;
+}
+
+ul img.icon, ul img.photo, .vcard img.photo {
+    margin: 0 5px 5px 5px;
+    float: left;
+}
+
+div.error {
+    background: #fdd;
+    margin-bottom: 1em;
+    padding: 1em 1em 0.1em 1em;
+}
+div.notice {
+    border: solid 1px #f1cb2f;
+    padding: 1em 1em 0.1em 1em;
+    background: #fffdcf;
+    margin: 1em 0;
+}
+
+div.notice p {
+    margin-top: 0;
+}
+
+form div {
+    margin: 0 0 1em 0;
+}
+
+form div label, form p label {
+    display: block;
+}
+
+textarea {
+    width: 90%;
+}
+
+.centered {
+    text-align: center;
+}
+
+.clear {
+    clear: both;
+}
+
+a img {
+    border: none;
+}
+

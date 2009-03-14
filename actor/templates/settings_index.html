@@ -1,0 +1,79 @@
+{% extends 'actor/templates/settings_base.html' %}
+
+{% block settings %}
+
+<div class="split">
+  <dl>
+    <dt><h2>Account</h2></dt>
+    <dd id="profile">
+    <p>Update your account details, change your password, 
+    or upload a new photos.</p>
+    <ul>
+      <li><a href="{{view.url}}/settings/profile">Manage your profile</a></li>
+      {% if email %}
+      <li><a href="{{view.url}}/settings/email">Update your email address</a></li>
+      {% else %}
+      <li><a href="{{view.url}}/settings/email">Confirm your email address</a></li>
+      {% endif %}
+      {% if SMS_ENABLED %}
+        {% if mobile %}
+        <li><a href="{{view.url}}/settings/mobile">Update your mobile number</a></li>
+        {% else %}
+        <li><a href="{{view.url}}/settings/mobile">Activate your mobile number</a></li>
+        {% endif %}
+      {% endif %}
+      {% if IM_ENABLED %}
+        {% if im_address %}
+        <li><a href="{{view.url}}/settings/im">Update your IM address</a></li>
+        {% else %}
+        <li><a href="{{view.url}}/settings/im">Activate your IM address</a></li>
+        {% endif %}
+      {% endif %}
+      <li><a href="{{view.url}}/settings/password">Change your password</a></li>
+      <li><a href="{{view.url}}/settings/photo">Upload your photo</a></li>
+      <li><a href="{{view.url}}/settings/privacy">Change your privacy</a></li>
+    </ul>
+    </dd>
+
+    <dt><h2>Presentation</h2></dt>
+    <dd id="design">
+    <p>Select a custom color or upload an image as your
+    background.
+    </p>
+    <ul>
+      <li><a href="{{view.url}}/settings/design">Change background</a></li>
+      {% if BADGES_ENABLED %}
+      <li><a href="{{view.url}}/settings/badge">Get a badge</a></li>
+      {% endif %}
+    </ul>
+    </dd>
+
+  </dl>
+</div>
+<div class="split">
+  <dl>
+    <dt><h2>Notifications</h2></dt>
+    <dd id="notifications">
+    <p>What you want to be notified about and how you want 
+    to be notified
+    </p>
+    <ul>
+      <li><a href="{{view.url}}/settings/notifications">Select notification options</a></li>
+    </ul>
+    </dd>
+
+{% if FEEDS_ENABLED %}
+    <dt><h2>Web Feeds</h2></dt>
+    <dd id="feeds">
+    <p>Add your blog, photos, and other RSS or Atom feeds 
+    to your stream.
+    </p>
+    <ul>
+      <li><a href="{{view.url}}/settings/feeds">Manage your web feeds</a></li>
+    </ul>
+    </dd>
+{% endif %}
+  </dl>
+</div>
+
+{% endblock %}

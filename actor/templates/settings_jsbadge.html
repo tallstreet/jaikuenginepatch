@@ -1,0 +1,43 @@
+{% extends 'actor/templates/settings_base.html' %}
+{% load nonce %}
+{% block settings %}
+
+{% ifequal view.nick request.user.actor %}
+<p>
+We have created some nifty badges that let you display your latest updates on your blog or any other web page. Simply copy HTML code from below and paste it in the source of your site. If your site supports Flash, <a href="{{view.url}}/settings/badge">check out the fancier Flash badges</a>.
+</p>
+{% else %}
+<p>
+Display the latest updates from the channel on your blog or any other Web site. Simply copy the HTML code from below and paste it in the source of your site.
+</p>
+{% endifequal %}
+
+<p>
+  {% include 'badge/templates/image.html' %}
+</p>
+<p>
+  <textarea class='wide'>{% filter force_escape %}{% include 'badge/templates/image.html' %}{% endfilter %}</textarea>
+</p>
+
+<p>
+  {% include 'badge/templates/js_small.html' %}
+</p>
+<p>
+  <textarea class='wide'>{% filter force_escape %}{% include 'badge/templates/js_small.html' %}{% endfilter %}</textarea>
+</p>
+
+<p>
+  {% include 'badge/templates/js_medium.html' %}
+</p>
+<p>
+  <textarea class='wide'>{% filter force_escape %}{% include 'badge/templates/js_medium.html' %}{% endfilter %}</textarea>
+</p>
+
+<p>
+  {% include 'badge/templates/js_large.html' %}
+</p>
+<p>
+  <textarea class='wide'>{% filter force_escape %}{% include 'badge/templates/js_large.html' %}{% endfilter %}</textarea>
+</p>
+
+{% endblock %}

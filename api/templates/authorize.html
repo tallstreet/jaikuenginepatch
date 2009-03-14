@@ -1,0 +1,37 @@
+{% extends 'common/templates/base_single.html' %}
+{% load nonce %}
+
+{% block title %}Authorize {{oauth_consumer_ref.app_name}}{% endblock %}
+
+{% block content %}
+<h2>An application would like to connect to your account</h2>
+
+<p><strong>{{oauth_consumer_ref.app_name}}</strong> would like to <strong>{{perms_pretty}}</strong> your posts. If you agree, {{oauth_consumer_ref.app_name}} will be able to access and update your posts until you tell us otherwise.</p> 
+
+<form id="authorizeform" action="/api/authorize" method="post">
+  {% if oauth_callback %}
+  <input type="hidden" name="oauth_callback" value="{{oauth_callback}}" />
+  {% endif %}
+ 
+  {% if oauth_token %}
+  <input type="hidden" name="oauth_token" value="{{oauth_token}}" />
+  {% else %}
+  
+  {% endif %}
+  <input type="hidden" name="perms" value="{{perms}}" />
+  <input type="hidden" name="authorize" value="1" />
+
+
+  <div class="buttons">
+    {{request.user|noncefield:"authorize_token"}}
+    <input type="submit" value="Authorize"/>
+  </div>
+</form>
+
+<br />
+<p class="centered">
+<a href="http://{{DOMAIN}}">Return to Home</a>
+</p>
+
+{% endblock %}
+

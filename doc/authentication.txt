@@ -1,0 +1,123 @@
+========================
+Authentimacatoritization
+========================
+
+Yes, We Has It.
+===============
+
+So, you think you're some kind of pro, do ya? You write API wrapping libraries
+all day and all night with little regard for the subtleties of the docs. Docs?
+Hell, who reads those anyway. 
+
+Jaiku uses OAuth_ to authenticate users of the API. There is also some support
+for our Jaiku's `legacy authentication`_ system, but it is deprecated.
+
+
+.. _oauth: http://oauth.googlecode.com/svn/spec/core/1.0/oauth-core-1_0.html
+.. _legacy authentication: http://devku.appspot.com/docs
+
+
+The important endpoints you'll want to know are:
+
+ * Request Token: /api/request_token
+ * Access Token: /api/access_token
+ * Authorization: /api/authorize
+
+We currently only support the HMAC-SHA1 signature method.
+
+You can get an API key at our nifty `Keys page`_.
+
+.. _keys page: /api/keys
+
+For People Who Like Documentation
+=================================
+
+Okay, maybe you haven't used OAuth before, or just like the way we write. That's
+cool, we can work with that.
+
+OAuth allows your users (our users!) to give you permission to access parts of
+their account without giving you (you!) their password. It accomplishes this
+through a couple token exchanges that we'll go over below.
+
+---------------------
+1. Getting an API Key
+---------------------
+
+First things first, you'll need to have an API key (in OAuth this will be
+referred to as your Consumer Key and Secret), for now this is a pretty much
+brainless operation. 
+
+  1. Head over to the `Keys page </api/keys>`_.
+  2. Hit "Generate a new key".
+  3. Great job! Those big alphanumeric strings are your key and secret.
+
+--------------------------
+2. Request Tokens are Cool
+--------------------------
+
+Actually, they are pretty boring, but they don't last long so it shouldn't
+be too big of a drain on your social life.
+
+The "request token" basically serves as something like a "right to buy", you 
+grab one to say that you are interested in asking a user to authorize you to
+act on their behalf. You are going to hand it to the user (via the site) and
+ask them to authorize you to access their account. Once they've done that you
+will be able to exchange the request token for an Access Token.
+
+2.1 Getting A Request Token
+---------------------------
+
+You're really going to want to use one of the existing OAuth libraries in your
+preferred language, explaining the `entire signing process`_ is somewhat outside
+the scope of this document.
+
+.. _entire signing process: http://oauth.googlecode.com/svn/spec/core/1.0/oauth-core-1_0.html#signing_process
+
+The relevant endpoint for getting the request token is: **/api/request_token**
+
+---------------------------------------
+3. Authorized Request Tokens are Cooler
+---------------------------------------
+
+Once you have a request token, you're going to need to have a user authorize it.
+This part is easy and FUN! You just need to get your user to a url that looks 
+like this:
+
+::
+  
+    /api/authorize?oauth_token=REQUEST_TOKEN_KEY&perms=PERMISSIONS
+
+Also, if you are a website you can ask us to redirect back to you when the user
+has completed their job by adding:
+
+::
+  
+    &oauth_callback=SOME_URL
+
+Let's explain some of those ALL_CAPS words:
+
+  * REQUEST_TOKEN_KEY is the key part of the request token you received in 
+    Step 2
+  * PERMISSIONS is either "read," "write" or "delete." This will affect which 
+    actions you are allowed to perform on behalf of the user.
+  * SOME_URL is a url on your website that will let you know that the user 
+    has completed authorizing you and further actions can be taken to get 
+    the fabled Access Token
+
+If you are writing a desktop client you will probably not be using the 
+callback mechanism, so you'll probably want to let your users know that they
+need to come back to your app and click something once they have completed the
+authorization process.
+
+------------------------------------
+4. Access Tokens are Even Cooler Yet
+------------------------------------
+
+This process is almost exactly like the Request Token process and will most
+likely being accomplished largely by whatever OAuth library you have chosen
+to work with.
+
+Once you have an Access Token you'll be all set to make some authenticated
+calls to the API. Wee!
+
+The relevant endpoint for getting the access token is: **/api/access_token**

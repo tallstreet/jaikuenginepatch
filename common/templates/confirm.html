@@ -1,0 +1,17 @@
+{% extends 'common/templates/base_single.html' %}
+{% block title %}Confirm your action{% endblock %}
+{% block content %}
+
+<h2>{{message}}</h2>
+
+<form action="{{action_url}}" method="POST">
+{% include "form_error.html" %}
+  {% for k, v in query_dict.items %}
+  <input type="hidden" name="{{k}}" value="{{v}}" />
+  {% endfor %}
+  <input type="hidden" name="confirm" value="1" />
+  <a href="{{request.user.url}}">Eep! No way, take me home</a> or 
+  <input type="submit" value="Yup." />
+</form>
+
+{% endblock %}

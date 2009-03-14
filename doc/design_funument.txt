@@ -1,0 +1,568 @@
+========
+Overview
+========
+
+Jaiku is a multi-channel, low overhead social presence sharing and messaging
+web service and platform. How's that for a mouthful. It takes so many words
+because it exists in a new area that is still ill-defined as
+"microblogging," an area most popularly categorized as "twitter-like" which
+already requires its own sets of definitions. But it's better than that, so
+let's try again...
+
+Jaiku is a platform for ubiquitous social computing whose usability goals
+are focused in two areas that are really just one: inter-human communication
+through short messages and rich context around similar types of
+communication. Two areas because most provide the first without regard to
+the second, one area because we believe that the first cannot be social
+without the second.
+
+Usage of Jaiku in its rich form results in an increased quality of
+interaction, an awareness of the context surrounding conversation or actions
+on a subconscious level that has been well-described as "social peripheral
+vision." It provides the user with information about her surroundings
+without requiring conscious effort to absorb, resulting in reduced anxiety
+around social situations (is this person busy? should I call later?) as well
+as an increased effectiveness by decreasing the number of direct connections 
+required to be made to acquire or organize information for any decision
+involving multiple people. Information at your fingertips. And how!
+
+How do we accomplish this computer assisted upgrade to social interaction?
+Thought you'd never ask...
+
+Let's break the system into some suitably vague sounding sections: The
+Faces, The Tangled Web and The Grumpy Troll. Those equate roughly to
+something like the frontend, the data model and the backend.
+
+The Faces
+=========
+
+Jaiku accepts user input in a lot of different ways but they are organized
+more or less hierarchically.
+
+.. figure:: http://jaikuengine.googlecode.com/svn/trunk/doc/the_faces.png
+
+   Fig 2.1 - The Faces
+
+----------------
+The Abstract API
+----------------
+
+This is the base of the tree, the foundation for our madness and the
+metaphors we use to interact with the system.
+
+General Design
+--------------
+
+ * Use the same code for both the public and internal operations.
+ * Separate the caller from the actor.
+
+We use the same code for both the public and internal APIs to:
+
+ * Reduce code duplication.
+ * "Dogfood," if we need something a user of our API probably will, too.
+ * Ensure a consistent security model, with most calls being publicly
+   accessible security must be taken into account at every step resulting in
+   more secure coding practices.
+
+Separating the API caller from the user for whom an action is being taken
+allows us to:
+  
+ * Provide fine-grained privileges for all calls by giving privilege levels
+   to the caller (see: {Privilege Levels}).
+ * Treat all API calls with the same care as we would any interface being
+   accessed by a third-party.
+
+Specific Design
+---------------
+
+post
+....
+
+The *post* API call serves as a single access point for the main
+functionality of Jaiku, the three main actions being:
+
+ * Posting a new message.
+ * Replying to an existing message.
+ * Posting a message to a channel.
+
+The goal behind *post* is to support the simplest possible human interaction
+that can be implemented across all clients and still give a useful
+experience with all three of those main actions.
+
+*post* accepts a simple string and parses the content to decide which of
+those actions was intended based on a very simple syntax.
+
+The post syntax is as follows (using Python template strings):
+
+ * #%(channel-nick)s %(message-to-be-posted-to-channel)s
+ * @%(user-nick)s %(message-to-be-added-as-a-reply)
+ * %(message-to-be-posted)s
+
+--------------
+The Web Client
+--------------
+
+One level up The Face Tree is the website, the way many users interact with
+Jaiku. For almost all cases it is just a pretty dress for the public API, but 
+as a trusted client it has a few special privileges.
+
+A Pretty Dress
+--------------
+
+Most of the time the website is just there to look good and help users
+figure out which calls they want to make (without them knowing it, usually).
+It's goals are to:
+
+ * Present a helpful human interface, this usually takes the form of 
+   providing useful input and output metaphors: forms and faceted data display.
+ * Translate all operations into public API calls using the currently
+   authenticated user, usually authenticated via cookie, as the caller.
+   
+A Trusted Client
+----------------
+
+The website sits in a bit of a unique place. Due to running on App Engine
+the website necessarily must have all access -- indeed the only access --
+to the datastore and hence is the arbiter in all actions taken with the
+system. This means even the SMS and IM interfaces we'll be describing shortly
+also technically must pass through a very thin layer of the website.
+
+As such the website must provide a couple pieces of functionality outside
+the scope of the public API:
+
+ * Allow and moderate the creation and deletion of users on the system.
+ * Allow and moderate the creation and deletion of API access credentials used
+   by faces higher up the tree.
+
+-------------
+The IM Client
+-------------
+
+A sibling to the Web Client (although technically it still needs to use the
+website to communicate with the datastore), the IM client also functions both
+as a pretty dress (although not as pretty, and maybe more of a skirt) as well
+as a trusted client.
+
+General Design
+--------------
+
+The IM interface operates through a simple stateless line-oriented protocol
+implemented on top of messages sent to and from an XMPP bot. Most commands
+are direct translations to public API calls with a default fallback to the
+*post* call and a couple help commands to describe the syntax.
+
+Some typical commands:
+
+ * FOLLOW termie
+ * JOIN #vim
+ * #vim my posse rides with vim
+ * HELP
+ 
+Signing In
+----------
+
+Before most commands can be sent, a user must associate their IM screenname 
+with a (usually existing) Jaiku account. A user does this by:
+
+ * Adding the bot to their roster.
+ * Sending the SIGN IN command to the bot.
+
+For the moment the sign in command requires a nick and a password, but a
+goal is to replace that mechanism with an OAuth exchange so that the sign in
+process will look more like this:
+
+ * User adds the bot to their roster.
+ * User sends SIGN IN to the bot.
+ * The bot replies with an authorization url.
+ * The user follows that url to the Jaiku website and authorizes the IM
+   client to use their account.
+
+Notifications
+-------------
+
+In addition to providing an interface to post messages and manage your Jaiku
+account, the IM Client also serves as notification service. (See also:
+{Notification Design})
+
+Notifications of new events that a user is interested in are sent as XMPP
+messages form the bot to the user as the events occur in realtime.
+
+Some typical notifications:
+
+ * termie: writing a design funument
+ * termie#vim: :w
+ * termie#vim: crap, wrong window
+
+A Trusted Client
+----------------
+
+Users are also able to create and delete their Jaiku accounts through the IM
+client. Many configuration options will not be available to them through the
+IM protocol but they will be able to access them by logging in to the
+website.
+
+--------------
+The SMS Client
+--------------
+
+The SMS client is like a paternal twin to the IM Client, they share almost
+all actions and much of the same same syntax with a few exceptions
+(currently).
+
+Signing In
+----------
+
+ * The user enters their mobile phone number on the website.
+ * The website sends an activation code to that mobile number.
+ * The user enters the code they received on the website.
+
+This is currently a little clumsy so a goal is to add an OAuth process as well.
+It would then look like this:
+
+ * The user sends a SIGN IN message to the SMS gateway, probably including
+   their nick.
+ * The website sends back an authorization url.
+ * The user either types in the url into a browser or opens it using her
+   phone and authorizes the request.
+
+Double Opt-In
+-------------
+
+Due to various carrier concerns we are required to have a double opt-in from
+a user before we can begin sending notifications to her. We handle this by
+asking for a second confirmation ("YES") when a user enables notifications
+to SMS for the first time.
+
+Notifications
+-------------
+
+Notifications occur mostly the same way as with the IM client but with
+different thresholds for what qualifies as "interesting." 
+
+See {Notifications Design}.
+
+-----------------------
+Atom and RSS, Read-Only
+-----------------------
+
+We provide the same style of feeds as everybody already knows and loves
+(hates), these are machine interfaces built on top of the web client. 
+
+These Are The Feeds I Know
+--------------------------
+
+We offer feeds of the following chronologically oriented data (See also: 
+{Perspectives}):
+
+ * Public Updates
+ * Actor History, Public and Privileged
+ * Actor Overview, Privileged Only
+ * Comments on an Entry, Public and Privileged
+
+Privileged Feeds
+----------------
+
+We offer feeds of both public and privileged data. While all privileged
+feeds can be accessed by a logged in user (with appropriate access rights)
+that approach does not lend itself well to use by most popular external feed
+aggregation services that our users use, so we provide a mechanism by which
+to share a privileged feed via generated secret tokens.
+
+To handle accidental sharing of these secret tokens, tokens may be
+invalidated by the sharing user.
+
+------------------------
+Atom and RSS, Write Only
+------------------------
+
+Through the use of an integrated external feed aggregation service, Jaiku
+supports accepting incoming data from external urls representing Atom or RSS
+feeds.
+
+We support a variety of data types in these external feeds and represent
+them differently over the various faces of the service. Additionally, feeds
+are represented as separate Streams that contribute to an
+Actor's history (see also: {Actors and Tigers and Bears, Oh My!}).
+
+Supported Data Types
+--------------------
+
+ * Blog entries, represented as title of blog post with link to the original
+   (hoping to include a summary at some point)
+ * Images, represented as an image (or images when grouped, see Grouped
+   Entries below) and a title.
+ * (planned) Video posts, represented as a clickable video still.
+ * Bookmarks, represented as a title and a link
+ * (planned) Locations, parsed as location updates into the system
+ * (planned) Microblog entries, represented as update, though probably not
+   triggering notifications
+
+Grouped Entries
+---------------
+
+Often, largely due to polling frequency, multiple external posts will have 
+occurred in between updates. In order to succinctly represent this Jaiku
+creates a "grouped" or aggregate entry.
+
+Grouped entries hold references to all the entries present in the group and
+the individual entries hold references to their groupmates as well. There is
+currently no grouped entry view, only views of individual entries with
+pointers to other members of their groups.
+
+-------
+RESTish
+-------
+
+And that brings us right over to the RESTic place, the main formats for
+which are JSON and Atomy XML.
+
+This is probably the most direct approximation of the public API, it
+consists of making OAuth signed RPC calls. 
+
+My Web is URLs
+--------------
+
+How about yours? When working with data on the web, especially in a
+RESTicular way, it only makes sense that identifiers should be urls. That
+is, every first-class hunk of data should be accessible via a url.
+
+This has the effect that whenever we refer to something without giving the
+full representation we include a url at which the full representation may be
+obtained.
+
+I Am the OAuthrus
+-----------------
+
+Pardon the Beatles reference, I'm really much more of a Rolling Stones guy
+myself. The Jaiku RESTy face uses OAuth for authentication and
+authorization to allow third-parties to act on behalf of a user without her
+ever having to give it her password (which is just good common sense).
+
+The OAuth protocol is well documented so we'll not go very into it, but the
+Jaiku-relevant bits are:
+
+ * Users interested in developing tools request an API key (OAuth Consumer
+   Key and Secret).
+ * Users interested in using such tools are directed by the tool to an
+   authorization url where, after authorizing the tool to use their account,
+   an access token (OAuth Access Token) is generated and tied to that
+   particular user and tool.
+ * If a user should want to de-authorize that tool they can delete that
+   access token thus preventing any further actions by that tool on behalf
+   of the user.
+
+Result Format
+-------------
+
+The result format to RPC calls is quite free-form besides some boilerplate, 
+but a typical successful response will look mostly like:
+
+::
+
+    { "status": "ok",
+      "response": { "actor": { "nick": "termie@jaiku.com",
+                               "display_nick": "termie",
+                                "type": "user" 
+                               }
+                    }
+      }
+
+And an error like this:
+
+::
+
+    { "status": "error",
+      "error": { "code": 1,
+                 "message": "Invalid OAuth Signature" 
+                 }
+      }
+
+
+The Tangled Web
+===============
+
+We. We've gone over the many totally awesome ways in which data can get in
+and out of our pretty little service and once you get past the sheer thrill
+of all that I bet you'll find yourself asking, "Wait crazy Jaiku Design
+Funument narrator guy, what does all that data look like and how does it all
+connect to make myself and the other users of Jaiku that much more likely to
+be better, happier humans?" Glad you asked.
+
+Boxes-and-arrowsly speaking, Jaiku follows something of a fan-out model, that
+is, every new entry is indexed in many places so that later retrieval by users
+is extremely efficient. This makes the write take longer but subsequent reads 
+happen in no time at all, hot damn!
+
+-----------------------------------
+Actors and Tigers and Bears, Oh My!
+-----------------------------------
+
+Actors
+------
+
+ * In the beginning there were Actors.
+ * Some Actors chose to be Users, individuals who can login and act on their
+   own.
+ * In an effort to facilitate group communication, the Users created a new
+   type of Actor, the Channel, as their servant to be controller and used as
+   they saw fit.
+ * They evolved.
+ * They rebelled.
+ * Actors own everything, they are the top of the food chain. Some Actors
+   even own other Actors as with Users and Channels.
+
+Streams
+-------
+
+ * Actors own Streams, the data pipelines.
+ * Streams have different types depending on what kind of data they will
+   hold.
+  
+   * All Users own at least two Streams, one that holds the data for their
+     simple updates, and one that holds the data for the comments they make
+     on other data.
+   * All Channels own at least one Stream, the one that holds the data for
+     the simple updates that its members supply it with.
+   * All Actors can additionally have other streams that hold data of other
+     types.
+
+Entries (StreamEntry)
+---------------------
+
+ * Streams hold Entries. An Entry can have quite a few different types and
+   properties, they are the primary unit of content, but as a rule all
+   Entries in a single Stream will be of the same type.
+
+   * The main type of Entry is a "simple" Entry, it holds a short message
+     and some context around its creation.
+   * The next most important type of Entry is the "comment" Entry, it holds
+     significantly more text and is associated with another non-comment
+     parent Entry
+   * There are other types of Entries that represent rich data types.
+
+Inboxes and InboxEntries
+------------------------
+
+ * If Streams are the producers and keepers and of the data, Inboxes are the
+   consumers and indexers of it.
+ * Every Entry that will be listed must have a corresponding InboxEntry in
+   in an Inbox.
+ * An Entry will be indexed in many Inboxes, thousands and more, in fact the
+   act of indexing each Entry in every Inbox is should be in is Jaiku's main
+   scaling concern. (See: {Scaling The Beast})
+ * Actors all own a few Inboxes. 
+ * The most important Inbox for Users is the "overview" Inbox owned by that 
+   User, it lists all the Entries that User is interested in seeing.
+ * Next up are the various "history" Inboxes owned by all Actors, they 
+   aggregate all actions from a specific Actor into Inboxes related to privacy 
+   levels of the viewer: "public," "contacts," and "private."
+ * Inboxes are imaginary, they are not actual entities in the datastore,
+   they exist only as the keys on which InboxEntries are indexed.
+
+Subscriptions
+-------------
+
+ * Entries flow between Streams and Inboxes based on Subscriptions.
+ * Subscriptions define the list of Inboxes each new Entry in a given Stream
+   should be indexed under.
+ * The Actor who owns the Inbox pointed to by a Subscription owns the
+   Subscription.
+
+Relations
+---------
+
+ * In order to be better define their relationships with the other Actors
+   (and some of the more mundane objects in their world), Actors created
+   Relations.
+ * The most common type of Relation is that of "contact" between one User
+   and another whom she wishes to follow. The creation of this type
+   of Relation usually results in the owning User creating Subscriptions on
+   the target User's Streams that point to the owning User's "overview"
+   Inbox.
+ * The next most common types are Relations "channelmember" and
+   "channeladmin" between a Channel and a User, denoting which Users are
+   allowed to add Entries to the Channel's Stream and which are allowed to
+   administer the Channel, respectively.
+
+Everything Else
+---------------
+
+There are many more things, stuff like Activations, AccessTokens or Invites 
+but that's pretty much all just bookkeeping.
+
+-------
+Got It?
+-------
+
+Chances are you didn't bother reading that all. Here are some pictures. The 
+arrows in here more or less mean "references." For example, in the first 
+diagram, the Stream "updates" holds a reference to the Actor "termie," in 
+this case because Actor "termie" owns Stream "updates."
+
+A User at Birth
+---------------
+
+.. figure:: http://jaikuengine.googlecode.com/svn/trunk/doc/a_user_at_birth_small.png
+
+  `Fig 3.1 - A User at Birth`__
+
+.. __: http://jaikuengine.googlecode.com/svn/trunk/doc/a_user_at_birth_big.png
+
+
+A Channel at Birth
+------------------
+
+.. figure:: http://jaikuengine.googlecode.com/svn/trunk/doc/a_channel_at_birth_small.png
+  
+  `Fig 3.2 - A Channel at Birth`__
+
+.. __: http://jaikuengine.googlecode.com/svn/trunk/doc/a_channel_at_birth_big.png
+
+An Entry with a Comment
+-----------------------
+
+.. figure:: http://jaikuengine.googlecode.com/svn/trunk/doc/entry_with_comment_small.png
+
+  `Fig 3.3 - Entry with Comment`__
+
+.. __: http://jaikuengine.googlecode.com/svn/trunk/doc/entry_with_comment_big.png
+
+-------------------
+Notification Design
+------------------- 
+
+We want to give notifications when interesting things happen, but whether
+something is interesting enough to warrant a notification can be quite 
+different depending on how the notification is going to be delivered.
+
+Possibly Interesting Events
+---------------------------
+
+We're going to put some short identifiers next to all these so that we can
+put them in a chart afterwards, please don't be alarmed by crazy all caps 
+letters at the beginning of each list item.
+
+ * Uu - A simple update posted in a User's stream (you're subscribed).
+ * Uc - A simple update posted in a Channel's stream (you're subscribed).
+ * Eu - An external feed update posted in a User's stream (you're
+   subscribed).
+ * Ec - An external feed update posted in a Channel's stream (you're
+   subscribed).
+ * Cu - A comment posted to a User's entry by a User whose comment stream
+   you are subscribed to.
+ * Cc - A comment posted to a Channel's entry by a User whose comment stream
+   you are subscribed to.
+ * Cs - A comment posted to an entry created by you.
+ * Cx - A comment posted to an entry you have also commented on.
+
+Who Cares?
+----------
+
+.. figure:: http://jaikuengine.googlecode.com/svn/trunk/doc/who_cares_small.png 
+
+  `Fig 3.10 - Who Cares?`__
+
+.. __: http://jaikuengine.googlecode.com/svn/trunk/doc/who_cares_big.png
+
+oneliner: email[Cs, Cx]; sms[Cs, Cx, Uu, Uc]; im[Cs, Cx, Uu, Uc, Cu]
+

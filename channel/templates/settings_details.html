@@ -1,0 +1,27 @@
+{% extends 'channel/templates/settings_base.html' %}
+{% load nonce %}
+
+{% block settings %}
+<div class="body">
+  {% include 'form_error.html' %}
+  <h2>Channel Details</h2>
+  <form action="{{view.url}}/settings/{{page}}" method="post">
+    {{request.user|noncefield:"channel_update"}}
+    <input type="hidden" name="channel_update" />
+    <input type="hidden" name="channel" value="{{view.nick|escape}}"/>
+    <div>
+      <label for="description_label">Description</label>
+      <textarea name="description"
+      id="description">{{view.extra.description|escape}}</textarea>
+    </div>
+    <div>
+      <label for="external_url_label">External URL</label>
+      <input type="text" name="external_url"
+      id="external_url" value="{{view.extra.external_url|escape}}"/>
+    </div>
+    <div class="buttons">
+      <input type="submit" value="Save Changes"/>
+    </div>
+  </form>
+</div>
+{% endblock %}

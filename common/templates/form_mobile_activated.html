@@ -1,0 +1,23 @@
+<div id="activated">
+  <h2>Your mobile number has been activated</h2>
+  <p>
+  You can now post from your phone ({{mobile}}). Save the number in your phone's contact list!
+  </p>
+
+  <h3>{{SITE_NAME}} U.S. SMS number</h3>
+  <p class="centered">
+      <big><strong>30300</strong></big>
+  </p>
+  <p>
+    You are {{view.extra.sms_notify|yesno:",not "}}currently 
+    receiving notifications via text message
+    <a href="/settings/notifications">(Change notification options)</a>
+  </p>
+  <div class="buttons">
+    {% block buttons %}
+    <div class="centered">
+        <a href="#change-number" class="toggleable">Need to change your number?</a>
+    </div>
+    {% endblock %}
+  </div>
+</div>

@@ -1,0 +1,73 @@
+{# the comments section for actor and channel item pages #}
+{% load nonce avatar format entry %}
+<div id="comments">
+  {% if comments|length %}
+  <h2>{{comments|length}} comment{{comments|length|pluralize}} so far</h2>
+  <ul>
+  {% for comment in comments %}
+  {% if not comment.actor_ref.spam %}
+  <li id="c-{{comment.uuid}}">
+    <div class="top"><div class="bottom">
+      {{comment.actor_ref|linked_avatar:"u"}}
+      <p>{{comment|format_comment}}</p>
+      <p class="meta">
+      {{comment.created_at|je_timesince}} ago by {{comment.actor_ref|actor_link}}
+
+      {% entry_remove_comment request.user comment %}
+      {% entry_mark_as_spam request.user comment %}
+      </p>
+    </div></div>
+  </li>
+  {% else %}
+  <li class="spam">
+    <p>This comment is hidden because it appears to be spam</p>
+  </li>
+  {% endif %}
+  {% endfor %}
+  </ul>
+  {% else %}
+  <h2>No comments so far</h2>
+  {% endif %}
+</div>
+
+{% if request.user %}
+  {% if not request.user.spam %}
+  <div id="leave-comment">
+    <h2>Add a Comment</h2>
+    {% include 'form_error.html' %}
+    <form action="" method="post">
+    <div>
+      <label for="content">Your Comment</label>
+      <textarea name="content" id="content" rows="4" cols="25"></textarea>
+      {% if MARKDOWN_ENABLED %}
+      <p class="help">
+      Minimal formatting allowed (_<em>emphasis</em>_, *<strong>bold</strong>*, [link text](http://example.com/))
+      </p>
+      {% endif %}
+    </div>
+    <div class="buttons">
+      {{request.user|noncefield:"entry_add_comment"}}
+      <input type="hidden" name="stream" value="{{entry_ref.stream}}" />
+      <input type="hidden" name="entry" value="{{entry_ref.keyname}}" />
+      <input type="hidden" name="nick" value="{{request.user.nick}}" />
+      <input type="hidden" name="entry_add_comment" value="" />
+      <input type="submit" value="Submit Comment" />
+    </div>
+  </form>
+  </div>
+  {% else %}{# user is spam #}
+  <div class="notice">
+    <h3>Posting suspended</h3>
+    <p>
+    Your posting rights have been suspended because your activities triggered our spam watchdog. If you think this was a mistake, please contact us by email at <a href="mailto:support@{{NS_DOMAIN}}">support@{{NS_DOMAIN}}</a> and we'll sort out your case.
+    </p>
+  </div>
+  {% endif %}
+{% else %}
+<p class="centered">
+  <big><a href="/login?redirect_to=http://{{request.META.HTTP_HOST|urlencode}}{{request.META.PATH_INFO|urlencode}}">Sign in to add a comment</a></big>
+</p>
+
+{% endif %}
+
+

@@ -1,0 +1,7 @@
+{% extends 'common/templates/base_sidebar.html'%}
+{% block title %}{{component.best.legal.terms_title}}{% endblock %}
+{% block content %}
+
+  {{component.best.legal.terms_html|safe}}
+  
+{% endblock %}

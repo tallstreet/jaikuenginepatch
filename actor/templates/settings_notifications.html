@@ -1,0 +1,86 @@
+{% extends 'actor/templates/settings_base.html' %}
+{% load nonce %}
+{% block settings %}
+
+
+{% if not email %}
+&nbsp; <br>
+<div class="notice">
+  {% if SMS_ENABLED %}
+    {% if not mobile %}
+    <p>To get notifications by text message you need to
+    <a href="{{view.url}}/settings/mobile">activate your mobile number</a>.
+    </p>
+    {% endif %}
+  {% endif %}
+  {% if IM_ENABLED %}
+  {% if not im_address %}
+  <p>To get notifications via IM you need to
+  <a href="{{view.url}}/settings/im">confirm your IM account</a>.
+  </p>
+  {% endif %}
+  {% endif %}
+  {% if not email %}
+  <p>To get notifications by email you need to
+  <a href="{{view.url}}/settings/email">confirm your email address</a>.
+  </p>
+  {% endif %}
+</div>
+{% endif %}
+
+<h3>Stream Items</h3>
+<p>
+How would you like to be notified about new updates from the people you follow? Check all that apply.
+</p>
+<form action="" method="post">
+  {% if SMS_ENABLED %}
+  <div class="wide radio">
+    <input type="checkbox" name="sms" id="sms" value="1"
+    {% if sms_notify %}checked="checked"{% endif %}
+    {% if not mobile %}disabled=disabled{% endif %}/>
+    <label for="sms">Text message notifications about new posts{% if mobile %} to {{mobile}}{% endif %}</label>
+    {% if sms_confirm %}
+      <p>Pending confirmation via SMS</p>
+    {% else %}
+      {% if not mobile %}
+      <a href="{{view.url}}/settings/mobile">(Activate your mobile number)</a>
+      {% else %}
+      <a href="{{view.url}}/settings/mobile">(Change number)</a>
+      {% endif %}
+    {% endif %}
+  </div>
+  {% endif %}
+  {% if IM_ENABLED %}
+  <div class="wide radio">
+    <input type="checkbox" name="im" id="im" value="1"
+    {% if im_notify %}checked="checked"{% endif %}
+    {% if not im_address %}disabled=disabled{% endif %}/>
+    <label for="im">IM notifications {% if im_address %} to {{im_address.base}}{% endif %}</label>
+    {% if not im_address %}
+    <a href="{{view.url}}/settings/im">(Activate your IM address)</a>
+    {% else %}
+    <a href="{{view.url}}/settings/im">(Change address)</a>
+    {% endif %}
+  </div>
+  {% endif %}
+  <h3>Followers and comments</h3>
+  <div class="wide radio">
+    <input type="checkbox" name="email" id="email" value="1"
+    {% if email_notify %}checked="checked"{% endif %}
+    {% if not email %}disabled=disabled{% endif %}/>
+    <label for="email">Email notifications about new followers and comments{% if email %} to {{email}}{% endif %}</label>
+    {% if not email %}
+    <a href="{{view.url}}/settings/email">(Activate your email address)</a>
+    {% endif %}
+  </div>
+
+  <div class="buttons">
+    {{request.user|noncefield:"settings_change_notify"}}
+    <input type="hidden" name="nick" value="{{nick}}" />
+    <input type="hidden" name="settings_change_notify" />
+    <input type="submit" value="Change" />
+  </div>
+</form>
+
+
+{% endblock %}

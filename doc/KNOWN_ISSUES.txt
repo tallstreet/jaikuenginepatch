@@ -1,0 +1,6 @@
+==================================
+ImportError: No module named roman
+==================================
+
+You'll get this if you try to build the api docs, apparently docutils needs to
+be installed before you can actually build the docs.

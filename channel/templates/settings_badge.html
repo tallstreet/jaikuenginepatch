@@ -1,0 +1,203 @@
+{% extends 'channel/templates/settings_base.html' %}
+{% load nonce %}
+{% block settings %}
+
+<p>
+Display the latest updates from the channel on your blog or any other Web site. Simply copy the HTML code from below and paste it in the source of your site.
+</p>
+
+<ul id="badges">
+  {% for badge in badges %}
+  <li id="{{badge.id}}">
+  <div>
+    <object width="{{badge.width}}" height="{{badge.height}}">
+      <param name="movie" value="http://{{DOMAIN}}{{badge.src}}?feedURL={{view.url}}/feed/badge"></param>
+      <param name="wmode" value="transparent"></param>
+      <embed src="http://{{DOMAIN}}{{badge.src}}?feedURL={{view.url}}/feed/badge" type="application/x-shockwave-flash" 
+      wmode="transparent" width="{{badge.width}}" height="{{badge.height}}"></embed>
+    </object>
+  </div>
+  <h2>{{badge.title}}</h2>
+  <h4 class="settings">Select color</h4>
+  <p class="settings">
+  <select class="color-scheme" name="color-scheme">
+    <option value="white">Ivory white</option>
+    <option value="red">Blood red</option>
+    <option value="black">Piano black</option>
+    <option value="yellow">Golden yellow</option>
+    <option value="green">Forest green</option>
+    <option value="pink">Pink!</option>
+    <option value="blue">Ocean blue</option>
+    <option value="turqoise">Truly turqoise</option>
+  </select>
+  <a href="#badge-config" class="show-config">Advanced Color Settings</a>
+  </p>
+  <h4>HTML code</h4>
+  <p>
+  <textarea class="badge-code" rows="5" cols="100">{% filter force_escape %}<object width="{{badge.width}}" height="{{badge.height}}">
+      <param name="movie" value="http://{{DOMAIN}}{{badge.src}}?feedURL={{view.url}}/feed/badge"></param>
+      <param name="wmode" value="transparent"></param>
+      <embed src="http://{{DOMAIN}}{{badge.src}}?feedURL={{view.url}}/feed/badge" type="application/x-shockwave-flash" 
+      wmode="transparent" width="{{badge.width}}" height="{{badge.height}}"></embed>
+  </object>{% endfilter %}</textarea>
+  </p>
+  </li>
+  {% endfor %}
+</ul>
+<form id="badge-config">
+  <table>
+    <thead>
+      <tr>
+        <th>&nbsp;</th>
+        <th>Normal</th>
+        <th>Hilite</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>
+          <label for="bkgcolor">Background color</label>
+        </th>
+        <td colspan="2">
+          <input type="text" class="badge-color" name="bkgcolor" maxlenght="7" value="#ffffff"/>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <label for="gradientcolor1">Gradient color top</label>
+        </th>
+        <td>
+          <input type="text" class="badge-color" name="gradientcolor1" maxlenght="7" value="#FFFFFF"/>
+        </td>
+        <td>
+          <input type="text" class="badge-color" name="hilitegradientcolor1" maxlenght="7" value="#03a9d8"/>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <label for="gradientcolor2">Gradient color bottom</label>
+        </th>
+        <td>
+          <input type="text" class="badge-color" name="gradientcolor2" maxlenght="7" value="#E0F4F4"/>
+        </td>
+        <td>
+          <input type="text" class="badge-color" name="hilitegradientcolor2" maxlenght="7" value="#009bc7"/>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <label for="bordercolor">Bubble border color</label>
+        </th>
+        <td>
+          <input type="text" class="badge-color" name="bordercolor" maxlenght="7" value="#C7E5E9"/>
+        </td>
+        <td>
+          <input type="text" class="badge-color" name="hilitebordercolor" maxlenght="7" value="#C7E5E9"/>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <label for="fontcolor">Text color</label>
+        </th>
+        <td>
+          <input type="text" class="badge-color" name="fontcolor" maxlenght="7" value="#000000"/>
+        </td>
+        <td>
+          <input type="text" class="badge-color" name="bubbletexthilite" maxlenght="7" value="#FFFF00"/>
+        </td>
+      </tr>
+      <tr>
+        <th><label for="timecolor">Text color (time)</label></th>
+        <td colspan="2">
+          <input type="text" class="badge-color" name="timecolor" maxlenght="7" value="#999999"/>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <label for="titlecolor">Title color</label>
+        </th>
+        <td>
+          <input type="text" class="badge-color" name="titlecolor" maxlenght="7" value="#333333"/>
+        </td>
+        <td>
+          <input type="text" class="badge-color" name="titlehilitecolor" maxlenght="7" value="#009BC7"/>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <label for="descriptioncolor">Footer text color</label>
+        </th>
+        <td>
+          <input type="text" class="badge-color" name="descriptioncolor" maxlenght="7" value="#333333"/>
+        </td>
+        <td>
+          <input type="text" class="badge-color" name="descriptionhilitecolor" maxlenght="7" value="#009BC7"/>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <label for="descriptioncolor">Button fill color</label>
+        </th>
+        <td>
+          <input type="text" class="badge-color" name="arrowcolor1" maxlenght="7" value="#FFFFFF"/>
+        </td>
+        <td>
+          <input type="text" class="badge-color" name="arrowhilitecolor1" maxlenght="7" value="#009BC7"/>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <label for="descriptioncolor">Button arrow color</label>
+        </th>
+        <td>
+          <input type="text" class="badge-color" name="arrowcolor2" maxlenght="7" value="#AAAAA"/>
+        </td>
+        <td>
+          <input type="text" class="badge-color" name="arrowhilitecolor2" maxlenght="7" value="#FFFFFF"/>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <label for="descriptioncolor">Button border color</label>
+        </th>
+        <td>
+          <input type="text" class="badge-color" name="arrowbordercolor" maxlenght="7" value="#AAAAAA"/>
+        </td>
+        <td>
+          <input type="text" class="badge-color" name="arrowhilitebordercolor" maxlenght="7" value="#FFFFFF"/>
+        </td>
+      </tr>
+      <tr class="map-only">
+        <th>
+          <label for="mapcolor">Map color</label>
+        </th>
+        <td colspan="2">
+          <input type="text" class="badge-color" name="mapcolor" maxlenght="7" value="#65D8E6"/><br/>
+        </td>
+      </tr>
+      <tr class="map-only">
+        <th>
+          <label for="maptextcolor">Map text color</label>
+        </th>
+        <td colspan="2">
+          <input type="text" class="badge-color" name="maptextcolor" maxlenght="7" value="#01748F"/><br/>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <p>
+          <input type="submit" value="Apply" />
+          or <a href="#" onclick="$('form#badge-config').hide(); return false;">Cancel</a>
+          </p>                            
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</form>
+
+{% endblock %}
+
+{% block bottomscripts %}
+  <script src="http://{{DOMAIN}}/js/badge.js" type="text/javascript"></script>
+
+{% endblock %}

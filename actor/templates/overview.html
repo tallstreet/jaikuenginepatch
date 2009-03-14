@@ -1,0 +1,62 @@
+{% extends 'common/templates/base_sidebar.html' %}
+{% load nonce %}
+{% block title %}Overview{% endblock %}
+
+{% block above_container %}
+{% if unconfirmed_email and not flash %}
+<div class="notice">
+  <p>
+  You have not yet confirmed your email address "{{unconfirmed_email}}", if you have not received your confirmation message you can <a href="{{view.url}}/settings/email">request another</a>.
+  </p>
+ </div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% include 'common/templates/message_form.html' %}
+
+<ul id="sub-nav">
+  <li class="first current">
+    <a href="{{view.url}}/overview">Overview</a>
+  </li>
+  <li>
+    <a href="{{view.url}}">Your Posts</a>
+  </li>
+</ul>
+
+<div id='stream'>
+  <h2>Hi {{view.display_nick}}! Here's the latest from your contacts</h2>
+  {% if HIDE_COMMENTS_ENABLED %}
+  <div class="controls">
+    {% if view.extra.comments_hide %}
+      <a class="comment" 
+         href="?nick={{request.user.nick}}&amp;settings_hide_comments=0&amp;{{request.user|nonceparam:"settings_hide_comments"}}">
+        Show Comments
+    {% else %}
+      <a class="comment" 
+         href="?nick={{request.user.nick}}&amp;settings_hide_comments=1&amp;{{request.user|nonceparam:"settings_hide_comments"}}">
+        Hide Comments
+    {% endif %}
+    </a>
+  </div>
+  {% endif %}
+
+  {% include 'common/templates/stream.html' %}
+  {% include 'common/templates/paging.html' %}
+
+  <p class="tools">
+    {% if feeds %}
+      <a href="{{feeds.0.url}}" class="rss" title="{{feeds.0.title}} ({{feeds.0.type}})">{{feeds.0.title}}</a>
+    {% endif %}
+  </p>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+{% include 'common/templates/sidebar_location.html' %}
+{% include 'common/templates/sidebar_contacts.html' %}
+{% with view_streams as streams %}
+{% include 'common/templates/sidebar_streams.html' %}
+{% endwith %}
+{% include 'common/templates/sidebar_search.html' %}
+{% endblock %}

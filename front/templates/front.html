@@ -1,0 +1,53 @@
+{% extends 'common/templates/base_sidebar.html' %}
+
+{% block bodytag %}{{block.super}} {% endblock %}
+
+{% block title %}Your Conversation{% endblock %}
+
+{% block logo %}
+<a href="/" id="logo">
+  <img src="/themes/{{DEFAULT_THEME|urlencode}}/logo-big.gif" height="95" width="115" alt="Jaiku" />
+</a>
+{% endblock %}
+
+{% block content %}
+<div id="intro">
+        <h2>Your Conversation.</h2>
+        <h1>Welcome to Jaiku!</h1>
+        <ul>
+            <li id="create">
+                <h3><a href="/tour">Create your activity stream</a></h3>
+                <p>Post Jaikus, add icons, customize your design, share your Web feeds</p>
+            </li>
+            <li id="follow">
+                <h3><a href="/tour/2">Follow your friends</a></h3>
+                <p>Get their updates, see their presence, add comments</p>
+            </li>
+            <li id="more">
+                <h3><a href="/tour">&#8250; Take the tour</a></h3>
+            </li>
+        </ul>
+    </div>
+    <div id='stream'>
+    {% include 'common/templates/stream.html' %}
+    {% include 'common/templates/paging.html' %}
+
+    <p class="tools">
+      {% if feeds %}
+        <a href="{{feeds.0.url}}" class="rss" title="{{feeds.0.title}} ({{feeds.0.type}})">{{feeds.0.title}}</a>
+      {% endif %}
+    </p>
+  </div>
+
+<ul>
+{% for entry in recent_entries %}
+  <li><a href="{{ entry.url }}">{{ entry.url }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}
+
+{% block sidebar %}
+  {% include 'front/templates/sidebar_joinnow.html' %}
+  {% include 'front/templates/sidebar_featured_channels.html' %}
+  {% include 'front/templates/sidebar_featured_members.html' %}
+{% endblock %}

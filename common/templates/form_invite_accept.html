@@ -1,0 +1,48 @@
+{% load nonce %}
+<h1>Accept Invitation from {{view.display_nick}}?</h1>
+{% if request.user %}
+  <p>
+  Do you want to accept the invitation from {{view.display_nick}}? Accepting will add {{view.display_nick}} as your contact and allow {{view.display_nick}} to see your presence updates.
+  </p>
+  <div class="highlight">
+    <p>
+    <form action="" method="post">
+      {{request.user|noncefield:"invite_accept"}}
+      <input type="hidden" name="nick" value="{{request.user.nick}}" />
+      <input type="hidden" name="code" value="{{code}}" />
+      <input type="hidden" name="invite_accept" value="" />
+      <input type="submit" value="Yes, I Accept!" />
+    </form>
+    <form action="" method="post">
+      {{request.user|noncefield:"invite_reject"}}
+      <input type="hidden" name="nick" value="{{request.user.nick}}" />
+      <input type="hidden" name="code" value="{{code}}" />
+      <input type="hidden" name="invite_reject" value="" />
+      <input type="submit" value="No thanks" />
+    </form>
+    <br/>
+    <br/>
+    </p>
+  </div>
+{% else %}
+  <p>
+  To accept the invitation from {{view.display_nick}},
+  you need to have an account and log in.
+  </p>
+
+  <h3>I already have an account</h3>
+  <p>
+  <big>
+    <a href="/login?redirect_to={{request.path|urlencode}}">
+      Sign In
+    </a>
+  </big>
+  </p>
+
+  <h3>I don't have an account</h3>
+  <p>
+  <big>
+    <a href="/join?redirect_to={{request.path|urlencode}}"> Join Now</a>
+  </big>
+  </p>
+{% endif %}

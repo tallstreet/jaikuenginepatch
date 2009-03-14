@@ -1,0 +1,143 @@
+[
+
+ {"pk": "stream/popular@example.com/presence/inbox/unpopular@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/popular@example.com/presence",
+             "subscriber": "unpopular@example.com",
+             "state": "subscribed",
+             "target": "inbox/unpopular@example.com/overview"
+             }
+  },
+ {"pk": "stream/popular@example.com/presence/inbox/celebrity@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/popular@example.com/presence",
+             "subscriber": "celebrity@example.com",
+             "state": "subscribed",
+             "target": "inbox/celebrity@example.com/overview"
+             }
+  },
+ {"pk": "stream/popular@example.com/presence/inbox/annoying@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/popular@example.com/presence",
+             "subscriber": "annoying@example.com",
+             "state": "subscribed",
+             "target": "inbox/annoying@example.com/overview"
+             }
+  },
+ {"pk": "stream/popular@example.com/presence/inbox/obligated@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/popular@example.com/presence",
+             "subscriber": "obligated@example.com",
+             "state": "subscribed",
+             "target": "inbox/obligated@example.com/overview"
+             }
+  },
+ {"pk": "stream/popular@example.com/comments/inbox/unpopular@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/popular@example.com/comments",
+             "subscriber": "unpopular@example.com",
+             "state": "subscribed",
+             "target": "inbox/unpopular@example.com/overview"
+             }
+  },
+ {"pk": "stream/popular@example.com/comments/inbox/celebrity@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/popular@example.com/comments",
+             "subscriber": "celebrity@example.com",
+             "state": "subscribed",
+             "target": "inbox/celebrity@example.com/overview"
+             }
+  },
+ {"pk": "stream/popular@example.com/comments/inbox/annoying@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/popular@example.com/comments",
+             "subscriber": "annoying@example.com",
+             "state": "subscribed",
+             "target": "inbox/annoying@example.com/overview"
+             }
+  },
+ {"pk": "stream/popular@example.com/comments/inbox/obligated@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/popular@example.com/comments",
+             "subscriber": "obligated@example.com",
+             "state": "subscribed",
+             "target": "inbox/obligated@example.com/overview"
+             }
+  },
+  
+
+
+ {"pk": "stream/root@example.com/presence/inbox/popular@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/root@example.com/presence",
+             "subscriber": "popular@example.com",
+             "state": "subscribed",
+             "target": "inbox/popular@example.com/overview"
+             }
+  },
+ {"pk": "stream/root@example.com/presence/inbox/unpopular@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/root@example.com/presence",
+             "subscriber": "unpopular@example.com",
+             "state": "subscribed",
+             "target": "inbox/unpopular@example.com/overview"
+             }
+  },
+ {"pk": "stream/root@example.com/presence/inbox/celebrity@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/root@example.com/presence",
+             "subscriber": "celebrity@example.com",
+             "state": "subscribed",
+             "target": "inbox/celebrity@example.com/overview"
+             }
+  },
+ {"pk": "stream/root@example.com/presence/inbox/annoying@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/root@example.com/presence",
+             "subscriber": "annoying@example.com",
+             "state": "subscribed",
+             "target": "inbox/annoying@example.com/overview"
+             }
+  },
+ {"pk": "stream/root@example.com/presence/inbox/obligated@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/root@example.com/presence",
+             "subscriber": "obligated@example.com",
+             "state": "subscribed",
+             "target": "inbox/obligated@example.com/overview"
+             }
+  },
+
+ {"pk": "stream/#popular@example.com/presence/inbox/popular@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/#popular@example.com/presence",
+             "subscriber": "popular@example.com",
+             "state": "subscribed",
+             "target": "inbox/popular@example.com/overview"
+             }
+  },
+ {"pk": "stream/#popular@example.com/presence/inbox/unpopular@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/#popular@example.com/presence",
+             "subscriber": "unpopular@example.com",
+             "state": "subscribed",
+             "target": "inbox/unpopular@example.com/overview"
+             }
+  },
+ {"pk": "stream/root@example.com/comments/inbox/celebrity@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/root@example.com/comments",
+             "subscriber": "celebrity@example.com",
+             "state": "subscribed",
+             "target": "inbox/celebrity@example.com/overview"
+             }
+  },
+ {"pk": "stream/popular@example.com/presence/12345/inbox/unpopular@example.com/overview",
+  "model": "common.subscription",
+  "fields": {"topic": "stream/popular@example.com/presence/12345",
+             "subscriber": "unpopular@example.com",
+             "state": "subscribed",
+             "target": "inbox/unpopular@example.com/overview"
+             }
+  }
+]

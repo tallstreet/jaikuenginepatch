@@ -1,0 +1,8 @@
+{% load format %}
+
+{% if actor.last_entry_ref %}
+  <span>
+    {{actor.last_entry_ref.extra.title|urlize}}
+    {{actor.last_entry_ref.created_at|je_timesince}} ago
+  </span>
+{% endif %}

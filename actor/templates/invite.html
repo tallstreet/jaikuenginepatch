@@ -1,0 +1,32 @@
+{% extends 'actor/templates/people_base.html' %}
+{% load nonce avatar vcard %}
+{% block title %}Invite your friends{% endblock %}
+{% block people %}
+<div class="path">
+  <h1><a href="{{view.url}}/contacts">People</a> / Invite your friends</h1>
+</div>
+
+
+<div class="body">
+  <div class="box">
+    {% include 'form_error.html' %}
+    <form action="" method="post">
+    <h3>Enter email address</h3>
+
+    <div>
+      <label for="field-invitees">Email Address:</label>
+      <input type="text" name="email" id="field-invitees" class="text"/>
+      {% if EMAIL_LIMIT_DOMAIN %}
+      <p class='help'>Address must be in the <strong>{{EMAIL_LIMIT_DOMAIN}}</strong> domain</p>
+      {% endif %}
+    </div>
+    <div class="buttons">
+      {{request.user|noncefield:"invite_request_email"}}
+      <input type="hidden" name="invite_request_email" />
+      <input type="hidden" name="nick" value="{{request.user.nick}}" />
+      <input type="submit" value="Invite"/>
+    </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

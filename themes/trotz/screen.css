@@ -1,0 +1,458 @@
+div#header-container {
+  background:transparent url(bg-header.png) repeat-x scroll 0 100%;
+}
+
+/* content */
+div#content {
+    background: transparent url(bg-content-bottom.png) no-repeat 0 100%;
+}
+
+div#content div.top {
+    background: transparent url(bg-content-top.png) no-repeat;
+}
+
+div#content div.top.b {
+    background: transparent url(bg-content-top-g.png) no-repeat;
+}
+
+div#content div.bottom {
+    background: transparent url(bg-content.png) repeat-y;
+}
+
+div#content div.main {
+    background: #212121 url(bg-main.gif) repeat-x 0% 0%;
+}
+
+/* wide content */
+/* TODO(termie): these images don't exist yet */
+div.wide div#content {
+    background-image: url(bg-content-w-bottom.png);
+}
+
+div.wide div#content div.top {
+    background-image: url(bg-content-w-top.png);
+}
+
+div.wide div#content div.top.b {
+    background-image: url(bg-content-w-top-g.png);
+}
+
+div.wide div#content div.bottom {
+    background-image: url(bg-content-w.png);
+}
+
+/* single style page */
+body.single div#header-container {
+    background: transparent url(bg-content-top.png) no-repeat;
+}
+
+body.single div#header {
+    background: transparent url(bg-content.png) repeat-y;
+}
+
+div#current-stream a.confirm-delete:hover {
+    color: #009bc7;
+}
+
+
+/* sidebar */
+div#sidebar {
+    background: transparent url(bg-sidebar-bottom.png) no-repeat 0 100%;
+}
+
+div#sidebar div.top {
+    background-image: url(bg-sidebar-top.png);
+}
+
+div#sidebar div.top.b {
+    background-image: url(bg-sidebar-top-g.png);
+}
+
+div#sidebar div.bottom {
+    background: transparent url(bg-sidebar.png) repeat-y;
+}
+
+
+div#sidebar h2, div#side-nav h2, div#leave-comment h2 {
+    background: #252525;
+}
+
+/* main nav */
+ul#main-nav li.current {
+    background: #f27ee0;
+}
+
+/* subnav */
+
+ul#sub-nav {
+    background: #212121;
+}
+
+ul#sub-nav li {
+    border-bottom: 1px solid #212121;
+    background: #333;
+}
+
+ul#sub-nav li a {
+    color: #fff;
+}
+
+
+h1.group {
+    background: #272727;
+}
+
+
+
+/* frontpage */
+div#intro h1 {
+    color: #f27ee0;
+}
+
+div#intro ul li#create {
+    background: transparent url(icons/jaiku-bubble.gif) no-repeat 0% 20%;
+}
+
+div#intro ul li#follow {
+    background: transparent url(icons/jaiku-couple.gif) no-repeat 0% 20%;
+}
+
+div#intro ul li#client {
+    background: transparent url(icons/jaiku-message.gif) no-repeat 0% 20%;
+}
+
+div#intro ul li#more h3 a {
+    color: #f27ee0;
+}
+
+div#map {
+    background: transparent url(bg-map.gif) no-repeat;
+}
+
+/* sign up */
+div#sign-up a, li#sign-up a {
+    background: transparent url(join_now.jpg) no-repeat 50% 0;
+}
+
+/* reminder */
+div.highlight {
+    background: #dbeaff;
+}
+
+div.notice {
+    border: solid 1px #f1cb2f;
+    background: #fffdcf;
+}
+
+p.notice {
+    background: #fffdcf;
+}
+
+div.reminder {
+    border: solid 1px #f1cb2f;
+    background: #fffdcf;
+}
+
+div.error {
+    background: #fdd;
+}
+
+p.error, span.error {
+  color: #c33;
+}
+
+p.success {
+  color: #3c3;
+}
+
+/* welcome */
+ul.steps {
+    background: transparent url(bg-steps-line.gif) repeat-x 0% 50%;
+    list-style-type: none;
+    overflow: hidden;
+    font-size: 1.1em;
+    margin: 0.5em 20px 0 20px;
+    padding: 0;
+}
+
+ul.steps li {
+    line-height: 1.2em;
+    float: left;
+    width: 82px;
+    padding: 0;
+    margin: 0;
+}
+
+ul.steps li a,  ul.steps li strong{
+    padding: 0.5em 0 135px 0;
+    text-align: center;
+    display: block;
+    height: 100%;
+    color: #999;
+}
+
+ul.steps li a:hover {
+    background: transparent url(bg-step-2.gif) no-repeat 50% 100%;
+    color: #f27ee0;
+}
+
+ul.steps li.current a {
+    color: #f27ee0;
+}
+
+ul.steps li#step-2 {
+    margin: 0 115px;
+}
+
+ul.steps li#step-1 a, ul.steps li#step-1 a:hover {
+    background: transparent url(bg-step-1.gif) no-repeat 50% 100%;
+}
+
+ul.steps li#step-1.current a {
+    background: transparent url(bg-step-1-sel.gif) no-repeat 50% 100%;
+}
+
+ul.steps li#step-1.done a {
+    background: transparent url(bg-step-1-done.gif) no-repeat 50% 100%;
+}
+
+ul.steps li#step-2 a, ul.steps li#step-2 a:hover {
+    background: transparent url(bg-step-2.gif) no-repeat 50% 100%;
+}
+
+ul.steps li#step-2.current a {
+    background: transparent url(bg-step-2-sel.gif) no-repeat 50% 100%;
+}
+
+ul.steps li#step-2.done a {
+    background: transparent url(bg-step-2-done.gif) no-repeat 50% 100%;
+}
+
+ul.steps li#step-3 a, ul.steps li#step-3 a:hover {
+    background: transparent url(bg-step-3.gif) no-repeat 50% 100%;
+}
+
+ul.steps li#step-3.current a {
+    background: transparent url(bg-step-3-sel.gif) no-repeat 50% 100%;
+}
+
+ul.steps li#step-3.done a {
+    background: transparent url(bg-step-3-done.gif) no-repeat 50% 100%;
+}
+
+#contacts div.body {
+    margin-left: 0;
+}
+
+div#welcome-start {
+    font-size: 1.2em;
+}
+
+div#welcome-start img {
+    margin: 0 auto 1em auto;
+}
+
+div#welcome-start p, div#welcome-start h1 {
+    margin: inherit auto;
+    text-align: center;
+}
+
+div#welcome-start ul {
+    list-style-type: none;
+    margin: 1em auto;
+    width: 160px;
+    padding: 0;
+}
+
+div#welcome-start ul li {
+    padding: 0.5em 0 0.4em 20px;
+    color: #666;
+    margin: 0;
+}
+
+div#welcome-start ul li#step-1 {
+    background: transparent url(bg-step-1-small.gif) no-repeat 0% 50%;    
+}
+
+div#welcome-start ul li#step-2 {
+    background: transparent url(bg-step-2-small.gif) no-repeat 0% 50%;    
+}
+
+div#welcome-start ul li#step-3 {
+    background: transparent url(bg-step-3-small.gif) no-repeat 0% 50%;    
+}
+
+div#welcome-done {
+    background: transparent url(welcome-done.gif) no-repeat 12% 50%;
+    padding: 60px 0 100px 220px;
+}
+
+div#find-friends div#contacts ul {
+    border: 2px solid #fff;
+    background: #fff;
+    margin: 1em 0;
+    overflow: auto;
+    height: 300px;
+}
+
+div#find-friends div#contacts div.buttons {
+    text-align: right;
+    padding: 0;
+}
+
+div#find-friends div#contacts div.buttons span {
+    float: left;
+}
+
+div#find-friends div#contacts ul li {
+    border-top: 1px solid #eee;
+    overflow: hidden;
+    padding: 0.4em 0;
+    clear: both;
+}
+
+div#find-friends div#contacts ul li.alternate {
+    background: #e9e9e9;
+}
+
+div#find-friends div#contacts ul li img.photo {
+    margin: 0 5px;
+    height: 20px;
+    width: 20px;
+}
+
+div#find-friends div#contacts ul li h3 {
+    margin-top: 0.1em;
+    float: left;
+    padding: 0;
+}
+
+div#find-friends div#contacts ul li p {
+    margin: 0.2em 0 0 0;
+    line-height: 1em;
+    padding: 0;
+    float: left;
+}
+
+div#find-friends div#contacts ul li p.foot {
+    width: 200px;
+    float: right;
+    padding: 0;
+}
+
+div#find-friends div#contacts ul li input {
+    margin-top: 0.2em;
+    float: left;
+}
+
+div#find-friends div#contacts ul li span.checked {
+    background: transparent url(checked.gif) no-repeat 0% 50%;
+    margin-top: 5px;
+    display: block;    
+    height: 16px;
+    width: 16px;
+    float: left;
+}
+
+#welcome div.buttons {
+    text-align: right;
+}
+
+div.buttons button {
+    background: transparent;
+    white-space: nowrap;
+    line-height: 1em;
+    font-size: 0.9em;
+    display: block;
+    border: none;
+    float: right;
+    padding: 0;
+    margin: 0;
+}
+
+div.buttons big, div#welcome-start big {
+    background: transparent url(bg-foot-step-dis.gif) no-repeat 0 0;
+    text-align: center;
+    overflow: hidden;
+    display: block;
+    height: 32px;
+    float: right;
+    padding: 0;
+    margin: 0;
+}
+
+
+div#welcome-start big {
+    margin: 0 auto 1em auto;
+    width: 140px;
+    float: none;
+}
+
+div.buttons big.active, div#welcome-start big {
+    background-image: url(bg-foot-step.gif);
+}
+
+div.buttons button:hover big.active, div.buttons big.active:hover, div#welcome-start big:hover {
+    background-position: 0 -32px;
+}
+
+div.buttons big a, div.buttons big span,
+div.buttons big.active a, div#welcome-start big a {
+    background: transparent url(bg-foot-step-dis-r.gif) no-repeat 100% 0%;
+    padding: 8px 30px 10px 30px;
+    display: block;
+    height: 14px;
+    color: #fff;
+    margin: 0;
+}
+
+div.buttons big.active span,
+div.buttons big.active a, div#welcome-start big a {
+    background-image: url(bg-foot-step-r.gif);
+}
+
+div.buttons button:hover big.active span, div.buttons big.active:hover a, div#welcome-start big:hover a {
+    background-position: 100% -32px;
+}
+
+p.foot-note {
+    font-size: 0.86em;
+    color: #666;
+}
+
+
+/* links */
+
+a:link, a:visited {
+    color: #009bc7;
+}
+
+a:hover, a:link:hover, a:visited:hover {
+    background: #009bc7;
+    color: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*  add a black border to photos */
+div.main a img.photo, div.main img.photo {
+    border: 1px solid #333;
+}
+
+/*div.notice {*/
+/*  background:#ddd none repeat scroll 0 0;*/
+/*  border:1px solid #F1CB2F;*/
+/*}*/
+
+
+
+

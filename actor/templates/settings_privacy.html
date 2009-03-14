@@ -1,0 +1,38 @@
+{% extends 'actor/templates/settings_base.html' %}
+{% load nonce %}
+{% block settings %}
+
+<h2>Change Your Privacy</h2>
+<p>Your chosen photo and name will always be public.</p>
+
+{% include 'form_error.html' %}
+<form action="" method="POST">
+  {{request.user|noncefield:"settings_change_privacy"}}
+  <input type="hidden" name="settings_change_privacy" />
+  <input type="hidden" name="nick" value="{{request.user.nick}}" />
+  <div>
+    <label for="public">Make My Posts Public</label>
+    <input type="radio" id="public" name="privacy"
+           value={{PRIVACY_PUBLIC}}
+           {% ifequal view.privacy PRIVACY_PUBLIC %}
+             checked="checked"
+           {% endifequal %}/>
+  </div>
+  <div>
+    <label for="contacts">Only Show My Posts To My Contacts</label>
+    <input type="radio" id="contacts" name="privacy"
+           value={{PRIVACY_CONTACTS}}
+           {% ifequal view.privacy PRIVACY_CONTACTS %}
+             checked="checked"
+           {% endifequal %}/>
+  </div>
+  {% ifnotequal view.privacy PRIVACY_CONTACTS %}
+    <div>
+      Current posts may still be accessible via search engines.
+    </div>
+  {% endifnotequal %}
+  <div class="buttons">
+    <input type="submit" value="Save Changes" />
+  </div>
+</form>
+{% endblock %}

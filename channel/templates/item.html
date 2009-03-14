@@ -1,0 +1,16 @@
+{% extends 'common/templates/base_sidebar.html' %}
+{% load nonce avatar format entry %}
+{% block title %}{{view.display_nick}}: {{ entry.title }}{% endblock %}
+{% block content %}
+<div class="main">
+  <h1>
+    {% ifnotequal entry.owner entry.actor %}
+    {{entry.actor_ref|actor_link}} posted to {{entry.owner_ref|actor_link}}:
+    {% else %}
+    {{entry.owner_ref|actor_link}} said:
+    {% endifnotequal %}
+  </h1>
+  {% include 'common/templates/item_post.html' %}
+</div>
+{% include 'common/templates/item_comments.html' %}
+{% endblock %}

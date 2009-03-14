@@ -1,0 +1,72 @@
+{% load avatar format entry %}
+<ul class="stream">
+
+{% for entry in entries %}
+  {% ifchanged %}
+    <li class="date"><h3>{{entry.created_at|date:"l, j F Y"}}</h3></li>
+  {% endifchanged %}
+
+
+{% if entry.entry %}
+<li class="comment" id="stream-comment-{{entry.uuid}}">
+  <div class="top"><div class="bottom">
+    {% if not hide_avatar %}
+    {{ entry.actor_ref|linked_avatar:"u" }}
+    {% endif %}
+    <p class="comment">
+    {{entry|format_comment}}
+    </p>
+    <p class="meta">
+    Comment from {{entry.actor_ref|actor_link}} on <a href="{{entry.url}}" title="{{entry.extra.entry_title}}">{{entry.extra.entry_title}}</a> {{entry.created_at|je_timesince}} ago.
+    </p>
+  </div></div>
+</li>
+{% endif %}
+{% ifequal entry.stream_ref.type 'presence' %}
+<li class="presence" id="stream-{{entry.uuid}}">
+  <div class="top"><div class="bottom s-{{entry.stream}}">
+    {% if not hide_avatar %}
+    {{ entry.actor_ref|linked_avatar:"u" }}
+    {% endif %}
+    {{ entry|entry_icon }}
+    <h3>{{ entry|linked_entry_title }}</h3>
+    <p class="meta">
+    By {{entry.actor_ref|actor_link}}
+    {% ifnotequal entry.actor entry.owner %}
+    to {{entry.owner_ref|actor_link}}
+    {% endifnotequal %}
+    {{entry.created_at|je_timesince}} ago.
+    {% if not entry.extra.comment_count %}
+    <a href="{{entry.url}}#comments" class="add-comment">Add Comment</a>
+    {% else %}
+    <a href="{{entry.url}}#comments" class="comments">{{entry.extra.comment_count}} Comment{{entry.extra.comment_count|pluralize}}</a>
+    {% endif %}
+    {% entry_remove request.user entry user_is_admin %}
+    </p>
+  </div></div>
+</li>
+{% endifequal %}
+
+{% endfor %}
+{% if not entries|length %}
+{% block no_posts %}
+{% ifequal view.nick request.user.nick %}
+<div class="highlight">
+  <p>It appears that you have not yet posted any messages.
+  Posting is easy - just type your first message in the field
+  above. Don't know what to say? Start with what you're up to
+  right now. For instance, "Heading to lunch with my friends"
+  would be a perfect first message.</p>
+</div>
+{% else %}
+<p>
+{% ifequal privacy "public" %}
+{{view.display_nick}} has not posted anything public.
+{% else %}
+{{view.display_nick}} has not posted anything yet.
+{% endifequal %}
+</p>
+{% endifequal %}
+{% endblock %}
+{% endif %}
+</ul>

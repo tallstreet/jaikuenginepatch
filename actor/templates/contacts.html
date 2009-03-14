@@ -1,0 +1,28 @@
+{% extends 'actor/templates/people_base.html' %}
+{% block title %}{{whose}} contacts{% endblock %}
+{% load nonce avatar vcard %}
+
+{% block people %}
+  <div class="path">
+    <h1><a href="{{view.url}}/contacts">People</a> / {{whose}} contacts</h1>
+  </div>
+
+  <div class="body">
+  {% include 'form_error.html' %}
+    <div id="contacts" class='contacts'>
+      {% ifequal request.user.nick view.nick %}
+        <h2>Your Contacts ({{actor_tiles_count}})</h2>
+        <p class="foot-note">
+          Your contacts can see your updates even if your stream is
+          hidden from the public. Those with a blue background are also your
+          followers.
+        </p>
+      {% endifequal %}
+      {% if actor_tiles %}
+        {% include 'common/templates/actor_tiles.html' %}
+      {% else %}
+        <p>No contacts yet, but maybe soon :)</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% filter wordwrap:60 %}
+Moi!
+
+{% if my_entry %}
+{{from_name}} has posted a comment to your update "{{entry_title}}":
+{% else %}
+{{from_name}} has posted a comment to {{entry_actor_name}}'s update "{{entry_title}}":
+{% endif %}
+
+{{comment_pretty}}
+
+
+To reply to{{my_entry|yesno:" or delete,"}} this comment, 
+click on the following link (or copy and paste it to your browser):
+
+................
+
+{{entry_url}}
+
+................
+
+If you want to report comment spam or other abuse, please send
+us an email at support@{{NS_DOMAIN}}, and we'll do our best to help you.
+
+{% include 'common/templates/email/signature.txt' %}
+
+(This email was generated automatically. Please do not reply
+to it, your words would be lost in the ether.)
+
+{% endfilter %}

@@ -1,0 +1,36 @@
+{% load format entry json %}
+  [
+  {% for entry in entries %}
+  {% if entry.entry %}
+  {
+    "comment_id": {{entry.uuid|escapejson}},
+    "title": {{entry.title|escapejson}},
+    "entry_title": {{entry.extra.entry_title|escapejson}},
+    "content": {{entry.extra.content|escapejson}},
+    "pretty_content": {{entry|format_comment|escapejson}},
+    "url": {{entry.url|escapejson}},
+    "created_at": {{entry.created_at|date:"Y-m-d\TH-i-s\Z"|escapejson}},
+    "created_at_relative": "{{entry.created_at|timesince}} ago",
+    "user": {% with entry.actor_ref as actor_ref %}
+    {% include 'common/templates/user.json' %}
+    {% endwith %}
+  }
+  {% endif %}
+  {% ifequal entry.stream_ref.type 'presence' %}
+  {
+    "id": {{entry.uuid|escapejson}},
+    "title": {{entry.title|escapejson}},
+    "content": {{entry.extra.content|escapejson}},
+    "icon": {{entry.extra.icon|escapejson}},
+    "url": {{entry.url|escapejson}},
+    "created_at": {{entry.created_at|date:"Y-m-d\TH-i-s\Z"|escapejson}},
+    "created_at_relative": "{{entry.created_at|timesince}} ago",
+    "comments": {{entry.extra.comment_count|escapejson}},
+    "user": {% with entry.actor_ref as actor_ref %}
+    {% include 'common/templates/user.json' %}
+    {% endwith %}
+  }
+  {% endifequal %}
+  {% if not forloop.last %},{% endif %}
+  {% endfor %}
+  ]

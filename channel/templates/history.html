@@ -1,0 +1,65 @@
+{% extends 'common/templates/base_sidebar.html' %}
+{% load nonce avatar vcard base %}
+{% block title %}{{view.display_nick}}{% endblock %}
+
+{% block content %}
+{% if user_can_post %}
+  {% include_extend 'common/templates/message_form.html' %}
+    {% block message_title %}
+      <ul class="float">
+        <li>
+          {% if not user_is_admin %}
+          You are a member. <a href="{{view.url}}?channel_part=&amp;nick={{request.user.nick|urlencode}}&amp;channel={{view.nick|urlencode}}&amp;{{request.user|nonceparam:"channel_part"}}">Leave {{view.display_nick}}</a>
+          {% else %}
+          <a href="{{view.url}}/settings">Edit settings</a>
+          {% endif %}
+        </li>
+      </ul>
+      <h1 class="fn">
+        <span class="nickname">{{view.display_nick}}</span>
+      </h1>
+    {% endblock %}
+  {% endinclude_extend %}
+{% else %}
+  {% include 'form_error.html' %}
+  <div class="main">
+    <div class="vcard" id="profile">
+      {% with view as actor %}
+        {% include 'common/templates/vcard_full.html' %}
+      {% endwith %}
+      {% if request.user %}
+      <p>
+      <a href="{{view.url}}?channel_join=&amp;nick={{request.user.nick|urlencode}}&amp;channel={{view.nick|urlencode}}&amp;{{request.user|nonceparam:"channel_join"}}">+ Join {{view.display_nick}}</a>
+      </p>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+<h2>Posts in {{ view.display_nick }}</h2>
+
+<div id='stream'>
+  {% include_extend 'common/templates/stream.html' %}
+  {% block no_posts %}No one has posted to this channel yet.{% endblock %}
+  {% endinclude_extend %}
+  {% include 'common/templates/paging.html' %}
+
+  <p class="tools">
+    {% if feeds %}
+      <a href="{{feeds.0.url}}" class="rss" title="{{feeds.0.title}} ({{feeds.0.type}})">{{feeds.0.title}}</a>
+    {% endif %}
+  </p>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+{% include 'channel/templates/sidebar_profile.html' %}
+{% include 'common/templates/sidebar_admins.html' %}
+
+{% include 'common/templates/sidebar_members.html' %}
+
+{% with view_streams as streams %}
+  {% include 'common/templates/sidebar_streams.html' %}
+{% endwith %}
+
+{% endblock %}

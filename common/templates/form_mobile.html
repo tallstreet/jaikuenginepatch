@@ -1,0 +1,46 @@
+
+{% include 'form_error.html' %}
+{% if mobile %} {# already active #}
+  <p>
+  Your SMS has been activated. Notifications are currently 
+    {{sms_notify|yesno:"ON,OFF"}}
+    <a href="{{view.url}}/settings/notifications">
+      (Change notification options)
+    </a>
+  </p>
+  <div class="box">
+    <p>
+    Your mobile number is:
+    </p>
+    <p class="centered">
+    <big><strong>{{mobile}}</strong></big>
+    </p>
+    <p class="centered">
+    You may clear it by sending SIGN OUT to <strong>{{SMS_TARGET}}</strong>
+    </p>
+  </div>
+{% else %}
+  <p>Your mobile phone is the quickest ticket to posting on the go.
+  Activate your mobile number to post and receive {{SITE_NAME}}s via SMS.
+  </p>
+  <div class="box">
+    <h3>Sign in to SMS</h3>
+    <ol>
+      <li>To <strong>{{SMS_TARGET}}</strong>, send: <strong>SIGN IN &lt;your screenname&gt; &lt;your password&gt;</strong></li>
+    </ol>
+  </div>
+{% endif %}
+<ul>
+  <li><a href="http://{{DOMAIN}}/sms">SMS Help</a></li>
+  <li><a href="http://{{DOMAIN}}/settings/notifications">Notification Options</a></li>
+  <li><a href="http://{{DOMAIN}}/help/commands">List of IM Commands</a></li>
+</ul>
+
+<div class="buttons">
+  {% block buttons %}
+  {% if SMS_ENABLED %}
+  {% else %}
+  <span class="error">Mobile activation is currently disabled</span>
+  {% endif %}
+  {% endblock %}
+</div>

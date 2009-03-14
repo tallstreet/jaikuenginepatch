@@ -1,0 +1,10 @@
+{% if more or offset %}
+<div class="paging">
+  {% if more %}
+    Browse:
+    <a href="?offset={{more|urlencode}}">
+      {% if offset_text %}{{offset_text}}{% else %}Older{% endif %}
+    </a>
+  {% endif %}
+</div>
+{% endif %}

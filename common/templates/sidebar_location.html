@@ -1,0 +1,35 @@
+{% load nonce %}
+
+{% if is_owner or presence %}
+<div class='location'>
+  <h2>Location</h2>
+  {% if presence and presence.extra.location %}
+    <p>
+      <span id='current-location'>{{presence.extra.location|escape}}</span>
+      {% if is_owner %}
+        | 
+        <a href='#form-location' id='set-location'>Change</a>
+      {% endif %}
+    </p>
+  {% else %}
+    {% if is_owner %}
+      <p>
+        <a href='#form-location' id='set-location'>Where are you now?</a>
+      </p>
+    {% endif %}
+  {% endif %}
+    <form action='' id='form-location' method='post'>
+      <div>
+        <input type='text' name='location' id='loc' 
+               value='{{presence.extra.location|escape}}'/>
+      </div>
+      <div class='buttons'>
+        {{request.user|noncefield:"presence_set"}}
+        <input type='hidden' name='presence_set' />
+        <input type='hidden' name='nick' value='{{request.user.nick}}' />
+        <input type='submit' value='Post'/>
+      </div>
+    </form>
+</div>
+
+{% endif %}

@@ -1,0 +1,121 @@
+a#logo img, span.status img {
+    behavior: url(/js/png-behavior.htc);
+}
+
+button {
+    overflow: visible;
+    width: 1%;
+}
+
+div#header-container, div#header, ul#main-nav, ul#sub-nav,
+div.tour, ul#more, div.reminder ul.steps, 
+div#form-message, div#form-message p,
+div#content div.top, div#content div.bottom,
+.vcard, ul.stream li, ul.stream li div.bottom, div#current-stream, div#content div.main,
+div#comments ul li, ul.search-list li, div.tabs ul,
+div.tabs, div.accordion, ul.steps, div#avatars,
+ul.tabs, div.buttons, div#contacts ul, div#contacts ul li,
+div.groups ul, div.groups ul li, div#search {
+    zoom: 1;
+}
+
+div#form-message form {
+    clear: both;
+}
+
+div.groups ul li {
+    padding-bottom: 0.5em;
+}
+
+div.groups ul li h3 {
+    width: auto;
+}
+
+ul.steps {
+    margin-top: 1.5em;
+}
+
+ul.steps li#step-2 {
+    margin: 0 104px;
+}
+
+div#header div#helper-nav {
+    margin-right: 50px;
+}
+
+div#form-message p#counter {
+    margin-right: 38px;
+}
+
+ul.stream li.presence div.bottom, ul.stream li.comment div.bottom {
+    position: relative;
+}
+
+div#content div#current-stream {
+    clear: both;
+}
+
+ul#main-nav li {
+    margin: 0;
+    width: 115px;
+}
+
+ul#main-nav li a {
+    padding: 7px 0.5em;
+}
+
+#sidebar div#contacts ul li {
+    width: 30px;
+}
+
+ul.stream li.presence img.photo, ul.stream li.comment img.photo {
+    margin-left: -38px;
+}
+
+div#comments ul li img.photo {
+    margin-left: -38px;
+}
+
+ul.stream li a.comments, ul.stream li a.add-comment,
+ul.stream li a.confirm-delete, div#comments ul li a.confirm-delete {
+    display: inline-block;
+}
+
+div#current-stream {
+    width: 100%;
+}
+
+div#sidebar div.download {
+    height: 125px;
+}
+
+div#tour-3 div.note {
+    right: 0;
+    top: 20px;
+}
+
+#settings ul#badges textarea.badge-code {
+    white-space: normal;
+}
+
+/* FIX PNGS */
+
+body.single div#header-container {
+    width: 614px;
+}
+
+body.single div#content div.top {
+    background: transparent;
+}
+
+div#sidebar div#mobile h3.availability-green {
+    background-image: url(../images/green.gif);
+}
+
+div#sidebar div#mobile h3.availability-orange {
+    background-image: url(../images/orange.gif);
+}
+
+div#sidebar div#mobile h3.availability-red {
+    background-image: url(../images/red.gif);
+}

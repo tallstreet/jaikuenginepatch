@@ -1,0 +1,169 @@
+[{"pk": "stream/popular@example.com/presence/12345",
+  "model": "common.streamentry",
+  "fields": {"extra": {"title": "test entry 1",
+                       "comment_count": 2
+                       },
+             "uuid": "12345",
+             "stream": "stream/popular@example.com/presence",
+             "created_at": "2008-02-15 01:02:03",
+             "owner": "popular@example.com",
+             "actor": "popular@example.com"
+             }
+  },
+ {"pk": "stream/popular@example.com/presence/12346",
+  "model": "common.streamentry",
+  "fields": {"extra": {"title": "test entry 2",
+                       "icon": "web-balloons"},
+             "uuid": "12346",
+             "stream": "stream/popular@example.com/presence",
+             "created_at": "2008-02-15 01:02:04",
+             "owner": "popular@example.com",
+             "actor": "popular@example.com"
+             }
+  },
+ {"pk": "stream/popular@example.com/presence/12347",
+  "model": "common.streamentry",
+  "fields": {"extra": {"title": "test entry 3"},
+             "uuid": "12347",
+             "stream": "stream/popular@example.com/presence",
+             "created_at": "2008-02-15 01:02:05",
+             "owner": "popular@example.com",
+             "actor": "popular@example.com"
+             }
+  },
+ {"pk": "stream/popular@example.com/presence/12348",
+  "model": "common.streamentry",
+  "fields": {"extra": {"title": "deleted test entry"},
+             "uuid": "12347",
+             "stream": "stream/popular@example.com/presence",
+             "created_at": "2008-02-15 01:02:05",
+             "deleted_at": "2008-02-15 01:02:06",
+             "owner": "popular@example.com",
+             "actor": "popular@example.com"
+             }
+  },
+ {"pk": "stream/deleted@example.com/presence/10347",
+  "model": "common.streamentry",
+  "fields": {"extra": {"title": "test entry by deleted user"},
+             "uuid": "10347",
+             "stream": "stream/deleted@example.com/presence",
+             "created_at": "2008-02-15 01:09:05",
+             "owner": "deleted@example.com",
+             "actor": "deleted@example.com"
+             }
+  },
+ {"pk": "stream/#popular@example.com/presence/13345",
+  "model": "common.streamentry",
+  "fields": {"extra": {"title": "test channel entry 1"},
+             "uuid": "13345",
+             "stream": "stream/#popular@example.com/presence",
+             "created_at": "2008-02-15 01:03:05",
+             "owner": "#popular@example.com",
+             "actor": "popular@example.com"
+             }
+  },
+ {"pk": "stream/popular@example.com/comments/12348",
+  "model": "common.streamentry",
+  "fields": {"extra": {"content": "test entry comment 1",
+                       "entry_stream": "stream/popular@example.com/presence",
+                       "entry_stream_type": "presence",
+                       "entry_title": "test entry 1",
+                       "entry_uuid": "12345"
+                       },
+             "uuid": "12348",
+             "entry": "stream/popular@example.com/presence/12345",
+             "stream": "stream/popular@example.com/comments",
+             "created_at": "2008-02-15 01:02:08",
+             "owner": "popular@example.com",
+             "actor": "popular@example.com"
+             }
+  },
+ {"pk": "stream/unpopular@example.com/comments/14341",
+  "model": "common.streamentry",
+  "fields": {"extra": {"content": "test entry comment 2",
+                       "entry_stream": "stream/popular@example.com/presence",
+                       "entry_stream_type": "presence",
+                       "entry_title": "test entry 1",
+                       "entry_uuid": "12345"
+                       },
+             "uuid": "14341",
+             "entry": "stream/popular@example.com/presence/12345",
+             "stream": "stream/unpopular@example.com/comments",
+             "created_at": "2008-02-15 01:01:01",
+             "owner": "popular@example.com",
+             "actor": "unpopular@example.com"
+             }
+  },
+ {"pk": "stream/unpopular@example.com/comments/114341",
+  "model": "common.streamentry",
+  "fields": {"extra": {"content": "test deleted comment",
+                       "entry_stream": "stream/popular@example.com/presence",
+                       "entry_stream_type": "presence",
+                       "entry_title": "test entry 1",
+                       "entry_uuid": "12345"
+                       },
+             "uuid": "114341",
+             "entry": "stream/popular@example.com/presence/12345",
+             "stream": "stream/unpopular@example.com/comments",
+             "created_at": "2008-02-15 01:01:01",
+             "deleted_at": "2008-02-15 01:01:02",
+             "owner": "popular@example.com",
+             "actor": "unpopular@example.com"
+             }
+  },
+ {"pk": "stream/girlfriend@example.com/presence/16961",
+  "model": "common.streamentry",
+  "fields": {"extra": {"title": "private test entry 1",
+                       "comment_count": 2
+                       },
+             "uuid": "16961",
+             "stream": "stream/girlfriend@example.com/presence",
+             "created_at": "2008-02-15 01:02:03",
+             "owner": "girlfriend@example.com",
+             "actor": "girlfriend@example.com"
+             }
+  },
+ {"pk": "stream/girlfriend@example.com/comments/16962",
+  "model": "common.streamentry",
+  "fields": {"extra": {"content": "private test entry comment 1",
+                       "entry_stream": "stream/girlfriend@example.com/presence",
+                       "entry_stream_type": "presence",
+                       "entry_title": "private test entry 1",
+                       "entry_uuid": "16961"
+                       },
+             "uuid": "16962",
+             "entry": "stream/girlfriend@example.com/presence/16961",
+             "stream": "stream/girlfriend@example.com/comments",
+             "created_at": "2008-02-15 01:02:08",
+             "owner": "girlfriend@example.com",
+             "actor": "girlfriend@example.com"
+             }
+  },
+ {"pk": "stream/boyfriend@example.com/comments/16963",
+  "model": "common.streamentry",
+  "fields": {"extra": {"content": "private test entry comment 2",
+                       "entry_stream": "stream/girlfriend@example.com/presence",
+                       "entry_stream_type": "presence",
+                       "entry_title": "private test entry 1",
+                       "entry_uuid": "16961"
+                       },
+             "uuid": "16963",
+             "entry": "stream/girlfriend@example.com/presence/16961",
+             "stream": "stream/boyfriend@example.com/comments",
+             "created_at": "2008-02-15 01:01:01",
+             "owner": "girlfriend@example.com",
+             "actor": "boyfriend@example.com"
+             }
+  },
+ {"pk": "stream/popular@example.com/presence-deleted/17346",
+  "model": "common.streamentry",
+  "fields": {"extra": {"title": "entry on deleted stream",
+                       "icon": "web-balloons"},
+             "uuid": "17346",
+             "stream": "stream/popular@example.com/presence-deleted",
+             "created_at": "2008-02-15 01:02:07",
+             "owner": "popular@example.com",
+             "actor": "popular@example.com"
+             }
+  }
+]

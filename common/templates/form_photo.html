@@ -1,0 +1,34 @@
+{% load avatar nonce %}
+
+<h2>{% block title %}Your photo{% endblock %}</h2>
+<p>
+  {% block blurb %} To make your posts more interesting, upload your photo -
+  or pick one of our slick defaults {% endblock %}
+</p>
+{% include 'form_error.html' %}
+<form action="" id="form-avatar" method="POST" enctype="multipart/form-data">
+  <div class="tabs">
+    <div>
+      {{request.user|noncefield:"change_photo"}}
+      {{view|noncached_avatar:"f,current"}}
+      {% if view.extra.icon %}
+        <a href="?delete=1&amp;{{request.user|nonceparam:"delete_photo"}}" class="confirm-delete" title="Delete a photo">Delete</a>
+      {% endif %}
+    </div>
+
+    <ul id="tab-list">
+      <li class="current"><a href="#new">Upload New</a></li>
+      <li><a href="#defaults">{{SITE_NAME}} Set</a></li>
+    </ul>
+    {% include 'common/templates/form_photo_upload.html' %}
+    {% include 'common/templates/form_photo_set.html' %}
+  </div>
+  <div class="buttons">
+    {% if redirect_to %}
+    <input type="hidden" name="redirect_to" value="{{redirect_to}}" />
+    {% endif %}
+    {% block buttons %}
+    <input type="submit" value="Save" />
+    {% endblock %}
+  </div>
+</form>
