@@ -8,10 +8,15 @@ Getting the code
 You can download the latest released version of JaikuEngine from the 
 Google Code project at: http://code.google.com/p/jaikuengine
 
-You can check out the latest version of JaikuEngine directly from
-the SVN repository with the following command::
+Use this command to anonymously check out the latest project source code:
+# Non-members may check out a read-only working copy anonymously over HTTP.
+svn checkout http://jaikuengine.googlecode.com/svn/trunk/ jaikuengine-read-only
 
-  svn co https://jaikuengine.googlecode.com/svn/trunk/ jaikuengine
+If you plan to make changes, use this command to check out the code as yourself using HTTPS:
+# Project members authenticate over HTTPS to allow committing changes.
+svn checkout https://jaikuengine.googlecode.com/svn/trunk/ jaikuengine --username adewale
+
+When prompted, enter your generated googlecode.com password.
 
 
 Dependencies
