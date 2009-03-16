@@ -902,6 +902,10 @@ class ApiUnitTestRemove(ApiUnitTest):
     self.assertTrue(got_entry)
     comments = api.entry_get_comments(actor, entry.key().name())
     self.assertEqual(len(comments), 1)
+    entry_and_comments = api.entry_get_comments_with_entry_uuid(actor,
+                                                                entry.uuid)
+    self.assertEqual(len(entry_and_comments), 1)
+    self.assertEqual(entry_and_comments.to_api()['entry']['uuid'], entry.uuid)
     return got_entry
 
   def _test_in_overview(self, stream, keyname, should_exist):

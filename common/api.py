@@ -1805,6 +1805,18 @@ def entry_get_comments(api_user, entry):
   comment_keys = [c.stream_entry_keyname() for c in query]
   return entry_get_entries(api_user, comment_keys)
 
+# Relies on ACLs on the called functions
+def entry_get_comments_with_entry_uuid(api_user, entry_uuid):
+  entry_ref = entry_get_uuid(api_user, entry_uuid)
+  if not entry_ref:
+    return None
+
+  query = InboxEntry.gql('WHERE inbox = :1 ORDER BY created_at',
+                         entry_ref.key().name() + '/comments')
+  comment_keys = [c.stream_entry_keyname() for c in query]
+  comments = entry_get_entries(api_user, comment_keys)
+  return ResultWrapper(comments, comments=comments, entry=entry_ref)
+
 def entry_get_entries(api_user, entries):
   """Turn a list of entry keys to a list of entries,
   maintaining the order.
@@ -2396,11 +2408,30 @@ def oauth_generate_access_token(api_user, consumer_key, request_token_key):
   token_ref.put()
   return token_ref
 
+@admin_required
+def oauth_get_root_consumer_access_token(api_user, nick):
+  query = OAuthAccessToken.gql('WHERE actor = :1 AND consumer = :2',
+                               nick, settings.ROOT_CONSUMER_KEY)
+  existing = query.get()
+  if existing:
+    return existing
+
+  params = {"key_": util.generate_uuid(),
+            "secret": util.generate_uuid(),
+            "consumer": settings.ROOT_CONSUMER_KEY,
+            "actor": nick,
+            "perms": "write",
+            }
+
+  token_ref = OAuthAccessToken(**params)
+  token_ref.put()
+  return token_ref
+
+
 @owner_required
 def oauth_generate_consumer(api_user, nick):
   nick = clean.nick(nick)
   # TODO(termie): not doing anything fancy yet, all keys are the same types
-
   # TODO(termie): validation
   #     not too many keys
   key_ = util.generate_uuid()
@@ -2536,7 +2567,7 @@ def post(api_user, _task_ref=None, **kw):
   generated = kw.get('generated', 0)
   uuid = kw.get('uuid', util.generate_uuid())
   nick = clean.nick(kw.get('nick', ''))
-
+  extra = {}
 
   channel_post_match = channel_post_re.search(message)
   if channel_post_match:
@@ -2546,6 +2577,7 @@ def post(api_user, _task_ref=None, **kw):
     new_kw = kw.copy()
     new_kw['channel'] = channel
     new_kw['message'] = message
+    new_kw['extra'] = extra
     return channel_post(api_user, **new_kw)
 
   if len(message) > MAX_POST_LENGTH:
@@ -2577,17 +2609,16 @@ def post(api_user, _task_ref=None, **kw):
   # we've decided this is a presence update
   stream_ref = stream_get_presence(api_user, nick)
   actor_ref = actor_get(api_user, nick)
+  extra['title'] = message
+  extra['location'] = location
+  extra['icon'] = icon
 
   values = {
     'stream': stream_ref.key().name(),
     'uuid': uuid,
     'owner': stream_ref.owner,
     'actor': actor_ref.nick,
-    'extra': {
-      'title': message,
-      'location': location,
-      'icon': icon,
-    }
+    'extra': extra
   }
 
   if settings.QUEUE_ENABLED:
@@ -3331,10 +3362,10 @@ def user_authenticate(api_user, nick, nonce, digest):
                                                  actor_ref.password))
 
   if digest == util.sha1(nonce + actor_ref.password):
-    return PrimitiveResultWrapper(True)
+    return oauth_get_root_consumer_access_token(api_user, nick)
   elif (settings.MANAGE_PY and
         digest == util.sha1(nonce + util.sha1(actor_ref.password))):
-    return PrimitiveResultWrapper(True)
+    return oauth_get_root_consumer_access_token(api_user, nick)
   else:
     return PrimitiveResultWrapper(False)
 
@@ -3355,23 +3386,23 @@ class PublicApi(object):
              "entry_get_actor_overview_since": entry_get_actor_overview_since,
              }
 
-  root_methods = {"post": post,
-                   "actor_add_contact": actor_add_contact,
-                   "actor_get": actor_get,
-                   "entry_add_comment": entry_add_comment,
-                   "entry_add_comment_with_entry_uuid":
-                       entry_add_comment_with_entry_uuid,
-                   "entry_get_actor_overview": entry_get_actor_overview,
-                   "entry_get_actor_overview_since": entry_get_actor_overview_since,
-                   "keyvalue_put": keyvalue_put,
-                   "keyvalue_get": keyvalue_get,
-                   "keyvalue_prefix_list": keyvalue_prefix_list,
-                   "presence_get": presence_get,
-                   "presence_set": presence_set,
-                   "presence_get_contacts": presence_get_contacts,
-                   "task_process_actor": task_process_actor,
-                   "user_authenticate": user_authenticate,
-                    }
+  # Private methods are externally accessible but whose design has not been
+  # finalized yet and may change in the future.
+  private_methods = {"entry_add_comment_with_entry_uuid":
+                         entry_add_comment_with_entry_uuid,
+                     "entry_get_comments_with_entry_uuid":
+                         entry_get_comments_with_entry_uuid,
+                     "keyvalue_put": keyvalue_put,
+                     "keyvalue_get": keyvalue_get,
+                     "keyvalue_prefix_list": keyvalue_prefix_list,
+                     "presence_get": presence_get,
+                     "presence_set": presence_set,
+                     "presence_get_contacts": presence_get_contacts,
+                     }
+
+  root_methods = {"user_authenticate": user_authenticate,
+                  "task_process_actor": task_process_actor
+                  }
 
 
   @classmethod
@@ -3380,6 +3411,8 @@ class PublicApi(object):
       return cls.root_methods[name]
     if name in cls.methods:
       return cls.methods[name]
+    if name in cls.private_methods:
+      return cls.private_methods[name]
     return None
 
 class ResultWrapper(object):
