@@ -1637,7 +1637,6 @@ def email_send(api_user, email, subject, message, on_behalf=None, html_message=N
 #######
 #######
 
-@throttled(minute=10, hour=100, day=500, month=3000)
 @write_required
 @owner_required
 @public_owner_or_contact_by_entry
