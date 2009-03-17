@@ -1,11 +1,12 @@
 {% load nonce %}
+{% load presence %}
 
 {% if is_owner or presence %}
 <div class='location'>
   <h2>Location</h2>
   {% if presence and presence.extra.location %}
     <p>
-      <span id='current-location'>{{presence.extra.location|escape}}</span>
+      <span id='current-location'>{{presence.extra.location|location}}</span>
       {% if is_owner %}
         | 
         <a href='#form-location' id='set-location'>Change</a>
@@ -21,7 +22,7 @@
     <form action='' id='form-location' method='post'>
       <div>
         <input type='text' name='location' id='loc' 
-               value='{{presence.extra.location|escape}}'/>
+               value='{{presence.extra.location|location}}'/>
       </div>
       <div class='buttons'>
         {{request.user|noncefield:"presence_set"}}

@@ -68,6 +68,8 @@ def _to_api(v):
     v = v.to_api()
   elif isinstance(v, type([])):
     v = [_to_api(x) for x in v]
+  elif isinstance(v, type({})):
+    v = dict([(key, _to_api(value)) for (key, value) in v.iteritems()])
   elif isinstance(v, datetime.datetime):
     v = str(v)
   return v

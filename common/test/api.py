@@ -1038,11 +1038,17 @@ class ApiUnitTestPresence(ApiUnitTest):
   def test_set_and_get(self):
     timestamp = datetime.datetime.utcnow()
     presence = self._set(self.public_actor, self.public_actor.nick,
-                         timestamp, '')
+                         timestamp, 'pl1')
     got_presence = api.presence_get(self.public_actor, self.public_actor.nick)
     self.assertTrue(got_presence)
     self.assertEqual(got_presence.updated_at, timestamp)
     self.assertEqual(got_presence, presence)
+    api.presence_set(self.public_actor, self.public_actor.nick,
+                     location = 'loc1')
+    # test previous fields are kept unless overridden
+    got_presence = api.presence_get(self.public_actor, self.public_actor.nick)
+    self.assertEqual(got_presence.extra['status'], 'pl1')
+    self.assertEqual(got_presence.extra['location'], 'loc1')
 
   def test_history(self):
     timestamp1 = datetime.datetime(2007, 01, 01, 02, 03, 04, 5)

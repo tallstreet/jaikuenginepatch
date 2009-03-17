@@ -2721,9 +2721,12 @@ def presence_set(api_user, nick, **kw):
   nick = clean.nick(nick)
   updated_at  = utcnow()
   uuid = kw.pop('uuid', util.generate_uuid())
+  previous_presence = presence_get(api_user, nick)
 
-  # TODO(tyler): Clean this so an API call doesn't fill the DB.
-  extra = kw
+  extra = {}
+  if previous_presence:
+    extra = previous_presence.extra
+  extra.update(kw)
 
   validate.user_nick(nick)
   validate.presence_extra(extra)
@@ -2734,6 +2737,7 @@ def presence_set(api_user, nick, **kw):
             'key_name': 'presence/%s/current' % nick}
   presence = Presence(**params)
   presence.put()
+  # TODO(tyler): Clean this so an API call doesn't fill the DB.
   params['key_name'] = 'presence/%s/history/%s' % (nick, updated_at)
   presence_history = Presence(**params)
   presence_history.put()
@@ -3773,6 +3777,13 @@ def _add_entry(new_stream_ref, new_values, entry_ref=None):
         topic=entry_ref.keyname(),
         target='inbox/%s/overview' % new_entry_ref.actor
         )
+  else:
+    if not new_entry_ref.is_channel():
+      presence_set(ROOT,
+                   new_entry_ref.actor,
+                   presenceline={
+                     'description': new_entry_ref.extra['title'],
+                     'since': new_entry_ref.created_at})
 
   return new_entry_ref
 
