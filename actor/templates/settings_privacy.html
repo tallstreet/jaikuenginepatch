@@ -11,7 +11,7 @@
   <input type="hidden" name="settings_change_privacy" />
   <input type="hidden" name="nick" value="{{request.user.nick}}" />
   <div>
-    <label for="public">Make My Posts Public</label>
+    <label for="public">Make My {{POST_NAME}}s Public</label>
     <input type="radio" id="public" name="privacy"
            value={{PRIVACY_PUBLIC}}
            {% ifequal view.privacy PRIVACY_PUBLIC %}
@@ -19,7 +19,7 @@
            {% endifequal %}/>
   </div>
   <div>
-    <label for="contacts">Only Show My Posts To My Contacts</label>
+    <label for="contacts">Only Show My {{POST_NAME}}s To My Contacts</label>
     <input type="radio" id="contacts" name="privacy"
            value={{PRIVACY_CONTACTS}}
            {% ifequal view.privacy PRIVACY_CONTACTS %}

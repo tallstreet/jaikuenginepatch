@@ -1,6 +1,6 @@
 {% load json %}
 { 
-  "title": "{{SITE_NAME}} | Latest Public Posts",
+  "title": "{{SITE_NAME}} | Latest Public {{POST_NAME}}s",
   "url": "/explore",
   "stream": {% include 'common/templates/stream.json' %}
 }

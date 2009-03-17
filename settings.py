@@ -132,6 +132,9 @@ MANAGE_PY = os.path.exists('manage.py')
 SITE_NAME = 'My-ku'
 SUPPORT_CHANNEL = 'support'
 
+# This is the colloquial name for an entry, mostly used for branding purposes
+POST_NAME = 'Post'
+
 # This is the name of the root user of the site
 ROOT_NICK = 'root@example.com'
 

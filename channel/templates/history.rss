@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:jaiku="http://jaiku.com/ns">
   <channel>
-    <title>{{SITE_NAME}} | Posts from {{view.display_nick}}</title>
+    <title>{{SITE_NAME}} | {{POST_NAME}}s from {{view.display_nick}}</title>
     <link>{{view.url}}</link>
-    <description>Posts from {{view.display_nick}}</description>
+    <description>{{POST_NAME}}s from {{view.display_nick}}</description>
     <language>en</language>
     <copyright>Copyright 2009 {{SITE_NAME}}</copyright>
     {% with entries|first as first_entry %} 

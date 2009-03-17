@@ -1,6 +1,6 @@
 {% load json %}
 { 
-  "title": {% filter escapejson %}{{SITE_NAME}} | Posts from {{view.display_nick}}{% endfilter %},
+  "title": {% filter escapejson %}{{SITE_NAME}} | {{POST_NAME}}s from {{view.display_nick}}{% endfilter %},
   "url": {{view.url|escapejson}},
   "contacts": {% filter escapejson %}{{view.url}}/contacts{% endfilter %},
   {% with view as actor_ref %}

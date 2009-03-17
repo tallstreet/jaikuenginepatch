@@ -2,9 +2,9 @@
 {% load nonce avatar vcard actor %}
 {% block title %}
   {% ifequal request.user.nick view.nick %}
-  Your Posts
+  Your {{POST_NAME}}s
   {% else %}
-  Posts from {{ view.display_nick }}
+  {{POST_NAME}}s from {{ view.display_nick }}
   {% endifequal %}
 {% endblock %}
 
@@ -42,15 +42,15 @@
     <a href="{{view.url}}/overview">Overview</a>
   </li>
   <li class="current">
-    <a href="{{view.url}}">Your Posts</a>
+  <a href="{{view.url}}">Your {{POST_NAME}}s</a>
   </li>
 </ul>
 {% endifequal %}
 
 {% ifequal request.user.nick view.nick %}
-<h2>Your Posts</h2>
+<h2>Your {{POST_NAME}}s</h2>
 {% else %}
-<h2>Posts from {{ view.display_nick }}</h2>
+<h2>{{POST_NAME}}s from {{ view.display_nick }}</h2>
 {% endifequal %}
 
 

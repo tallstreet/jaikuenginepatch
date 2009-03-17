@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0" xmlns:jaiku="http://jaiku.com/ns">
   <channel>
-    <title>{{SITE_NAME}} | Latest Public Posts</title>
+    <title>{{SITE_NAME}} | Latest Public {{POST_NAME}}s</title>
     <link>http://{{DOMAIN}}/explore</link>
-    <description>Latest Public Posts</description>
+    <description>Latest Public {{POST_NAME}}s</description>
     <language>en</language>
     <copyright>Copyright 2009 {{SITE_NAME}}</copyright>
     {% with entries|first as first_entry %} 

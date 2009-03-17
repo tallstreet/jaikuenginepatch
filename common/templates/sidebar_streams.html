@@ -21,7 +21,7 @@
           <a href="{{stream.extra.display_url|escape}}">{{stream.title}}</a>
         {% else %}
           {% ifequal stream.title "presence" %}
-            Posts from {{stream.owner_ref.display_nick}}
+          {{POST_NAME}}s from {{stream.owner_ref.display_nick}}
           {% else %}
             {% ifequal stream.title "comments" %}
               Comments from {{stream.owner_ref.display_nick}}

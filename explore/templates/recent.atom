@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <title>{{SITE_NAME}} | Latest Public Posts</title>
+    <title>{{SITE_NAME}} | Latest Public {{POST_NAME}}s</title>
     <link rel="alternate" href="/explore"/>
     <link rel="self" href="/explore/atom"/>
     {% with entries|first as first_entry %} 
