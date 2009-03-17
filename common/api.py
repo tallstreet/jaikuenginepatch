@@ -2568,6 +2568,11 @@ def post(api_user, _task_ref=None, **kw):
   uuid = kw.get('uuid', util.generate_uuid())
   nick = clean.nick(kw.get('nick', ''))
   extra = {}
+  # Thumbnails are not yet shown on the site but are supported by the mobile
+  # client.
+  thumbnail_url = kw.get('thumbnail_url', None)
+  if thumbnail_url:
+    extra['thumbnail_url'] = clean.url(thumbnail_url)
 
   channel_post_match = channel_post_re.search(message)
   if channel_post_match:

@@ -736,6 +736,12 @@ class ApiUnitTestSubscriptions(ApiUnitTest):
       elif sub.state == 'subscribed':
         self.assertEqual(overview_inbox[0], entry_key)
 
+    # thumbnail_url
+    entry_ref = api.post(public_actor,
+                         nick=public_actor.nick,
+                         message=test_message,
+                         thumbnail_url='http://flickr.com/')
+    self.assertEqual(entry_ref.extra['thumbnail_url'], 'http://flickr.com/')
     pass
 
   def test_post_channel(self):
