@@ -4460,13 +4460,15 @@ def reply_get_cache(sender, target, service=''):
 
 
   entry_ref = None
-  memcache_key = _reply_cache_key(sender, target, service=service)
+  sender_ref = actor_lookup_nick(ROOT, sender)
+  target_ref = actor_lookup_nick(ROOT, target)
+  memcache_key = _reply_cache_key(sender_ref.nick, 
+                                  target_ref.nick, 
+                                  service=service)
   stream_key = memcache.client.get(memcache_key)
   if stream_key:
     entry_ref = entry_get(ROOT, stream_key)
   if not entry_ref:
-    sender_ref = actor_get(ROOT, sender)
-    target_ref = actor_get(ROOT, target)
     # TODO(termie): should work for non-public users too
     inbox = inbox_get_actor_public(sender_ref, 
                                    target_ref.nick, 
