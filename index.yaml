@@ -127,3 +127,9 @@ indexes:
   properties:
   - name: topic
   - name: target
+
+# Unused in query history -- copied from input.
+- kind: KeyValue
+  properties:
+  - name: actor
+  - name: keyname
