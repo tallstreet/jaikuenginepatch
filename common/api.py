@@ -2165,7 +2165,7 @@ def inbox_get_entries_since(api_user, inbox, limit=30, since_time=None,
   return [x.stream_entry_keyname() for x in results]
 
 def inbox_get_explore(api_user, limit=30, offset=None):
-  inbox = 'inbox/root@example.com/explore'
+  inbox = 'inbox/%s/explore' % ROOT.nick
   return inbox_get_entries(api_user, inbox, limit, offset)
 
 #######
@@ -4224,7 +4224,7 @@ def _subscribers_for_entry(stream_ref, entry_ref):
 
   # the explore page if this isn't a comment
   if stream_ref.type != 'comment' and not stream_ref.owner.startswith('#'):
-    subscribers.append('inbox/root@example.com/explore')
+    subscribers.append('inbox/%s/explore' % ROOT.nick)
 
   # the views of the entry owner
   if stream_ref.read > PRIVACY_CONTACTS:
