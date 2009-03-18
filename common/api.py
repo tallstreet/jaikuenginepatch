@@ -2285,7 +2285,7 @@ def login_forgot(api_user, nick_or_email):
   
   # Inform the user about their thoughtlessness.
   (subject, message, html_message) = mail.email_lost_password(actor_ref, email, code)
-  mail.send(email, subject, message, html_message)
+  mail.send(email, subject, message, html_message=html_message)
 
 def login_reset(api_user, email, hash):
   actor_ref = actor_lookup_email(ROOT, email)
