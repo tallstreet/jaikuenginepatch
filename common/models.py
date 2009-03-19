@@ -149,6 +149,8 @@ class CachingModel(ApiMixinModel):
   @classmethod
   @profile.log_call('threadlocal_cached_read')
   def get_by_key_name(cls, key_names, parent=None):
+    if not key_names:
+      return
     # Only caches when called with a single key
     if CachingModel._cache_enabled and (
           isinstance(key_names, str) or isinstance(key_names, unicode)):
