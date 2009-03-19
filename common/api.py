@@ -3709,6 +3709,7 @@ def _process_new_entry_with_progress(task_ref, actor_ref, new_stream_ref,
         follower_inboxes = initial_inboxes + follower_inboxes
  
     # Back to things that happen regardless of notification type
+    last_inbox = None
     if follower_inboxes:
       last_inbox = follower_inboxes[-1]
 
