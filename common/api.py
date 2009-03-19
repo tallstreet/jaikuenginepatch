@@ -2696,15 +2696,21 @@ def presence_get_actors(api_user, nicks):
   return ResultWrapper(o, actors=o)
 
 @owner_required
-def presence_get_contacts(api_user, nick, since_time=None):
+def presence_get_contacts(api_user, nick, since_time=None, limit=200):
   """returns the presence for the given actor's contacts"""
   nick = clean.nick(nick)
+  limit = clean.limit(limit, 200)
   if since_time:
     since_time = clean.datetime(since_time)
-  contacts = actor_get_contacts(api_user, nick)
+  o = []
+  # This isn't really general-purpose as it will limit us to as many contacts
+  # as can be fetched in one go.
+  # TODO(mikie): make this api paged.
+  # The reason we still want it is that the mobile client wants as much
+  # presence as possible but can't handle more than 200 contacts anyway.
+  contacts = actor_get_contacts(api_user, nick, limit=limit)
   contacts.append(nick)
   presences = presence_get_actors(api_user, contacts)
-  o = []
   for nick, presence in presences.items():
     if presence:
       if not since_time or presence.updated_at > since_time:

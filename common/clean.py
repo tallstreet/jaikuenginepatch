@@ -172,14 +172,14 @@ def url(value, message='Invalid url'):
 
   return value
 
-def limit(value):
+def limit(value, max=100):
   try:
     value = int(value)
   except:
     value = 100
 
-  if value > 100:
-    value = 100
+  if value > max:
+    value = max
 
   if value < 1:
     value = 1
