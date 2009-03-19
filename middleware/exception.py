@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import logging
+import traceback
 
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.conf import settings
@@ -23,14 +24,14 @@ from common import util
 
 class ExceptionMiddleware(object):
   def process_exception(self, request, exc):
-    if settings.DEBUG:
-      import traceback
-      logging.error("Error: %s", traceback.format_exc())
     if isinstance(exc, exception.RedirectException):
       url = exc.build_url(request)
       return HttpResponseRedirect(url)
     if isinstance(exc, exception.Error):
+      logging.warning("RedirectError: %s", traceback.format_exc())
       return util.RedirectError(exc.message)
+    if not isinstance(exc, Http404):
+      logging.error("5xx: %s", traceback.format_exc())
     if settings.DEBUG and not isinstance(exc, Http404):
       # fake out the technical_500_response because app engine
       # is annoying when it tries to rollback our stuff on 500
