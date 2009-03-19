@@ -3628,7 +3628,7 @@ def _process_new_entry_with_progress(task_ref, actor_ref, new_stream_ref,
                                   new_entry_ref)
     
     # if that was all of them, bump us up to notifications stage
-    if more:
+    if more and last_inbox:
       next_progress = 'inboxes:%s' % last_inbox
     else:
       next_progress = 'notifications:'
@@ -3715,7 +3715,7 @@ def _process_new_entry_with_progress(task_ref, actor_ref, new_stream_ref,
     # We update the task first so that we don't accidentally send duplicate
     # notifications, it's not ideal but best we can do for now
     if more or next_notification_type:
-      if more:
+      if more and last_inbox:
         next_progress = 'notifications:%s:%s' % (notification_type,
                                                  last_inbox)
       else:
