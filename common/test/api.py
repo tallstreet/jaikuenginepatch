@@ -756,6 +756,8 @@ class ApiUnitTestSubscriptions(ApiUnitTest):
     """ test that commentors are subscribed to further comments on posts
     they have commented on
     """
+    popular_ref = api.actor_get(api.ROOT, 'popular')
+    celebrity_ref = api.actor_get(api.ROOT, 'celebrity')
     unpopular_ref = api.actor_get(api.ROOT, 'unpopular')
     hermit_ref = api.actor_get(api.ROOT, 'hermit')
     
@@ -801,6 +803,13 @@ class ApiUnitTestSubscriptions(ApiUnitTest):
 
     unpopular_inbox = api.inbox_get_actor_overview(unpopular_ref, unpopular_ref.nick)
     self.assertEqual(unpopular_inbox[0], comment_third_ref.keyname())
+    # Should see them via the post
+    comments = api.entry_get_comments(unpopular_ref, entry_ref.keyname())
+    self.assertEqual(3, len(comments))
+    comments = api.entry_get_comments(popular_ref, entry_ref.keyname())
+    self.assertEqual(3, len(comments))
+    comments = api.entry_get_comments(celebrity_ref, entry_ref.keyname())
+    self.assertEqual(3, len(comments))
 
     # test commenting via entry's uuid, unpopular should see
     comment_fourth_ref = api.entry_add_comment_with_entry_uuid(

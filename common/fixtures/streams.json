@@ -152,9 +152,9 @@
   "model": "common.stream",
   "fields": {"title": "hermit's comments",
              "owner": "hermit@example.com",
-             "type": "comment",
+             "type": "comments",
              "slug": "comments",
-             "read": 1,
+             "read": 2,
              "write": 1
              }
   },

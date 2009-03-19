@@ -270,7 +270,9 @@ def actor_can_view_stream(actor_ref, stream_ref):
   # on the privacy of the entries they are on
   # this allows anybody to see that the comments stream exists while giving
   # no specific access to any actual comments held therein
-  if stream_ref.type == 'comment':
+  # unfortunately some of the imported data has type == 'comment' and some
+  # type == 'comments'.
+  if stream_ref.type == 'comment' or stream_ref.type == 'comments':
     return True
 
   return False
