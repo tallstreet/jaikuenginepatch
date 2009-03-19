@@ -2661,6 +2661,19 @@ def presence_get(api_user, nick, at_time = None):
     # Get current presence
     key_name = 'presence/%s/current' % nick
     presence = Presence.get_by_key_name(key_name)
+    if not presence:
+      # We did not always create presence from posts
+      presence_stream = stream_get_presence(api_user, nick)
+      latest_post = StreamEntry.gql(
+          'WHERE stream = :1 ORDER BY created_at DESC',
+          presence_stream.key().name()).get()
+      if latest_post:
+        presence = Presence(actor=nick,
+                            uuid=latest_post.uuid,
+                            updated_at=latest_post.created_at,
+                            extra={'presenceline': {
+                                'description': latest_post.extra['title'],
+                                'since': latest_post.created_at}})
   else:
     presence = Presence.gql(
         u"WHERE actor = :1 AND updated_at <= :2 ORDER BY updated_at DESC",
