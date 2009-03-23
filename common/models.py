@@ -533,7 +533,7 @@ class StreamEntry(DeletedMarkerModel):
     return self.key().name()
 
   def title(self):
-    return self.extra.get('title', 'entry %s' % self.uuid)
+    return self.extra.get('title', self.extra.get('content'))
 
   def is_comment(self):
     return (self.entry != None)
