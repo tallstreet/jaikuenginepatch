@@ -37,9 +37,9 @@ Quickstart
    
    2. Run the server with some test data pre-loaded:
 
-      ``./bin/testserver.sh``
+      ``python manage.py testserver common/fixtures/*.json``
    
-   3. Browse to localhost:8000 and log in with popular/password
+   3. Browse to localhost:8080 and log in with popular/password
 
 Getting Running
 ---------------
@@ -54,13 +54,13 @@ To run the development server::
 But most of the time you'll be wanting to load some basic test data, this can
 be done with the testserver command (and specifying the data to load)::
 
-  ./bin/testserver.sh
+  ``python manage.py testserver common/fixtures/*.json``
 
-Both of these will start a server running at http://localhost:8000.  
+Both of these will start a server running at http://localhost:8080.  
 
 If you would like to start a server that binds to all interfaces, use::
 
-  python manage.py runserver 0.0.0.0:8000
+  python manage.py runserver 0.0.0.0:8080
 
 
 Contributing to the project

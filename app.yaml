@@ -1,4 +1,4 @@
-application: "jaiku"
+application: "jaikuengine"
 version: 1
 runtime: python
 api_version: 1
@@ -14,7 +14,6 @@ skip_files: |
  (.*/RCS/.*)|
  (\..*)|
  (manage.py)|
- (google_appengine.*)|
  (simplejson/.*)|
  (gdata/.*)|
  (atom/.*)|
@@ -34,7 +33,8 @@ skip_files: |
  (wsgiref/.*)|
  (elementtree/.*)|
  (doc/.*)|
- (profiling/.*)
+ (profiling/.*)|
+ (vendor/.*)
  )$
 
 default_expiration: "1d"

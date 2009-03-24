@@ -18,7 +18,23 @@ import logging
 import os
 import sys
 
+logging.getLogger().setLevel(logging.INFO)
+
+import build
+build.bootstrap(only_check_for_zips=True)
+
+for x in os.listdir('.'):
+  if x.endswith('.zip'):
+    if x in sys.path:
+      continue
+    logging.debug("Adding %s to the sys.path", x)
+    sys.path.append(x)
+
 from appengine_django import InstallAppengineHelperForDjango
+
+# TODO(termie): remove this when no longer needed
+build.monkey_patch_skipped_files()
+
 InstallAppengineHelperForDjango()
 
 from common import component

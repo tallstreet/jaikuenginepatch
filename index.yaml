@@ -52,6 +52,12 @@ indexes:
     direction: desc
 
 # Unused in query history -- copied from input.
+- kind: KeyValue
+  properties:
+  - name: actor
+  - name: keyname
+
+# Unused in query history -- copied from input.
 - kind: OAuthAccessToken
   properties:
   - name: actor
@@ -127,9 +133,3 @@ indexes:
   properties:
   - name: topic
   - name: target
-
-# Unused in query history -- copied from input.
-- kind: KeyValue
-  properties:
-  - name: actor
-  - name: keyname
