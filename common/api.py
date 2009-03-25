@@ -2291,6 +2291,18 @@ def login_forgot(api_user, nick_or_email):
 
 def login_reset(api_user, email, hash):
   actor_ref = actor_lookup_email(ROOT, email)
+
+  # Is it an unconfirmed email, and does it map to exactly one user?
+  if not actor_ref:
+    activations = activation_get_by_email(ROOT, email)
+    if not activations:
+      raise exception.ApiException(
+          0x00, 'Email does not match any accounts')
+    if len(activations) != 1:
+      raise exception.ApiException(
+          0x00, 'Email matches more than one account')
+    actor_ref = actor_get(ROOT, activations[0].actor)
+
   if not actor_ref:
     raise exception.ApiException(
         0x00, 'This email alias doesn\'t match a user.')
