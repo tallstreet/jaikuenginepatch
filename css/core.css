@@ -1935,6 +1935,10 @@ div#form-message p#counter {
     float: right;
 }
 
+div#form-message p#counter.overlimit {
+    color: #444;
+}
+
 div#form-message p label {
     display: none;
 }

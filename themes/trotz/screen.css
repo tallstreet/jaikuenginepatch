@@ -23,6 +23,10 @@ div#content div.main {
     background: #212121 url(bg-main.gif) repeat-x 0% 0%;
 }
 
+div#form-message p#counter.overlimit {
+    color: #f27ee0;
+}
+
 /* wide content */
 /* TODO(termie): these images don't exist yet */
 div.wide div#content {

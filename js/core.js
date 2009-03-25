@@ -86,14 +86,32 @@ var counter = {
   count: function () {
     var value = counter.el.value;
     var count = value.length;
-    if (140 - count > 1) {
-      str = (140 - count) + " characters left";
-    }
-    else if (140 - count > 0) {
-      str = "1 character left";
-    }
-    else {
-      str = "No characters left";
+    chars_left = 140 - count;
+    if (chars_left >= 0) {
+      if ($(counter.target.parentNode).is('.overlimit')) {
+        $(counter.target.parentNode).removeClass("overlimit");
+      }
+
+      if (chars_left > 1) {
+        str = (chars_left) + " characters left";
+      }
+      else if (chars_left > 0) {
+        str = "1 character left";
+      }
+      else {
+        str = "No characters left";
+      }
+    } else {
+      if (!$(counter.target.parentNode).is('.overlimit')) {
+        $(counter.target.parentNode).addClass("overlimit");
+      }
+
+      if (chars_left < -1) {
+        str = -chars_left + " characters over limit";
+      }
+      else {
+        str = "1 character over limit";
+      }
     }
     var ok = (count > 0 && count < 141) && (value.replace(counter.re,"") != counter.el._value);
     counter.button.disabled = !ok;
