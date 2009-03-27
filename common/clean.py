@@ -193,16 +193,16 @@ def redirect_to(value):
   if '\n' in value or '\r' in value:
     return '/'
 
-  parts = urlparse.urlparse(
-      value.lower().replace('\n', '').replace('\r', ''))
+  scheme, netloc, path, params, query, fragment = urlparse.urlparse(
+      value.lower())
 
-  if not parts.scheme and not parts.netloc and parts.path:
+  if not scheme and not netloc and path:
     # Check for a relative URL, which is fine
     return value
-  elif parts.scheme in ('http', 'https'):
-    if (parts.netloc.endswith(settings.HOSTED_DOMAIN) or
-        parts.netloc.endswith(settings.GAE_DOMAIN)):
-      if parts.netloc.find('/') == -1:
+  elif scheme in ('http', 'https'):
+    if (netloc.endswith(settings.HOSTED_DOMAIN) or
+        netloc.endswith(settings.GAE_DOMAIN)):
+      if netloc.find('/') == -1:
         return value
 
   # URL does not match whitelist

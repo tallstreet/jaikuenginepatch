@@ -14,6 +14,7 @@
 # limitations under the License.
 
 from django import test
+from django.conf import settings
 
 from common import clean
 from common import exception
@@ -145,3 +146,26 @@ class CleanNickTest(CleanTest):
   bad_data = (CleanChannelTest.bad_data)
 
   cleaner = staticmethod(clean.nick)
+
+class CleanRedirectToTest(CleanTest):
+  normalize_data = [
+      ('http://www.gogle.com', '/'),
+      ('https://www.gogle.com', '/'),
+      ('foo\nbar', '/'),
+      ('foo\rbar', '/'),
+      ('ftp://' + settings.HOSTED_DOMAIN, '/'),
+      (settings.HOSTED_DOMAIN, 'http://' + settings.HOSTED_DOMAIN),
+      ]
+  good_data = [
+      '/relative_url',
+      'http://' + settings.HOSTED_DOMAIN,
+      'http://foo.' + settings.HOSTED_DOMAIN,
+      'https://' + settings.HOSTED_DOMAIN,
+      'https://foo.' + settings.HOSTED_DOMAIN,
+      'http://' + settings.GAE_DOMAIN,
+      'http://foo.' + settings.GAE_DOMAIN,
+      'https://' + settings.GAE_DOMAIN,
+      'https://foo.' + settings.GAE_DOMAIN,
+      ]
+
+  cleaner = staticmethod(clean.redirect_to)
