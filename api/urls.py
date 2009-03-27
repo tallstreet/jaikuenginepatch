@@ -15,9 +15,9 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
-    (r'^$', 
-      'django.views.generic.simple.redirect_to',
-     {'url': '/docs'}),           
+    (r'^$',
+        'django.views.generic.simple.redirect_to',
+        {'url': '/docs'}),
     (r'^keys$', 'api.views.api_keys'),
     (r'^keys/(?P<consumer_key>\w+)$', 'api.views.api_key'),
     (r'^key$', 'api.views.api_key_legacy'),
@@ -32,7 +32,7 @@ urlpatterns = patterns('',
     (r'^access_token', 'api.views.api_access_token'),
     (r'^sms_receive/(?P<vendor_secret>.*)$', 'api.views.api_vendor_sms_receive'),
     (r'^process_queue$', 'api.views.api_vendor_queue_process'),
-    
+    (r'^xmlrpc', 'api.views.api_xmlrpc'),
 )
 
 

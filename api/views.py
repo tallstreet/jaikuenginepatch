@@ -26,6 +26,7 @@ import simplejson
 
 from google.appengine.ext import db
 
+from api import xmlrpc
 from common import api
 from common import decorator
 from common import exception
@@ -41,6 +42,8 @@ from common import views as common_views
 from common.protocol import xmpp
 from common.protocol import sms as sms_protocol
 
+
+_XML_RPC_DISPATCHER = xmlrpc.XmlRpcDispatcher(api.PublicApi.methods)
 
 @decorator.login_required
 def api_keys(request):
@@ -306,6 +309,9 @@ def api_call(request, format="json"):
 
   # some error happened
   return render_api_response(request.errors[0], format)
+
+def api_xmlrpc(request):
+  return _XML_RPC_DISPATCHER.dispatch(request)
 
 
 @decorator.debug_only

@@ -111,12 +111,15 @@ def handle_fetch_access_token(request):
 
 def verify_request(request):
   oauth_request = oauth_request_from_django_request(request)
+  verify_oauth_request(oauth_request)
+
+def verify_oauth_request(oauth_request):
   oauth_server = build_oauth_server()
   oauth_server.verify_request(oauth_request)
 
   # TODO mark that verification has occurred
   # request.oauth_verified = True
-  
+
 def get_api_user(request):
   # XXX WARNING: this function expects that the validity of the request
   #              has already been validated and will provide root access
@@ -125,6 +128,9 @@ def get_api_user(request):
   # TODO ensure verification has occurred
   # assert request.oauth_verified
   oauth_request = oauth_request_from_django_request(request)
+  return get_api_user_from_oauth_request(oauth_request)
+
+def get_api_user_from_oauth_request(oauth_request):
   oauth_token = oauth_request.get_parameter('oauth_token')
   oauth_consumer = oauth_request.get_parameter('oauth_consumer_key')
   
@@ -141,9 +147,22 @@ def get_api_user(request):
 
 def get_method_kwargs(request):
   args = util.query_dict_to_keywords(request.REQUEST)
-  return dict([(k, v) 
-               for k, v in args.iteritems() 
+  return get_non_oauth_params(args)
+
+def get_oauth_params(parameters):
+  """Returns oauth parameters from a dictionary of (name, value) parameters
+  """
+  return dict([(k, v)
+               for k, v in parameters.iteritems()
+               if k.startswith('oauth')])
+
+def get_non_oauth_params(parameters):
+  """Returns non-oauth parameters from a dictionary of (name, value) parameters
+  """
+  return dict([(k, v)
+               for k, v in parameters.iteritems()
                if not k.startswith('oauth')])
+
 
 def fetch_request_token(request, consumer, url, parameters=None, 
                         sig_method=None):

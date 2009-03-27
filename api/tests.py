@@ -13,19 +13,21 @@
 # limitations under the License.
 
 import logging
+import xmlrpclib
 from oauth import oauth
 
 from django.conf import settings
 
+from api import xmlrpc
 from common import api
 from common import clean
+from common import oauth_util
 from common import profile
 from common import util
 from common.protocol import xmpp
 from common.protocol import sms
 from common.test import base
 from common.test import util as test_util
-
 
 class ImTestCase(base.ViewTestCase):
   endpoint = '/_ah/xmpp/message'
@@ -292,16 +294,67 @@ class SmsTestCase(base.ViewTestCase):
     )
     return r
 
+
 class SmsPostTest(SmsTestCase):
-  
   def test_post_signed_in(self):
-  
     message = "test post"
     r = self.sign_in(self.popular, 'popular')
     r = self.send(self.popular, message)
 
     self.exhaust_queue_any()
-    
+
     inbox = api.inbox_get_actor_overview(api.ROOT, 'popular@example.com')
     entry_ref = api.entry_get(api.ROOT, inbox[0])
     self.assertEqual(entry_ref.title(), message)
+
+
+class XmlRpcTest(base.FixturesTestCase):
+  def oauth_request(self):
+    consumer = oauth.OAuthConsumer('TESTDESKTOPCONSUMER', 'secret')
+    access_token = oauth.OAuthToken('POPULARDESKTOPACCESSTOKEN', 'secret')
+
+    request = oauth.OAuthRequest.from_consumer_and_token(
+        oauth_consumer=consumer,
+        token=access_token,
+        http_url=xmlrpc.URL,
+        http_method='POST')
+    request.sign_request(oauth_util.HMAC_SHA1, consumer, access_token)
+    return request
+
+  def test_xmlrpc(self):
+    oauth_request = self.oauth_request()
+    params = dict(oauth_request.parameters)
+    params['nick'] = 'popular'
+    xml = xmlrpclib.dumps((params,), 'actor_get')
+    response = self.client.post('/api/xmlrpc', xml, 'text/xml')
+    rv = xmlrpclib.loads(response.content)
+    expected = {
+        'actor': {'avatar_updated_at': '2009-01-01 00:00:00',
+                  'extra': {'follower_count': 4,
+                            'contact_count': 2,
+                            'icon': 'default/animal_3'},
+                  'privacy': 3,
+                  'nick': 'popular@example.com',
+                  'deleted_at': None,
+                  'type': 'user' }
+        }
+    self.assertEquals(expected, rv[0][0])
+
+  def test_xmlrpc_bad_auth(self):
+    oauth_request = self.oauth_request()
+    params = dict(oauth_request.parameters)
+    params['nick'] = 'popular'
+    params['oauth_key'] = 'INVALID OAUTH KEY!'
+    xml = xmlrpclib.dumps((params,), 'actor_get')
+    response = self.client.post('/api/xmlrpc', xml, 'text/xml')
+    self.assertContains(response, 'Invalid signature')
+
+  def test_xmlrpc_no_auth(self):
+    params = {'nick' : 'popular'}
+    xml = xmlrpclib.dumps((params,), 'actor_get')
+    response = self.client.post('/api/xmlrpc', xml, 'text/xml')
+    self.assertContains(response, 'Parameter not found')
+
+  def test_get_request(self):
+    response = self.client.get('/api/xmlrpc')
+    self.assertContains(response, 'XML-RPC message must be an HTTP-POST request')
