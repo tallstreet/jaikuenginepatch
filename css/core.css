@@ -2392,6 +2392,7 @@ div.paging a {
 div.paging a:hover {
     text-decoration: underline;
     background: transparent;
+    color: #009bc7;
 }
 
 /* --- Comments --------------------------------------- */
