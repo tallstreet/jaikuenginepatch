@@ -15,9 +15,11 @@
     <li>
     <a href="{{view.url}}/followers">{{whose}} followers</a>
     </li>
+    {% if request.user %}
     <li>
     <a href="{{view.url}}/invite">Invite friends</a>
     </li>
+    {% endif %}
   </ul>
 </div>
 

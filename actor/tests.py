@@ -342,6 +342,15 @@ class ContactsTest(ViewTestCase):
     r = self.client.get('/user/popular/contacts')
     self.assertContains(r, 'class="remove', 3)
 
+  def test_invite_friends_link_presence(self):
+    r = self.client.get('/user/popular/contacts')
+    self.assertNotContains(r, 'Invite friends')
+    r = self.login_and_get('popular', '/user/popular/contacts')
+    self.assertContains(r, 'Invite friends')
+    self.logout()
+    r = self.client.get('/user/popular/contacts')
+    self.assertNotContains(r, 'Invite friends')
+
   def test_email_notification(self):
     # new follower
 
