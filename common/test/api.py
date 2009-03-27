@@ -1243,6 +1243,44 @@ class ApiUnitTestPost(ApiUnitTest):
     self.assertEqual(entry_ref.stream, 'stream/popular@example.com/presence')
     self.assertEqual(entry_ref.extra['title'], expected)
 
+
+class ApiUnitTestSpam(ApiUnitTest):
+
+  def setUp(self):
+    self.popular_ref = api.actor_get(api.ROOT, self.popular_nick)
+    self.unpopular_ref = api.actor_get(api.ROOT, self.unpopular_nick)
+    self.celebrity_ref = api.actor_get(api.ROOT, self.celebrity_nick)
+    self.entry_ref = api.post(self.popular_ref,
+                              nick=self.popular_nick,
+                              message='foo')
+
+  def test_entry_mark_as_spam_single_user(self):
+    abuse_ref = api.entry_mark_as_spam(self.unpopular_ref,
+                                       self.entry_ref.keyname())
+    self.assertEqual(abuse_ref.entry, self.entry_ref.keyname())
+    self.assertEqual(abuse_ref.actor, self.popular_nick)
+    self.assertEqual(abuse_ref.reports, [self.unpopular_nick])
+    self.assertEqual(abuse_ref.count, 1)
+
+  def test_entry_mark_as_spam_single_user_multiple_times(self):
+    api.entry_mark_as_spam(self.unpopular_ref, self.entry_ref.keyname())
+    abuse_ref = api.entry_mark_as_spam(self.unpopular_ref,
+                                       self.entry_ref.keyname())
+    self.assertEqual(abuse_ref.entry, self.entry_ref.keyname())
+    self.assertEqual(abuse_ref.actor, self.popular_nick)
+    self.assertEqual(abuse_ref.reports, [self.unpopular_nick])
+    # the count shouldn't increase just because the same user marks spam twice
+    self.assertEqual(abuse_ref.count, 1)
+
+  def test_entry_mark_as_spam_multiple_users(self):
+    api.entry_mark_as_spam(self.unpopular_ref, self.entry_ref.keyname())
+    abuse_ref = api.entry_mark_as_spam(self.celebrity_ref,
+                                       self.entry_ref.keyname())
+    self.assertEqual(abuse_ref.count, 2)
+    self.assertEqual(set(abuse_ref.reports),
+                     set([self.unpopular_nick, self.celebrity_nick]))
+
+
 class ApiUnitTestOAuthAccess(ApiUnitTest):
   def setUp(self):
     super(ApiUnitTestOAuthAccess, self).setUp()

@@ -468,7 +468,7 @@ def catch_image_error(f):
 def abuse_get_entry(api_user, entry):
   entry_ref = entry_get(api_user, entry)
 
-  key_name = AbuseReport.key_from(entry_ref.keyname())
+  key_name = AbuseReport.key_from(entry=entry_ref.keyname())
   abuse_ref = AbuseReport.get_by_key_name(key_name)
   return abuse_ref
 
