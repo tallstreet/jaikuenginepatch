@@ -32,6 +32,52 @@ DOC_DIR = os.path.join(ROOT_DIR, 'doc')
 RST_TEMPLATE_PATH = os.path.join(DOC_DIR, 'template.rst2html')
 API_TEMPLATE_DIR = os.path.join(ROOT_DIR, 'api', 'templates')
 
+HELP_SITE_NAME = """
+Your site name is important, it's the name of your site!
+"""
+
+HELP_SECRET_KEY = """
+This is a secret key, you should keep it secret.
+"""
+
+HELP_GAE_DOMAIN = """
+This is the appspot.com domain you are going to host your app at. Even if you
+are running under a hosted domain you will want to set this so that you can
+allow SSL for logins.
+"""
+
+HELP_HOSTED_DOMAIN_ENABLED = """
+Are you hosting this on your own domain instead of YOUR_APP.appspot.com? If so
+you need to check this box and enter the domain you are using below.
+"""
+
+HELP_HOSTED_DOMAIN = """
+If you checked the box to Enable Hosted Domain above you will need to enter
+the domain you are hosting on here.
+"""
+
+HELP_NS_DOMAIN = """
+This is the namespace you plan on using for the nicknames of your users, a
+safe bet is to set this to be the same as Hosted Domain above, or to your
+Google App Engine Domain if you did not enable Hosted Domains.
+"""
+
+HELP_ROOT_NICK = """
+This is the nick for the admin user. It should probably look something like
+admin@<Your Namespace Domain>
+"""
+
+HELP_SSL_LOGIN_ENABLED = """
+Enabling SSL logins is a good idea for the safety of your users. If you have
+enabled Hosted Domains above, your login page will be shown via the Google App Engine Domain listed above.
+"""
+
+HELP_DEFAULT_FROM_EMAIL = """
+This the email address mail from your app will be sent from, it needs to be
+one of the developers of the app (i.e. you) for App Engine to accept it.
+"""
+
+
 def bootstrap(only_check_for_zips=False):
   logging.info('Beginning bootstrap...')
   l = os.listdir('vendor')
@@ -166,58 +212,6 @@ def check_config():
   # TODO(termie): 
   pass
 
-HELP_SITE_NAME = """
-Your site name is important, it's the name of your site!
-"""
-
-HELP_SECRET_KEY = """
-This is a secret key, you should keep it secret.
-"""
-
-HELP_GAE_DOMAIN = """
-This is the appspot.com domain you are going to host your app at. Even if you
-are running under a hosted domain you will want to set this so that you can
-allow SSL for logins.
-"""
-
-HELP_HOSTED_DOMAIN_ENABLED = """
-Are you hosting this on your own domain instead of YOUR_APP.appspot.com? If so
-you need to check this box and enter the domain you are using below.
-"""
-
-HELP_HOSTED_DOMAIN = """
-If you checked the box to Enable Hosted Domain above you will need to enter
-the domain you are hosting on here.
-"""
-
-HELP_NS_DOMAIN = """
-This is the namespace you plan on using for the nicknames of your users, a
-safe bet is to set this to be the same as Hosted Domain above, or to your
-Google App Engine Domain if you did not enable Hosted Domains.
-"""
-
-
-HELP_ROOT_NICK = """
-This is the nick for the admin user. It should probably look something like
-admin@<Your Namespace Domain>
-"""
-
-HELP_SSL_LOGIN_ENABLED = """
-Enabling SSL logins is a good idea for the safety of your users. If you have
-enabled Hosted Domains above, your login page will be shown via the Google App Engine Domain listed above.
-"""
-
-HELP_DEFAULT_FROM_EMAIL = """
-This the email address mail from your app will be sent from, it needs to be
-one of the developers of the app (i.e. you) for App Engine to accept it.
-"""
-
-
-def generate_secret_key():
- bits = random.getrandbits(10)
- return md5.new(str(time.time()) + str(bits)).hexdigest() 
-
-
 def build_config(write_to_file=False):
   d = {}
   d['SITE_NAME'] = get_input(HELP_SITE_NAME, 'Enter a site name')
@@ -294,6 +288,12 @@ def clean(skip_zip=False):
   logging.info('Finished removing built files.')
 
 
+
+# Helpers
+def generate_secret_key():
+ bits = random.getrandbits(10)
+ return md5.new(str(time.time()) + str(bits)).hexdigest() 
+
 def required(s):
   if not s:
     raise ValueError('Invalid entry, cannot be empty')
@@ -319,7 +319,6 @@ def get_input(message, prompt, default='', cleaner=required):
     print 'Error:', e.message
     o = get_input(message, prompt, default, cleaner)
   return o
-
 
 def rst_to_html(infile, outfile):
   import docutils.core
