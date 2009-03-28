@@ -14,9 +14,13 @@
 
 import glob
 import logging
+import md5
 import os
+import random
 import re
 import sys
+import StringIO
+import time
 import zipfile
 import os.path
 
@@ -158,6 +162,118 @@ def build_docs():
   
   logging.info('Finished building html docs.')
 
+def check_config():
+  # TODO(termie): 
+  pass
+
+HELP_SITE_NAME = """
+Your site name is important, it's the name of your site!
+"""
+
+HELP_SECRET_KEY = """
+This is a secret key, you should keep it secret.
+"""
+
+HELP_GAE_DOMAIN = """
+This is the appspot.com domain you are going to host your app at. Even if you
+are running under a hosted domain you will want to set this so that you can
+allow SSL for logins.
+"""
+
+HELP_HOSTED_DOMAIN_ENABLED = """
+Are you hosting this on your own domain instead of YOUR_APP.appspot.com? If so
+you need to check this box and enter the domain you are using below.
+"""
+
+HELP_HOSTED_DOMAIN = """
+If you checked the box to Enable Hosted Domain above you will need to enter
+the domain you are hosting on here.
+"""
+
+HELP_NS_DOMAIN = """
+This is the namespace you plan on using for the nicknames of your users, a
+safe bet is to set this to be the same as Hosted Domain above, or to your
+Google App Engine Domain if you did not enable Hosted Domains.
+"""
+
+
+HELP_ROOT_NICK = """
+This is the nick for the admin user. It should probably look something like
+admin@<Your Namespace Domain>
+"""
+
+HELP_SSL_LOGIN_ENABLED = """
+Enabling SSL logins is a good idea for the safety of your users. If you have
+enabled Hosted Domains above, your login page will be shown via the Google App Engine Domain listed above.
+"""
+
+HELP_DEFAULT_FROM_EMAIL = """
+This the email address mail from your app will be sent from, it needs to be
+one of the developers of the app (i.e. you) for App Engine to accept it.
+"""
+
+
+def generate_secret_key():
+ bits = random.getrandbits(10)
+ return md5.new(str(time.time()) + str(bits)).hexdigest() 
+
+
+def build_config(write_to_file=False):
+  d = {}
+  d['SITE_NAME'] = get_input(HELP_SITE_NAME, 'Enter a site name')
+  d['SECRET_KEY'] = get_input(HELP_SECRET_KEY, 
+                              'Enter a secret key', 
+                              generate_secret_key())
+
+  d['GAE_DOMAIN'] = get_input(HELP_GAE_DOMAIN, 
+                              'Enter an appspot domain')
+  d['HOSTED_DOMAIN_ENABLED'] = get_input(HELP_HOSTED_DOMAIN_ENABLED,
+                                         'Enabled Hosted Domains (yes|no)',
+                                         'yes',
+                                         yesno)
+  if d['HOSTED_DOMAIN_ENABLED']:
+    d['HOSTED_DOMAIN'] = get_input(HELP_HOSTED_DOMAIN,
+                                   'Enter your hosted domain (without www.)')
+
+  if d['HOSTED_DOMAIN_ENABLED']:
+    default_ns = d['HOSTED_DOMAIN']
+    d['DOMAIN'] = 'www.%s' % d['HOSTED_DOMAIN']
+  else:
+    default_ns = d['GAE_DOMAIN']
+    d['DOMAIN'] = d['GAE_DOMAIN']
+
+  d['NS_DOMAIN'] = get_input(HELP_NS_DOMAIN,
+                             'Enter your namespace domain',
+                             default_ns)
+
+  default_root = 'admin@%s' % d['NS_DOMAIN']
+  d['ROOT_NICK'] = get_input(HELP_ROOT_NICK,
+                             'Enter the nick for your admin user',
+                             default_root)
+
+  d['SSL_LOGIN_ENABLED'] = get_input(HELP_SSL_LOGIN_ENABLED,
+                                     'Enable SSL login (yes|no)',
+                                     'yes',
+                                     yesno)
+  d['DEFAULT_FROM_EMAIL'] = get_input(HELP_DEFAULT_FROM_EMAIL,
+                                      'Enter an email address to send from')
+  o = []
+  for k, v in d.iteritems():
+    o.append('%s = %r\n' % (k, v))
+
+  if write_to_file:
+    print
+    print 'Writing your settings to local_settings.py...',
+    f = open('local_settings.py', 'w')
+    f.write('\n'.join(o))
+    f.close()
+    print ' done.'
+  else:
+    print
+    print 'Your settings:'
+    print
+    print '\n'.join(o)
+
 def clean(skip_zip=False):
   # TODO(termie): running this multiple times will tend to create zip files
   #               and then delete them
@@ -176,7 +292,34 @@ def clean(skip_zip=False):
     os.unlink(filename)
 
   logging.info('Finished removing built files.')
-  
+
+
+def required(s):
+  if not s:
+    raise ValueError('Invalid entry, cannot be empty')
+  return s
+
+def yesno(s):
+  s = s.lower()
+  if s not in ('y', 'n', 'yes', 'no'):
+    raise ValueError('Invalid entry, please type yes or no')
+  return (False, True)[s.startswith('y')] 
+
+def get_input(message, prompt, default='', cleaner=required):
+  print message
+  real_prompt = '%s [%s]: ' % (prompt, default)
+  s = raw_input(real_prompt)
+  if not s and default:
+    s = default
+  try:
+    o = cleaner(s)
+    print '==============================='
+  except ValueError, e:
+    print 
+    print 'Error:', e.message
+    o = get_input(message, prompt, default, cleaner)
+  return o
+
 
 def rst_to_html(infile, outfile):
   import docutils.core
@@ -238,3 +381,11 @@ def zip_vendor_lib(lib):
       f.write(name, name[len('vendor/'):], zipfile.ZIP_DEFLATED)
 
   f.close()
+
+if __name__ == "__main__":
+  command = ''
+  if len(sys.argv) > 1:
+    command = sys.argv[1]
+
+  if command.startswith('config'):
+    build_config(True)
