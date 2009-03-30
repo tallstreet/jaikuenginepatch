@@ -214,6 +214,8 @@ def check_config():
 
 def config(write_to_file=False):
   d = {}
+  d['DEBUG'] = False
+  d['TEMPLATE_DEBUG'] = False
   d['SITE_NAME'] = get_input(HELP_SITE_NAME, 'Enter a site name')
   d['SECRET_KEY'] = get_input(HELP_SECRET_KEY, 
                               'Enter a secret key', 
@@ -235,6 +237,8 @@ def config(write_to_file=False):
   else:
     default_ns = d['GAE_DOMAIN']
     d['DOMAIN'] = d['GAE_DOMAIN']
+
+  d['COOKIE_DOMAIN'] = d['DOMAIN']
 
   d['NS_DOMAIN'] = get_input(HELP_NS_DOMAIN,
                              'Enter your namespace domain',
