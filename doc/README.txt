@@ -29,17 +29,43 @@ Dependencies
 Quickstart
 ----------
 
+To get a development version running:
+
    1. Check out the repository (it's somewhat large due to image binaries):
   
-      ``svn checkout https://jaikuengine.googlecode.com/svn/trunk/ jaikuengine``
-
-   2. Copy local_settings.example.py to local_settings.py 
-   
+      ``svn checkout http://jaikuengine.googlecode.com/svn/trunk/ jaikuengine``
+    
    2. Run the server with some test data pre-loaded:
 
       ``python manage.py testserver common/fixtures/*.json``
    
    3. Browse to localhost:8080 and log in with popular/password
+
+
+To deploy to Google App Engine
+
+   1. Create an application, you can do this on appspot.com
+
+   2. Check out the repository (it's somewhat large due to image binaries):
+  
+      ``svn checkout http://jaikuengine.googlecode.com/svn/trunk/ jaikuengine``
+
+   3. Edit your ``app.yaml`` and change your application to use the
+      application identifier you just created
+
+   4. Set up some basic config stuff using the helper tool:
+
+      ``python manage.py config --write-to-file``
+
+   5. Deploy
+
+      ``python manage.py update``
+
+   6. Go to your app and create the initial data by going to the url
+      (you'll need to be logged in to appspot.com as an admin of your
+      application):
+
+      ``http://yourapp.appspot.com/install``
 
 Getting Running
 ---------------
@@ -49,7 +75,7 @@ process, so most actions go through manage.py.
 
 To run the development server::
 
-  python manage.py runserver
+  python manage.py runserver 8080
 
 But most of the time you'll be wanting to load some basic test data, this can
 be done with the testserver command (and specifying the data to load)::

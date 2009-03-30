@@ -1,0 +1,18 @@
+{% extends 'common/templates/base_single.html' %}
+{% load nonce %}
+{% block title %}Install Root User{% endblock %}
+{% block content %}
+
+{% if not root_user %}
+{% include 'form_error.html' %}
+<form id="rootuser" action="/install" method="post">
+  {{None|noncefield:"create_root"}}
+  <div class="buttons">
+    <input type="submit" value="Make the root user: {{ROOT_NICK}}"/>
+  </div>
+</form>
+{% else %}
+<p>Root User {{ROOT_NICK}} exists.</p>
+{% endif %}
+
+{% endblock %}

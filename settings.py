@@ -108,6 +108,7 @@ INSTALLED_APPS = (
      'login',
      'front',
      'invite',
+     'install',
      'confirm',
      'components',
 )

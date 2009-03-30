@@ -3396,6 +3396,43 @@ def user_create(api_user, **kw):
   return actor
 
 @admin_required
+def user_create_root(api_user):
+  nick = ROOT.nick
+  params = {'nick': nick,
+            'normalized_nick': nick.lower(),
+            'privacy': PRIVACY_PUBLIC,
+            'type': 'user',
+            'password': None,
+            'extra': {}
+            }
+
+  try:
+    existing_ref = actor_lookup_nick(ROOT, nick)
+  except exception.ApiDeleted:
+    existing_ref = True
+  except exception.ApiException:
+    existing_ref = False
+
+  if existing_ref:
+    raise exception.ValidationError(
+        'Screen name %s is already in use.' % util.display_nick(nick))
+
+  # Create the user
+  actor = Actor(**params)
+  actor.put()
+
+  # Create the streams
+  presence_stream = stream_create_presence(api_user,
+                                           actor.nick,
+                                           read_privacy=params['privacy'])
+  comments_stream = stream_create_comment(api_user, actor.nick)
+
+  # Add the contact
+  rel = actor_add_contact(actor, actor.nick, ROOT.nick)
+
+  return actor
+
+@admin_required
 def user_authenticate(api_user, nick, nonce, digest):
   actor_ref = actor_get(api_user, nick)
 
