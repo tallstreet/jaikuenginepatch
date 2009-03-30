@@ -212,7 +212,7 @@ def check_config():
   # TODO(termie): 
   pass
 
-def build_config(write_to_file=False):
+def config(write_to_file=False):
   d = {}
   d['SITE_NAME'] = get_input(HELP_SITE_NAME, 'Enter a site name')
   d['SECRET_KEY'] = get_input(HELP_SECRET_KEY, 
