@@ -2788,15 +2788,17 @@ def task_create(api_user, nick, action, action_id, args=None, kw=None,
   if kw is None:
     kw = {}
   
-  if expire:
-    expire = utcnow() + datetime.timedelta(seconds=expire)
-
-
   key_name = Task.key_from(actor=nick, action=action, action_id=action_id)
+
+  if expire:
+    locked = memcache.client.add(key_name, 'owned', time=expire)
+    if not locked:
+      raise exception.ApiLocked("Lock could not be acquired: %s" % key_name)
+
   task_ref = Task(actor=nick,
                   action=action,
                   action_id=action_id,
-                  expire=expire,
+                  expire=None,
                   args=args,
                   kw=kw,
                   progress=progress
@@ -2810,25 +2812,14 @@ def task_get(api_user, nick, action, action_id, expire=DEFAULT_TASK_EXPIRE):
   
   key_name = Task.key_from(actor=nick, action=action, action_id=action_id)
 
-  def _attempt_lock(key, expire):
-    qi = db.get(key)
-    now = utcnow()
-    if qi.expire and qi.expire > now:
-      raise exception.ApiLocked("Lock could not be acquired: %s" % key_name)
-    qi.expire = now + datetime.timedelta(seconds=expire)
-    qi.put()
-
   # TODO(termie): this could probably be a Key.from_path action
   q = Task.get_by_key_name(key_name)
   if not q:
     raise exception.ApiNotFound(
         'Could not find task: %s %s %s' % (nick, action, action_id))
 
-  try:
-    db.run_in_transaction(_attempt_lock, q.key(), expire)
-    return Task.get_by_key_name(key_name)
-  except db.TransactionFailedError:
-    exception.log_exception()
+  locked = memcache.client.add(key_name, 'owned', time=expire)
+  if not locked: 
     raise exception.ApiLocked("Lock could not be acquired: %s" % key_name)
 
   return q
@@ -2839,129 +2830,101 @@ def task_get_or_create(api_user, nick, action, action_id, args=None,
   try:
     task_ref = task_get(api_user, nick, action, action_id, expire)
   except exception.ApiNotFound:
-    task_ref = task_create(api_user, nick, action, action_id, args, kw, progress, expire=expire)
+    task_ref = task_create(api_user, 
+                           nick, 
+                           action, 
+                           action_id, 
+                           args, 
+                           kw, 
+                           progress, 
+                           expire=expire)
   return task_ref
     
 
 #@throttled(minute=30, hour=1200, day=4000, month=20000)
 @owner_required
 def task_process_actor(api_user, nick):
-  """ pop a task off the queue and process it """
   nick = clean.nick(nick)
-  # TODO(termie): we can't do where expire < now AND order by created_at,
-  #               so this means we are a bit more likely to have locked
-  #               entries to sort through
-  query = Task.gql('WHERE actor = :1 ORDER BY created_at', nick)
-  
-  # grab a task that is unlocked
-  task_ref = None
-  task_more = False
-  for fake_task_ref in query:
-    # if we already have one and we're still going then there are more to go
-    if task_ref:
-      task_more = True
-      break
-    try:
-      task_ref = task_get(api_user, 
-                          nick, 
-                          fake_task_ref.action,
-                          fake_task_ref.action_id)
-      break
-    except exception.ApiLocked:
-      continue
-    except exception.ApiNotFound:
-      continue
-  
-  if not task_ref:
-    raise exception.ApiNoTasks('No tasks for actor: %s' % nick)
-
-  logging.info("Processing task: %s %s %s p=%s", 
-                task_ref.actor,
-                task_ref.action, 
-                task_ref.action_id,
-                task_ref.progress
-                )
-
-  method_ref = PublicApi.get_method(task_ref.action)
-  rv = method_ref(api_user, _task_ref = task_ref, *task_ref.args, **task_ref.kw)
-
-  # if we don't already know that there are more, do another check after
-  # processing the item
-  if not task_more:
-    query = Task.gql('WHERE expire < :1', utcnow())
-    t_ref = query.fetch(1)
-    if t_ref:
-      task_more = True
-
-  return task_more
-  
+  return task_process_any(ROOT, nick)
+ 
 @admin_required   
-def task_process_any(api_user):
+def task_process_any(api_user, nick=None):
   """ pop a task off the queue and process it """
-  # TODO(termie): we can't do where expire < now AND order by created_at,
-  #               so this means we are a bit more likely to have locked
-  #               entries to sort through
-  query = Task.gql('ORDER BY created_at')
+  # Basing this code largely off of pubsubhubbub's queueing approach
+  # Hard-coded for now, these will get moved up
+  work_count = 1
+  sample_ratio = 10
+  lock_ratio = 4
+  lease_period = DEFAULT_TASK_EXPIRE
+  sample_size = work_count * sample_ratio
+
+  if nick:
+    query = Task.gql('WHERE actor = :1 ORDER BY created_at',
+                     nick)
+  else:
+    query = Task.gql('ORDER BY created_at')
   
-  # grab a task that is unlocked
-  task_ref = None
-  task_more = False
-  for fake_task_ref in query:
-    # if we already have one and we're still going then there are more to go
-    if task_ref:
-      task_more = True
-      break
-    try:
-      task_ref = task_get(api_user, 
-                          fake_task_ref.actor,
-                          fake_task_ref.action,
-                          fake_task_ref.action_id)
-    except exception.ApiLocked:
-      continue
-    except exception.ApiNotFound:
-      continue
-  
-  if not task_ref:
+  work_to_do = query.fetch(sample_size)
+  if not work_to_do:
     raise exception.ApiNoTasks('No tasks')
 
-  logging.info("Processing task: %s %s %s p=%s", 
-                task_ref.actor,
-                task_ref.action, 
-                task_ref.action_id,
-                task_ref.progress
-                )
+  # From pubsububhub:
+  # Attempt to lock more work than we actually need to do, since there likely
+  # will be conflicts if the number of workers is high or the work_count is
+  # high. If we've acquired more than we can use, we'll just delete the memcache
+  # key and unlock the work. This is much better than an iterative solution,
+  # since a single locking API call per worker reduces the locking window.
+  possible_work = random.sample(work_to_do,
+                                min(len(work_to_do), 
+                                    lock_ratio * work_count)
+                                )
+  work_map = dict([(str(w.key().name()), w) for w in possible_work])
+  try_lock_map = dict((k, 'owned') for k in work_map)
+  not_set_keys = set(memcache.client.add_multi(try_lock_map, time=lease_period))
+  if len(not_set_keys) == len(try_lock_map):
+    logging.warning(
+        'Conflict; failed to acquire any locks for model %s. Tried: %s',
+        model_class.kind(), not_set_keys)
+  
+  locked_keys = [k for k in work_map if k not in not_set_keys]
+  reset_keys = locked_keys[work_count:]
+  if reset_keys and not memcache.client.delete_multi(reset_keys):
+    logging.warning('Could not reset acquired work for model %s: %s',
+                    model_class.kind(), reset_keys)
 
-  actor_ref = actor_get(ROOT, task_ref.actor)
-  method_ref = PublicApi.get_method(task_ref.action)
+  work = [work_map[k] for k in locked_keys[:work_count]]
+  
+  for task_ref in work:
+    logging.info("Processing task: %s %s %s p=%s", 
+                  task_ref.actor,
+                  task_ref.action, 
+                  task_ref.action_id,
+                  task_ref.progress
+                  )
 
-  rv = method_ref(actor_ref, 
-                  _task_ref = task_ref, 
-                  *task_ref.args, 
-                  **task_ref.kw)
+    actor_ref = actor_get(ROOT, task_ref.actor)
+    method_ref = PublicApi.get_method(task_ref.action)
 
-  # if we don't already know that there are more, do another check after
-  # processing the item
-  if not task_more:
-    query = Task.gql('WHERE expire < :1', utcnow())
-    t_ref = query.fetch(1)
-    if t_ref:
-      task_more = True
+    rv = method_ref(actor_ref, 
+                    _task_ref = task_ref, 
+                    *task_ref.args, 
+                    **task_ref.kw)
 
-  return task_more
+  return True
   
 
 @owner_required
 def task_remove(api_user, nick, action, action_id):
-  """ attempts to acquire a lock on a queue item for (default) 10 seconds """
-  
   key_name = Task.key_from(actor=nick, action=action, action_id=action_id)
-
+  
   q = Task.get_by_key_name(key_name)
   if not q:
     raise exception.ApiNotFound(
         'Could not find task: %s %s %s' % (nick, action, action_id))
-  
+
+  # clear up any residual locks
   q.delete()
+  memcache.client.delete(key_name)
 
   return True
 
@@ -2976,9 +2939,11 @@ def task_update(api_user, nick, action, action_id, progress=None, unlock=True):
         'Could not find task: %s %s %s' % (nick, action, action_id))
   
   q.progress = progress
-  if unlock:
-    q.expire = None
   q.put()
+
+  if unlock:
+    memcache.client.delete(key_name)
+
   return q
 
 

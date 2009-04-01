@@ -90,7 +90,7 @@ class FakeMemcache(object):
     data = self._data[key]
     if data[1]:
       now = py_time.mktime(utcnow().timetuple())
-      if now > data[1]:
+      if now >= data[1]:
         #logging.info('invalid key, %s, %s > %s', key, now, data[1])
         return None
     #logging.info('valid key, %s returning: %s', key, data[0])
@@ -114,6 +114,14 @@ class FakeMemcache(object):
       return False
     self.set(key, value, time)
     return True
+
+  def add_multi(self, mapping, time=0, key_prefix=''):
+    o = []
+    for k, v in mapping.iteritems():
+      success = self.add(key_prefix + k, v, time=time)
+      if not success:
+        o.append[k]
+    return o
   
   def incr(self, key, delta=1):
     data = self._get_valid(key)
@@ -139,6 +147,14 @@ class FakeMemcache(object):
       return 2
     except KeyError:
       return 1
+
+  def delete_multi(self, keys, key_prefix=''):
+    o = []
+    for k in keys:
+      success = self.delete(key_prefix + k)
+      if success != 2:
+        o.append[k]
+    return o
 
   def get(self, key):
     return self._get_valid(key)
