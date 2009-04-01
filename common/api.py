@@ -2849,7 +2849,6 @@ def task_process_actor(api_user, nick):
  
 @admin_required   
 def task_process_any(api_user, nick=None):
-  """ pop a task off the queue and process it """
   # Basing this code largely off of pubsubhubbub's queueing approach
   # Hard-coded for now, these will get moved up
   work_count = 1
@@ -2882,15 +2881,13 @@ def task_process_any(api_user, nick=None):
   try_lock_map = dict((k, 'owned') for k in work_map)
   not_set_keys = set(memcache.client.add_multi(try_lock_map, time=lease_period))
   if len(not_set_keys) == len(try_lock_map):
-    logging.warning(
-        'Conflict; failed to acquire any locks for model %s. Tried: %s',
-        model_class.kind(), not_set_keys)
+    return
   
   locked_keys = [k for k in work_map if k not in not_set_keys]
   reset_keys = locked_keys[work_count:]
   if reset_keys and not memcache.client.delete_multi(reset_keys):
     logging.warning('Could not reset acquired work for model %s: %s',
-                    model_class.kind(), reset_keys)
+                    'Task', reset_keys)
 
   work = [work_map[k] for k in locked_keys[:work_count]]
   
@@ -2902,15 +2899,22 @@ def task_process_any(api_user, nick=None):
                   task_ref.progress
                   )
 
-    actor_ref = actor_get(ROOT, task_ref.actor)
-    method_ref = PublicApi.get_method(task_ref.action)
+    try:
+      actor_ref = actor_get(ROOT, task_ref.actor)
 
-    rv = method_ref(actor_ref, 
-                    _task_ref = task_ref, 
-                    *task_ref.args, 
-                    **task_ref.kw)
+      method_ref = PublicApi.get_method(task_ref.action)
 
-  return True
+      rv = method_ref(actor_ref, 
+                      _task_ref = task_ref, 
+                      *task_ref.args, 
+                      **task_ref.kw)
+
+    except exception.ApiDeleted:
+      logging.warning('Owner or target of task has been deleted. Removing task.')
+      task_ref.delete()
+      return
+
+  return
   
 
 @owner_required
