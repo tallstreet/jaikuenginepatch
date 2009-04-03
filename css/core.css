@@ -2362,10 +2362,15 @@ ul.stream li.date h3 {
     padding-left: 0;
 }
 
-div#stream a.rss {
-    background: transparent url(../images/icons/feed-atom.gif) no-repeat 0% 50%;
+div#stream a.feed {
+    background: transparent url(../images/feed-icon.png) no-repeat 0% 50%;
     padding-left: 20px;
     margin-top: 1em;
+}
+
+div#stream a.feed:hover {
+  text-decoration: underline;
+  color: #009bc7;
 }
 
 div#stream p.tools {

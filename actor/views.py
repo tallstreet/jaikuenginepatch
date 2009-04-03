@@ -185,6 +185,10 @@ def actor_history(request, nick=None, format='html'):
   green_top = True
   sidebar_green_top = True
   selectable_icons = display.SELECTABLE_ICONS
+  feeds = ({ 'url': view.url('/rss'),
+             'title': 'rss feed'},
+           { 'url': view.url('/atom'),
+             'title': 'atom feed'})
 
   area = 'user'
 
@@ -811,5 +815,3 @@ def actor_settings_redirect(request):
   nick = clean.nick(request.user.nick)
   view = api.actor_lookup_nick(request.user, nick)
   return http.HttpResponseRedirect(view.url() + request.get_full_path())
-
-

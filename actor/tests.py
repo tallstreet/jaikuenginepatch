@@ -39,6 +39,7 @@ class HistoryTest(ViewTestCase):
     r = self.login_and_get(None, '/user/girlfriend')
     self.assertContains(r, 'private user')
     # self.assert_error_contains(r, "Posts from girlfriend", 403)
+
   def test_private_history_when_signed_in_as_contact(self):
     r = self.login_and_get('boyfriend', '/user/girlfriend')
     self.assertContains(r, "Posts from girlfriend")
@@ -113,12 +114,18 @@ class HistoryTest(ViewTestCase):
     r = self.login_and_get('unpopular', '/user/popular')
     self.assertContains(r, presence)
     self.assertTemplateUsed(r, 'actor/templates/history.html')
-    
+
     # Ensure we cannot save the presence
     new_presence = 'This is the new presence'
     r = self.set_presence(user, new_presence)
     self.assertNotContains(r, new_presence)
     self.assertNotContains(r, 'Location updated')    
+
+  def test_rss_and_atom_feeds(self):
+    r = self.client.get('/user/popular')
+    self.assertContains(r, 'href="http://localhost:8080/user/popular/rss"')
+    self.assertContains(r, 'href="http://localhost:8080/user/popular/atom"')
+
 
 class SubscriptionTest(ViewTestCase):
   def test_subscribe_and_unsubscribe(self):

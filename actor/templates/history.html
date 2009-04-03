@@ -59,9 +59,9 @@
   {% include 'common/templates/paging.html' %}
 
   <p class="tools">
-    {% if feeds %}
-      <a href="{{feeds.0.url}}" class="rss" title="{{feeds.0.title}} ({{feeds.0.type}})">{{feeds.0.title}}</a>
-    {% endif %}
+    {% for feed in feeds %}
+      <a class="feed" href="{{feed.url}}">{{feed.title}}</a>
+    {% endfor %}
   </p>
 </div>
 {% endblock %}
