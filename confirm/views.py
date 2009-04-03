@@ -19,10 +19,10 @@ from django import template
 from django.conf import settings
 from django.template import loader
 
-from common import api
-from common import decorator
-from common import exception
-from common import util
+from jaikucommon import api
+from jaikucommon import decorator
+from jaikucommon import exception
+from jaikucommon import util
 
 @decorator.login_required
 def confirm_email(request, code):

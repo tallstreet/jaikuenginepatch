@@ -1,4 +1,4 @@
-{% extends 'common/templates/base_sidebar.html' %}
+{% extends 'base_sidebar.html' %}
 {% load nonce %}
 {% block title %}Overview{% endblock %}
 
@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block content %}
-{% include 'common/templates/message_form.html' %}
+{% include 'message_form.html' %}
 
 <ul id="sub-nav">
   <li class="first current">
@@ -41,8 +41,8 @@
   </div>
   {% endif %}
 
-  {% include 'common/templates/stream.html' %}
-  {% include 'common/templates/paging.html' %}
+  {% include 'stream.html' %}
+  {% include 'paging.html' %}
 
   <p class="tools">
     {% if feeds %}
@@ -53,10 +53,10 @@
 {% endblock %}
 
 {% block sidebar %}
-{% include 'common/templates/sidebar_location.html' %}
-{% include 'common/templates/sidebar_contacts.html' %}
+{% include 'sidebar_location.html' %}
+{% include 'sidebar_contacts.html' %}
 {% with view_streams as streams %}
-{% include 'common/templates/sidebar_streams.html' %}
+{% include 'sidebar_streams.html' %}
 {% endwith %}
-{% include 'common/templates/sidebar_search.html' %}
+{% include 'sidebar_search.html' %}
 {% endblock %}

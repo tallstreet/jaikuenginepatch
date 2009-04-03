@@ -18,8 +18,8 @@ import traceback
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.conf import settings
 
-from common import exception
-from common import util
+from jaikucommon import exception
+from jaikucommon import util
 
 
 class ExceptionMiddleware(object):

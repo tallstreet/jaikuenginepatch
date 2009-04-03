@@ -133,3 +133,10 @@ indexes:
   properties:
   - name: topic
   - name: target
+
+# Used once in query history.
+- kind: jaikucommon_inboxentry
+  properties:
+  - name: inbox
+  - name: created_at
+    direction: desc

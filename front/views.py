@@ -19,12 +19,12 @@ from django.conf import settings
 from django.template import RequestContext, loader
 from django.http import HttpResponse, HttpResponseRedirect
 
-from common import exception
-from common import user
-from common.models import Actor
+from jaikucommon import exception
+from jaikucommon import user
+from jaikucommon.models import Actor
 
-from common import api, util
-from common.display import prep_stream_dict, prep_entry_list
+from jaikucommon import api, util
+from jaikucommon.display import prep_stream_dict, prep_entry_list
 
 ENTRIES_PER_PAGE = 5
 SIDEBAR_LIMIT = 9
@@ -93,7 +93,7 @@ def front_front(request):
 
   area = 'frontpage'
 
-  t = loader.get_template('front/templates/front.html')
+  t = loader.get_template('front.html')
   c = RequestContext(request, locals())
 
   return HttpResponse(t.render(c));

@@ -1,4 +1,4 @@
-{% extends 'channel/templates/channel_base.html' %}
+{% extends 'channel_base.html' %}
 {% load nonce avatar vcard %}
 
 {% block channel_body %}
@@ -28,7 +28,7 @@
   {% if owned_channels|length %}
     <div class="groups">
       {% with owned_channels as channel_tiles %}
-        {% include 'channel/templates/channel_tiles.html' %}
+        {% include 'channel_tiles.html' %}
       {% endwith %}
     </div>
   {% else %}
@@ -41,7 +41,7 @@
   {% if followed_channels|length %}
     <div class="groups">
       {% with followed_channels as channel_tiles %}
-        {% include 'channel/templates/channel_tiles.html' %}
+        {% include 'channel_tiles.html' %}
       {% endwith %}
     </div>
   {% else %}

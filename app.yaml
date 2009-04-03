@@ -1,4 +1,4 @@
-application: "jaikuengine"
+﻿application: aep-sample
 version: 1
 runtime: python
 api_version: 1
@@ -37,9 +37,10 @@ skip_files: |
  (vendor/.*)
  )$
 
-default_expiration: "1d"
+default_expiration: '3650d'
 
 handlers:
+
 - url: /images
   static_dir: images
 
@@ -74,15 +75,13 @@ handlers:
   static_files: static/robots.txt
   upload: static/robots.txt
 
+  
 - url: /remote_api
-  script: "$PYTHON_LIB/google/appengine/ext/remote_api/handler.py"
+  script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
   login: admin
 
-- url: /api/process_queue
-  script: "main.py"
-  secure: optional
+- url: /media
+  static_dir: _generated_media
 
-- url: .*
-  script: "main.py"
-  secure: optional
-  # login: admin
+- url: /.*
+  script: common/appenginepatch/main.py

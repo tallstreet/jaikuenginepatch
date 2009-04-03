@@ -1,4 +1,4 @@
-{% extends 'common/templates/base_sidebar.html' %}
+{% extends 'base_sidebar.html' %}
 {% load nonce avatar format entry %}
 {% block title %}{{entry.extra.title}}{% endblock %}
 {% block content %}
@@ -10,7 +10,7 @@
     {{entry.owner_ref|actor_link}} said:
     {% endifnotequal %}
   </h1>
-  {% include 'common/templates/item_post.html' %}
+  {% include 'item_post.html' %}
 </div>
-  {% include 'common/templates/item_comments.html' %}
+  {% include 'item_comments.html' %}
 {% endblock %}

@@ -3,31 +3,31 @@ import logging
 from django.conf import settings
 from django.core import mail
 
-from common import api
-from common import util
-from common import tests
+from jaikucommon import api
+from jaikucommon import util
+from jaikucommon import tests
 
 
 class SmokeTest(tests.ViewTestCase):
   def test_invite_email_logged_in(self):
     r = self.login_and_get('hermit', '/invite/email/ACTORINVITE')
     self.assertWellformed(r)
-    self.assertTemplateUsed(r, 'invite/templates/email.html')
+    self.assertTemplateUsed(r, 'email.html')
 
   def test_invite_email_channel_logged_in(self):
     r = self.login_and_get('hermit', '/invite/email/CHANNELINVITE')
     self.assertWellformed(r)
-    self.assertTemplateUsed(r, 'invite/templates/email.html')
+    self.assertTemplateUsed(r, 'email.html')
 
   def test_invite_email(self):
     r = self.login_and_get(None, '/invite/email/ACTORINVITE')
     self.assertWellformed(r)
-    self.assertTemplateUsed(r, 'invite/templates/email.html')
+    self.assertTemplateUsed(r, 'email.html')
 
   def test_invite_email_channel(self):
     r = self.login_and_get(None, '/invite/email/CHANNELINVITE')
     self.assertWellformed(r)
-    self.assertTemplateUsed(r, 'invite/templates/email.html')
+    self.assertTemplateUsed(r, 'email.html')
 
 
 class AcceptInviteTest(tests.ViewTestCase):
@@ -46,7 +46,7 @@ class AcceptInviteTest(tests.ViewTestCase):
     r = self.assertRedirectsPrefix(r, '/user/hermit/overview')
     self.assertContains(r, 'accepted')
     self.assertWellformed(r)
-    self.assertTemplateUsed(r, 'actor/templates/overview.html')
+    self.assertTemplateUsed(r, 'overview.html')
 
     # verify that invite code no longer exists
     r = self.client.get('/invite/email/%s' % self.actor_code)
@@ -65,7 +65,7 @@ class AcceptInviteTest(tests.ViewTestCase):
     r = self.assertRedirectsPrefix(r, '/user/hermit/overview')
     self.assertContains(r, 'rejected')
     self.assertWellformed(r)
-    self.assertTemplateUsed(r, 'actor/templates/overview.html')
+    self.assertTemplateUsed(r, 'overview.html')
 
     # verify that invite code no longer exists
     r = self.client.get('/invite/email/%s' % self.actor_code)
@@ -86,11 +86,11 @@ class MailTest(tests.ViewTestCase):
         )
     r = self.assertRedirectsPrefix(r, '/user/popular/invite')
     self.assertContains(r, 'Invitation sent')
-    self.assertTemplateUsed(r, 'actor/templates/invite.html')
+    self.assertTemplateUsed(r, 'invite.html')
     self.assertEqual(len(mail.outbox), 1)
 
     sent_mail = mail.outbox[0]
     url = tests.get_relative_url(sent_mail.body)
     
     r = self.login_and_get('hermit', url)
-    self.assertTemplateUsed(r, 'invite/templates/email.html')
+    self.assertTemplateUsed(r, 'email.html')

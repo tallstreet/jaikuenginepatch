@@ -19,7 +19,7 @@ from django import template
 from django.conf import settings
 from django.template import loader
 
-from common import decorator
+from jaikucommon import decorator
 
 @decorator.cache_forever
 def flat_tour(request, page='create'):
@@ -30,7 +30,7 @@ def flat_tour(request, page='create'):
   area = 'tour'
 
   c = template.RequestContext(request, locals())
-  t = loader.get_template('flat/templates/tour_%s.html' % page)
+  t = loader.get_template('tour_%s.html' % page)
   return http.HttpResponse(t.render(c))
 
 @decorator.cache_forever
@@ -39,7 +39,7 @@ def flat_about(request):
 
   c = template.RequestContext(request, locals())
   
-  t = loader.get_template('flat/templates/about.html')
+  t = loader.get_template('about.html')
   return http.HttpResponse(t.render(c))
 
 @decorator.cache_forever
@@ -49,7 +49,7 @@ def flat_privacy(request):
   
   c = template.RequestContext(request, locals())
   
-  t = loader.get_template('flat/templates/privacy.html')
+  t = loader.get_template('privacy.html')
   return http.HttpResponse(t.render(c))
 
 @decorator.cache_forever
@@ -59,14 +59,14 @@ def flat_terms(request):
 
   c = template.RequestContext(request, locals())
   
-  t = loader.get_template('flat/templates/terms.html')
+  t = loader.get_template('terms.html')
   return http.HttpResponse(t.render(c))
 
 @decorator.cache_forever
 def flat_press(request):
   c = template.RequestContext(request, locals())
   
-  t = loader.get_template('flat/templates/terms.html')
+  t = loader.get_template('terms.html')
   return http.HttpResponse(t.render(c))
 
 @decorator.cache_forever
@@ -85,6 +85,6 @@ def flat_help(request, page='index'):
 
   c = template.RequestContext(request, locals())
   
-  t = loader.get_template('flat/templates/help_%s.html' % page)
+  t = loader.get_template('help_%s.html' % page)
   return http.HttpResponse(t.render(c))
 

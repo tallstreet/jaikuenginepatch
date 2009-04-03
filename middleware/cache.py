@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from common import util
-from common.models import CachingModel
+from jaikucommon import util
+from jaikucommon.models import CachingModel
 
 class CacheMiddleware(object):
   def process_request(self, request):

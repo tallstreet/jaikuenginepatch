@@ -19,15 +19,15 @@ from oauth import oauth
 from django.conf import settings
 
 from api import xmlrpc
-from common import api
-from common import clean
-from common import oauth_util
-from common import profile
-from common import util
-from common.protocol import xmpp
-from common.protocol import sms
-from common.test import base
-from common.test import util as test_util
+from jaikucommon import api
+from jaikucommon import clean
+from jaikucommon import oauth_util
+from jaikucommon import profile
+from jaikucommon import util
+from jaikucommon.protocol import xmpp
+from jaikucommon.protocol import sms
+from jaikucommon.test import base
+from jaikucommon.test import util as test_util
 
 class ImTestCase(base.ViewTestCase):
   endpoint = '/_ah/xmpp/message'
@@ -236,7 +236,7 @@ class OAuthTest(base.ViewTestCase):
     })
 
     r = self.assertRedirectsPrefix(r, '/api/keys/TESTDESKTOPCONSUMER')
-    self.assertTemplateUsed(r, 'api/templates/key.html')
+    self.assertTemplateUsed(r, 'key.html')
     self.assertContains(r, 'API Key information updated')
     self.assertWellformed(r)
     self.assertContains(r, 'New App Name')
@@ -252,7 +252,7 @@ class OAuthTest(base.ViewTestCase):
     })
 
     r = self.assertRedirectsPrefix(r, '/api/keys')
-    self.assertTemplateUsed(r, 'api/templates/keys.html')
+    self.assertTemplateUsed(r, 'keys.html')
     self.assertContains(r, 'API Key deleted')
     self.assertNotContains(r, 'TESTDESKTOPCONSUMER')
     self.assertWellformed(r)
@@ -267,7 +267,7 @@ class OAuthTest(base.ViewTestCase):
     })
 
     r = self.assertRedirectsPrefix(r, '/api/tokens')
-    self.assertTemplateUsed(r, 'api/templates/tokens.html')
+    self.assertTemplateUsed(r, 'tokens.html')
     self.assertContains(r, 'token revoked')
     self.assertNotContains(r, 'POPULARDESKTOPACCESSTOKEN')
     self.assertWellformed(r)

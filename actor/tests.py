@@ -21,18 +21,18 @@ import urllib
 from django.conf import settings
 from django.core import mail
 
-from common.tests import ViewTestCase
+from jaikucommon.tests import ViewTestCase
 
-from common import api
-from common import clean
-from common import util
-from common.test import util as test_util
+from jaikucommon import api
+from jaikucommon import clean
+from jaikucommon import util
+from jaikucommon.test import util as test_util
 
 class HistoryTest(ViewTestCase):
   def test_public_history_when_signed_out(self):
     r = self.login_and_get(None, '/user/popular')
     self.assertContains(r, "Posts from popular")
-    self.assertTemplateUsed(r, 'actor/templates/history.html')
+    self.assertTemplateUsed(r, 'history.html')
     self.assertWellformed(r)
 
   def test_private_history_when_signed_out(self):
@@ -42,7 +42,7 @@ class HistoryTest(ViewTestCase):
   def test_private_history_when_signed_in_as_contact(self):
     r = self.login_and_get('boyfriend', '/user/girlfriend')
     self.assertContains(r, "Posts from girlfriend")
-    self.assertTemplateUsed(r, 'actor/templates/history.html')
+    self.assertTemplateUsed(r, 'history.html')
 
   def test_private_history_when_signed_in_as_noncontact(self):
     r = self.login_and_get('annoying', '/user/girlfriend')
@@ -53,7 +53,7 @@ class HistoryTest(ViewTestCase):
   def test_public_history_when_signed_in_as_self(self):
     r = self.login_and_get('popular', '/user/popular')
     self.assertContains(r, "Your Posts")
-    self.assertTemplateUsed(r, 'actor/templates/history.html')
+    self.assertTemplateUsed(r, 'history.html')
     self.assertContains(r, 'entry_remove=', 3)
     r = self.assertGetLink(r, 'confirm-delete', link_no = 0, of_count = 3)
     self.assertEqual(r.status_code, 302, r.content)
@@ -63,12 +63,12 @@ class HistoryTest(ViewTestCase):
   def test_private_history_when_signed_in_as_self(self):
     r = self.login_and_get('celebrity', '/user/celebrity')
     self.assertContains(r, "Your Posts")
-    self.assertTemplateUsed(r, 'actor/templates/history.html')
+    self.assertTemplateUsed(r, 'history.html')
 
   def test_wrong_case(self):
     r = self.login_and_get(None, '/user/POPular')
     self.assertContains(r, "Posts from popular")
-    self.assertTemplateUsed(r, 'actor/templates/history.html')
+    self.assertTemplateUsed(r, 'history.html')
     self.assertWellformed(r)
 
   def set_presence(self, user, location):
@@ -90,7 +90,7 @@ class HistoryTest(ViewTestCase):
     r = self.assertRedirectsPrefix(r, '/user/popular?flash')
     self.assertContains(r, presence)
     self.assertContains(r, 'Location updated')    
-    self.assertTemplateUsed(r, 'actor/templates/history.html')
+    self.assertTemplateUsed(r, 'history.html')
 
   def test_presence_loggged_out(self):
     # TODO(tyler): currently this doesn't really make you log in, it just
@@ -100,7 +100,7 @@ class HistoryTest(ViewTestCase):
     r = self.set_presence(user, presence)
     self.assertNotContains(r, presence)
     self.assertNotContains(r, 'Location updated')    
-    self.assertTemplateUsed(r, 'actor/templates/history.html')
+    self.assertTemplateUsed(r, 'history.html')
     
   def test_presence_other(self):
     """Tests setting and getting presence on the history page"""
@@ -112,7 +112,7 @@ class HistoryTest(ViewTestCase):
     # Retrieve for another user
     r = self.login_and_get('unpopular', '/user/popular')
     self.assertContains(r, presence)
-    self.assertTemplateUsed(r, 'actor/templates/history.html')
+    self.assertTemplateUsed(r, 'history.html')
     
     # Ensure we cannot save the presence
     new_presence = 'This is the new presence'
@@ -138,7 +138,7 @@ class OverviewTest(ViewTestCase):
   def test_public_overview_when_signed_in_as_self(self):
     r = self.login_and_get('popular', '/user/popular/overview')
     self.assertContains(r, "Hi popular! Here's the latest from your contacts")
-    self.assertTemplateUsed(r, 'actor/templates/overview.html')
+    self.assertTemplateUsed(r, 'overview.html')
 
   def test_public_overview_when_signed_out(self):
     r = self.login_and_get(None, '/user/popular/overview')
@@ -147,7 +147,7 @@ class OverviewTest(ViewTestCase):
   def test_private_overview_when_signed_in_as_self(self):
     r = self.login_and_get('celebrity', '/user/celebrity/overview')
     self.assertContains(r, "Hi celebrity! Here's the latest from your contacts")
-    self.assertTemplateUsed(r, 'actor/templates/overview.html')
+    self.assertTemplateUsed(r, 'overview.html')
 
   def test_private_overview_when_signed_out(self):
     r = self.login_and_get(None, '/user/celebrity/overview')
@@ -172,7 +172,7 @@ class OverviewTest(ViewTestCase):
     r = self.assertRedirectsPrefix(r, '/user/popular/overview?flash')
     self.assertContains(r, presence)
     self.assertContains(r, 'Location updated')    
-    self.assertTemplateUsed(r, 'actor/templates/overview.html')
+    self.assertTemplateUsed(r, 'overview.html')
 
   def test_presence_loggged_out(self):
     # TODO(tyler): Logged out or another user sends the user to /user/<user>
@@ -182,19 +182,19 @@ class OverviewTest(ViewTestCase):
     r = self.assertRedirectsPrefix(r, '/user/popular')
     self.assertNotContains(r, presence)
     self.assertNotContains(r, 'Location updated')    
-    self.assertTemplateUsed(r, 'actor/templates/history.html')
+    self.assertTemplateUsed(r, 'history.html')
 
   def test_overview_with_unconfirmed_email(self):
     r = self.login_and_get('hermit', '/user/hermit/overview')
     self.assertContains(r, "not yet confirmed")
-    self.assertTemplateUsed(r, 'actor/templates/overview.html')
+    self.assertTemplateUsed(r, 'overview.html')
 
 class ItemTest(ViewTestCase):
 
   def test_public_item_when_signed_out(self):
     r = self.login_and_get(None, '/user/popular/presence/12345')
     self.assertContains(r, 'test entry 1')
-    self.assertTemplateUsed(r, 'actor/templates/item.html')
+    self.assertTemplateUsed(r, 'item.html')
     if settings.MARK_AS_SPAM_ENABLED:
       # test mark as spam links
       self.assertContains(r, 'mark_as_spam', 0)
@@ -207,7 +207,7 @@ class ItemTest(ViewTestCase):
   def test_public_item_when_signed_in_as_poster(self):
     r = self.login_and_get('popular', '/user/popular/presence/12345')
     self.assertContains(r, 'test entry 1')
-    self.assertTemplateUsed(r, 'actor/templates/item.html')
+    self.assertTemplateUsed(r, 'item.html')
     if settings.MARK_AS_SPAM_ENABLED:
       self.assertContains(r, 'mark_as_spam', 1)
     self.assertContains(r, 'entry_remove=', 1)
@@ -216,7 +216,7 @@ class ItemTest(ViewTestCase):
   def test_public_item_when_signed_in_as_commenter(self):
     r = self.login_and_get('unpopular', '/user/popular/presence/12345')
     self.assertContains(r, 'test entry 1')
-    self.assertTemplateUsed(r, 'actor/templates/item.html')
+    self.assertTemplateUsed(r, 'item.html')
     if settings.MARK_AS_SPAM_ENABLED:
       self.assertContains(r, 'mark_as_spam', 2)
     self.assertContains(r, 'entry_remove=', 0)
@@ -225,7 +225,7 @@ class ItemTest(ViewTestCase):
   def test_public_item_when_signed_in_as_nonparticipant(self):
     r = self.login_and_get('girlfriend', '/user/popular/presence/12345')
     self.assertContains(r, 'test entry 1')
-    self.assertTemplateUsed(r, 'actor/templates/item.html')
+    self.assertTemplateUsed(r, 'item.html')
     if settings.MARK_AS_SPAM_ENABLED:
       self.assertContains(r, 'mark_as_spam', 3)
     self.assertContains(r, 'entry_remove=', 0)
@@ -238,7 +238,7 @@ class ItemTest(ViewTestCase):
   def test_private_item_when_signed_in_as_poster(self):
     r = self.login_and_get('girlfriend', '/user/girlfriend/presence/16961')
     self.assertContains(r, 'private test entry 1')
-    self.assertTemplateUsed(r, 'actor/templates/item.html')
+    self.assertTemplateUsed(r, 'item.html')
     if settings.MARK_AS_SPAM_ENABLED:
       self.assertContains(r, 'mark_as_spam', 1)
     self.assertContains(r, 'entry_remove=', 1)
@@ -249,7 +249,7 @@ class ItemTest(ViewTestCase):
   def test_private_item_when_signed_in_as_commenter(self):
     r = self.login_and_get('boyfriend', '/user/girlfriend/presence/16961')
     self.assertContains(r, 'private test entry 1')
-    self.assertTemplateUsed(r, 'actor/templates/item.html')
+    self.assertTemplateUsed(r, 'item.html')
     if settings.MARK_AS_SPAM_ENABLED:
       self.assertContains(r, 'mark_as_spam', 2)
     self.assertContains(r, 'entry_remove=', 0)
@@ -296,7 +296,7 @@ class CommentTest(ViewTestCase):
       url = test_util.get_relative_url(email.body)
       r = self.client.get(url)
       self.assertContains(r, content)
-      self.assertTemplateUsed(r, 'actor/templates/item.html')
+      self.assertTemplateUsed(r, 'item.html')
 
   def test_email_notification_entities(self):
     r = self.login('hermit')
@@ -325,7 +325,7 @@ class ContactsTest(ViewTestCase):
   def test_contacts_when_signed_in(self):
     r = self.login_and_get('popular', '/user/popular/contacts')
     self.assertContains(r, 'Your contacts')
-    self.assertTemplateUsed(r, 'actor/templates/contacts.html')
+    self.assertTemplateUsed(r, 'contacts.html')
     self.assertContains(r, 'class="remove', 2)
     r = self.assertGetLink(r, 'remove', link_no = 0, of_count = 2)
     self.assertEqual(r.status_code, 302, r.content)
@@ -335,7 +335,7 @@ class ContactsTest(ViewTestCase):
   def test_followers_when_signed_in(self):
     r = self.login_and_get('popular', '/user/popular/followers')
     self.assertContains(r, 'Your followers')
-    self.assertTemplateUsed(r, 'actor/templates/followers.html')
+    self.assertTemplateUsed(r, 'followers.html')
     self.assertContains(r, 'class="add', 3)
     r = self.assertGetLink(r, 'add', link_no = 0, of_count = 3)
     self.assertEqual(r.status_code, 302, r.content)
@@ -370,7 +370,7 @@ class ContactsTest(ViewTestCase):
     url = test_util.get_relative_url(email.body)
 
     r = self.client.get(url)
-    self.assertTemplateUsed(r, 'actor/templates/history.html')
+    self.assertTemplateUsed(r, 'history.html')
     
     mail.outbox = []
     
@@ -391,7 +391,7 @@ class ContactsTest(ViewTestCase):
     # test that the link is valid
     url = test_util.get_relative_url(email.body)
     r = self.client.get(url)
-    self.assertTemplateUsed(r, 'actor/templates/history.html')
+    self.assertTemplateUsed(r, 'history.html')
 
 class SettingsTest(ViewTestCase):
   def test_settings_404(self):
@@ -401,40 +401,40 @@ class SettingsTest(ViewTestCase):
   def test_settings_index(self):
     r = self.login_and_get('popular', '/user/popular/settings')
     self.assertContains(r, 'Settings')
-    self.assertTemplateUsed(r, 'actor/templates/settings_index.html')
+    self.assertTemplateUsed(r, 'settings_index.html')
 
   def test_settings_profile(self):
     r = self.login_and_get('popular', '/user/popular/settings/profile')
     self.assertContains(r, 'Profile')
-    self.assertTemplateUsed(r, 'actor/templates/settings_profile.html')
+    self.assertTemplateUsed(r, 'settings_profile.html')
 
   def test_settings_mobile(self):
     # add tests for activate/confirm
     r = self.login_and_get('popular', '/user/popular/settings/mobile')
     self.assertContains(r, 'Mobile')
-    self.assertTemplateUsed(r, 'actor/templates/settings_mobile.html')
+    self.assertTemplateUsed(r, 'settings_mobile.html')
 
   def test_settings_email(self):
     # add tests for activate/confirm
     r = self.login_and_get('popular', '/user/popular/settings/email')
     self.assertContains(r, 'Email')
-    self.assertTemplateUsed(r, 'actor/templates/settings_email.html')
+    self.assertTemplateUsed(r, 'settings_email.html')
 
   def test_settings_im(self):
     # add tests for activate/confirm
     r = self.login_and_get('popular', '/user/popular/settings/im')
     self.assertContains(r, 'IM')
-    self.assertTemplateUsed(r, 'actor/templates/settings_im.html')
+    self.assertTemplateUsed(r, 'settings_im.html')
 
   def test_settings_password(self):
     r = self.login_and_get('popular', '/user/popular/settings/password')
     self.assertContains(r, 'Change Your Password')
-    self.assertTemplateUsed(r, 'actor/templates/settings_password.html')
+    self.assertTemplateUsed(r, 'settings_password.html')
 
   def test_settings_photo(self):
     r = self.login_and_get('popular', '/user/popular/settings/photo')
     self.assertContains(r, 'Your photo')
-    self.assertTemplateUsed(r, 'actor/templates/settings_photo.html')
+    self.assertTemplateUsed(r, 'settings_photo.html')
 
   def test_settings_delete(self):
     r = self.login_and_get(
@@ -488,8 +488,8 @@ class SettingsTest(ViewTestCase):
     self.assertEquals(new_contact_avatars.pop().nick, nick)
 
     self.assertContains(r, 'Avatar uploaded')
-    self.assertTemplateUsed(r, 'actor/templates/settings_photo.html')
-    self.assertTemplateUsed(r, 'common/templates/flash.html')
+    self.assertTemplateUsed(r, 'settings_photo.html')
+    self.assertTemplateUsed(r, 'flash.html')
 
   def test_settings_change_avatar(self):
     nick = 'obligated'
@@ -514,33 +514,33 @@ class SettingsTest(ViewTestCase):
     self.assertNotEquals(old_avatar, new_avatar)
 
     self.assertContains(r, 'Avatar changed')
-    self.assertTemplateUsed(r, 'actor/templates/settings_photo.html')
-    self.assertTemplateUsed(r, 'common/templates/flash.html')
+    self.assertTemplateUsed(r, 'settings_photo.html')
+    self.assertTemplateUsed(r, 'flash.html')
 
   def test_settings_privacy(self):
     r = self.login_and_get('popular', '/user/popular/settings/privacy')
     self.assertContains(r, 'Privacy')
-    self.assertTemplateUsed(r, 'actor/templates/settings_privacy.html')
+    self.assertTemplateUsed(r, 'settings_privacy.html')
 
   def test_settings_design(self):
     r = self.login_and_get('popular', '/user/popular/settings/design')
     self.assertContains(r, 'Change Design')
-    self.assertTemplateUsed(r, 'actor/templates/settings_design.html')
+    self.assertTemplateUsed(r, 'settings_design.html')
 
   def test_settings_badge(self):
     r = self.login_and_get('popular', '/user/popular/settings/badge')
     self.assertContains(r, 'badge')
-    self.assertTemplateUsed(r, 'actor/templates/settings_badge.html')
+    self.assertTemplateUsed(r, 'settings_badge.html')
 
   def test_settings_notifications(self):
     r = self.login_and_get('popular', '/user/popular/settings/notifications')
     self.assertContains(r, 'notifications')
-    self.assertTemplateUsed(r, 'actor/templates/settings_notifications.html')
+    self.assertTemplateUsed(r, 'settings_notifications.html')
 
   def test_settings_webfeeds(self):
     r = self.login_and_get('popular', '/user/popular/settings/feeds')
     self.assertContains(r, 'feeds')
-    self.assertTemplateUsed(r, 'actor/templates/settings_feeds.html')
+    self.assertTemplateUsed(r, 'settings_feeds.html')
 
 class NewUserTest(ViewTestCase):
   def test_pages_as_newuser(self):
@@ -573,7 +573,7 @@ class PostTest(ViewTestCase):
     r = self.assertRedirectsPrefix(r, '/user/popular/overview')
     self.assertContains(r, msg)
     self.assertContains(r, 'a moment ago')
-    self.assertTemplateUsed(r, 'actor/templates/overview.html')
+    self.assertTemplateUsed(r, 'overview.html')
 
   def test_post_message_in_personal_history(self):
     self.login('popular')
@@ -587,4 +587,4 @@ class PostTest(ViewTestCase):
     r = self.assertRedirectsPrefix(r, '/user/popular')
     self.assertContains(r, msg)
     self.assertContains(r, 'a moment ago')
-    self.assertTemplateUsed(r, 'actor/templates/history.html')
+    self.assertTemplateUsed(r, 'history.html')

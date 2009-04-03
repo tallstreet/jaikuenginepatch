@@ -1,10 +1,10 @@
 from django.conf import settings
 
-from common import api
-from common import normalize
-from common import profile
-from common import util
-from common.tests import ViewTestCase
+from jaikucommon import api
+from jaikucommon import normalize
+from jaikucommon import profile
+from jaikucommon import util
+from jaikucommon.tests import ViewTestCase
 
 class ExploreTest(ViewTestCase):
 
@@ -15,7 +15,7 @@ class ExploreTest(ViewTestCase):
     l.stop()
     
     self.assertContains(r, "Latest Public Posts")
-    self.assertTemplateUsed(r, 'explore/templates/recent.html')
+    self.assertTemplateUsed(r, 'recent.html')
 
   def test_explore_when_signed_in(self):
     self.login('popular')
@@ -25,4 +25,4 @@ class ExploreTest(ViewTestCase):
     l.stop()
 
     self.assertContains(r, "Latest Public Posts")
-    self.assertTemplateUsed(r, 'explore/templates/recent.html')
+    self.assertTemplateUsed(r, 'recent.html')

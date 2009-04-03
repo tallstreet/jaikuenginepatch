@@ -1,5 +1,5 @@
-from common import profile
-from common.tests import ViewTestCase
+from jaikucommon import profile
+from jaikucommon.tests import ViewTestCase
 
 
 class SmokeTest(ViewTestCase):
@@ -11,7 +11,7 @@ class SmokeTest(ViewTestCase):
     l.stop()
 
     r = self.assertRedirectsPrefix(r, '/user/popular/overview')
-    self.assertTemplateUsed(r, 'actor/templates/overview.html')
+    self.assertTemplateUsed(r, 'overview.html')
     self.assertWellformed(r)
 
   def test_public_frontpage(self):
@@ -20,5 +20,5 @@ class SmokeTest(ViewTestCase):
     r = self.client.get('/')
     l.stop()
 
-    self.assertTemplateUsed(r, 'front/templates/front.html')
+    self.assertTemplateUsed(r, 'front.html')
     self.assertWellformed(r)

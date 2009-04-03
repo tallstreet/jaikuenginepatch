@@ -1,4 +1,4 @@
-{% extends 'common/templates/base_sidebar.html' %}
+{% extends 'base_sidebar.html' %}
 {% load nonce avatar vcard %}
 
 {% block content %}
@@ -6,7 +6,7 @@
 <h2>Create {{ channel_name }}?</h2>
 
 {% if request.user %}
-{% include 'common/templates/message_form.html' %}
+{% include 'message_form.html' %}
 <p>Write your first message and hit post to create this channel.</p>
 
 {% else %}

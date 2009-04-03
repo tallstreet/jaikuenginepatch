@@ -8,9 +8,9 @@
   "created_at": {{entry.created_at|date:"Y-m-d\TH-i-s\Z"|escapejson}},
   "created_at_relative": "{{entry.created_at|timesince}} ago",
   {% with entry.actor_ref as actor_ref %}
-  "user": {% include 'common/templates/user.json' %},
+  "user": {% include 'jaikucommon.templates/user.json' %},
   {% endwith %}
   {% with comments as entries %}
-  "comments": {% include 'common/templates/stream.json' %}
+  "comments": {% include 'jaikucommon.templates/stream.json' %}
   {% endwith %}
 }

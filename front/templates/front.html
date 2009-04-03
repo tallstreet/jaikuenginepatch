@@ -1,4 +1,4 @@
-{% extends 'common/templates/base_sidebar.html' %}
+{% extends 'base_sidebar.html' %}
 
 {% block bodytag %}{{block.super}} {% endblock %}
 
@@ -29,8 +29,8 @@
         </ul>
     </div>
     <div id='stream'>
-    {% include 'common/templates/stream.html' %}
-    {% include 'common/templates/paging.html' %}
+    {% include 'stream.html' %}
+    {% include 'paging.html' %}
 
     <p class="tools">
       {% if feeds %}
@@ -47,7 +47,7 @@
 {% endblock %}
 
 {% block sidebar %}
-  {% include 'front/templates/sidebar_joinnow.html' %}
-  {% include 'front/templates/sidebar_featured_channels.html' %}
-  {% include 'front/templates/sidebar_featured_members.html' %}
+  {% include 'sidebar_joinnow.html' %}
+  {% include 'sidebar_featured_channels.html' %}
+  {% include 'sidebar_featured_members.html' %}
 {% endblock %}

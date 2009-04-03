@@ -15,7 +15,7 @@
 from django.conf import settings
 from django.conf.urls.defaults import *
 
-from common import patterns as common_patterns
+from jaikucommon import patterns as common_patterns
 
 urlpatterns = patterns('',
 )
@@ -142,7 +142,7 @@ urlpatterns += patterns('',
 
 
 # COMMON
-urlpatterns += patterns('common.views',
+urlpatterns += patterns('jaikucommon.views',
     (r'^error$', 'common_error'),
     (r'^confirm$', 'common_confirm'),
     (r'^(?P<path>.*)/$', 'common_noslash'),
@@ -153,10 +153,5 @@ urlpatterns += patterns('blob.views',
     (common_patterns.AVATAR_PATH_RE, 'blob_image_jpg'),
 )
 
-# INSTALL
-urlpatterns += patterns('install.views',
-    ('install', 'install_rootuser'),
-)
-
-handler404 = 'common.views.common_404'
-handler500 = 'common.views.common_500'
+handler404 = 'jaikucommon.views.common_404'
+handler500 = 'jaikucommon.views.common_500'

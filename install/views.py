@@ -20,10 +20,10 @@ from django.template import loader
 
 from google.appengine.api import users
 
-from common import api
-from common import exception
-from common import util
-from common import validate
+from jaikucommon import api
+from jaikucommon import exception
+from jaikucommon import util
+from jaikucommon import validate
 
 def install_rootuser(request):
   # requires an admin
@@ -51,7 +51,7 @@ def install_rootuser(request):
   redirect_to = '/'
 
   c = template.RequestContext(request, locals())    
-  t = loader.get_template('install/templates/rootuser.html')
+  t = loader.get_template('rootuser.html')
   return http.HttpResponse(t.render(c))
   
 

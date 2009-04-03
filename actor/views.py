@@ -17,16 +17,16 @@ from django import template
 from django.conf import settings
 from django.template import loader
 
-from common import api
-from common import clean
-from common import decorator
-from common import exception
-from common import models
-from common import user
-from common import util
-from common import validate
-from common import display
-from common import views as common_views
+from jaikucommon import api
+from jaikucommon import clean
+from jaikucommon import decorator
+from jaikucommon import exception
+from jaikucommon import models
+from jaikucommon import user
+from jaikucommon import util
+from jaikucommon import validate
+from jaikucommon import display
+from jaikucommon import views as common_views
 
 ENTRIES_PER_PAGE = 20
 CONTACTS_PER_PAGE = 48
@@ -191,18 +191,18 @@ def actor_history(request, nick=None, format='html'):
   c = template.RequestContext(request, locals())
 
   if format == 'html':
-    t = loader.get_template('actor/templates/history.html')
+    t = loader.get_template('history.html')
     return http.HttpResponse(t.render(c))
   elif format == 'json':
-    t = loader.get_template('actor/templates/history.json')
+    t = loader.get_template('history.json')
     r = util.HttpJsonResponse(t.render(c), request)
     return r
   elif format == 'atom':
-    t = loader.get_template('actor/templates/history.atom')
+    t = loader.get_template('history.atom')
     r = util.HttpAtomResponse(t.render(c), request)
     return r
   elif format == 'rss':
-    t = loader.get_template('actor/templates/history.rss')
+    t = loader.get_template('history.rss')
     r = util.HttpRssResponse(t.render(c), request)
     return r
 
@@ -234,7 +234,7 @@ def actor_invite(request, nick, format='html'):
   c = template.RequestContext(request, locals())
 
   if format == 'html':
-    t = loader.get_template('actor/templates/invite.html')
+    t = loader.get_template('invite.html')
     return http.HttpResponse(t.render(c))
 
 @alternate_nick
@@ -342,18 +342,18 @@ def actor_overview(request, nick, format='html'):
   c = template.RequestContext(request, locals())
 
   if format == 'html':
-    t = loader.get_template('actor/templates/overview.html')
+    t = loader.get_template('overview.html')
     return http.HttpResponse(t.render(c))
   elif format == 'json':
-    t = loader.get_template('actor/templates/overview.json')
+    t = loader.get_template('overview.json')
     r = util.HttpJsonResponse(t.render(c), request)
     return r
   elif format == 'atom':
-    t = loader.get_template('actor/templates/overview.atom')
+    t = loader.get_template('overview.atom')
     r = util.HttpAtomResponse(t.render(c), request)
     return r
   elif format == 'rss':
-    t = loader.get_template('actor/templates/overview.rss')
+    t = loader.get_template('overview.rss')
     r = util.HttpRssResponse(t.render(c), request)
     return r
     
@@ -466,7 +466,7 @@ def actor_item(request, nick=None, item=None, format='html'):
   # for display, this usually translates to attaching references to
   # actor or stream entities.
   # Functions that handle this preparation should be added to the
-  # common.display module
+  # jaikucommon.display module
   entry = display.prep_entry(entry_ref,
                              {stream_ref.key().name(): stream_ref}, actors)
   comments = display.prep_comment_list(comments, actors)
@@ -490,11 +490,11 @@ def actor_item(request, nick=None, item=None, format='html'):
 
     # We always use the full path to the template to prevent naming conflicts
     # and difficult searches.
-    t = loader.get_template('actor/templates/item.html')
+    t = loader.get_template('item.html')
     return http.HttpResponse(t.render(c))
 
   elif format == 'json':
-    t = loader.get_template('actor/templates/item.json')
+    t = loader.get_template('item.json')
     r = http.HttpResponse(t.render(c))
     r['Content-type'] = 'text/javascript'
     return r
@@ -564,10 +564,10 @@ def actor_contacts(request, nick=None, format='html'):
   c = template.RequestContext(request, locals())
 
   if format == 'html':
-    t = loader.get_template('actor/templates/contacts.html')
+    t = loader.get_template('contacts.html')
     return http.HttpResponse(t.render(c))
   elif format == 'json':
-    t = loader.get_template('actor/templates/contacts.json')
+    t = loader.get_template('contacts.json')
     r = http.HttpResponse(t.render(c))
     r['Content-type'] = 'text/javascript'
     return r
@@ -628,7 +628,7 @@ def actor_followers(request, nick=None, format='html'):
   c = template.RequestContext(request, locals())
 
   if format == 'html':
-    t = loader.get_template('actor/templates/followers.html')
+    t = loader.get_template('followers.html')
     return http.HttpResponse(t.render(c))
 
 @alternate_nick
@@ -801,7 +801,7 @@ def actor_settings(request, nick, page='index'):
 
   # rendering
   c = template.RequestContext(request, locals())
-  t = loader.get_template('actor/templates/settings_%s.html' % page)
+  t = loader.get_template('settings_%s.html' % page)
   return http.HttpResponse(t.render(c))
 
 def actor_settings_redirect(request):

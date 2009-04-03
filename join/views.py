@@ -20,21 +20,21 @@ from django.conf import settings
 from django.template import loader
 import simplejson
 
-from common.display import prep_stream_dict, prep_entry_list, prep_entry, prep_comment_list, DEFAULT_AVATARS
+from jaikucommon.display import prep_stream_dict, prep_entry_list, prep_entry, prep_comment_list, DEFAULT_AVATARS
 
-from common import api
-from common import component
-from common import exception
-from common import decorator
-from common import display
-from common import google_contacts
-from common import mail
-from common import memcache
-from common import oauth_util
-from common import user
-from common import util
-from common import validate
-from common import views as common_views
+from jaikucommon import api
+from jaikucommon import component
+from jaikucommon import exception
+from jaikucommon import decorator
+from jaikucommon import display
+from jaikucommon import google_contacts
+from jaikucommon import mail
+from jaikucommon import memcache
+from jaikucommon import oauth_util
+from jaikucommon import user
+from jaikucommon import util
+from jaikucommon import validate
+from jaikucommon import views as common_views
 
 
 def join_join(request):
@@ -101,7 +101,7 @@ def join_join(request):
   area = "join"
   c = template.RequestContext(request, locals())
 
-  t = loader.get_template('join/templates/join.html')
+  t = loader.get_template('join.html')
   return http.HttpResponse(t.render(c))
 
 @decorator.login_required
@@ -115,7 +115,7 @@ def join_welcome(request):
   area = 'welcome'
   c = template.RequestContext(request, locals())
   
-  t = loader.get_template('join/templates/welcome_%s.html' % page)
+  t = loader.get_template('welcome_%s.html' % page)
   return http.HttpResponse(t.render(c))
 
 @decorator.login_required
@@ -147,7 +147,7 @@ def join_welcome_photo(request):
   area = 'welcome'
   c = template.RequestContext(request, locals())
 
-  t = loader.get_template('join/templates/welcome_%s.html' % page)
+  t = loader.get_template('welcome_%s.html' % page)
   return http.HttpResponse(t.render(c))
 
 @decorator.login_required
@@ -174,7 +174,7 @@ def join_welcome_mobile(request):
   area = 'welcome'
   c = template.RequestContext(request, locals())
   
-  t = loader.get_template('join/templates/welcome_%s.html' % page)
+  t = loader.get_template('welcome_%s.html' % page)
   return http.HttpResponse(t.render(c))
 
 @decorator.login_required
@@ -319,7 +319,7 @@ def join_welcome_contacts(request):
   area = 'welcome'
   c = template.RequestContext(request, locals())
   
-  t = loader.get_template('join/templates/welcome_%s.html' % page)
+  t = loader.get_template('welcome_%s.html' % page)
   return http.HttpResponse(t.render(c))
 
 def join_welcome_done(request):
@@ -336,5 +336,5 @@ def join_welcome_done(request):
   area = 'welcome'
   c = template.RequestContext(request, locals())
   
-  t = loader.get_template('join/templates/welcome_%s.html' % page)
+  t = loader.get_template('welcome_%s.html' % page)
   return http.HttpResponse(t.render(c))

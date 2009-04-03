@@ -1,4 +1,4 @@
-{% extends 'common/templates/base_sidebar.html' %}
+{% extends 'base_sidebar.html' %}
 {% load nonce avatar vcard actor %}
 {% block title %}
   {% ifequal request.user.nick view.nick %}
@@ -11,13 +11,13 @@
 {% block content %}
 
 {% ifequal request.user.nick view.nick %}
-  {% include 'common/templates/message_form.html' %}
+  {% include 'message_form.html' %}
 {% else %}
   {% include 'form_error.html' %}
   <div class="main">
     <div class="vcard" id="profile">
       {% with view as actor %}
-        {% include 'common/templates/vcard_full.html' %}
+        {% include 'vcard_full.html' %}
       {% endwith %}
 
       {% if request.user %}
@@ -55,8 +55,8 @@
 
 
 <div id='stream'>
-  {% include 'common/templates/stream.html' %}
-  {% include 'common/templates/paging.html' %}
+  {% include 'stream.html' %}
+  {% include 'paging.html' %}
 
   <p class="tools">
     {% if feeds %}
@@ -68,12 +68,12 @@
 
 {% block sidebar %}
 {% if not user_is_private %}
-  {% include 'common/templates/sidebar_location.html' %}
-  {% include 'common/templates/sidebar_contacts.html' %}
+  {% include 'sidebar_location.html' %}
+  {% include 'sidebar_contacts.html' %}
   {% with view_streams as streams %}
-    {% include 'common/templates/sidebar_streams.html' %}
+    {% include 'sidebar_streams.html' %}
   {% endwith %}
 {% else %}
-  {% include 'actor/templates/sidebar_privateuser.html' %}
+  {% include 'sidebar_privateuser.html' %}
 {% endif %}
 {% endblock %}

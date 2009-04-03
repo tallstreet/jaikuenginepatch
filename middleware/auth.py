@@ -21,7 +21,7 @@ from django.conf import settings
 class LazyUser(object):
   def __get__(self, request, obj_type=None):
     if not hasattr(request, '_cached_user'):
-      from common import user
+      from jaikucommon import user
       request._cached_user = user.get_user_from_request(request)
     return request._cached_user
 

@@ -17,8 +17,8 @@ from django import template
 from django.conf import settings
 from django.template import loader
 
-from common import api
-from common import clean
+from jaikucommon import api
+from jaikucommon import clean
 
 
 def badge_badge(request, format, nick):
@@ -57,7 +57,7 @@ def badge_badge(request, format, nick):
     template_path = 'badge.xml'
 
   c = template.RequestContext(request, locals())
-  t = loader.get_template('badge/templates/%s' % template_path)
+  t = loader.get_template('%s' % template_path)
   r = http.HttpResponse(t.render(c))
   r['Content-type'] = content_type
   return r

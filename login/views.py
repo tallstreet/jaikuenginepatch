@@ -20,13 +20,13 @@ from django.core.cache import cache
 
 from google.appengine.api import users
 
-from common import api
-from common import clean
-from common import decorator
-from common import exception
-from common import user
-from common import util
-from common import views as common_views
+from jaikucommon import api
+from jaikucommon import clean
+from jaikucommon import decorator
+from jaikucommon import exception
+from jaikucommon import user
+from jaikucommon import util
+from jaikucommon import views as common_views
 
 @decorator.cache_never
 def login_login(request):
@@ -77,7 +77,7 @@ def login_login(request):
     return http.HttpResponseRedirect(redirect_to)
   
   c = template.RequestContext(request, locals())    
-  t = loader.get_template('login/templates/login.html')
+  t = loader.get_template('login.html')
   return http.HttpResponse(t.render(c))
 
 @decorator.cache_never
@@ -100,7 +100,7 @@ def login_logout(request):
   request.user = None
   redirect_to = '/'
   c = template.RequestContext(request, locals())
-  t = loader.get_template('login/templates/logout.html')
+  t = loader.get_template('logout.html')
 
   response = http.HttpResponse(t.render(c))
   response = user.clear_user_cookie(response)
@@ -118,7 +118,7 @@ def login_forgot(request):
     return handled
 
   c = template.RequestContext(request, locals())
-  t = loader.get_template('login/templates/forgot.html')
+  t = loader.get_template('forgot.html')
 
   response = http.HttpResponse(t.render(c))
   return response
@@ -129,7 +129,7 @@ def login_reset(request):
       None, request.GET.get('email'), request.GET.get('hash'))
 
   c = template.RequestContext(request, locals())
-  t = loader.get_template('login/templates/recover.html')
+  t = loader.get_template('recover.html')
 
   response = http.HttpResponse(t.render(c))
   return response

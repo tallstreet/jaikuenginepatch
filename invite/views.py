@@ -19,10 +19,10 @@ from django import template
 from django.conf import settings
 from django.template import loader
 
-from common import api
-from common import display
-from common import util
-from common import views as common_views
+from jaikucommon import api
+from jaikucommon import display
+from jaikucommon import util
+from jaikucommon import views as common_views
 
 def invite_email(request, code):
   """User has received the invite email, and has followed the link to accept or
@@ -74,5 +74,5 @@ def invite_email(request, code):
   sidebar_green_top = True
   c = template.RequestContext(request, locals())
 
-  t = loader.get_template('invite/templates/email.html')
+  t = loader.get_template('email.html')
   return http.HttpResponse(t.render(c))

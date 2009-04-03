@@ -1,1 +1,46 @@
-Please see doc/README.txt
+Jaikuenginepatch is jaikuengine (http://code.google.com/p/jaikuengine/) ported to run on appenginepatch (http://code.google.com/p/app-engine-patch/)
+
+Steps to create jaikuenginepatch from jaikuengine.
+
+1. Checkout jaikuengine
+
+2. Checkout appenginepatch
+
+3. Start jaikuengine to build the zip files
+
+4. Rename the common folder to jaikucommon
+
+5. grep the code and change from common to from jaikucommon
+
+6. Copy the common folder from appenginepatch to jaikuengine
+
+7. Move the zip files into /common/zip-packages (except django.zip, just delete that one because appenginepatch comes with its own)
+
+8. Delete the settings.py, local_settings.py, dev_settings.py and main.py, manage.py, and app.yaml
+
+9. Delete the folders  .google_appengine, vendor, appengine_django
+
+10. Copy the manage.py from appengine patch, and use the app.yaml and settings.py that I have used
+
+11. From jaikucommon/models.py
+
+delete this line:
+  
+  import appengine_django.models as aed_models
+  
+also change:
+  class ApiMixinModel(aed_models.BaseModel):
+  
+to 
+  class ApiMixinModel(models.Model):
+  
+12. grep through the code and replace '.*/templates/ with '
+
+13. grep throuh *.json replace common. with jaikucommon.
+
+14. in jaikucommon/mail.py change email/ to jaikucommon/email/
+
+15. run python manage.py loaddata jaikucommon/fixtures/*.json
+
+16. run python manage.py runserver
+

@@ -1,0 +1,10 @@
+[{"pk": "oauth/accesstoken/POPULARDESKTOPACCESSTOKEN", 
+  "model": "jaikucommon.OAuthAccessToken", 
+  "fields": {"key_": "POPULARDESKTOPACCESSTOKEN",
+             "secret": "secret",
+             "consumer": "TESTDESKTOPCONSUMER",
+             "actor": "popular@example.com",
+             "perms": "delete"
+             }
+  }
+]

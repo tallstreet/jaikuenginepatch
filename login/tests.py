@@ -13,11 +13,11 @@
 # limitations under the License.
 
 from django.conf import settings
-from common.tests import ViewTestCase
-from common import api
-from common import clean
-from common import exception
-from common import util
+from jaikucommon.tests import ViewTestCase
+from jaikucommon import api
+from jaikucommon import clean
+from jaikucommon import exception
+from jaikucommon import util
 
 class LoginTest(ViewTestCase):
 
@@ -25,27 +25,27 @@ class LoginTest(ViewTestCase):
     r = self.login_and_get(None, '/login')
     self.assertContains(r, "Forgot your password?")
     self.assertContains(r, "Sign Up Now")
-    self.assertTemplateUsed(r, 'login/templates/login.html')
+    self.assertTemplateUsed(r, 'login.html')
 
   def test_login_when_signed_in(self):
     r = self.login_and_get('popular', '/login')
     r = self.assertRedirectsPrefix(r, '/user/popular/overview')
-    self.assertTemplateUsed(r, 'actor/templates/overview.html')
-    self.assertTemplateUsed(r, 'common/templates/flash.html')
+    self.assertTemplateUsed(r, 'overview.html')
+    self.assertTemplateUsed(r, 'flash.html')
 
   def test_login_redirect_to(self):
     r = self.login_and_get('popular', '/login', {'redirect_to': '/channel'})
     r = self.assertRedirectsPrefix(r, '/channel')
-    self.assertTemplateUsed(r, 'channel/templates/index.html')
-    self.assertTemplateUsed(r, 'common/templates/flash.html')
+    self.assertTemplateUsed(r, 'index.html')
+    self.assertTemplateUsed(r, 'flash.html')
 
   def test_login(self):
     log = 'popular'
     pwd = self.passwords[clean.nick(log)]
     r = self.client.post('/login', {'log': log, 'pwd': pwd})
     r = self.assertRedirectsPrefix(r, '/user/popular/overview')
-    self.assertTemplateUsed(r, 'actor/templates/overview.html')
-    self.assertTemplateUsed(r, 'common/templates/flash.html')
+    self.assertTemplateUsed(r, 'overview.html')
+    self.assertTemplateUsed(r, 'flash.html')
 
   def test_login_with_confirmed_email(self):
     log = 'hotness'
@@ -53,22 +53,22 @@ class LoginTest(ViewTestCase):
     confirmed_email = 'hotness@foobar.com'
     r = self.client.post('/login', {'log': confirmed_email, 'pwd': pwd})
     r = self.assertRedirectsPrefix(r, '/user/hotness/overview')
-    self.assertTemplateUsed(r, 'actor/templates/overview.html')
-    self.assertTemplateUsed(r, 'common/templates/flash.html')
+    self.assertTemplateUsed(r, 'overview.html')
+    self.assertTemplateUsed(r, 'flash.html')
 
   def test_login_bad_password(self):
     log = 'popular'
     pwd = 'BAD PASSWORD'
     r = self.client.post('/login', {'log': log, 'pwd': pwd})
     self.assert_error_contains(r, 'Invalid username or password')
-    self.assertTemplateUsed(r, 'login/templates/login.html')
+    self.assertTemplateUsed(r, 'login.html')
 
   def test_login_bad_user(self):
     log = 'BAD USER'
     pwd = 'BAD PASSWORD'
     r = self.client.post('/login', {'log': log, 'pwd': pwd})
     self.assert_error_contains(r, 'Invalid username or password')
-    self.assertTemplateUsed(r, 'login/templates/login.html')
+    self.assertTemplateUsed(r, 'login.html')
 
   def test_login_user_cleanup(self):
     log = 'broken'
@@ -100,13 +100,13 @@ class LoginTest(ViewTestCase):
     pwd = self.passwords[clean.nick(log)]
     r = self.client.post('/login', {'log': log, 'pwd': pwd})
     r = self.assertRedirectsPrefix(r, '/user/popular/overview')
-    self.assertTemplateUsed(r, 'actor/templates/overview.html')
-    self.assertTemplateUsed(r, 'common/templates/flash.html')
+    self.assertTemplateUsed(r, 'overview.html')
+    self.assertTemplateUsed(r, 'flash.html')
 
     api.actor_remove(api.ROOT, 'popular')
     r = self.client.post('/login', {'log': log, 'pwd': pwd})
     self.assert_error_contains(r, 'Invalid username')
-    self.assertTemplateUsed(r, 'login/templates/login.html')
+    self.assertTemplateUsed(r, 'login.html')
  
 
 # Test cases and expected outcomes:
@@ -129,7 +129,7 @@ class LoginForgotTest(ViewTestCase):
 
   def test_login_forgot(self):
     r = self.client.get('/login/forgot')
-    self.assertTemplateUsed(r, 'login/templates/forgot.html')
+    self.assertTemplateUsed(r, 'forgot.html')
 
   def test_login_forgot_nick_popular(self):
     r = self.client.post('/login/forgot', 
@@ -140,9 +140,9 @@ class LoginForgotTest(ViewTestCase):
                          })
 
     r = self.assertRedirectsPrefix(r, '/login/forgot')
-    self.assertTemplateUsed(r, 'login/templates/forgot.html')
+    self.assertTemplateUsed(r, 'forgot.html')
     self.assertContains(r, 'New Password Emailed')
-    self.assertTemplateUsed(r, 'common/templates/flash.html')
+    self.assertTemplateUsed(r, 'flash.html')
 
 
 
@@ -157,9 +157,9 @@ class LoginForgotTest(ViewTestCase):
                          })
     
     r = self.assertRedirectsPrefix(r, '/login/forgot')
-    self.assertTemplateUsed(r, 'login/templates/forgot.html')
+    self.assertTemplateUsed(r, 'forgot.html')
     self.assertContains(r, 'New Password Emailed')
-    self.assertTemplateUsed(r, 'common/templates/flash.html')
+    self.assertTemplateUsed(r, 'flash.html')
 
   # User enters 'hermit', 'hermit' has an unconfirmed email
   # - Send notification to that email.
@@ -172,9 +172,9 @@ class LoginForgotTest(ViewTestCase):
                          })
 
     r = self.assertRedirectsPrefix(r, '/login/forgot')
-    self.assertTemplateUsed(r, 'login/templates/forgot.html')
+    self.assertTemplateUsed(r, 'forgot.html')
     self.assertContains(r, 'New Password Emailed')
-    self.assertTemplateUsed(r, 'common/templates/flash.html')
+    self.assertTemplateUsed(r, 'flash.html')
 
 
   # TODO(termie): stub
@@ -195,7 +195,7 @@ class LoginForgotTest(ViewTestCase):
                            'nick_or_email' : 'annoying',
                          })
       
-    self.assertTemplateUsed(r, 'login/templates/forgot.html')
+    self.assertTemplateUsed(r, 'forgot.html')
     self.assertContains(r, 'does not have an email')
 
   
@@ -209,7 +209,7 @@ class LoginForgotTest(ViewTestCase):
                            'nick_or_email' : 'idontexist',
                          })
       
-    self.assertTemplateUsed(r, 'login/templates/forgot.html')
+    self.assertTemplateUsed(r, 'forgot.html')
     self.assertContains(r, 'not found')
   
   # User enters 'foo@bar.com', a confirmed email for 'popular'
@@ -223,9 +223,9 @@ class LoginForgotTest(ViewTestCase):
                          })
 
     r = self.assertRedirectsPrefix(r, '/login/forgot')
-    self.assertTemplateUsed(r, 'login/templates/forgot.html')
+    self.assertTemplateUsed(r, 'forgot.html')
     self.assertContains(r, 'New Password Emailed')
-    self.assertTemplateUsed(r, 'common/templates/flash.html')
+    self.assertTemplateUsed(r, 'flash.html')
 
   # User enters 'foo@bar.com', an unconfirmed email for 'hermit'
   # - Send notification to that email
@@ -238,9 +238,9 @@ class LoginForgotTest(ViewTestCase):
                          })
 
     r = self.assertRedirectsPrefix(r, '/login/forgot')
-    self.assertTemplateUsed(r, 'login/templates/forgot.html')
+    self.assertTemplateUsed(r, 'forgot.html')
     self.assertContains(r, 'New Password Emailed')
-    self.assertTemplateUsed(r, 'common/templates/flash.html')
+    self.assertTemplateUsed(r, 'flash.html')
   
   # TODO(termie): stub
   # User enters 'foo@bar.com', an unconfirmed email for 'popular', 'unpopular'
@@ -258,7 +258,7 @@ class LoginForgotTest(ViewTestCase):
                            'nick_or_email' : 'foo@bar.com',
                          })
       
-    self.assertTemplateUsed(r, 'login/templates/forgot.html')
+    self.assertTemplateUsed(r, 'forgot.html')
     self.assertContains(r, 'does not match any accounts')
 
 
@@ -270,5 +270,5 @@ class LogoutTest(ViewTestCase):
     r = self.login_and_get('popular', '/login')
     self.assertRedirectsPrefix(r, '/user/popular/overview')
     r = self.client.get('/logout')
-    self.assertTemplateUsed(r, 'login/templates/logout.html')
+    self.assertTemplateUsed(r, 'logout.html')
     self.assertNotContains(r, "Signed in as")

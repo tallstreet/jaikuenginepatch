@@ -1,4 +1,4 @@
-{% extends 'actor/templates/people_base.html' %}
+{% extends 'people_base.html' %}
 {% block title %}{{whose}} contacts{% endblock %}
 {% load nonce avatar vcard %}
 
@@ -19,7 +19,7 @@
         </p>
       {% endifequal %}
       {% if actor_tiles %}
-        {% include 'common/templates/actor_tiles.html' %}
+        {% include 'actor_tiles.html' %}
       {% else %}
         <p>No contacts yet, but maybe soon :)</p>
       {% endif %}

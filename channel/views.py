@@ -17,16 +17,16 @@ from django import template
 from django.conf import settings
 from django.template import loader
 
-from common import api
-from common import clean
-from common import decorator
-from common import display
-from common import exception
-from common import normalize
-from common import user
-from common import util
-from common import validate
-from common import views as common_views
+from jaikucommon import api
+from jaikucommon import clean
+from jaikucommon import decorator
+from jaikucommon import display
+from jaikucommon import exception
+from jaikucommon import normalize
+from jaikucommon import user
+from jaikucommon import util
+from jaikucommon import validate
+from jaikucommon import views as common_views
 
 CHANNEL_HISTORY_PER_PAGE = 20
 CHANNELS_PER_INDEX_PAGE = 12
@@ -53,7 +53,7 @@ def channel_create(request, format='html'):
   c = template.RequestContext(request, locals())
 
   if format == 'html':
-    t = loader.get_template('channel/templates/create.html')
+    t = loader.get_template('create.html')
     return http.HttpResponse(t.render(c))
 
 
@@ -107,7 +107,7 @@ def channel_index(request, format='html'):
   c = template.RequestContext(request, locals())
 
   if format == 'html':
-    t = loader.get_template('channel/templates/index.html')
+    t = loader.get_template('index.html')
     return http.HttpResponse(t.render(c))
 
 
@@ -121,7 +121,7 @@ def channel_index_signedout(request, format='html'):
   c = template.RequestContext(request, locals())
 
   if format == 'html':
-    t = loader.get_template('channel/templates/index_signedout.html')
+    t = loader.get_template('index_signedout.html')
     return http.HttpResponse(t.render(c))
 
 
@@ -262,18 +262,18 @@ def channel_history(request, nick, format='html'):
   c = template.RequestContext(request, locals())
 
   if format == 'html':
-    t = loader.get_template('channel/templates/history.html')
+    t = loader.get_template('history.html')
     return http.HttpResponse(t.render(c))
   elif format == 'json':
-    t = loader.get_template('channel/templates/history.json')
+    t = loader.get_template('history.json')
     r = util.HttpJsonResponse(t.render(c), request)
     return r
   elif format == 'atom':
-    t = loader.get_template('channel/templates/history.atom')
+    t = loader.get_template('history.atom')
     r = util.HttpAtomResponse(t.render(c), request)
     return r
   elif format == 'rss':
-    t = loader.get_template('channel/templates/history.rss')
+    t = loader.get_template('history.rss')
     r = util.HttpRssResponse(t.render(c), request)
     return r
 
@@ -325,10 +325,10 @@ def channel_item(request, nick, item=None, format='html'):
   # rendering
   c = template.RequestContext(request, locals())
   if format == 'html':
-    t = loader.get_template('channel/templates/item.html')
+    t = loader.get_template('item.html')
     return http.HttpResponse(t.render(c))
   elif format == 'json':
-    t = loader.get_template('actor/templates/item.json')
+    t = loader.get_template('item.json')
     r = http.HttpResponse(t.render(c))
     r['Content-type'] = 'text/javascript'
     return r
@@ -354,7 +354,7 @@ def channel_browse(request, format='html'):
 
   # TODO(tyler): Other output formats.
   if format == 'html':
-    t = loader.get_template('channel/templates/browse.html')
+    t = loader.get_template('browse.html')
     return http.HttpResponse(t.render(c))
 
 def channel_members(request, nick=None, format='html'):
@@ -400,7 +400,7 @@ def channel_members(request, nick=None, format='html'):
   c = template.RequestContext(request, locals())
 
   if format == 'html':
-    t = loader.get_template('channel/templates/members.html')
+    t = loader.get_template('members.html')
     return http.HttpResponse(t.render(c))
 
 
@@ -476,5 +476,5 @@ def channel_settings(request, nick, page='index'):
 
   # rendering
   c = template.RequestContext(request, locals())
-  t = loader.get_template('channel/templates/settings_%s.html' % page)
+  t = loader.get_template('settings_%s.html' % page)
   return http.HttpResponse(t.render(c))

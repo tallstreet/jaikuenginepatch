@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from common import messages
-from common import profile
-from common import util
-from common.tests import ViewTestCase
+from jaikucommon import messages
+from jaikucommon import profile
+from jaikucommon import util
+from jaikucommon.tests import ViewTestCase
 
 class SmokeTest(ViewTestCase):
   def test_popular_channel_public(self):
@@ -48,7 +48,7 @@ class NonExistentTest(ViewTestCase):
   def test_nonexist_channel_logged_in(self):
     r = self.login_and_get('popular', '/channel/doesntexist')
     r = self.assertRedirectsPrefix(r, '/channel/create')
-    self.assertTemplateUsed(r, 'channel/templates/create.html')
+    self.assertTemplateUsed(r, 'create.html')
     self.assertWellformed(r)
 
 
@@ -56,7 +56,7 @@ class IndexTest(ViewTestCase):
   def test_channel_index(self):
     self.login('unpopular')
     r = self.client.get('/channel')
-    self.assertTemplateUsed(r, 'channel/templates/index.html')
+    self.assertTemplateUsed(r, 'index.html')
     self.assertContains(r, 'Create a New Channel')
     self.assertContains(r, 'No channels')  # nothing administered
     self.assertContains(r, '#popular')     # one followed
@@ -64,7 +64,7 @@ class IndexTest(ViewTestCase):
 
   def test_channel_index_logged_out(self):
     r = self.client.get('/channel')
-    self.assertTemplateUsed(r, 'channel/templates/index_signedout.html')
+    self.assertTemplateUsed(r, 'index_signedout.html')
 
     # Public / recent channels not currently displayed
     self.assertContains(r, 'Want your own')
@@ -91,8 +91,8 @@ class CreationTest(ViewTestCase):
                           }
                          )
     r = self.assertRedirectsPrefix(r, '/channel/broken')
-    self.assertTemplateUsed(r, 'channel/templates/history.html')
-    self.assertTemplateUsed(r, 'common/templates/message_form.html')
+    self.assertTemplateUsed(r, 'history.html')
+    self.assertTemplateUsed(r, 'message_form.html')
     self.assertWellformed(r)
 
   def test_create_channel_already_exists(self):
@@ -127,7 +127,7 @@ class CreationTest(ViewTestCase):
                           }
                          )
     r = self.assertRedirectsPrefix(r, '/channel/create')
-    self.assertTemplateUsed(r, 'channel/templates/create.html')
+    self.assertTemplateUsed(r, 'create.html')
     self.assertWellformed(r)
 
   def test_recreate_deleted_channel(self):
@@ -307,7 +307,7 @@ class SettingsTest(ViewTestCase):
       r = self.client.get('/channel/popular/settings' + page)
       self.assertTemplateUsed(
           r,
-          'channel/templates/settings_%s.html' % template_extention)
+          'settings_%s.html' % template_extention)
       self.assertWellformed(r)
 
   def test_settings_channel_not_exist(self):

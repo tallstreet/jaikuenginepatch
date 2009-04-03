@@ -1,7 +1,7 @@
 """an sms service that doesn't do anything"""
 import logging
 
-from common.protocol import sms
+from jaikucommon.protocol import sms
 
 def send_message(to_list, message):
   logging.info("SMS_SERVICE: send_message(%s, %s)", to_list, message)

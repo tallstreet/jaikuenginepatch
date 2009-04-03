@@ -17,8 +17,8 @@ from django import template
 from django.conf import settings
 from django.template import loader
 
-from common import api, util
-from common.display import prep_entry_list, prep_stream_dict
+from jaikucommon import api, util
+from jaikucommon.display import prep_entry_list, prep_stream_dict
 
 ENTRIES_PER_PAGE = 20
 
@@ -55,17 +55,17 @@ def explore_recent(request, format="html"):
   c = template.RequestContext(request, locals())
 
   if format == 'html':
-    t = loader.get_template('explore/templates/recent.html')
+    t = loader.get_template('recent.html')
     return http.HttpResponse(t.render(c));
   elif format == 'json':
-    t = loader.get_template('explore/templates/recent.json')
+    t = loader.get_template('recent.json')
     r = util.HttpJsonResponse(t.render(c), request)
     return r
   elif format == 'atom':
-    t = loader.get_template('explore/templates/recent.atom')
+    t = loader.get_template('recent.atom')
     r = util.HttpAtomResponse(t.render(c), request)
     return r
   elif format == 'rss':
-    t = loader.get_template('explore/templates/recent.rss')
+    t = loader.get_template('recent.rss')
     r = util.HttpRssResponse(t.render(c), request)
     return r

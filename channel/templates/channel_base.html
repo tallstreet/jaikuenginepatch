@@ -1,4 +1,4 @@
-{% extends 'common/templates/base_wide.html' %}
+{% extends 'base_wide.html' %}
 {% load nonce avatar vcard %}
 {% block title %}Channels{% endblock %}
 
@@ -24,8 +24,8 @@
     </p>
     {% endif %}
   </div>
-  {% include 'channel/templates/sidebar_ourpicks.html' %}
-  {% include 'common/templates/sidebar_search.html' %}
+  {% include 'sidebar_ourpicks.html' %}
+  {% include 'sidebar_search.html' %}
 </div>
 {% endif %}
 

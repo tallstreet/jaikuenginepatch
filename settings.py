@@ -1,127 +1,154 @@
-# Copyright 2009 Google Inc.
-
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# -*- coding: utf-8 -*-
+from ragendja.settings_pre import *
 
 import re
 import os
 import os.path
 
-###
-# Django related settings
-###
-
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
-
-ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
-)
-
-MANAGERS = ADMINS
-
-
-# This stuff is always going to be the same for an App Engine instance
-DATABASE_ENGINE = 'appengine'  # 'appengine' is the only supported engine
-DATABASE_NAME = ''             # Not used with appengine
-DATABASE_USER = ''             # Not used with appengine
-DATABASE_PASSWORD = ''         # Not used with appengine
-DATABASE_HOST = ''             # Not used with appengine
-DATABASE_PORT = ''             # Not used with appengine
-
-# The appengine_django code doesn't care about the address of memcached
-# because it is a built in API for App Engine
-CACHE_BACKEND = 'memcached://'
-
-# Local time zone for this installation. Choices can be found here:
-# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# although not all choices may be available on all operating systems.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
-TIME_ZONE = 'UTC'
-
-# Language code for this installation. All choices can be found here:
-# http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
-
-# If you set this to False, Django will make some optimizations so as not
-# to load the internationalization machinery.
-USE_I18N = True
+# Increase this when you update your media on the production site, so users
+# don't have to refresh their cache. By setting this your MEDIA_URL
+# automatically becomes /media/MEDIA_VERSION/
+MEDIA_VERSION = 1
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'I AM SO SECRET'
+SECRET_KEY = '1234567890'
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.load_template_source',
-    'django.template.loaders.app_directories.load_template_source',
-    # 'django.template.loaders.eggs.load_template_source',
+#ENABLE_PROFILER = True
+#ONLY_FORCED_PROFILE = True
+#PROFILE_PERCENTAGE = 25
+#SORT_PROFILE_RESULTS_BY = 'cumulative' # default is 'time'
+#PROFILE_PATTERN = 'ext.db..+\((?:get|get_by_key_name|fetch|count|put)\)'
+
+# Enable I18N and set default language to 'en'
+USE_I18N = True
+LANGUAGE_CODE = 'en'
+
+#Restrict supported languages (and JS media generation)
+LANGUAGES = (
+#    ('de', 'German'),
+    ('en', 'English'),
+)
+
+COMBINE_MEDIA = {
+    # Create a combined JS file which is called "combined-en.js" for English,
+    # "combined-de.js" for German, and so on
+    'combined-%(LANGUAGE_CODE)s.js': (
+        'global/js/jquery.js',
+        'global/js/core.js',
+    ),
+    # Create a combined CSS file which is called "combined-ltr.css" for
+    # left-to-right text direction
+    'combined-%(LANGUAGE_DIR)s.css': (
+        'global/css/core.css',
+    ),
+	'ie.css': (
+		'global/css/ie.css',
+	),
+	'screentrotz.css': (
+		'global/themes/trotz/screen.css',
+	),
+	'screen-ietrotz.css': (
+		'global/themes/trotz/screen-ie.css',
+	),
+}
+
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    #'django.core.context_processors.auth',
+    'django.core.context_processors.media',
+    'django.core.context_processors.request',
+    'django.core.context_processors.i18n',
+    'jaikucommon.context_processors.settings',
+    'jaikucommon.context_processors.flash',
+    'jaikucommon.context_processors.components',
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    # Django authentication
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    # Google authentication
+    #'ragendja.auth.middleware.GoogleAuthenticationMiddleware',
+    # Hybrid Django/Google authentication
+    #'ragendja.auth.middleware.HybridAuthenticationMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'ragendja.sites.dynamicsite.DynamicSiteIDMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     'middleware.domain.DomainMiddleware',
     'middleware.auth.AuthenticationMiddleware',
     'middleware.exception.ExceptionMiddleware',
     'middleware.cache.CacheMiddleware',
-    'middleware.strip_whitespace.WhitespaceMiddleware',
-    'middleware.profile.ProfileMiddleware',
+    'middleware.strip_whitespace.WhitespaceMiddleware',    
 )
 
-ROOT_URLCONF = 'urls'
+# Google authentication
+#AUTH_USER_MODULE = 'ragendja.auth.google_models'
+#AUTH_ADMIN_MODULE = 'ragendja.auth.google_admin'
+# Hybrid Django/Google authentication
+#AUTH_USER_MODULE = 'ragendja.auth.hybrid_models'
 
-# Where the templates live, you probably don't want to change this unless you
-# know what you're doing
-TEMPLATE_DIRS = (
-    os.path.dirname(__file__),
+GLOBALTAGS = (
+    'ragendja.templatetags.ragendjatags',
+    'django.templatetags.i18n',
 )
 
+LOGIN_URL = '/account/login/'
+LOGOUT_URL = '/account/logout/'
+LOGIN_REDIRECT_URL = '/'
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.debug',
-    'django.core.context_processors.request',
-    'common.context_processors.settings',
-    'common.context_processors.flash',
-    'common.context_processors.components',
-)
-
-# Only apps under INSTALLED_APPS will be automatically tested via 
-# `python manage.py test` and the profiling code takes this list into
-# account while filtering calls
 INSTALLED_APPS = (
-     'appengine_django',
-     'common',
-     'actor',
-     'api',
-     'channel',
-     'explore',
-     'join',
-     'flat',
-     'login',
-     'front',
-     'invite',
-     'install',
-     'confirm',
-     'components',
+    'django.contrib.auth',
+    'django.contrib.sessions',
+    'django.contrib.admin',
+    'django.contrib.webdesign',
+    'django.contrib.flatpages',
+    'django.contrib.redirects',
+    'django.contrib.sites',
+    'jaikucommon',
+    'actor',
+    'api',
+    'channel',
+    'explore',
+    'join',
+    'flat',
+    'login',
+    'front',
+    'invite',
+    'confirm',
+    'components',
+    'appenginepatcher',
+    'mediautils',
 )
 
-# We override the default test runner so that we can be Totally Awesome
-TEST_RUNNER = 'common.test.runner.run_tests'
+# List apps which should be left out from app settings and urlsauto loading
+IGNORE_APP_SETTINGS = IGNORE_APP_URLSAUTO = (
+    # Example:
+    # 'django.contrib.admin',
+    # 'django.contrib.auth',
+    # 'yetanotherapp',
+)
 
+# Remote access to production server (e.g., via manage.py shell --remote)
+DATABASE_OPTIONS = {
+    # Override remoteapi handler's path (default: '/remote_api').
+    # This is a good idea, so you make it not too easy for hackers. ;)
+    # Don't forget to also update your app.yaml!
+    #'remote_url': '/remote-secret-url',
 
-####
-#
-# Below this is custom for Jaiku Engine (not related to Django)
-#
-####
+    # !!!Normally, the following settings should not be used!!!
+
+    # Always use remoteapi (no need to add manage.py --remote option)
+    #'use_remote': True,
+
+    # Change appid for remote connection (by default it's the same as in your app.yaml)
+    #'remote_id': 'otherappid',
+
+    # Change domain (default: <remoteid>.appspot.com)
+    #'remote_host': 'bla.com',
+}
+
 
 
 # This is a dynamic setting so that we can check whether we have been run
@@ -341,7 +368,6 @@ MULTIADMIN_ENABLED = False
 PRIVATE_CHANNELS_ENABLED = False
 MARKDOWN_ENABLED = False
 
-
 PROFILE_DB = False
 
 # Limit of avatar photo size in kilobytes
@@ -378,16 +404,17 @@ DEFAULT_UNITTEST_TO_EMAIL = 'unittests@example.com'
 
 PROFILING_DATA_PATH = 'profiling/prof_db.csv'
 
+DEBUG = True
+TEMPLATE_DEBUG = True
 
-# Set up the settings for the dev server if we are running it
-if MANAGE_PY:
-  try:
-    from dev_settings import *
-  except ImportError:
-    pass
+GAE_DOMAIN = 'localhost:8000'
+DOMAIN = 'localhost:8000'
+COOKIE_DOMAIN = 'localhost'
+WILDCARD_USER_SUBDOMAINS_ENABLED = False
+SUBDOMAINS_ENABLED = False
+SSL_LOGIN_ENABLED = False
 
-# Allow local overrides, useful for testing during development
-try:
-  from local_settings import *
-except ImportError:
-  pass
+from jaikucommon.component import install_components
+install_components()
+
+from ragendja.settings_post import *

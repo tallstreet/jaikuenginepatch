@@ -1,0 +1,6 @@
+.dynamic_media/
+_generated_media/
+common/.google_appengine
+*.pyc
+.pydevproject
+.project

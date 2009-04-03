@@ -1,4 +1,4 @@
-{% extends 'actor/templates/settings_base.html' %}
+{% extends 'settings_base.html' %}
 {% load nonce %}
 {% block settings %}
 
@@ -13,31 +13,31 @@ Display the latest updates from the channel on your blog or any other Web site. 
 {% endifequal %}
 
 <p>
-  {% include 'badge/templates/image.html' %}
+  {% include 'image.html' %}
 </p>
 <p>
-  <textarea class='wide'>{% filter force_escape %}{% include 'badge/templates/image.html' %}{% endfilter %}</textarea>
-</p>
-
-<p>
-  {% include 'badge/templates/js_small.html' %}
-</p>
-<p>
-  <textarea class='wide'>{% filter force_escape %}{% include 'badge/templates/js_small.html' %}{% endfilter %}</textarea>
+  <textarea class='image.html' %}{% endfilter %}</textarea>
 </p>
 
 <p>
-  {% include 'badge/templates/js_medium.html' %}
+  {% include 'js_small.html' %}
 </p>
 <p>
-  <textarea class='wide'>{% filter force_escape %}{% include 'badge/templates/js_medium.html' %}{% endfilter %}</textarea>
+  <textarea class='js_small.html' %}{% endfilter %}</textarea>
 </p>
 
 <p>
-  {% include 'badge/templates/js_large.html' %}
+  {% include 'js_medium.html' %}
 </p>
 <p>
-  <textarea class='wide'>{% filter force_escape %}{% include 'badge/templates/js_large.html' %}{% endfilter %}</textarea>
+  <textarea class='js_medium.html' %}{% endfilter %}</textarea>
+</p>
+
+<p>
+  {% include 'js_large.html' %}
+</p>
+<p>
+  <textarea class='js_large.html' %}{% endfilter %}</textarea>
 </p>
 
 {% endblock %}

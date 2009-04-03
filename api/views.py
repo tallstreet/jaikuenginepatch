@@ -27,20 +27,20 @@ import simplejson
 from google.appengine.ext import db
 
 from api import xmlrpc
-from common import api
-from common import decorator
-from common import exception
-from common import im
-from common import legacy
-from common import messages
-from common import oauth_util
-from common import sms
-from common import user
-from common import util
-from common import validate
-from common import views as common_views
-from common.protocol import xmpp
-from common.protocol import sms as sms_protocol
+from jaikucommon import api
+from jaikucommon import decorator
+from jaikucommon import exception
+from jaikucommon import im
+from jaikucommon import legacy
+from jaikucommon import messages
+from jaikucommon import oauth_util
+from jaikucommon import sms
+from jaikucommon import user
+from jaikucommon import util
+from jaikucommon import validate
+from jaikucommon import views as common_views
+from jaikucommon.protocol import xmpp
+from jaikucommon.protocol import sms as sms_protocol
 
 
 _XML_RPC_DISPATCHER = xmlrpc.XmlRpcDispatcher(api.PublicApi.methods)
@@ -74,7 +74,7 @@ def api_keys(request):
   area = 'api'
 
   c = template.RequestContext(request, locals())
-  t = loader.get_template('api/templates/keys.html')
+  t = loader.get_template('keys.html')
   return http.HttpResponse(t.render(c))
 
 
@@ -101,7 +101,7 @@ def api_key(request, consumer_key):
   OAUTH_MOBILE = 'mobile'
 
   c = template.RequestContext(request, locals())
-  t = loader.get_template('api/templates/key.html')
+  t = loader.get_template('key.html')
   return http.HttpResponse(t.render(c))
 
 @decorator.login_required
@@ -113,7 +113,7 @@ def api_key_legacy(request):
   return http.HttpResponse(key)
 
 def api_doc(request, doc):
-  content_template = loader.get_template('api/templates/built_%s.html' % doc)
+  content_template = loader.get_template('built_%s.html' % doc)
   content = content_template.render(template.Context())
 
   # for templates
@@ -122,7 +122,7 @@ def api_doc(request, doc):
   area = 'api'
 
   c = template.RequestContext(request, locals())
-  t = loader.get_template('api/templates/doc.html')
+  t = loader.get_template('doc.html')
   return http.HttpResponse(t.render(c))
 
 
@@ -145,7 +145,7 @@ def api_docs(request):
   area = 'api'
 
   c = template.RequestContext(request, locals())
-  t = loader.get_template('api/templates/docs.html')
+  t = loader.get_template('docs.html')
   return http.HttpResponse(t.render(c))
 
 @decorator.login_required
@@ -171,7 +171,7 @@ def api_tokens(request):
   area = 'api'
 
   c = template.RequestContext(request, locals())
-  t = loader.get_template('api/templates/tokens.html')
+  t = loader.get_template('tokens.html')
   return http.HttpResponse(t.render(c))
 
 
@@ -226,7 +226,7 @@ def api_authorize(request):
       return http.HttpResponseRedirect(oauth_callback)
 
     c = template.RequestContext(request, locals())
-    t = loader.get_template('api/templates/authorized.html')
+    t = loader.get_template('authorized.html')
     return http.HttpResponse(t.render(c))
   
   perms_pretty = {'read': 'view',
@@ -234,7 +234,7 @@ def api_authorize(request):
                   'delete': 'view, update and delete'}[perms]
 
   c = template.RequestContext(request, locals())
-  t = loader.get_template('api/templates/authorize.html')
+  t = loader.get_template('authorize.html')
   return http.HttpResponse(t.render(c))
 
 

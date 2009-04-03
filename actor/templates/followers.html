@@ -1,4 +1,4 @@
-{% extends 'actor/templates/people_base.html' %}
+{% extends 'people_base.html' %}
 {% load nonce avatar vcard %}
 {% block title %}{{whose}} followers{% endblock %}
 {% block people %}
@@ -19,7 +19,7 @@
     {% endifequal %}
 
     {% if actor_tiles %}
-      {% include 'common/templates/actor_tiles.html' %}
+      {% include 'actor_tiles.html' %}
     {% else %}
       <p>No followers yet, but maybe soon :)</p>
     {% endif %}

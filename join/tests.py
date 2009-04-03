@@ -2,11 +2,11 @@ import Cookie
 import os
 
 from django.conf import settings
-from common.tests import ViewTestCase
+from jaikucommon.tests import ViewTestCase
 
-from common import api
-from common import clean
-from common import util
+from jaikucommon import api
+from jaikucommon import clean
+from jaikucommon import util
 
 class JoinTest(ViewTestCase):
   def setUp(self):
@@ -26,13 +26,13 @@ class JoinTest(ViewTestCase):
 
   def assert_join_validation_error(self, response, content):
     self.assertContains(response, content)
-    self.assertTemplateUsed(response, 'join/templates/join.html')
-    self.assertTemplateUsed(response, 'common/templates/form_error.html')
+    self.assertTemplateUsed(response, 'join.html')
+    self.assertTemplateUsed(response, 'form_error.html')
 
   def test_join_page(self):
     r = self.client.get('/join')
     self.assertContains(r, 'SIGN UP')
-    self.assertTemplateUsed(r, 'join/templates/join.html')
+    self.assertTemplateUsed(r, 'join.html')
 
   def test_join_with_valid_data(self):
     r = self.client.post('/join', self.form_data)
@@ -96,7 +96,7 @@ class WelcomeTest(ViewTestCase):
   def test_photo_view(self):
     r = self.client.get('/welcome/1')
     self.assertContains(r, 'Your photo')
-    self.assertTemplateUsed(r, 'join/templates/welcome_photo.html')
+    self.assertTemplateUsed(r, 'welcome_photo.html')
 
   def test_photo_upload(self):
     nick = 'popular'
@@ -119,20 +119,20 @@ class WelcomeTest(ViewTestCase):
     self.assertNotEquals(old_avatar, new_avatar)
 
     self.assertContains(r, 'Avatar uploaded')
-    self.assertTemplateUsed(r, 'join/templates/welcome_photo.html')
-    self.assertTemplateUsed(r, 'common/templates/flash.html')
+    self.assertTemplateUsed(r, 'welcome_photo.html')
+    self.assertTemplateUsed(r, 'flash.html')
 
   def test_mobile_activation_view(self):
     r = self.client.get('/welcome/2')
     self.assertContains(r, 'SIGN IN')
-    self.assertTemplateUsed(r, 'join/templates/welcome_mobile.html')
+    self.assertTemplateUsed(r, 'welcome_mobile.html')
 
   def test_contacts_view(self):
     r = self.client.get('/welcome/3')
     self.assertContains(r, 'Find some friends')
-    self.assertTemplateUsed(r, 'join/templates/welcome_contacts.html')
+    self.assertTemplateUsed(r, 'welcome_contacts.html')
 
   def test_done_view(self):
     r = self.client.get('/welcome/done')
     self.assertContains(r, 'Congratulations!')
-    self.assertTemplateUsed(r, 'join/templates/welcome_done.html')
+    self.assertTemplateUsed(r, 'welcome_done.html')
