@@ -132,31 +132,23 @@ class QueueTest(base.FixturesTestCase):
     old_max = api.MAX_FOLLOWERS_PER_INBOX
     api.MAX_FOLLOWERS_PER_INBOX = 1
 
-    entry_ref = api.post(actor_ref, nick=nick, uuid=uuid, message=message)
-    self.assertEqual(entry_ref.extra['title'], message)
+    try:
+      entry_ref = api.post(actor_ref, nick=nick, uuid=uuid, message=message)
+      self.assertEqual(entry_ref.extra['title'], message)
     
-    # make sure we can repeat
-    two_entry_ref = api.post(actor_ref, nick=nick, uuid=uuid, message=message)
-    self.assertEqual(entry_ref.uuid, two_entry_ref.uuid)
+      # make sure we can repeat
+      two_entry_ref = api.post(actor_ref, nick=nick, uuid=uuid, message=message)
+      self.assertEqual(entry_ref.uuid, two_entry_ref.uuid)
     
-    # and that task_process_actor works
-    task_more = api.task_process_actor(api.ROOT, nick)
-    self.assert_(task_more)
-
-    # and run out the queue
-    task_more = api.task_process_actor(api.ROOT, nick)
-    task_more = api.task_process_actor(api.ROOT, nick)
-    task_more = api.task_process_actor(api.ROOT, nick)
-    task_more = api.task_process_actor(api.ROOT, nick)
-
-    def _nope():
-      task_more = api.task_process_actor(api.ROOT, nick)
+      # and that task_process_actor works
+      # and run out the queue
+      for i in range(5):
+        api.task_process_actor(api.ROOT, nick)
     
-    self.assertRaises(exception.ApiNoTasks, _nope)   
-
-    api.MAX_FOLLOWERS_PER_INBOX = old_max  
-
-    pass
+      self.assertRaises(exception.ApiNoTasks,
+                        lambda: api.task_process_actor(api.ROOT, nick))
+    finally:
+      api.MAX_FOLLOWERS_PER_INBOX = old_max  
 
   def test_task_post_process_any(self):
     """ test that api.post creates a task and additional calls resume
@@ -171,28 +163,21 @@ class QueueTest(base.FixturesTestCase):
     old_max = api.MAX_FOLLOWERS_PER_INBOX
     api.MAX_FOLLOWERS_PER_INBOX = 1
 
-    entry_ref = api.post(actor_ref, nick=nick, uuid=uuid, message=message)
-    self.assertEqual(entry_ref.extra['title'], message)
+    try:
+      entry_ref = api.post(actor_ref, nick=nick, uuid=uuid, message=message)
+      self.assertEqual(entry_ref.extra['title'], message)
     
-    # make sure we can repeat
-    two_entry_ref = api.post(actor_ref, nick=nick, uuid=uuid, message=message)
-    self.assertEqual(entry_ref.uuid, two_entry_ref.uuid)
+      # make sure we can repeat
+      two_entry_ref = api.post(actor_ref, nick=nick, uuid=uuid, message=message)
+      self.assertEqual(entry_ref.uuid, two_entry_ref.uuid)
     
-    # and that task_process_actor works
-    task_more = api.task_process_any(api.ROOT)
-    self.assert_(task_more)
+      # and that task_process_any works
+      # and run out the queue
+      for i in range(5):
+        api.task_process_any(api.ROOT, nick)
+      
+      self.assertRaises(exception.ApiNoTasks,
+                        lambda: api.task_process_actor(api.ROOT, nick))
+    finally:
+      api.MAX_FOLLOWERS_PER_INBOX = old_max  
 
-    # and run out the queue
-    task_more = api.task_process_any(api.ROOT)
-    task_more = api.task_process_any(api.ROOT)
-    task_more = api.task_process_any(api.ROOT)
-    task_more = api.task_process_any(api.ROOT)
-
-    def _nope():
-      task_more = api.task_process_any(api.ROOT)
-    
-    self.assertRaises(exception.ApiNoTasks, _nope)
-
-    api.MAX_FOLLOWERS_PER_INBOX = old_max  
-
-    pass
