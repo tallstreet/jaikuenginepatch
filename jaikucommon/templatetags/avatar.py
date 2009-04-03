@@ -78,7 +78,7 @@ def avatar_url(value, arg="t"):
   # TODO cache these
   path = "%s_%s.jpg" % (icon, size)
 
-  return 'http://%s/image/%s' % (settings.DOMAIN, http.urlquote(path))
+  return '%sglobal/image/%s' % (settings.MEDIA_URL, http.urlquote(path))
 
 @register.filter(name="linked_avatar")
 @safe

@@ -16,7 +16,7 @@
 {% block logo %}
 {% ifnotequal area 'welcome' %}
 <a href="http://{{DOMAIN}}" id="logo">
-  <img src="/themes/{{DEFAULT_THEME|urlencode}}/logo-big.gif" height="95" width="115" alt="{{SITE_NAME}}" />
+  <img src="{{MEDIA_URL}}global/themes/{{DEFAULT_THEME|urlencode}}/logo-big.gif" height="95" width="115" alt="{{SITE_NAME}}" />
 </a>
 {% endifnotequal %}
 {% endblock %}

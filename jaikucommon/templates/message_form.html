@@ -33,7 +33,7 @@
       <select name="icon" id="icon">
 			  <option value="">Select icon</option>
 				{% for key, icon in selectable_icons.items %}
-        <option value="{{ key }}" id="/themes/{{DEFAULT_THEME|urlencode}}/icons/{{ icon.0 }}.gif" title="{{ icon.2 }}"{% ifequal key current_icon %} selected="selected"{% endifequal %}>{{ icon.1 }}</option>
+        <option value="{{ key }}" id="{{MEDIA_URL}}global/themes/{{DEFAULT_THEME|urlencode}}/icons/{{ icon.0 }}.gif" title="{{ icon.2 }}"{% ifequal key current_icon %} selected="selected"{% endifequal %}>{{ icon.1 }}</option>
         {% endfor %}
       </select>
       <a href="#" id="add-icons">+ Add Icon</a>

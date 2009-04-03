@@ -12,7 +12,7 @@
       }
 
       div#content {
-        background: #fff url(/themes/{{DEFAULT_THEME|urlencode}}/maintenance-bird.gif) no-repeat;
+        background: #fff url({{MEDIA_URL}}global/themes/{{DEFAULT_THEME|urlencode}}/maintenance-bird.gif) no-repeat;
         padding: 5px 25px 0 90px;
         width: 345px;
         height: 190px;
@@ -40,7 +40,7 @@
   <body>
     <div id="header">    
       <a href="http://{{DOMAIN}}" id="logo">
-        <img src="/themes/{{DEFAULT_THEME|urlencode}}/logo-big.gif" alt="{{SITE_NAME}}" />
+        <img src="{{MEDIA_URL}}global/themes/{{DEFAULT_THEME|urlencode}}/logo-big.gif" alt="{{SITE_NAME}}" />
       </a>
     </div>
     <div id="content">

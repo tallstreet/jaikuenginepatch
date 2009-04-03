@@ -1,5 +1,5 @@
 a#logo img, span.status img {
-    behavior: url(/js/png-behavior.htc);
+    behavior: url(global/js/png-behavior.htc);
 }
 
 button {
@@ -109,13 +109,13 @@ body.single div#content div.top {
 }
 
 div#sidebar div#mobile h3.availability-green {
-    background-image: url(../images/green.gif);
+    background-image: url(global/images/green.gif);
 }
 
 div#sidebar div#mobile h3.availability-orange {
-    background-image: url(../images/orange.gif);
+    background-image: url(global/images/orange.gif);
 }
 
 div#sidebar div#mobile h3.availability-red {
-    background-image: url(../images/red.gif);
+    background-image: url(global/images/red.gif);
 }

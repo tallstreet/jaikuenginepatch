@@ -265,15 +265,15 @@ def channel_history(request, nick, format='html'):
     t = loader.get_template('history.html')
     return http.HttpResponse(t.render(c))
   elif format == 'json':
-    t = loader.get_template('history.json')
+    t = loader.get_template('/history.json')
     r = util.HttpJsonResponse(t.render(c), request)
     return r
   elif format == 'atom':
-    t = loader.get_template('history.atom')
+    t = loader.get_template('/history.atom')
     r = util.HttpAtomResponse(t.render(c), request)
     return r
   elif format == 'rss':
-    t = loader.get_template('history.rss')
+    t = loader.get_template('/history.rss')
     r = util.HttpRssResponse(t.render(c), request)
     return r
 
@@ -328,7 +328,7 @@ def channel_item(request, nick, item=None, format='html'):
     t = loader.get_template('item.html')
     return http.HttpResponse(t.render(c))
   elif format == 'json':
-    t = loader.get_template('item.json')
+    t = loader.get_template('/item.json')
     r = http.HttpResponse(t.render(c))
     r['Content-type'] = 'text/javascript'
     return r
@@ -442,19 +442,19 @@ def channel_settings(request, nick, page='index'):
     badges = [{'id': 'badge-stream',
                'width': '200',
                'height': '300',
-               'src': '/themes/%s/badge.swf' % settings.DEFAULT_THEME,
+               'src': '%sglobal/themes/%s/badge.swf' % (settings.MEDIA_URL, settings.DEFAULT_THEME),
                'title': 'Stream',
                },
               {'id': 'badge-map',
                'width': '200',
                'height': '255',
-               'src': '/themes/%s/badge-map.swf' % settings.DEFAULT_THEME,
+               'src': '%sglobal/themes/%s/badge-map.swf' % (settings.MEDIA_URL, settings.DEFAULT_THEME),
                'title': 'Map',
                },
               {'id': 'badge-simple',
                'width': '200',
                'height': '200',
-               'src': '/themes/%s/badge-simple.swf' % settings.DEFAULT_THEME,
+               'src': '%sglobal/themes/%s/badge-simple.swf' % (settings.MEDIA_URL, settings.DEFAULT_THEME),
                'title': 'Simple',
                },
               ]

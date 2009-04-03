@@ -1,26 +1,26 @@
 div#header-container {
-  background:transparent url(bg-header.png) repeat-x scroll 0 100%;
+  background:transparent url(global/themes/trotz/bg-header.png) repeat-x scroll 0 100%;
 }
 
 /* content */
 div#content {
-    background: transparent url(bg-content-bottom.png) no-repeat 0 100%;
+    background: transparent url(global/themes/trotz/bg-content-bottom.png) no-repeat 0 100%;
 }
 
 div#content div.top {
-    background: transparent url(bg-content-top.png) no-repeat;
+    background: transparent url(global/themes/trotz/bg-content-top.png) no-repeat;
 }
 
 div#content div.top.b {
-    background: transparent url(bg-content-top-g.png) no-repeat;
+    background: transparent url(global/themes/trotz/bg-content-top-g.png) no-repeat;
 }
 
 div#content div.bottom {
-    background: transparent url(bg-content.png) repeat-y;
+    background: transparent url(global/themes/trotz/bg-content.png) repeat-y;
 }
 
 div#content div.main {
-    background: #212121 url(bg-main.gif) repeat-x 0% 0%;
+    background: #212121 url(global/themes/trotz/bg-main.gif) repeat-x 0% 0%;
 }
 
 div#form-message p#counter.overlimit {
@@ -30,28 +30,28 @@ div#form-message p#counter.overlimit {
 /* wide content */
 /* TODO(termie): these images don't exist yet */
 div.wide div#content {
-    background-image: url(bg-content-w-bottom.png);
+    background-image: url(global/themes/trotz/bg-content-w-bottom.png);
 }
 
 div.wide div#content div.top {
-    background-image: url(bg-content-w-top.png);
+    background-image: url(global/themes/trotz/bg-content-w-top.png);
 }
 
 div.wide div#content div.top.b {
-    background-image: url(bg-content-w-top-g.png);
+    background-image: url(global/themes/trotz/bg-content-w-top-g.png);
 }
 
 div.wide div#content div.bottom {
-    background-image: url(bg-content-w.png);
+    background-image: url(global/themes/trotz/bg-content-w.png);
 }
 
 /* single style page */
 body.single div#header-container {
-    background: transparent url(bg-content-top.png) no-repeat;
+    background: transparent url(global/themes/trotz/bg-content-top.png) no-repeat;
 }
 
 body.single div#header {
-    background: transparent url(bg-content.png) repeat-y;
+    background: transparent url(global/themes/trotz/bg-content.png) repeat-y;
 }
 
 div#current-stream a.confirm-delete:hover {
@@ -61,19 +61,19 @@ div#current-stream a.confirm-delete:hover {
 
 /* sidebar */
 div#sidebar {
-    background: transparent url(bg-sidebar-bottom.png) no-repeat 0 100%;
+    background: transparent url(global/themes/trotz/bg-sidebar-bottom.png) no-repeat 0 100%;
 }
 
 div#sidebar div.top {
-    background-image: url(bg-sidebar-top.png);
+    background-image: url(global/themes/trotz/bg-sidebar-top.png);
 }
 
 div#sidebar div.top.b {
-    background-image: url(bg-sidebar-top-g.png);
+    background-image: url(global/themes/trotz/bg-sidebar-top-g.png);
 }
 
 div#sidebar div.bottom {
-    background: transparent url(bg-sidebar.png) repeat-y;
+    background: transparent url(global/themes/trotz/bg-sidebar.png) repeat-y;
 }
 
 
@@ -114,15 +114,15 @@ div#intro h1 {
 }
 
 div#intro ul li#create {
-    background: transparent url(icons/jaiku-bubble.gif) no-repeat 0% 20%;
+    background: transparent url(global/themes/trotz/icons/jaiku-bubble.gif) no-repeat 0% 20%;
 }
 
 div#intro ul li#follow {
-    background: transparent url(icons/jaiku-couple.gif) no-repeat 0% 20%;
+    background: transparent url(global/themes/trotz/icons/jaiku-couple.gif) no-repeat 0% 20%;
 }
 
 div#intro ul li#client {
-    background: transparent url(icons/jaiku-message.gif) no-repeat 0% 20%;
+    background: transparent url(global/themes/trotz/icons/jaiku-message.gif) no-repeat 0% 20%;
 }
 
 div#intro ul li#more h3 a {
@@ -130,12 +130,12 @@ div#intro ul li#more h3 a {
 }
 
 div#map {
-    background: transparent url(bg-map.gif) no-repeat;
+    background: transparent url(global/themes/trotz/bg-map.gif) no-repeat;
 }
 
 /* sign up */
 div#sign-up a, li#sign-up a {
-    background: transparent url(join_now.jpg) no-repeat 50% 0;
+    background: transparent url(global/themes/trotz/join_now.jpg) no-repeat 50% 0;
 }
 
 /* reminder */
@@ -171,7 +171,7 @@ p.success {
 
 /* welcome */
 ul.steps {
-    background: transparent url(bg-steps-line.gif) repeat-x 0% 50%;
+    background: transparent url(global/themes/trotz/bg-steps-line.gif) repeat-x 0% 50%;
     list-style-type: none;
     overflow: hidden;
     font-size: 1.1em;
@@ -196,7 +196,7 @@ ul.steps li a,  ul.steps li strong{
 }
 
 ul.steps li a:hover {
-    background: transparent url(bg-step-2.gif) no-repeat 50% 100%;
+    background: transparent url(global/themes/trotz/bg-step-2.gif) no-repeat 50% 100%;
     color: #f27ee0;
 }
 
@@ -209,39 +209,39 @@ ul.steps li#step-2 {
 }
 
 ul.steps li#step-1 a, ul.steps li#step-1 a:hover {
-    background: transparent url(bg-step-1.gif) no-repeat 50% 100%;
+    background: transparent url(global/themes/trotz/bg-step-1.gif) no-repeat 50% 100%;
 }
 
 ul.steps li#step-1.current a {
-    background: transparent url(bg-step-1-sel.gif) no-repeat 50% 100%;
+    background: transparent url(global/themes/trotz/bg-step-1-sel.gif) no-repeat 50% 100%;
 }
 
 ul.steps li#step-1.done a {
-    background: transparent url(bg-step-1-done.gif) no-repeat 50% 100%;
+    background: transparent url(global/themes/trotz/bg-step-1-done.gif) no-repeat 50% 100%;
 }
 
 ul.steps li#step-2 a, ul.steps li#step-2 a:hover {
-    background: transparent url(bg-step-2.gif) no-repeat 50% 100%;
+    background: transparent url(global/themes/trotz/bg-step-2.gif) no-repeat 50% 100%;
 }
 
 ul.steps li#step-2.current a {
-    background: transparent url(bg-step-2-sel.gif) no-repeat 50% 100%;
+    background: transparent url(global/themes/trotz/bg-step-2-sel.gif) no-repeat 50% 100%;
 }
 
 ul.steps li#step-2.done a {
-    background: transparent url(bg-step-2-done.gif) no-repeat 50% 100%;
+    background: transparent url(global/themes/trotz/bg-step-2-done.gif) no-repeat 50% 100%;
 }
 
 ul.steps li#step-3 a, ul.steps li#step-3 a:hover {
-    background: transparent url(bg-step-3.gif) no-repeat 50% 100%;
+    background: transparent url(global/themes/trotz/bg-step-3.gif) no-repeat 50% 100%;
 }
 
 ul.steps li#step-3.current a {
-    background: transparent url(bg-step-3-sel.gif) no-repeat 50% 100%;
+    background: transparent url(global/themes/trotz/bg-step-3-sel.gif) no-repeat 50% 100%;
 }
 
 ul.steps li#step-3.done a {
-    background: transparent url(bg-step-3-done.gif) no-repeat 50% 100%;
+    background: transparent url(global/themes/trotz/bg-step-3-done.gif) no-repeat 50% 100%;
 }
 
 #contacts div.body {
@@ -275,19 +275,19 @@ div#welcome-start ul li {
 }
 
 div#welcome-start ul li#step-1 {
-    background: transparent url(bg-step-1-small.gif) no-repeat 0% 50%;    
+    background: transparent url(global/themes/trotz/bg-step-1-small.gif) no-repeat 0% 50%;
 }
 
 div#welcome-start ul li#step-2 {
-    background: transparent url(bg-step-2-small.gif) no-repeat 0% 50%;    
+    background: transparent url(global/themes/trotz/bg-step-2-small.gif) no-repeat 0% 50%;
 }
 
 div#welcome-start ul li#step-3 {
-    background: transparent url(bg-step-3-small.gif) no-repeat 0% 50%;    
+    background: transparent url(global/themes/trotz/bg-step-3-small.gif) no-repeat 0% 50%;
 }
 
 div#welcome-done {
-    background: transparent url(welcome-done.gif) no-repeat 12% 50%;
+    background: transparent url(global/themes/trotz/welcome-done.gif) no-repeat 12% 50%;
     padding: 60px 0 100px 220px;
 }
 
@@ -350,7 +350,7 @@ div#find-friends div#contacts ul li input {
 }
 
 div#find-friends div#contacts ul li span.checked {
-    background: transparent url(checked.gif) no-repeat 0% 50%;
+    background: transparent url(global/themes/trotz/checked.gif) no-repeat 0% 50%;
     margin-top: 5px;
     display: block;    
     height: 16px;
@@ -375,7 +375,7 @@ div.buttons button {
 }
 
 div.buttons big, div#welcome-start big {
-    background: transparent url(bg-foot-step-dis.gif) no-repeat 0 0;
+    background: transparent url(global/themes/trotz/bg-foot-step-dis.gif) no-repeat 0 0;
     text-align: center;
     overflow: hidden;
     display: block;
@@ -393,7 +393,7 @@ div#welcome-start big {
 }
 
 div.buttons big.active, div#welcome-start big {
-    background-image: url(bg-foot-step.gif);
+    background-image: url(global/themes/trotz/bg-foot-step.gif);
 }
 
 div.buttons button:hover big.active, div.buttons big.active:hover, div#welcome-start big:hover {
@@ -402,7 +402,7 @@ div.buttons button:hover big.active, div.buttons big.active:hover, div#welcome-s
 
 div.buttons big a, div.buttons big span,
 div.buttons big.active a, div#welcome-start big a {
-    background: transparent url(bg-foot-step-dis-r.gif) no-repeat 100% 0%;
+    background: transparent url(global/themes/trotz/bg-foot-step-dis-r.gif) no-repeat 100% 0%;
     padding: 8px 30px 10px 30px;
     display: block;
     height: 14px;
@@ -412,7 +412,7 @@ div.buttons big.active a, div#welcome-start big a {
 
 div.buttons big.active span,
 div.buttons big.active a, div#welcome-start big a {
-    background-image: url(bg-foot-step-r.gif);
+    background-image: url(global/themes/trotz/bg-foot-step-r.gif);
 }
 
 div.buttons button:hover big.active span, div.buttons big.active:hover a, div#welcome-start big:hover a {

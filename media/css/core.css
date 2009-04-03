@@ -267,7 +267,7 @@ div#side-nav ul li {
 }
 
 div#side-nav ul a {
-    background: url(../images/bg_side_nav.gif) no-repeat 0 0.4em;
+    background: url(global/images/bg_side_nav.gif) no-repeat 0 0.4em;
     padding: 0.1em 0 0.1em 10px;
     text-decoration: none;
     display: block;
@@ -514,7 +514,7 @@ div#side-search {
 }
 
 div#sidebar div#mobile h3 {
-    background: transparent url(../images/red.png) no-repeat 0% 50%;
+    background: transparent url(global/images/red.png) no-repeat 0% 50%;
     padding: 0.5em 0 0.3em 30px;
     margin: 0;
 }
@@ -526,34 +526,34 @@ div#sidebar div#mobile p {
 }
 
 div#sidebar div#mobile h3.location {
-    background-image: url(../images/location.gif);
+    background-image: url(global/images/location.gif);
     border-top: solid 1px #f1f1f1;
 }
 
 div#sidebar div#mobile h3.near-by {
-    background-image: url(../images/near-by.gif);
+    background-image: url(global/images/near-by.gif);
     border-top: solid 1px #f1f1f1;
 }
 
 div#sidebar div#mobile h3.calendar {
-    background-image: url(../images/calendar.gif);
+    background-image: url(global/images/calendar.gif);
     border-top: solid 1px #f1f1f1;
 }
 
 div#sidebar div#mobile h3.availability-green {
-    background-image: url(../images/green.png);
+    background-image: url(global/images/green.png);
 }
 
 div#sidebar div#mobile h3.availability-orange {
-    background-image: url(../images/orange.png);
+    background-image: url(global/images/orange.png);
 }
 
 div#sidebar div#mobile h3.availability-red {
-    background-image: url(../images/red.png);
+    background-image: url(global/images/red.png);
 }
 
 div#sidebar div#mobile h3.availability-gray {
-    background-image: url(../images/gray.png);
+    background-image: url(global/images/gray.png);
 }
 
 div#sidebar div#streams a.edit, 
@@ -603,12 +603,12 @@ div#streams ul li a.unsubscribe:hover, div#streams ul li a.subscribe:hover {
 }
 
 div#sidebar div.location p {
-    background: transparent url(../images/location.gif) no-repeat 0 50%;
+    background: transparent url(global/images/location.gif) no-repeat 0 50%;
     padding: 0.5em 0 0.3em 30px;
 }
 
 div#sidebar div.location form div {
-    background: transparent url(../images/location.gif) no-repeat 0 50%;    
+    background: transparent url(global/images/location.gif) no-repeat 0 50%;
     padding: 0.5em 0 0.3em 30px;
 }
 
@@ -753,7 +753,7 @@ div.tour div.body ul, #join #sidebar ul {
 }
 
 div.tour div.body ul li, #join #sidebar ul li {
-    background: transparent url(../images/dot.gif) no-repeat 0 0.3em;
+    background: transparent url(global/images/dot.gif) no-repeat 0 0.3em;
     padding-left: 20px;
     font-size: 1.2em;
     color: #8f8f8f;
@@ -1065,7 +1065,7 @@ div#find-friends div#contacts ul li input {
 }
 
 div#find-friends div#contacts ul li span.checked {
-    background: transparent url(../images/checked.gif) no-repeat 0% 50%;
+    background: transparent url(global/images/checked.gif) no-repeat 0% 50%;
     margin-top: 5px;
     display: block;    
     height: 16px;
@@ -1491,12 +1491,12 @@ div.contacts ul.float li p.foot a.add:hover {
 }
 
 div.contacts ul.float li p.foot a.add {
-    background: transparent url(../images/add.gif) no-repeat 0% 50%;
+    background: transparent url(global/images/add.gif) no-repeat 0% 50%;
     padding-left: 12px;
 }
 
 div.contacts ul.float li p.foot a.remove {
-    background: transparent url(../images/remove.gif) no-repeat 0% 50%;
+    background: transparent url(global/images/remove.gif) no-repeat 0% 50%;
     padding-left: 12px;
 }
 
@@ -1873,7 +1873,7 @@ div#content div#current-stream p {
 }
 
 div#current-stream a.confirm-delete {
-    background: transparent url(../images/delete.gif) no-repeat 0% 50%;
+    background: transparent url(global/images/delete.gif) no-repeat 0% 50%;
     padding-left: 12px;
 }
 
@@ -1882,7 +1882,7 @@ div#current-stream a.confirm-delete:hover {
 }
 
 div#current-stream a.confirm-spam {
-    background: transparent url(../images/remove.gif) no-repeat 0% 50%;
+    background: transparent url(global/images/remove.gif) no-repeat 0% 50%;
     padding-left: 12px;
 }
 
@@ -1944,7 +1944,7 @@ div#form-message p label {
 }
 
 p#message-container {
-    background: transparent url(../images/bg-form-bubble.gif) no-repeat 0 50%;
+    background: transparent url(global/images/bg-form-bubble.gif) no-repeat 0 50%;
     padding: 5px 5px 5px 14px;
     text-align: center;
     line-height: 1em;
@@ -1984,7 +1984,7 @@ div#form-message p.buttons input {
 }
 
 img#current-icon {
-    background: transparent url(../images/bg_select.gif) no-repeat 100% 100%;
+    background: transparent url(global/images/bg_select.gif) no-repeat 100% 100%;
     border: solid 1px #d6d6d6;
     cursor: pointer;
     padding: 5px;
@@ -2277,17 +2277,17 @@ ul.stream li h3 a.url:hover {
 ul.stream li a.comments, ul.stream li a.add-comment,
 ul.stream li a.confirm-delete, div#comments ul li a.confirm-delete,
 ul.stream li a.confirm-subscribe, div#comments ul li a.confirm-subscribe {
-    background:transparent url(../images/comment.gif) no-repeat scroll 0 50%;
+    background:transparent url(global/images/comment.gif) no-repeat scroll 0 50%;
     white-space: nowrap;
     padding-left: 12px;
 }
 
 ul.stream li a.confirm-delete, div#comments ul li a.confirm-delete {
-    background:transparent url(../images/delete.gif) no-repeat scroll 0 50%;
+    background:transparent url(global/images/delete.gif) no-repeat scroll 0 50%;
 }
 
 ul.stream li a.confirm-subscribe, div#comments ul li a.confirm-subscribe {
-    background-image: url(../images/remove.gif);
+    background-image: url(global/images/remove.gif);
 }
 
 ul.stream li a.comments:hover, ul.stream li a.add-comment:hover,
@@ -2363,7 +2363,7 @@ ul.stream li.date h3 {
 }
 
 div#stream a.rss {
-    background: transparent url(../images/icons/feed-atom.gif) no-repeat 0% 50%;
+    background: transparent url(global/images/icons/feed-atom.gif) no-repeat 0% 50%;
     padding-left: 20px;
     margin-top: 1em;
 }
@@ -2473,7 +2473,7 @@ div#comments ul li p.meta a, div#comments ul li p.meta a.confirm-delete {
 }
 
 div#comments ul li a.confirm-spam {
-    background: transparent url(../images/remove.gif) no-repeat 0% 50%;
+    background: transparent url(global/images/remove.gif) no-repeat 0% 50%;
     padding-left: 12px;
 }
 
@@ -3199,7 +3199,7 @@ div.accordion div.tab div.buttons {
 }
 
 div.buttons span.loader, p.buttons span.loader {
-    background: transparent url(../images/throbber.gif) no-repeat 50% 50%;
+    background: transparent url(global/images/throbber.gif) no-repeat 50% 50%;
     margin: 0 0.2em 0 0;
     display: block;
     font-size: 2.5em;
@@ -3409,7 +3409,7 @@ div#form-help {
 }
 
 div#pwstatus {
-    background: #fff url(../images/pwstatus.gif) repeat-x 0 0;
+    background: #fff url(global/images/pwstatus.gif) repeat-x 0 0;
     padding: 0;
     position: absolute;
     margin-top: -2em;

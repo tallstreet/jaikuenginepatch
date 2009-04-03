@@ -10,24 +10,24 @@
 
   {{component.best.analytics.header|safe}}
 
-  <link rel="icon" href="/themes/{{DEFAULT_THEME|urlencode}}/favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="{{ MEDIA_URL }}global/themes/{{DEFAULT_THEME|urlencode}}/favicon.ico" type="image/x-icon" />
 
   {# base stylesheet #}
-  <link rel="stylesheet" type="text/css" href="http://{{DOMAIN}}/css/core.css?17" media="screen,projection" />
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}combined-{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}.css" media="screen,projection" />
   <!--[if lte IE 6]>
-  <link rel="stylesheet" type="text/css" href="http://{{DOMAIN}}/css/ie.css?13"/>
+  <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}ie.css"/>
   <![endif]-->
 
   {# per-user theme override, usually set by a site admin #}
   {% if view.extra.theme %}
-    <link rel="stylesheet" type="text/css" href="http://{{DOMAIN}}/themes/{{view.extra.theme|urlencode}}/screen.css" media="screen,projection" />
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}screen{{view.extra.theme|urlencode}}.css" media="screen,projection" />
     <!--[if lte IE 6]>
-      <link rel="stylesheet" type="text/css" href="http://{{DOMAIN}}/themes/{{view.extra.theme|urlencode}}/screen-ie.css"/>
+      <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}screen-ie{{view.extra.theme|urlencode}}.css"/>
     <![endif]-->
   {% else %}
-    <link rel="stylesheet" type="text/css" href="http://{{DOMAIN}}/themes/{{DEFAULT_THEME|urlencode}}/screen.css" media="screen,projection" />
+    <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}screen{{DEFAULT_THEME|urlencode}}.css" media="screen,projection" />
     <!--[if lte IE 6]>
-      <link rel="stylesheet" type="text/css" href="http://{{DOMAIN}}/themes/{{DEFAULT_THEME|urlencode}}/screen-ie.css"/>
+      <link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}screen-ie{{DEFAULT_THEME|urlencode}}.css"/>
     <![endif]-->
 
 

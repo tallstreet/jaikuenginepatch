@@ -134,9 +134,29 @@ indexes:
   - name: topic
   - name: target
 
-# Used once in query history.
+# Used 12 times in query history.
 - kind: jaikucommon_inboxentry
   properties:
   - name: inbox
   - name: created_at
     direction: desc
+
+# Used once in query history.
+- kind: jaikucommon_relation
+  properties:
+  - name: owner
+  - name: relation
+  - name: target
+
+# Used 2 times in query history.
+- kind: jaikucommon_streamentry
+  properties:
+  - name: stream
+  - name: created_at
+    direction: desc
+
+# Used once in query history.
+- kind: jaikucommon_subscription
+  properties:
+  - name: topic
+  - name: target

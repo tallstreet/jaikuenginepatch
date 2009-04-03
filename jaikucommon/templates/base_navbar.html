@@ -24,7 +24,7 @@
       
       {% block logo %}
       <a href="/" id="logo">
-        <img src="/themes/{{DEFAULT_THEME|urlencode}}/logo.png" height="73" width="89" alt="{{SITE_NAME}}" />
+        <img src="{{MEDIA_URL}}global/themes/{{DEFAULT_THEME|urlencode}}/logo.png" height="73" width="89" alt="{{SITE_NAME}}" />
       </a>
       {% endblock %}
       
@@ -74,8 +74,7 @@
 
   </div>
   {% if not mobile_browser %}
-  <script type="text/javascript" src="/js/jquery.js?10"></script>
-  <script type="text/javascript" src="/js/core.js?16"></script>
+   <script type="text/javascript" src="{{ MEDIA_URL }}combined-{{ LANGUAGE_CODE }}.js"></script>
   {% block bottomscripts %}
   {% endblock %}
   {% endif %}

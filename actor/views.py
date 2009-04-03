@@ -466,7 +466,7 @@ def actor_item(request, nick=None, item=None, format='html'):
   # for display, this usually translates to attaching references to
   # actor or stream entities.
   # Functions that handle this preparation should be added to the
-  # jaikucommon.display module
+  # common.display module
   entry = display.prep_entry(entry_ref,
                              {stream_ref.key().name(): stream_ref}, actors)
   comments = display.prep_comment_list(comments, actors)
@@ -775,19 +775,19 @@ def actor_settings(request, nick, page='index'):
     badges = [{'id': 'badge-stream',
                'width': '200',
                'height': '300',
-               'src': '/themes/%s/badge.swf' % settings.DEFAULT_THEME,
+               'src': '%sglobal/themes/%s/badge.swf' % (settings.MEDIA_URL, settings.DEFAULT_THEME),
                'title': 'Stream',
                },
               {'id': 'badge-map',
                'width': '200',
                'height': '255',
-               'src': '/themes/%s/badge-map.swf' % settings.DEFAULT_THEME,
+               'src': '%sglobal/themes/%s/badge-map.swf' % (settings.MEDIA_URL, settings.DEFAULT_THEME),
                'title': 'Map',
                },
               {'id': 'badge-simple',
                'width': '200',
                'height': '200',
-               'src': '/themes/%s/badge-simple.swf' % settings.DEFAULT_THEME,
+               'src': '%sglobal/themes/%s/badge-simple.swf' % (settings.MEDIA_URL, settings.DEFAULT_THEME),
                'title': 'Simple',
                },
               ]

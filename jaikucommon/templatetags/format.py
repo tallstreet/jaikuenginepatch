@@ -122,7 +122,7 @@ def entry_icon(value, arg=None):
   if not icon:
     return ""
 
-  return '<img src="/themes/%s/icons/%s.gif" alt="%s" class="icon" />' % (settings.DEFAULT_THEME, icon, icon)
+  return '<img src="%sglobal/themes/%s/icons/%s.gif" alt="%s" class="icon" />' % (settings.MEDIA_URL, settings.DEFAULT_THEME, icon, icon)
 
 @register.filter(name="linked_entry_title")
 @safe
@@ -135,7 +135,7 @@ def linked_entry_title(value, arg=None):
 @register.filter(name="stream_icon")
 @safe
 def stream_icon(value, arg=None):
-  return '<img src="/themes/%s/icons/favku.gif" class="icon" />' % settings.DEFAULT_THEME
+  return '<img src="%sglobal/themes/%s/icons/favku.gif" class="icon" />' % (settings.MEDIA_URL, settings.DEFAULT_THEME)
   if type(value) is type(1):
     return '<!-- TODO entry icon goes here -->'
   return '<!-- TODO entry icon goes here -->'
