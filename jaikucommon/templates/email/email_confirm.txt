@@ -9,5 +9,5 @@ Can you help us validate your email address? This gives you access to all the fu
 
 ................
 
-{% include "common/templates/email/signature.txt" %}
+{% include "email/signature.txt" %}
 {% endfilter %}

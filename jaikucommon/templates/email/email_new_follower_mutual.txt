@@ -9,5 +9,5 @@ Yay! {{full_name}} ({{owner_ref.display_nick}}) is now following you, too. Click
 
 Keep 'em coming!
 
-{% include "common/templates/email/signature.txt" %}
+{% include "email/signature.txt" %}
 {% endfilter %}

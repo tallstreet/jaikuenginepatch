@@ -9,5 +9,5 @@ To follow {{owner_ref.display_nick}} back, click on the link below (or copy and 
 
 ................
 
-{% include "common/templates/email/signature.txt" %}
+{% include "email/signature.txt" %}
 {% endfilter %}
