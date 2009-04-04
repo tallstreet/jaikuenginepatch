@@ -60,6 +60,7 @@ from common.test.api import *
 from common.test.clean import *
 from common.test.db import *
 from common.test.domain import *
+from common.test.notification import *
 from common.test.patterns import *
 from common.test.queue import *
 from common.test.sms import *
