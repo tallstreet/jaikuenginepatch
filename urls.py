@@ -13,12 +13,13 @@
 # limitations under the License.
 
 from django.conf import settings
+from ragendja.urlsauto import urlpatterns
 from django.conf.urls.defaults import *
 
 from jaikucommon import patterns as common_patterns
 
 urlpatterns = patterns('',
-)
+) + urlpatterns
 
 # FRONT
 urlpatterns += patterns('front.views',
@@ -144,8 +145,7 @@ urlpatterns += patterns('',
 # COMMON
 urlpatterns += patterns('jaikucommon.views',
     (r'^error$', 'common_error'),
-    (r'^confirm$', 'common_confirm'),
-    (r'^(?P<path>.*)/$', 'common_noslash'),
+    (r'^confirm$', 'common_confirm')
 )
 
 # BLOB
