@@ -26,12 +26,8 @@ from common import util
 
 @decorator.login_required
 def confirm_email(request, code):
-  
-  try:
-    rel_ref = api.activation_activate_email(request.user,
-                                            request.user.nick,
-                                            code)
-    return util.RedirectFlash(request.user.url() + "/overview",
-                              "Email address '%s' confirmed." % rel_ref.target)
-  except:
-    exception.handle_exception(request)
+  rel_ref = api.activation_activate_email(request.user,
+                                          request.user.nick,
+                                          code)
+  return util.RedirectFlash(request.user.url() + "/overview",
+                            "Email address '%s' confirmed." % rel_ref.target)
