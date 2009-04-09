@@ -14,6 +14,7 @@
 
 import re
 import urlparse
+import logging
 
 from django.conf import settings
 
@@ -129,7 +130,6 @@ def user(value, message='Invalid nick'):
   value = encoding.smart_unicode(value)
   if not value.endswith('@%s' % settings.NS_DOMAIN):
     value = '%s@%s' % (value, settings.NS_DOMAIN)
-  
   match = USER_COMPILED.match(value)
   if not match:
     raise exception.ValidationError(message)

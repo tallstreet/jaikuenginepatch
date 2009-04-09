@@ -38,7 +38,7 @@ from jaikucommon import views as common_views
 
 
 def join_join(request):
-  if request.user:
+  if request.user.is_authenticated():
     raise exception.AlreadyLoggedInException()
 
   redirect_to = request.REQUEST.get('redirect_to', '/')
@@ -86,7 +86,8 @@ def join_join(request):
 
       # NOTE: does not provide a flash message
       response = http.HttpResponseRedirect(welcome_url)
-      user.set_user_cookie(response, actor_ref)
+      current_user = user.lookup_user_by_login(actor_ref.nick, password)
+      user.set_user_cookie(response, request, current_user)
       return response
     except:
       exception.handle_exception(request)

@@ -4,7 +4,7 @@
 
 {% block login %}
 {% ifnotequal area 'welcome' %}
-  {% if request.user %}
+  {% if request.user.is_authenticated %}
     Signed in as {{request.user|actor_link}} | 
     <a href="http://{{DOMAIN}}/logout">Sign Out</a>
   {% else %}

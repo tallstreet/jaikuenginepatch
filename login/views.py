@@ -54,7 +54,7 @@ def login_login(request):
         if (not settings.HOSTED_DOMAIN_ENABLED 
             or not settings.SSL_LOGIN_ENABLED):
           response = http.HttpResponseRedirect(redirect_to)
-          response = user.set_user_cookie(response, current_user, rememberme)
+          response = user.set_user_cookie(response, request, current_user, rememberme)
           return response
         
         # otherwise, we're going to have to redirect to set the cookie on
@@ -71,7 +71,7 @@ def login_login(request):
     except:
       exception.handle_exception(request)
 
-  if request.user:
+  if request.user.is_authenticated():
     if redirect_to == '/':
       redirect_to = request.user.url('/overview')
     return http.HttpResponseRedirect(redirect_to)
@@ -97,13 +97,12 @@ def login_noreally(request):
 
 @decorator.cache_never
 def login_logout(request):
-  request.user = None
-  redirect_to = '/'
+  from django.contrib.auth import logout
+  logout(request)
   c = template.RequestContext(request, locals())
   t = loader.get_template('logout.html')
 
   response = http.HttpResponse(t.render(c))
-  response = user.clear_user_cookie(response)
   return response
 
 def login_forgot(request):

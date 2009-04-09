@@ -24,6 +24,8 @@ from jaikucommon import exception
 from jaikucommon import legacy
 from jaikucommon import oauth_util
 from jaikucommon import util
+from django.contrib.auth.models import User
+
 
 
 def get_user_from_request(request):
@@ -87,40 +89,51 @@ def authenticate_user_cookie(nick, token):
     return None
   
   return user
+ 
+class JaikuBackend:
+    def authenticate(self, nick=None, password=None):
+      user = api.actor_lookup_nick(api.ROOT, nick)
+      if not user:
+        return None
+      # user's authenticated via login have full access
+      user.access_level = api.DELETE_ACCESS
+    
+      if settings.DEBUG and password == "password":
+        return user
+    
+      if user.password == util.hash_password(user.nick, password):
+        return user
+    
+      # we're changing the password hashing, this will update their password
+      # to their new format
+      # TODO(termie): The settings.MANAGE_PY stuff below is so that the tests
+      #               will continue to work with fixtures that have the passwords
+      #               in clear text. We should probably remove this and change
+      #               the passwords in the fixtures to be the legacy-style
+      #               passwords.
+      if (user.password == util.hash_password_intermediate(user.nick, password)
+          or settings.MANAGE_PY and user.password == password):
+        logging.debug("updating password for intermediate user: %s", user.nick)
+        user = api.actor_update_intermediate_password(api.ROOT,
+                                                      user.nick,
+                                                      password)
+    
+        # a little repeat of above since we have a new user instance now
+        user.access_level = api.DELETE_ACCESS
+        
+        return user
+      return None
+
+    def get_user(self, key_name):
+      actor_ref = User.get(key_name)
+      return actor_ref
+ 
 
 def authenticate_user_login(nick, password):
-  user = api.actor_lookup_nick(api.ROOT, nick)
-  if not user:
-    return None
+  from django.contrib.auth import authenticate
+  user = authenticate(nick=nick, password=password)
 
-  # user's authenticated via login have full access
-  user.access_level = api.DELETE_ACCESS
-
-  if settings.DEBUG and password == "password":
-    return user
-
-  if user.password == util.hash_password(user.nick, password):
-    return user
-
-  # we're changing the password hashing, this will update their password
-  # to their new format
-  # TODO(termie): The settings.MANAGE_PY stuff below is so that the tests
-  #               will continue to work with fixtures that have the passwords
-  #               in clear text. We should probably remove this and change
-  #               the passwords in the fixtures to be the legacy-style
-  #               passwords.
-  if (user.password == util.hash_password_intermediate(user.nick, password)
-      or settings.MANAGE_PY and user.password == password):
-    logging.debug("updating password for intermediate user: %s", user.nick)
-    user = api.actor_update_intermediate_password(api.ROOT,
-                                                  user.nick,
-                                                  password)
-
-    # a little repeat of above since we have a new user instance now
-    user.access_level = api.DELETE_ACCESS
-    
-    return user
-  return None
+  return user
 
 
 def lookup_user_by_login(login, password):
@@ -142,36 +155,9 @@ def lookup_user_by_login(login, password):
   return None
 
 
-def set_user_cookie(response, user, remember=False):
-  if remember:
-    two_weeks = datetime.datetime.utcnow() + datetime.timedelta(days=14)
-    expires = two_weeks.strftime("%a %d-%b-%y %H:%M:%S GMT")
-  else:
-    expires = None
-
-  auth_token = generate_user_auth_token(user.nick, user.password)
-
-  if settings.COOKIE_DOMAIN == "localhost":
-    response.set_cookie(settings.USER_COOKIE, 
-                        user.nick, 
-                        expires=expires, 
-                        path=settings.COOKIE_PATH)
-    response.set_cookie(settings.PASSWORD_COOKIE,
-                        auth_token, 
-                        expires=expires, 
-                        path=settings.COOKIE_PATH)
-  else:
-    response.set_cookie(settings.USER_COOKIE, 
-                        user.nick, 
-                        expires=expires, 
-                        path=settings.COOKIE_PATH, 
-                        domain=settings.COOKIE_DOMAIN)
-    response.set_cookie(settings.PASSWORD_COOKIE, 
-                        auth_token, 
-                        expires=expires, 
-                        path=settings.COOKIE_PATH, 
-                        domain=settings.COOKIE_DOMAIN)
-
+def set_user_cookie(response, request, user, remember=False):
+  from django.contrib.auth import login
+  login(request, user)
   return response
 
 def clear_user_cookie(response):

@@ -54,7 +54,7 @@ COMBINE_MEDIA = {
 
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    #'django.core.context_processors.auth',
+    'django.core.context_processors.auth',
     'django.core.context_processors.media',
     'django.core.context_processors.request',
     'django.core.context_processors.i18n',
@@ -66,9 +66,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     # Django authentication
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    #'django.contrib.auth.middleware.AuthenticationMiddleware',
     # Google authentication
-    #'ragendja.auth.middleware.GoogleAuthenticationMiddleware',
+    'ragendja.auth.middleware.GoogleAuthenticationMiddleware',
     # Hybrid Django/Google authentication
     #'ragendja.auth.middleware.HybridAuthenticationMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -77,11 +77,13 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     'middleware.domain.DomainMiddleware',
-    'middleware.auth.AuthenticationMiddleware',
+    #'middleware.auth.AuthenticationMiddleware',
     'middleware.exception.ExceptionMiddleware',
     'middleware.cache.CacheMiddleware',
     'middleware.strip_whitespace.WhitespaceMiddleware',    
 )
+
+AUTHENTICATION_BACKENDS = ('jaikucommon.user.JaikuBackend',)
 
 # Google authentication
 #AUTH_USER_MODULE = 'ragendja.auth.google_models'
@@ -89,14 +91,17 @@ MIDDLEWARE_CLASSES = (
 # Hybrid Django/Google authentication
 #AUTH_USER_MODULE = 'ragendja.auth.hybrid_models'
 
+AUTH_USER_MODULE = 'jaikucommon.user_model'
+
 GLOBALTAGS = (
     'ragendja.templatetags.ragendjatags',
     'django.templatetags.i18n',
 )
 
-LOGIN_URL = '/account/login/'
-LOGOUT_URL = '/account/logout/'
+LOGIN_URL = '/login'
+LOGOUT_URL = '/logout'
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 INSTALLED_APPS = (
     'django.contrib.auth',

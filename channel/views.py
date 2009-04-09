@@ -66,7 +66,7 @@ def channel_index(request, format='html'):
   if you are not logged in, it should suggest that you log in to create or
   join channels and give a list of public channels
   """
-  if not request.user:
+  if request.user.is_anonymous():
     return channel_index_signedout(request, format='html')
 
   owned_nicks = api.actor_get_channels_admin(

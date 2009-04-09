@@ -106,13 +106,40 @@ urlpatterns += patterns('actor.views',
 
 
 # LOGIN
-urlpatterns += patterns('login.views',
-    (r'^login$', 'login_login'),
-    (r'^login/noreally$', 'login_noreally'),
-    (r'^login/forgot$', 'login_forgot'),
-    (r'^login/reset', 'login_reset'),
-    (r'^logout$', 'login_logout'),
+LOGIN = '^%s$' % settings.LOGIN_URL.lstrip('/')
+LOGOUT = '^%s$' % settings.LOGOUT_URL.lstrip('/')
+
+# If user set a LOGOUT_REDIRECT_URL we do a redirect.
+# Otherwise we display the default template.
+LOGOUT_DATA = {'next_page': getattr(settings, 'LOGOUT_REDIRECT_URL', None)}
+
+# register auth urls depending on whether we use google or hybrid auth
+if 'ragendja.auth.middleware.GoogleAuthenticationMiddleware' in \
+        settings.MIDDLEWARE_CLASSES:
+    urlpatterns += patterns('',
+        url(LOGIN, 'ragendja.auth.views.google_login',
+            name='django.contrib.auth.views.login'),
+        url(LOGOUT, 'ragendja.auth.views.google_logout', LOGOUT_DATA,
+            name='django.contrib.auth.views.logout'),
+    )
+elif 'ragendja.auth.middleware.HybridAuthenticationMiddleware' in \
+        settings.MIDDLEWARE_CLASSES:
+     urlpatterns += patterns('login.views',
+       url(LOGIN, 'login_login', name='django.contrib.auth.views.login'),
+       (r'^login/noreally$', 'login_noreally'),
+       (r'^login/forgot$', 'login_forgot'),
+       (r'^login/reset', 'login_reset'),
+       url(LOGOUT, 'login_logout', name='django.contrib.auth.views.logout'),
 )
+
+# When faking a real function we always have to add the real function, too.
+urlpatterns += patterns('',
+    url(LOGIN, 'login.views.login_login', name='django.contrib.auth.views.login'),
+    url(LOGOUT, 'login.views.login_logout', name='django.contrib.auth.views.logout'),
+    url(LOGIN, 'django.contrib.auth.views.login'),
+    url(LOGOUT, 'django.contrib.auth.views.logout'),
+)
+
 
 # API
 urlpatterns += patterns('',

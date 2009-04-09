@@ -21,7 +21,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 from jaikucommon import exception
 from jaikucommon import user
-from jaikucommon.models import Actor
 
 from jaikucommon import api, util
 from jaikucommon.display import prep_stream_dict, prep_entry_list
@@ -32,7 +31,8 @@ SIDEBAR_FETCH_LIMIT = 50
 
 def front_front(request):
   # if the user is logged in take them to their overview
-  if request.user:
+  logging.debug(request.user)
+  if request.user.is_authenticated():
     return HttpResponseRedirect(request.user.url() + "/overview")
 
   # NOTE: grab a bunch of extra so that we don't ever end up with

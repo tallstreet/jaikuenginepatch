@@ -6,16 +6,16 @@
       <div id="helper-nav">
         <p id="login">
           {% block login %}
-            {% if request.user %}
+            {% if request.user.is_authenticated %}
               Signed in as {{request.user|actor_link}} | 
               <a href="{{request.user.url}}/settings">Settings</a> | 
-              <a href="http://{{DOMAIN}}/logout">Sign Out</a>
+              <a href="{% url django.contrib.auth.views.logout %}">Sign Out</a>
             {% else %}
               Already a member? 
               {% if SUBDOMAINS_ENABLED %}
-                <a href="http://{{DOMAIN}}/login?redirect_to=http://{{request.META.HTTP_HOST}}{{request.META.PATH_INFO}}">Sign In</a>
+                <a href="{% url django.contrib.auth.views.login %}?redirect_to=http://{{request.META.HTTP_HOST}}{{request.META.PATH_INFO}}">Sign In</a>
               {% else %}
-                <a href="http://{{DOMAIN}}/login?redirect_to={{request.META.PATH_INFO}}">Sign In</a>
+                <a href="{% url django.contrib.auth.views.login %}?redirect_to={{request.META.PATH_INFO}}">Sign In</a>
               {% endif %}
             {% endif %}
           {% endblock %}
@@ -30,7 +30,7 @@
       
       {% block mainnav %}
       <ul id="main-nav">
-        {% if request.user %} {# The logged-in navigation #}
+        {% if request.user.is_authenticated %} {# The logged-in navigation #}
         <li {% ifequal area "home" %}class="current"{% endifequal %} >
           <span><a href="{{request.user.url}}/overview">Home</a></span>
         </li>

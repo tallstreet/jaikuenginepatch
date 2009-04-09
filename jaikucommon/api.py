@@ -25,13 +25,15 @@ from google.appengine.ext import db
 from google.appengine.api import urlfetch
 from google.appengine.api import images
 
-from jaikucommon.models import Stream, StreamEntry, InboxEntry, Actor, Relation
+from jaikucommon.models import Stream, StreamEntry, InboxEntry, Relation
 from jaikucommon.models import Subscription, Invite, OAuthConsumer, OAuthRequestToken
 from jaikucommon.models import OAuthAccessToken, Image, Activation
 from jaikucommon.models import KeyValue, Presence
 from jaikucommon.models import AbuseReport
 from jaikucommon.models import Task
 from jaikucommon.models import PRIVACY_PRIVATE, PRIVACY_CONTACTS, PRIVACY_PUBLIC
+from django.contrib.auth.models import User
+
 
 from jaikucommon import clean
 from jaikucommon import clock
@@ -61,7 +63,7 @@ ACCESS_LEVELS = [NO_ACCESS,
                  DELETE_ACCESS,
                  ADMIN_ACCESS]
 
-ROOT = Actor(nick=settings.ROOT_NICK, type='user')
+ROOT = User(nick=settings.ROOT_NICK, type='user')
 ROOT.access_level = ADMIN_ACCESS
 
 # Max length of a message. Conciseness is a virtue.
@@ -155,7 +157,7 @@ def has_access(actor_ref, access_level):
   return False
 
 def actor_owns_actor(actor_ref, other_ref):
-  if not actor_ref or not other_ref:
+  if not actor_ref or actor_ref.is_anonymous() or not other_ref:
     return False
 
   # actors own themselves
@@ -889,8 +891,8 @@ def actor_get(api_user, nick):
 
   not_found_message = 'Actor not found: %s' % nick
 
-  key_name = Actor.key_from(nick=nick)
-  actor_ref = Actor.get_by_key_name(key_name)
+  key_name = User.key_from(nick=nick)
+  actor_ref = User.get_by_key_name(key_name)
   
   if not actor_ref:
     raise exception.ApiNotFound(not_found_message)
@@ -1047,7 +1049,7 @@ def actor_lookup_nick(api_user, nick):
     return actor_ref
 
   nick = clean.normalize_nick(clean.nick(nick))
-  query = Actor.gql('WHERE normalized_nick = :1',
+  query = User.gql('WHERE normalized_nick = :1',
                     nick)
   actor_ref = query.get()
   if not actor_ref:
@@ -1264,7 +1266,7 @@ def channel_browse(api_user, limit, offset_channel_nick=''):
     offset_channel_nick - Retrieve channels with nick > this value.
   """
   # Sort by nick, so that filtering works.
-  query = Actor.gql('WHERE type = :1 AND deleted_at = :2 and nick > :3 '
+  query = User.gql('WHERE type = :1 AND deleted_at = :2 and nick > :3 '
                     'ORDER BY nick',
                     'channel',
                     None,
@@ -1331,7 +1333,7 @@ def channel_create(api_user, **kw):
     params['extra']['admin_count'] += 1
 
   # XXX start transaction
-  channel_ref = Actor(**params)
+  channel_ref = User(**params)
   channel_ref.put()
 
   relation = 'channeladmin'
@@ -1365,8 +1367,8 @@ def channel_get(api_user, channel):
   not_found_message = 'Channel not found: %s' % channel
   channel = clean.channel(channel)
   
-  key_name = Actor.key_from(nick=channel)
-  channel_ref = Actor.get_by_key_name(key_name)
+  key_name = User.key_from(nick=channel)
+  channel_ref = User.get_by_key_name(key_name)
   
   if not channel_ref:
     raise exception.ApiNotFound(not_found_message)
@@ -3350,7 +3352,7 @@ def user_create(api_user, **kw):
         'Screen name %s is already in use.' % util.display_nick(nick))
 
   # Create the user
-  actor = Actor(**params)
+  actor = User(**params)
   actor.put()
 
   # Create the streams
@@ -3387,7 +3389,7 @@ def user_create_root(api_user):
         'Screen name %s is already in use.' % util.display_nick(nick))
 
   # Create the user
-  actor = Actor(**params)
+  actor = User(**params)
   actor.put()
 
   # Create the streams

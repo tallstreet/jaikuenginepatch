@@ -35,7 +35,7 @@ register = template.Library()
 def is_actor_or_owner(user, entry, is_admin = False):
   if is_admin:
     return True
-  if not user:
+  if not user or user.is_anonymous():
     return False
   return user.nick == entry.actor or user.nick == entry.owner
 

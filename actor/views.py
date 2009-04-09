@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import logging
 from django import http
 from django import template
 from django.conf import settings
@@ -676,7 +677,7 @@ def actor_settings(request, nick, page='index'):
                                     'password updated')
       request.user.password = password
       # TODO(mikie): change when cookie-auth is changed
-      user.set_user_cookie(response, request.user)
+      user.set_user_cookie(response, request, request.user)
       return response
     except:
       exception.handle_exception(request)
