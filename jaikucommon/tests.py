@@ -25,7 +25,7 @@ class CommonViewTest(base.ViewTestCase):
   def test_redirect_slash(self):
     r = self.login_and_get('popular', '/user/popular/overview/')
     redirected = self.assertRedirectsPrefix(r, '/user/popular/overview')
-    self.assertTemplateUsed(redirected, 'overview.html')
+    self.assertTemplateUsed(redirected, 'actor/templates/overview.html')
 
   def test_confirm(self):
     nonce = util.create_nonce('popular', 'entry_remove')
@@ -60,6 +60,8 @@ from jaikucommon.test.api import *
 from jaikucommon.test.clean import *
 from jaikucommon.test.db import *
 from jaikucommon.test.domain import *
+from jaikucommon.test.monitor import *
+from jaikucommon.test.notification import *
 from jaikucommon.test.patterns import *
 from jaikucommon.test.queue import *
 from jaikucommon.test.sms import *

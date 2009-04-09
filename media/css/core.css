@@ -2368,6 +2368,11 @@ div#stream a.rss {
     margin-top: 1em;
 }
 
+div#stream a.feed:hover {
+    text-decoration: underline;
+    color: #009bc7;
+}
+
 div#stream p.tools {
     padding-top: 0.4em;
     clear: left;
