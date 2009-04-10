@@ -129,3 +129,11 @@ def entry_mark_as_spam(parser, token):
     raise template.TemplateSyntaxError, "%r takes two arguments" % bits[0]
   return EntryActionNode(bits[1], bits[2], is_admin, is_not_actor,
                          'entry_mark_as_spam', 'confirm-spam', 'Mark as spam')
+
+@register.filter
+def entry_url(value, arg="anchor"):
+  if arg == "noanchor":
+    with_anchor = False
+  else:
+    with_anchor = True
+  return value.url(with_anchor=with_anchor)

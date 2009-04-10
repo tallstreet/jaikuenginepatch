@@ -513,7 +513,7 @@ class StreamEntry(DeletedMarkerModel):
 
   key_template = '%(stream)s/%(uuid)s'
 
-  def url(self):
+  def url(self, with_anchor=True):
     if self.entry:
       # TODO bad?
       slug = self.entry.split("/")[-1]
@@ -522,18 +522,47 @@ class StreamEntry(DeletedMarkerModel):
       # TODO(termie): add slug property
       slug = self.uuid
       anchor = ""
-    path = "/%s/%s%s" % ('presence', slug, anchor)
+    path = "/%s/%s" % ('presence', slug)
+    if with_anchor:
+      path = "%s%s" % (path, anchor)
     return actor_url(_get_actor_urlnick_from_nick(self.owner),
                      _get_actor_type_from_nick(self.owner),
                      path)
 
-                             
   def keyname(self):
     """Returns the key name"""
     return self.key().name()
 
   def title(self):
-    return self.extra.get('title', self.extra.get('content'))
+    """ build a title for this entry, for a presence entry it will just be
+    the title, but for a comment it will look like:
+
+    Comment from [commenter nick] on [entry title] by [nick]
+
+    Comment from [commenter nick] on [entry title] by [nick] to #[channel name]
+    """
+
+    if not self.is_comment():
+      return self.extra.get('title')
+
+    template = "Comment from %(actor)s on %(entry_title)s by %(entry_actor)s"
+    actor = _get_actor_urlnick_from_nick(self.actor)
+    entry_title = self.extra.get('entry_title')
+    entry_actor = _get_actor_urlnick_from_nick(self.extra.get('entry_actor'))
+    entry_owner_nick = util.get_user_from_topic(self.entry)
+    entry_type = _get_actor_type_from_nick(entry_owner_nick)
+
+    v = {'actor': actor,
+         'entry_title': entry_title,
+         'entry_actor': entry_actor,
+         }
+
+    if entry_type == 'channel':
+      template += ' to #%(channel)s'
+      channel = _get_actor_urlnick_from_nick(entry_owner_nick)
+      v['channel'] = channel
+
+    return template % v
 
   def is_comment(self):
     return (self.entry != None)
