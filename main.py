@@ -32,6 +32,19 @@ from appengine_django import have_django_zip
 from appengine_django import django_zip_path
 InstallAppengineHelperForDjango()
 
+# This needs to happen before installing the components.
+# It happens again in main() because main() gets cached in some
+# funky way that sometimes clears sys.path.
+def _add_zip_files_to_path():
+  for possible_zip_file in os.listdir('.'):
+    if possible_zip_file.endswith('.zip'):
+      if possible_zip_file in sys.path:
+        continue
+      logging.debug("adding %s to the sys.path", possible_zip_file)
+      sys.path.insert(1, possible_zip_file)
+
+_add_zip_files_to_path()
+
 # Load extra components
 from common import component
 component.install_components()
@@ -53,15 +66,10 @@ import django.core.signals
 django.core.signals.got_request_exception.connect(log_exception)
 
 def main():
-  for x in os.listdir('.'):
-    if x.endswith('.zip'):
-      if x in sys.path:
-        continue
-      logging.debug("adding %s to the sys.path", x)
-      sys.path.append(x)
-
   # we only want to do this once, but due to weird method
   # caching behavior it sometimes gets blown away
+  _add_zip_files_to_path()
+
   # Create a Django application for WSGI.
   application = django.core.handlers.wsgi.WSGIHandler()
 

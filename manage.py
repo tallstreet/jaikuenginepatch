@@ -28,7 +28,7 @@ for x in os.listdir('.'):
     if x in sys.path:
       continue
     logging.debug("Adding %s to the sys.path", x)
-    sys.path.append(x)
+    sys.path.insert(1, x)
 
 from appengine_django import InstallAppengineHelperForDjango
 
