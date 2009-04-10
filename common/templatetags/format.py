@@ -23,7 +23,7 @@ from django.template.defaultfilters import stringfilter
 from django.utils.safestring import mark_safe
 from django.utils.html import escape
 from django.utils.timesince import timesince
-from common.util import create_nonce, safe
+from common.util import create_nonce, safe, display_nick, url_nick
 
 from common import clean
 from common import models
@@ -149,4 +149,8 @@ def je_timesince(value, arg=None):
   else:
     return timesince(d)
 
-
+@register.filter
+@safe
+def entry_actor_link(value, arg=None):
+  return '<a href="%s">%s</a>' % (models.actor_url(url_nick(value), 'user'),
+                                  display_nick(value))

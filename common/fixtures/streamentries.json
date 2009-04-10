@@ -68,7 +68,8 @@
                        "entry_stream": "stream/popular@example.com/presence",
                        "entry_stream_type": "presence",
                        "entry_title": "test entry 1",
-                       "entry_uuid": "12345"
+                       "entry_uuid": "12345",
+                       "entry_actor": "popular@example.com"
                        },
              "uuid": "12348",
              "entry": "stream/popular@example.com/presence/12345",
@@ -84,7 +85,8 @@
                        "entry_stream": "stream/popular@example.com/presence",
                        "entry_stream_type": "presence",
                        "entry_title": "test entry 1",
-                       "entry_uuid": "12345"
+                       "entry_uuid": "12345",
+                       "entry_actor": "popular@example.com"
                        },
              "uuid": "14341",
              "entry": "stream/popular@example.com/presence/12345",
@@ -100,7 +102,8 @@
                        "entry_stream": "stream/popular@example.com/presence",
                        "entry_stream_type": "presence",
                        "entry_title": "test entry 1",
-                       "entry_uuid": "12345"
+                       "entry_uuid": "12345",
+                       "entry_actor": "popular@example.com"
                        },
              "uuid": "114341",
              "entry": "stream/popular@example.com/presence/12345",
@@ -129,7 +132,8 @@
                        "entry_stream": "stream/girlfriend@example.com/presence",
                        "entry_stream_type": "presence",
                        "entry_title": "private test entry 1",
-                       "entry_uuid": "16961"
+                       "entry_uuid": "16961",
+                       "entry_actor": "girlfriend@example.com"
                        },
              "uuid": "16962",
              "entry": "stream/girlfriend@example.com/presence/16961",
@@ -145,7 +149,8 @@
                        "entry_stream": "stream/girlfriend@example.com/presence",
                        "entry_stream_type": "presence",
                        "entry_title": "private test entry 1",
-                       "entry_uuid": "16961"
+                       "entry_uuid": "16961",
+                       "entry_actor": "popular@example.com"
                        },
              "uuid": "16963",
              "entry": "stream/girlfriend@example.com/presence/16961",

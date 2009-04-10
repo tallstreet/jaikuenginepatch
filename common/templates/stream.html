@@ -17,7 +17,13 @@
     {{entry|format_comment}}
     </p>
     <p class="meta">
-    Comment from {{entry.actor_ref|actor_link}} on <a href="{{entry.url}}" title="{{entry.extra.entry_title}}">{{entry.extra.entry_title}}</a> {{entry.created_at|je_timesince}} ago.
+      Comment from {{entry.actor_ref|actor_link}} on
+      <a href="{{entry.url}}" title="{{entry.extra.entry_title}}">{{entry.extra.entry_title}}</a>
+      by {{entry.extra.entry_actor|entry_actor_link}}
+      {% if entry.owner_ref.is_channel %}
+        to {{entry.owner_ref|actor_link}}
+      {% endif %}
+      {{entry.created_at|je_timesince}} ago.
     </p>
   </div></div>
 </li>
