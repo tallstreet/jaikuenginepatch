@@ -2,16 +2,10 @@
 {% for entry in entries %}
   <item>
     <title>{{entry.title}}</title>
-    {% ifequal entry.stream_ref.type 'comment' %}
+    {% if entry.entry %}
       <description>        
         <![CDATA[
-          {{entry|format_comment}}
-          <p>
-            Comment from {{entry.actor_ref|actor_link}} on 
-            <a href="{{entry.url}}" title="{{entry.extra.entry_title}}">
-              {{entry.extra.entry_title}}</a> 
-            {{entry.created_at|je_timesince}} ago.
-          </p>
+        {% include "common/templates/stream_comment.html" %}
          ]]>
        </description>
        <link>{{entry.url}}</link>
@@ -19,23 +13,12 @@
        <pubDate>{{entry.created_at|date:"r"}}</pubDate>
        <jaiku:user nick="{{entry.actor_ref.display_nick}}" first_name="{{entry.actor_ref.extra.given_name}}" last_name="{{entry.actor_ref.extra.family_name}}" avatar='{{entry.actor_ref|avatar_url:"t"}}' url="{{entry.actor_ref.url}}" />
        <jaiku:timesince>{{entry.created_at|je_timesince}} ago.</jaiku:timesince>
-    {% endifequal %}
+    {% endif %}
 
     {% ifequal entry.stream_ref.type 'presence' %}     
       <description>
         <![CDATA[
-          <p>
-            By {{entry.actor_ref|actor_link}}
-            {% ifnotequal entry.actor entry.owner %}
-              to {{entry.owner_ref|actor_link}}
-            {% endifnotequal %}
-            {{entry.created_at|je_timesince}} ago.
-            {% if not entry.extra.comment_count %}
-            <a href="{{entry.url}}#comments" class="add-comment">Add Comment</a>
-            {% else %}
-            <a href="{{entry.url}}#comments" class="comments">{{entry.extra.comment_count}} Comment{{entry.extra.comment_count|pluralize}}</a>
-            {% endif %}
-          </p>
+        {% include "common/templates/stream_entry.html" %}
          ]]>      
       </description>
       <link>{{entry.url}}</link>

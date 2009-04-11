@@ -1,42 +1,41 @@
-{% load avatar format entry %}  
+{% load avatar format entry %}
   {% for entry in entries %}
-  <entry>
+  <entry xmlns="http://www.w3.org/2005/Atom"
+      xmlns:thr="http://purl.org/syndication/thread/1.0">
+    {% if include_source %}
+    <source>
+      <title>{{SITE_NAME}} | {{POST_NAMES}}s from {{entry.actor_ref.display_nick}}</title>
+      <link rel="alternate" href="{{entry.actor_ref.url}}"/>
+      <link rel="self" href="{{entry.actor_ref.url}}/atom"/>
+      <icon>{{entry.actor_ref|avatar_url}}</logo>
+      <author>
+        <name>{{entry.actor_ref.display_nick}}</name>
+      </author>
+    </source>
+    {% endif %}
     <title>{{entry.title}}</title>
+
     {% if entry.entry %}
       <content type="xhtml">
         <div xmlns="http://www.w3.org/1999/xhtml">
-          {{entry|format_comment}}
-          <p>
-            Comment from {{entry.actor_ref|actor_link}} on 
-            <a href="{{entry.url}}" title="{{entry.extra.entry_title}}">
-              {{entry.extra.entry_title}}</a> 
-            {{entry.created_at|je_timesince}} ago.
-          </p>     
+          {% include "common/templates/stream_comment.html" %}
         </div>
       </content>
+      <thr:in-reply-to
+          ref="{{entry|entry_url:"noanchor"}}"
+          type="application/xhtml+xml"
+          href="{{entry|entry_url:"noanchor"}}" />
     {% endif %}
 
     {% ifequal entry.stream_ref.type 'presence' %}
       <content type="xhtml">
         <div xmlns="http://www.w3.org/1999/xhtml">
-          <p>
-            By {{entry.actor_ref|actor_link}}
-            {% ifnotequal entry.actor entry.owner %}
-              to {{entry.owner_ref|actor_link}}
-            {% endifnotequal %}
-            {{entry.created_at|je_timesince}} ago.
-            
-            {% if not entry.extra.comment_count %}
-            <a href="{{entry.url}}#comments" class="add-comment">Add Comment</a>
-            {% else %}
-            <a href="{{entry.url}}#comments" class="comments">{{entry.extra.comment_count}} Comment{{entry.extra.comment_count|pluralize}}</a>
-            {% endif %}
-          </p>              
+          {% include "common/templates/stream_entry.html" %}
         </div>
       </content>
     {% endifequal %}
 
-    <id>tag:{{NS_DOMAIN}},{{entry.created_at|date:"Y-m-d"}}:{{entry.url}}</id>
+    <id>{{entry.url}}</id>
     <link type="text/html" rel="alternate" href="{{entry.url}}"/>
     <published>{{entry.created_at|date:"Y-m-d\TH:i:s\Z"}}</published>
     <updated>{{entry.created_at|date:"Y-m-d\TH:i:s\Z"}}</updated>

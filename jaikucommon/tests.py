@@ -68,6 +68,7 @@ from jaikucommon.test.sms import *
 from jaikucommon.test.throttle import *
 from jaikucommon.test.validate import *
 from jaikucommon.templatetags.test.avatar import *
+from jaikucommon.templatetags.test.format import *
 from jaikucommon.templatetags.test.presence import *
 
 # This is for legacy compat with older tests

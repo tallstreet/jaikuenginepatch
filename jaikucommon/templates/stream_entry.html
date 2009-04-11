@@ -1,0 +1,25 @@
+{% load avatar format entry %}
+{% if not hide_avatar %}
+{{entry.actor_ref|linked_avatar:"u"}}
+{% endif %}
+{{entry|entry_icon}}
+<h3>{{entry|linked_entry_title}}</h3>
+<p class="meta">
+  By {{entry.actor_ref|actor_link}}
+  {% ifnotequal entry.actor entry.owner %}
+    to {{entry.owner_ref|actor_link}}
+  {% endifnotequal %}
+  {% if not hide_timesince %}
+    {{entry.created_at|je_timesince}} ago.
+  {% endif %}
+
+  {% if not hide_links %}
+  {% if not entry.extra.comment_count %}
+    <a href="{{entry.url}}#comments" class="add-comment">Add Comment</a>
+  {% else %}
+    <a href="{{entry.url}}#comments" class="comments">{{entry.extra.comment_count}} Comment{{entry.extra.comment_count|pluralize}}</a>
+  {% endif %}
+  
+  {% entry_remove request.user entry user_is_admin %}
+  {% endif %}
+</p>
