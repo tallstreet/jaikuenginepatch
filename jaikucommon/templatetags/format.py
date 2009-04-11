@@ -127,7 +127,7 @@ def truncate(value, arg):
   else:
     return value
 
-@egister.filter
+@register.filter
 @safe
 def actor_link(value, arg=None):
   return '<a href="%s">%s</a>' % (value.url(), value.display_nick())
