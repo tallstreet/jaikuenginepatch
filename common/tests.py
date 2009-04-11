@@ -68,6 +68,7 @@ from common.test.sms import *
 from common.test.throttle import *
 from common.test.validate import *
 from common.templatetags.test.avatar import *
+from common.templatetags.test.format import *
 from common.templatetags.test.presence import *
 
 # This is for legacy compat with older tests

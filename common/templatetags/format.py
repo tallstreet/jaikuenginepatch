@@ -103,12 +103,28 @@ def format_comment(value, arg=None):
   content = format_actor_links(content)
   return content
 
-
 @register.filter(name="truncate")
-def truncate(value, arg=30):
-  arg = int(arg)
-  return value[:arg]
-  #return value.content
+def truncate(value, arg):
+  """
+  Truncates a string after a certain number of characters. Adds an
+  ellipsis if truncation occurs.
+  
+  Due to the added ellipsis, truncating to 10 characters results in an
+  11 character string unless the original string is <= 10 characters
+  or ends with whitespace.
+
+  Argument: Number of characters to truncate after.
+  """
+  try:
+    max_len = int(arg)
+  except:
+    return value # No truncation/fail silently.
+
+  if len(value) > max_len:
+    # Truncate, strip rightmost whitespace, and add ellipsis
+    return value[:max_len].rstrip() + u"\u2026"
+  else:
+    return value
 
 @register.filter
 @safe
@@ -131,6 +147,26 @@ def linked_entry_title(value, arg=None):
       value.url(), 
       format_fancy(escape(value.extra['title'])).replace('\n', ' '))
 
+@register.filter
+@safe
+def linked_entry_truncated_title(value, arg):
+  """
+  Returns a link to an entry using a truncated entry title as source anchor.
+
+  Argument: Number of characters to truncate after.
+  """
+  try:
+    max_len = int(arg)
+  except:
+    max_len = None # No truncation/fail silently.
+
+  if value.is_comment():
+    title = escape(truncate(value.extra['entry_title'].replace('\n', ' '),
+                            max_len))
+  else:
+    title = escape(truncate(value.extra['title'].replace('\n', ' '), max_len))
+
+  return '<a href="%s">%s</a>' % (value.url(), title)
 
 @register.filter(name="stream_icon")
 @safe
@@ -154,3 +190,16 @@ def je_timesince(value, arg=None):
 def entry_actor_link(value, arg=None):
   return '<a href="%s">%s</a>' % (models.actor_url(url_nick(value), 'user'),
                                   display_nick(value))
+
+@register.filter
+def nick_is_channel(value):
+  """
+  Returns True if nick corresponds to a channel (i.e. nick begins
+  with a #).
+  """
+  return value.startswith('#')
+
+@register.filter
+def display_nick(value):
+  """Returns the display part of a nick (e.g. #channel or username)."""
+  return value.split("@")[0]

@@ -18,8 +18,9 @@ import datetime
 import logging
 
 from cleanliness import cleaner
-from django.conf import settings
 
+from django import template
+from django.conf import settings
 
 from google.appengine.ext import db
 from google.appengine.api import urlfetch
@@ -4397,17 +4398,24 @@ def _notify_im_subscribers_for_comment(subscribers_ref, actor_ref,
   if not im_aliases:
     return
 
-  # TODO(termie): add more info if this is a channel
-  # TODO(termie): add link to post
-  excerpt = entry_ref.title()
-  if len(excerpt) > 24:
-    excerpt = excerpt[:20] + u"\u2026"
-  content = comment_ref.extra.get('content', '')
+  c = template.Context({'actor_ref': actor_ref,
+                        'comment_ref': comment_ref,
+                        'entry_ref': entry_ref,
+                        'entry_title_max_length':
+                          settings.IM_MAX_LENGTH_OF_ENTRY_TITLES_FOR_COMMENTS},
+                       autoescape=False)
+  t = template.loader.get_template('common/templates/im/im_comment.txt')
+  plain_text_message = t.render(c)
 
-  # TODO(termie): support html messages
-  message = '%s: %s (on %s)' % (actor_ref.display_nick(), content, excerpt)
+  if settings.IM_PLAIN_TEXT_ONLY:
+    html_message = None
+  else:
+    t = template.loader.get_template('common/templates/im/im_comment.html')
+    html_message = t.render(c)
 
-  xmpp_connection.send_message(im_aliases, message)
+  xmpp_connection.send_message(im_aliases,
+                               plain_text_message,
+                               html_message=html_message)
 
   _reply_add_cache_im(actor_ref, subscribers_ref, entry_ref.keyname())
 
@@ -4424,20 +4432,21 @@ def _notify_im_subscribers_for_entry(subscribers_ref, actor_ref, stream_ref, ent
   if not im_aliases:
     return
 
-  # TODO(termie): add link to post
-  excerpt = entry_ref.title()
-  from_nick = actor_ref.display_nick()
-
-  # if this is a channel add more info
-  if entry_ref.owner != entry_ref.actor:
-    owner_ref = actor_get(ROOT, entry_ref.owner)
-    from_nick += owner_ref.display_nick()
-
+  c = template.Context({'actor_ref': actor_ref,
+                        'entry_ref': entry_ref},
+                       autoescape=False)
+  t = template.loader.get_template('common/templates/im/im_entry.txt')
+  plain_text_message = t.render(c)
   
-  # TODO(termie): support html messages
-  message = '%s: %s' % (from_nick, excerpt)
+  if settings.IM_PLAIN_TEXT_ONLY:
+    html_message = None
+  else:
+    t = template.loader.get_template('common/templates/im/im_entry.html')
+    html_message = t.render(c)
 
-  xmpp_connection.send_message(im_aliases, message)
+  xmpp_connection.send_message(im_aliases,
+                               plain_text_message,
+                               html_message=html_message)
 
   _reply_add_cache_im(actor_ref, subscribers_ref, entry_ref.keyname())
 

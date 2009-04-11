@@ -298,6 +298,13 @@ IM_TEST_ONLY = False
 # JIDs to allow when testing live XMPP so you don't spam all your users
 IM_TEST_JIDS = []
 
+# Enable to send plain text messages only. Default is to send both plain
+# text and html.
+IM_PLAIN_TEXT_ONLY = False
+
+# Truncate entry title in comments. None or 140+ means no truncation.
+IM_MAX_LENGTH_OF_ENTRY_TITLES_FOR_COMMENTS = 40
+
 #
 # Task Queue
 #
