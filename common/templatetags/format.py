@@ -191,15 +191,3 @@ def entry_actor_link(value, arg=None):
   return '<a href="%s">%s</a>' % (models.actor_url(url_nick(value), 'user'),
                                   display_nick(value))
 
-@register.filter
-def nick_is_channel(value):
-  """
-  Returns True if nick corresponds to a channel (i.e. nick begins
-  with a #).
-  """
-  return value.startswith('#')
-
-@register.filter
-def display_nick(value):
-  """Returns the display part of a nick (e.g. #channel or username)."""
-  return value.split("@")[0]

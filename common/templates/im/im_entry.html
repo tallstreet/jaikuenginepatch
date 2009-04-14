@@ -1,6 +1,6 @@
 {% spaceless %}
 {% load format i18n %}
-<span>{{actor_ref.display_nick}}{% if entry_ref.owner|nick_is_channel %}{{entry_ref.owner|display_nick}}{% endif %}:</span>
-{{entry_ref.title|escape}}
-<span>(<a href="{{entry_ref.url}}">link</a>)</span>
+<span>{{entry.actor_ref.display_nick}}{% if entry.owner_ref.is_channel %}{{entry.owner_ref.display_nick}}{% endif %}:</span>
+{{entry.title|escape}}
+<span>(<a href="{{entry.url}}">link</a>)</span>
 {% endspaceless %}

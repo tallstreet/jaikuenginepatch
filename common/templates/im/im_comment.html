@@ -1,6 +1,6 @@
 {% spaceless %}
 {% load format i18n %}
-<span>{{actor_ref.display_nick}}{% if entry_ref.owner|nick_is_channel %}{{entry_ref.owner|display_nick}}{% endif %}:</span>
-{{comment_ref|format_comment}}
-<span>(on {{comment_ref|linked_entry_truncated_title:entry_title_max_length}})</span>
+<span>{{entry.actor_ref.display_nick}}{% if entry.owner_ref.is_channel %}{{entry.owner_ref.display_nick}}{% endif %}:</span>
+{{entry|format_comment}}
+<span>(on {{entry|linked_entry_truncated_title:entry_title_max_length}})</span>
 {% endspaceless %}

@@ -19,7 +19,7 @@
   {% else %}
     <a href="{{entry.url}}#comments" class="comments">{{entry.extra.comment_count}} Comment{{entry.extra.comment_count|pluralize}}</a>
   {% endif %}
-  
+
   {% entry_remove request.user entry user_is_admin %}
   {% endif %}
 </p>

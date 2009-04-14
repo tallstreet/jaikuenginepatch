@@ -63,7 +63,8 @@ class XmppMessage(object):
     return xmpp_service.from_request(cls, request)
 
 class XmppConnection(base.Connection):
-  def send_message(self, to_jid_list, message, html_message=None):
+  def send_message(self, to_jid_list, message, html_message=None, 
+                   atom_message=None):
     if settings.IM_TEST_ONLY:
       to_jid_list = [x for x in to_jid_list 
                      if x.base() in settings.IM_TEST_JIDS]
@@ -71,8 +72,11 @@ class XmppConnection(base.Connection):
     message = encoding.smart_str(message)
     if html_message:
       html_message = encoding.smart_str(html_message)
+    if atom_message:
+      atom_message = encoding.smart_str(atom_message)
 
     xmpp_service = component.best['xmpp_service']
     xmpp_service.send_message([j.base() for j in to_jid_list],
                               message,
-                              html_message)
+                              html_message=html_message,
+                              atom_message=atom_message)

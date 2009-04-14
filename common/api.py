@@ -36,6 +36,7 @@ from common.models import PRIVACY_PRIVATE, PRIVACY_CONTACTS, PRIVACY_PUBLIC
 
 from common import clean
 from common import clock
+from common import context_processors
 from common import exception
 from common import imageutil
 from common import mail
@@ -4199,7 +4200,7 @@ def _notify_im_for_entry(inboxes, actor_ref, new_stream_ref, new_entry_ref,
   else:
     _notify_im_subscribers_for_entry(subscribers_ref,
                                      actor_ref,
-                                     entry_stream_ref,
+                                     new_stream_ref,
                                      new_entry_ref)
 
 def _notify_sms_for_entry(inboxes, actor_ref, new_stream_ref, new_entry_ref,
@@ -4386,7 +4387,7 @@ def _notify_email_subscribers_for_comment(subscribers_ref, actor_ref,
 def _notify_im_subscribers_for_comment(subscribers_ref, actor_ref,
                                        comment_ref, entry_ref):
   xmpp_connection = xmpp.XmppConnection()
-  
+
   im_aliases = []
   for subscriber_ref in subscribers_ref:
     if not subscriber_ref.extra.get('im_notify'):
@@ -4398,12 +4399,23 @@ def _notify_im_subscribers_for_comment(subscribers_ref, actor_ref,
   if not im_aliases:
     return
 
-  c = template.Context({'actor_ref': actor_ref,
-                        'comment_ref': comment_ref,
-                        'entry_ref': entry_ref,
-                        'entry_title_max_length':
-                          settings.IM_MAX_LENGTH_OF_ENTRY_TITLES_FOR_COMMENTS},
-                       autoescape=False)
+  # We're effectively duplicationg common.display.prep_comment here
+  comment_ref.owner_ref = actor_get(ROOT, entry_ref.owner)
+  comment_ref.actor_ref = actor_ref
+  comment_ref.entry_ref = entry_ref
+  entry = comment_ref
+  entries = [entry]
+
+  context = {'entry': entry,
+             'entries': entries,
+             'entry_title_max_length':
+                 settings.IM_MAX_LENGTH_OF_ENTRY_TITLES_FOR_COMMENTS,
+             }
+  # add all our settings to the context
+  context.update(context_processors.settings(None))
+
+  c = template.Context(context, autoescape=False)
+
   t = template.loader.get_template('common/templates/im/im_comment.txt')
   plain_text_message = t.render(c)
 
@@ -4413,9 +4425,13 @@ def _notify_im_subscribers_for_comment(subscribers_ref, actor_ref,
     t = template.loader.get_template('common/templates/im/im_comment.html')
     html_message = t.render(c)
 
+    t = template.loader.get_template('common/templates/im/im_comment.atom')
+    atom_message = t.render(c)
+
   xmpp_connection.send_message(im_aliases,
                                plain_text_message,
-                               html_message=html_message)
+                               html_message=html_message,
+                               atom_message=atom_message)
 
   _reply_add_cache_im(actor_ref, subscribers_ref, entry_ref.keyname())
 
@@ -4432,21 +4448,37 @@ def _notify_im_subscribers_for_entry(subscribers_ref, actor_ref, stream_ref, ent
   if not im_aliases:
     return
 
-  c = template.Context({'actor_ref': actor_ref,
-                        'entry_ref': entry_ref},
-                       autoescape=False)
+  # We're effectively duplicationg common.display.prep_entry here
+  entry_ref.stream_ref = stream_ref
+  logging.info('stream_ref %s', stream_ref)
+  entry_ref.owner_ref = actor_get(ROOT, entry_ref.owner)
+  entry_ref.actor_ref = actor_ref
+  entry = entry_ref
+  entries = [entry]
+
+  context = {'entry': entry,
+             'entries': entries,
+             }
+  # add all our settings to the context
+  context.update(context_processors.settings(None))
+
+  c = template.Context(context, autoescape=False)
   t = template.loader.get_template('common/templates/im/im_entry.txt')
   plain_text_message = t.render(c)
-  
+
   if settings.IM_PLAIN_TEXT_ONLY:
     html_message = None
   else:
     t = template.loader.get_template('common/templates/im/im_entry.html')
     html_message = t.render(c)
+    t = template.loader.get_template('common/templates/im/im_entry.atom')
+    atom_message = t.render(c)
+
 
   xmpp_connection.send_message(im_aliases,
                                plain_text_message,
-                               html_message=html_message)
+                               html_message=html_message,
+                               atom_message=atom_message)
 
   _reply_add_cache_im(actor_ref, subscribers_ref, entry_ref.keyname())
 

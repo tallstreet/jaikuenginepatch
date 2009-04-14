@@ -1,0 +1,5 @@
+{% with "1" as include_source %}
+{% with "1" as hide_links %}
+{% include "common/templates/stream.atom" %}
+{% endwith %}
+{% endwith %}
