@@ -145,7 +145,7 @@ def lookup_user_by_login(login, password):
 def set_user_cookie(response, user, remember=False):
   if remember:
     two_weeks = datetime.datetime.utcnow() + datetime.timedelta(days=14)
-    expires = two_weeks.strftime("%a %d-%b-%y %H:%M:%S GMT")
+    expires = two_weeks.strftime("%a, %d-%b-%y %H:%M:%S GMT")
   else:
     expires = None
 
