@@ -357,7 +357,15 @@ class ContactsTest(ViewTestCase):
     self.logout()
     r = self.client.get('/user/popular/contacts')
     self.assertNotContains(r, 'Invite friends')
-
+    
+  def test_invite_link_redirects_to_login_when_logged_out(self):
+    r = self.login_and_get(None, '/user/popular/invite')
+    r = self.assertRedirectsPrefix(r, '/login?redirect_to=%2Fuser%2Fpopular%2Finvite')
+  
+  def test_invite_link_redirects_to_correct_page(self):
+    r = self.login_and_get('popular', '/user/girlfriend/invite')
+    r = self.assertRedirectsPrefix(r, '/user/popular/invite')
+    
   def test_email_notification(self):
     # new follower
 

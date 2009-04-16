@@ -210,6 +210,7 @@ def actor_history(request, nick=None, format='html'):
     r = util.HttpRssResponse(t.render(c), request)
     return r
 
+@decorator.login_required
 @alternate_nick
 def actor_invite(request, nick, format='html'):
   nick = clean.nick(nick)
@@ -218,9 +219,9 @@ def actor_invite(request, nick, format='html'):
   if not view:
     raise exception.UserDoesNotExistError(nick, request.user)
 
-  if not request.user or view.nick != request.user.nick:
+  if view.nick != request.user.nick:
     # Bounce the user to their own page (avoids any confusion for the wrong
-    # nick in the url).  Perhaps unnecessary.
+    # nick in the url).
     return http.HttpResponseRedirect(
         '%s/invite' % request.user.url())
   
