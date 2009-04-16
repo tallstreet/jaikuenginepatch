@@ -1243,6 +1243,29 @@ class ApiUnitTestPost(ApiUnitTest):
     self.assertEqual(entry_ref.stream, 'stream/popular@example.com/presence')
     self.assertEqual(entry_ref.extra['title'], expected)
 
+  def test_location_in_post(self):
+    popular_ref = api.actor_get(api.ROOT, self.popular_nick)
+    entry_ref = api.post(popular_ref,
+                         nick=popular_ref.nick,
+                         message='testing 123')
+    self.failIf(entry_ref.extra['location'], 
+                'did not expect non-empty location in %s' % (entry_ref.extra))
+    api.presence_set(popular_ref, nick=popular_ref.nick, location='mtv')
+    entry_ref = api.post(popular_ref,
+                         nick=popular_ref.nick,
+                         message='testing 123')
+    self.assertEqual(entry_ref.extra['location'], 'mtv')
+    api.presence_set(popular_ref, nick=popular_ref.nick, location='sfo')
+    entry_ref = api.post(popular_ref,
+                         nick=popular_ref.nick,
+                         message='testing 123')
+    self.assertEqual(entry_ref.extra['location'], 'sfo')
+    entry_ref = api.post(popular_ref,
+                         nick=popular_ref.nick,
+                         message='testing 123',
+                         location='oak')
+    self.assertEqual(entry_ref.extra['location'], 'oak')
+
 
 class ApiUnitTestSpam(ApiUnitTest):
 

@@ -2668,7 +2668,7 @@ def post(api_user, _task_ref=None, **kw):
 #######
 
 @public_owner_or_contact
-def presence_get(api_user, nick, at_time = None):
+def presence_get(api_user, nick, at_time=None):
   """returns the presence for the given actor if the current can view"""
   nick = clean.nick(nick)
   if not at_time:
@@ -2694,6 +2694,12 @@ def presence_get(api_user, nick, at_time = None):
         nick, at_time).get()
   return ResultWrapper(presence, presence=presence)
 
+def presence_get_safe(api_user, nick, at_time=None):
+  try:
+    return presence_get(api_user, nick, at_time)
+  except exception.ApiException:
+    return None
+
 def presence_get_actors(api_user, nicks):
   """returns the presence for the nicks given"""
   o = {}
@@ -2702,11 +2708,7 @@ def presence_get_actors(api_user, nicks):
     return o
 
   for nick in nicks:
-    try:
-      presence = presence_get(api_user, nick)
-    except exception.ApiException:
-      presence = None
-    o[nick] = presence
+    o[nick] = presence_get_safe(api_user, nick)
   return ResultWrapper(o, actors=o)
 
 @owner_required
@@ -3770,7 +3772,7 @@ def _process_new_entry_with_progress(task_ref, actor_ref, new_stream_ref,
                                           entry_stream_ref=entry_stream_ref
                                           )
   return new_entry_ref
-    
+
 # TODO(termie): what a mess.
 def _add_entry(new_stream_ref, new_values, entry_ref=None):
   """Adds an entry to a stream and returns the created StreamEntry object.  """
@@ -3801,8 +3803,9 @@ def _add_entry(new_stream_ref, new_values, entry_ref=None):
                                  key_name)
 
   new_entry_ref = StreamEntry(**new_values)
+  _set_location_if_necessary(new_entry_ref)
   new_entry_ref.put()
-  
+
   # TODO(termie): this can pretty easily get out of sync, we should probably
   #               do something like what we do with follower counts
   if new_entry_ref.is_comment():
@@ -3827,6 +3830,15 @@ def _add_entry(new_stream_ref, new_values, entry_ref=None):
                      'since': new_entry_ref.created_at})
 
   return new_entry_ref
+
+def _set_location_if_necessary(entry_ref):
+  if 'location' in entry_ref.extra and entry_ref.extra['location']:
+    return # location is already included
+  presence = presence_get_safe(ROOT, entry_ref.actor)
+  if not presence:
+    return
+  if 'location' in presence.extra and presence.extra['location']:
+    entry_ref.extra['location'] = presence.extra['location']
 
 def _add_inbox(stream_ref, entry_ref, inboxes, shard):
   #logging.info('add_inbox %s|%s: %s', entry_ref.keyname(), shard, inboxes)
