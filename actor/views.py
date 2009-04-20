@@ -465,6 +465,14 @@ def actor_item(request, nick=None, item=None, format='html'):
   # fetch them all at once
   actor_nicks = [entry_ref.owner, entry_ref.actor] + [c.actor for c in comments]
   actors = api.actor_get_actors(request.user, actor_nicks)
+  
+  # Creates a copy of actors with lowercase keys (Django #6904: template filter
+  # dictsort sorts case sensitive), excluding the currently logged in user.
+  participants = {}
+  for k, v in actors.iteritems():
+    if (v and
+        not (hasattr(request.user, 'nick') and request.user.nick == v.nick)):
+      participants[k.lower()] = v
 
   # Due to restrictions on Django's templating language most of the time
   # we will have to take an additional step of preparing all of our data

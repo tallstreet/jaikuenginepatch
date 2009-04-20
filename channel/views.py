@@ -312,6 +312,16 @@ def channel_item(request, nick, item=None, format='html'):
   actor_nicks = [entry_ref.owner, entry_ref.actor] + [c.actor for c in comments]
   actors = api.actor_get_actors(request.user, actor_nicks)
 
+  # Creates a copy of actors with lowercase keys (Django #6904: template filter
+  # dictsort sorts case sensitive), excluding channels and the currently
+  # logged in user.
+  participants = {}
+  for k, v in actors.iteritems():
+    if (v and
+        not v.is_channel() and
+        not (hasattr(request.user, 'nick') and request.user.nick == v.nick)):
+      participants[k.lower()] = v
+
   # display munge
   entry = display.prep_entry(entry_ref,
                              { stream_ref.key().name(): stream_ref },

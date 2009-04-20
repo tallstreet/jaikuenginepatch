@@ -2561,6 +2561,23 @@ div#leave-comment div p.help {
     margin: 0;
 }
 
+p#participant-nicks {
+    margin: 0;
+    display: none;
+}
+p#participant-nicks img.photo {
+    width: 15px;
+    height: 15px;
+    margin: -4px 1px 0 2px;
+    display: inline;
+    float: none;
+    vertical-align: middle;
+}
+p#participant-nicks span {
+    color: #888;
+    font-size: 90%;
+}
+
 /* --- Bubble --------------------------------------- */
 
 div#status-bubble {

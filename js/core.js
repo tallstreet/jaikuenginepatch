@@ -459,6 +459,43 @@ jQuery.fn.forms = function () {
     function() {
       // Some special cases
       switch (this.id) {
+      case "comment-form":
+        $("#participant-nicks > a", this).each( function (i) {
+          $(this).click(
+            function () {
+              var nick = $(this).text();
+              var textarea = $("#comment");
+              var text = textarea.val();
+
+              // get comment textarea selection
+              var selection;
+              textarea.focus();
+              if(textarea.get(0).selectionStart == undefined) {
+                var range = document.selection.createRange();
+                selection = new Array(range.start, range.end);
+              } else {
+                selection = new Array(textarea.get(0).selectionStart,
+                                textarea.get(0).selectionEnd);
+              }
+
+              // Cursor is at the beginning or selection includes the first
+              // position?
+              if(selection[0] === 0) {
+                // Insert '@nickname: '
+                textarea.val('@' + nick + ': ' +
+                             text.substring(selection[1], text.length));
+              } else {
+                // Insert '@nickname'
+                textarea.val(text.substring(0, selection[0]) +
+                             '@' + nick +
+                             text.substring(selection[1], text.length));
+              }
+              return false;
+            }
+          );
+        });
+        $("#participant-nicks").show();
+        break;
       case "loginform":
         $("input[@type=text]", this).get(0).focus();
         break;
