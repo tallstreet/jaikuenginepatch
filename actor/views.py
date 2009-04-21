@@ -185,11 +185,6 @@ def actor_history(request, nick=None, format='html'):
   green_top = True
   sidebar_green_top = True
   selectable_icons = display.SELECTABLE_ICONS
-  feeds = ({ 'url': view.url('/rss'),
-             'title': 'rss feed'},
-           { 'url': view.url('/atom'),
-             'title': 'atom feed'})
-
   area = 'user'
 
   c = template.RequestContext(request, locals())

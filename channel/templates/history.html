@@ -43,12 +43,7 @@
   {% block no_posts %}No one has posted to this channel yet.{% endblock %}
   {% endinclude_extend %}
   {% include 'common/templates/paging.html' %}
-
-  <p class="tools">
-    {% if feeds %}
-      <a href="{{feeds.0.url}}" class="rss" title="{{feeds.0.title}} ({{feeds.0.type}})">{{feeds.0.title}}</a>
-    {% endif %}
-  </p>
+  {% include 'common/templates/feeds.html' %}
 </div>
 {% endblock %}
 

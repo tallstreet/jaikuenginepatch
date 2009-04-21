@@ -57,12 +57,7 @@
 <div id='stream'>
   {% include 'common/templates/stream.html' %}
   {% include 'common/templates/paging.html' %}
-
-  <p class="tools">
-    {% for feed in feeds %}
-      <a class="feed" href="{{feed.url}}">{{feed.title}}</a>
-    {% endfor %}
-  </p>
+  {% include 'common/templates/feeds.html' %}
 </div>
 {% endblock %}
 

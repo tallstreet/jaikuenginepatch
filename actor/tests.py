@@ -123,8 +123,8 @@ class HistoryTest(ViewTestCase):
 
   def test_rss_and_atom_feeds(self):
     r = self.client.get('/user/popular')
-    self.assertContains(r, 'href="http://localhost:8080/user/popular/rss"')
-    self.assertContains(r, 'href="http://localhost:8080/user/popular/atom"')
+    self.assertContains(r, 'href="/user/popular/rss"')
+    self.assertContains(r, 'href="/user/popular/atom"')
 
 
 class SubscriptionTest(ViewTestCase):
