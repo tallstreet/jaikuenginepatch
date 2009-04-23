@@ -2,7 +2,7 @@
 {% load format i18n %}
 <html xmlns="http://jabber.org/protocol/xhtml-im">
 <body xmlns="http://www.w3.org/1999/xhtml">
-  <span>{{entry.actor_ref.display_nick}}{% if entry.owner_ref.is_channel %}{{entry.owner_ref.display_nick}}{% endif %}:</span>{{entry|format_comment}}<span>(on {{entry|linked_entry_truncated_title:entry_title_max_length}})</span>
+  <span>{{entry.actor_ref.display_nick}}{% if entry.owner_ref.is_channel %}{{entry.owner_ref.display_nick}}{% endif %}: </span>{{entry|format_comment}}<span> (on {{entry|linked_entry_truncated_title:entry_title_max_length}})</span>
 </body>
 </html>
 {% endspaceless %}
