@@ -2326,6 +2326,7 @@ def login_reset(api_user, email, hash):
   password_hash = util.hash_password(actor_ref.nick, password)
   actor_ref.password = password_hash
   actor_ref.put()
+  activation_ref.delete()
   
   return password, actor_ref.nick
 

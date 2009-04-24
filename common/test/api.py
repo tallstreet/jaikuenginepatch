@@ -28,6 +28,7 @@ from common import mail as common_mail
 from common import models
 from common import oauth_util
 from common import profile
+from common import util
 from common.protocol import sms
 from common.test import base
 
@@ -1200,6 +1201,17 @@ class ApiUnitTestActivation(ApiUnitTest):
       activation_ref = api.activation_request_mobile(
           actor_ref, actor_ref.nick, mobile)
     self.assertRaises(exception.ApiException, _checkDuplicate)
+
+  def test_login_reset_delete_activation_afterwards(self):
+    actor_ref = api.actor_get(api.ROOT, self.celebrity_nick)
+    api.login_forgot(actor_ref, actor_ref.nick)
+    email = api.email_get_actor(api.ROOT, actor_ref.nick)
+    activation_ref = api.activation_get(api.ROOT, actor_ref.nick, 
+                                        'password_lost', email)
+    hash = util.hash_generic(activation_ref.code)
+    api.login_reset(actor_ref, email, hash)
+    self.assertRaises(exception.ApiException,
+                      lambda: api.login_reset(actor_ref, email, hash))
 
 
 class ApiUnitTestPost(ApiUnitTest):
