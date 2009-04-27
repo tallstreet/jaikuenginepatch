@@ -446,6 +446,31 @@ class SettingsTest(ViewTestCase):
     self.assertContains(r, 'Change Your Password')
     self.assertTemplateUsed(r, 'actor/templates/settings_password.html')
 
+  def test_settings_password_wrong_user(self):
+    r = self.login_and_get('unpopular', 
+                           '/user/popular/settings/password')
+    r = self.assertRedirectsPrefix(r, '/error')
+    self.assertContains(r, 'Operation not allowed')
+
+
+  def test_settings_password_mixed_case(self):
+    nick = 'CapitalPunishment'
+    r = self.login_and_get(nick, 
+                           '/user/%s/settings/password' % nick)
+    self.assertContains(r, 'Change Your Password')
+    self.assertTemplateUsed(r, 'actor/templates/settings_password.html')
+
+    r = self.client.post('/user/%s/settings/password' % nick, 
+                         {'_nonce': 
+                               util.create_nonce(nick, 'change_password'),
+                          'settings_change_password' : '',
+                          'nick' : nick,
+                          'password': 'testpassword',
+                          'confirm': 'testpassword'
+                         })
+    r = self.assertRedirectsPrefix(r, '/user/%s/settings/password' % nick)
+    self.assertContains(r, 'Password updated')
+
   def test_settings_photo(self):
     r = self.login_and_get('popular', '/user/popular/settings/photo')
     self.assertContains(r, 'Your photo')
@@ -539,6 +564,12 @@ class SettingsTest(ViewTestCase):
 
   def test_settings_design(self):
     r = self.login_and_get('popular', '/user/popular/settings/design')
+    self.assertContains(r, 'Change Design')
+    self.assertTemplateUsed(r, 'actor/templates/settings_design.html')
+
+  def test_settings_design_mixed_case(self):
+    nick = 'CapitalPunishment'
+    r = self.login_and_get(nick, '/user/%s/settings/design' % nick)
     self.assertContains(r, 'Change Design')
     self.assertTemplateUsed(r, 'actor/templates/settings_design.html')
 

@@ -135,6 +135,19 @@
                        }
              }
   },
+ {"pk": "actor/CapitalPunishment@example.com", 
+  "model": "common.actor", 
+  "fields": {"nick": "CapitalPunishment@example.com",
+             "normalized_nick": "capitalpunishment@example.com",
+             "password": "baz",
+             "privacy": 3,
+             "type": "user",
+             "extra": {"icon": "default/animal_3",
+                       "contact_count": 1,
+                       "follower_count": 2
+                       }
+             }
+  },
  {"pk": "actor/hotness@example.com", 
   "model": "common.actor", 
   "fields": {"nick": "hotness@example.com",

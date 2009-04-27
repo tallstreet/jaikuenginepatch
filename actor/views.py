@@ -210,7 +210,7 @@ def actor_history(request, nick=None, format='html'):
 def actor_invite(request, nick, format='html'):
   nick = clean.nick(nick)
 
-  view = api.actor_get(request.user, nick)
+  view = api.actor_lookup_nick(request.user, nick)
   if not view:
     raise exception.UserDoesNotExistError(nick, request.user)
 
@@ -645,6 +645,9 @@ def actor_settings(request, nick, page='index'):
   nick = clean.nick(nick)
 
   view = api.actor_lookup_nick(api.ROOT, nick)
+  if not api.actor_owns_actor(request.user, view):
+    raise exception.ApiException(exception.PRIVACY_ERROR,
+                                 'Operation not allowed')
 
   handled = common_views.handle_view_action(
       request,
@@ -679,10 +682,10 @@ def actor_settings(request, nick, page='index'):
 
       validate.password_and_confirm(password, confirm, field = 'password')
 
-      api.settings_change_password(request.user, nick, password)
+      api.settings_change_password(request.user, view.nick, password)
       response = util.RedirectFlash(view.url() + '/settings/password',
-                                    'password updated')
-      request.user.password = password
+                                    'Password updated')
+      request.user.password = util.hash_password(request.user.nick, password)
       # TODO(mikie): change when cookie-auth is changed
       user.set_user_cookie(response, request.user)
       return response
@@ -709,7 +712,7 @@ def actor_settings(request, nick, page='index'):
   if page == 'mobile':
     full_page = 'Mobile Number'
 
-    mobile = api.mobile_get_actor(request.user, request.user.nick)
+    mobile = api.mobile_get_actor(request.user, view.nick)
     sms_notify = view.extra.get('sms_notify', False)
     
   elif page == 'im':
@@ -737,7 +740,7 @@ def actor_settings(request, nick, page='index'):
         unconfirmed_email = unconfirmeds[0].content
 
   elif page == 'design':
-    handled = common_views.common_design_update(request, nick)
+    handled = common_views.common_design_update(request, view.nick)
     if handled:
       return handled
     full_page = 'Look and Feel'

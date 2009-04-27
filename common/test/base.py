@@ -42,17 +42,18 @@ class FixturesTestCase(test.TestCase):
               'invites', 'emails', 'ims', 'activations',
               'oauthaccesstokens']
 
-  passwords = {'obligated@example.com':  'bar',
-               'popular@example.com':    'baz',
-               'celebrity@example.com':  'baz',
-               'boyfriend@example.com':  'baz',
+  passwords = {'obligated@example.com': 'bar',
+               'popular@example.com': 'baz',
+               'celebrity@example.com': 'baz',
+               'boyfriend@example.com': 'baz',
                'girlfriend@example.com': 'baz',
-               'annoying@example.com':   'foo',
-               'unpopular@example.com':  'foo',
-               'hermit@example.com':     'baz',
-               'broken@example.com':     'baz',
-               'root@example.com':      'fakepassword',
-               'hotness@example.com':    'fakepassword'};
+               'annoying@example.com': 'foo',
+               'unpopular@example.com': 'foo',
+               'hermit@example.com': 'baz',
+               'broken@example.com': 'baz',
+               'CapitalPunishment@example.com': 'baz',
+               'root@example.com': 'fakepassword',
+               'hotness@example.com': 'fakepassword'};
   
   def setUp(self):
     settings.DEBUG = False

@@ -26,6 +26,13 @@
              "relation": "email"
              }
   },
+ {"pk": "relation/email/CapitalPunishment@example.com/CapitalPunishment@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "CapitalPunishment@example.com",
+             "target": "CapitalPunishment@example.com",
+             "relation": "email"
+             }
+  },
  {"pk": "relation/email/boyfriend@example.com/boyfriend@example.com",
   "model": "common.Relation",
   "fields": {"owner": "boyfriend@example.com",

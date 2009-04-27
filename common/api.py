@@ -2260,7 +2260,9 @@ def login_forgot(api_user, nick_or_email):
             0x00, 'Email matches more than one account')
       actor_ref = actor_get(ROOT, activations[0].actor)
   else: 
-    actor_ref = actor_get(ROOT, nick_or_email)
+    actor_ref = actor_lookup_nick(ROOT, nick_or_email)
+    if not actor_ref:
+      raise exception.ApiNotFound('User not found: %s' % nick_or_email) 
     
   # Get the user's email.  First, has it been confirmed?
   email = email_get_actor(ROOT, actor_ref.nick)
@@ -2281,11 +2283,11 @@ def login_forgot(api_user, nick_or_email):
     email = activation_refs[0].content
 
   # Add a 'please reset this password' item to the DB.
-  activiation_ref = activation_create(ROOT, actor_ref.nick, 'password_lost', 
+  activation_ref = activation_create(ROOT, actor_ref.nick, 'password_lost', 
                                       email)
 
   # The code itself is boring.
-  code = util.hash_generic(activiation_ref.code)
+  code = util.hash_generic(activation_ref.code)
   
   # Inform the user about their thoughtlessness.
   (subject, message, html_message) = mail.email_lost_password(actor_ref, email, code)

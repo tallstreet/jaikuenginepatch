@@ -54,6 +54,20 @@
              "relation": "contact"
              }
   },
+ {"pk": "relation/contact/annoying@example.com/CapitalPunishment@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "annoying@example.com",
+             "target": "CapitalPunishment@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/CapitalPunishment@example.com/root@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "CapitalPunishment@example.com",
+             "target": "root@example.com",
+             "relation": "contact"
+             }
+  },
  {"pk": "relation/contact/unpopular@example.com/root@example.com",
   "model": "common.Relation",
   "fields": {"owner": "unpopular@example.com",
@@ -79,6 +93,13 @@
   "model": "common.Relation",
   "fields": {"owner": "unpopular@example.com",
              "target": "celebrity@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/unpopular@example.com/CapitalPunishment@example.com",
+  "model": "common.Relation",
+  "fields": {"owner": "unpopular@example.com",
+             "target": "CapitalPunishment@example.com",
              "relation": "contact"
              }
   },
