@@ -1,0 +1,118 @@
+==========
+Federation
+==========
+
+JaikuEngine wants you to be able to communicate with people you know, whether
+they be Human, Klingon, Cardassian or Ferengi. This means we gots to know how 
+to peacefully interact with other sites, and for that we need to establish 
+some protocols as to how to communicate as well as how to represent foreign 
+nationals participating in our delicious union.
+
+Foreign Nationals, A Short Bill of Rights
+=========================================
+
+  1. The Foreign National is authoritative over their content. To the extent 
+     that the content is duplicated on a remote site it should always include
+     a link to the authoritative version.
+  2. The Foreign National is authoritative over their profile. Any
+     representation of the Foreign National should be minimal and defer
+     to the authoritative version. 
+  3. A Foreign National should be able to delete their content. Upon receiving
+     a deletion request in some form from the authoritative site, the content
+     should be removed.
+
+
+Representing a Foreign National in JaikuEngine
+==============================================
+
+Foreign Nationals are represented in the JaikuEngine infrastructure as a
+shortnick@foreign_nation, for example awesome_dude@term.ie. 
+
+Upon establishing a presence on JaikuEngine a Foreign National will look a 
+little something like this:
+
+-insert foreign national diagram-
+
+"""
+Actor [awesome_dude@term.ie, remote_url = 'http://...']
+Stream [presence]
+Stream [comments]
+Relation [awesome_dude@term.ie, 'authoritative_url', 'http://...']
+
+When writing posts, a Foreign National's posts will not be written to the
+standard inboxes of 'overview,' 'public,' 'contacts,' and 'private,', instead
+they will only be written to the appropriate subscriber's overview.
+
+A Foreign National has no profile page, profile links go directly to the 
+Foreign site.
+
+
+Discovering a Foreign National's Governing Body
+===============================================
+
+Imagine a galaxy where all races and species spoke the same language, perhaps
+some only spoke a small subset of this common language but enough to get by,
+and their respective governing parties had come to an agreement by which
+anybody, anywhere in the galaxy could be easily addressed in a single, 
+universally unique way. Wouldn't that be nice?
+
+Instead we've got the web, everybody's got a million bits of identity floating
+around, some people think that some site is just. the. thing. and choose to
+identify themselves through that, others choose different names for every
+place they go. So, comrades, what do we do?
+
+--------------------
+Use an Email Address
+--------------------
+
+We've all got them, you probably have one for anybody you know, so it seems
+like a pretty reasonable way to try to find somebody. Using an email address,
+or at least something that looks a lot like one, as a basis we're going to
+try to gracefully fall through a variety of techniques to get to the person
+or machine you're looking for.
+
+Wishful Thinking
+----------------
+
+Maybe that other site already knows about people like us and wants to publish
+totally sweet interfaces for us to hang out with. The remote service already
+implements one or more of a variety of methods by which we can locate a user,
+most of which will consist of a pattern similar to:
+
+ 1. Fetch the base url for the domain and look for a <link /> tag, or fetch
+    a specific url at that domain where we expect a more useful interface or
+    set of information to be provided.
+ 2. Using information provided at that new url or over that interface attempt
+    to locate a profile page and a subscription endpoint.
+ 3. From that profile page attempt to glean enough information to display
+    to the user so that she will be able to make an accurate decision as to
+    whether this was indeed the person she intended to subscribe to.
+ 4. Assuming that it was the person she is subscribing to, make an appropriate
+    subscription request based on the subscription endpoint and interface
+    provided.
+
+In most cases one will expect the site doing the subscribing to be in some
+way authenticated, approaches to that will range from pre-established trust
+relationships via some private key or OAuth to on-the-fly trust based on SSL
+certificates or OAuth RSA. JaikuEngine will strive to support any reasonable
+method being used.
+
+Educated Guesses
+----------------
+
+In the cases of larger sites it may that they simply don't do things quite
+well enough to make it through all four of the steps above without already
+knowing a few things about how the site works. In those cases where it seems
+important to do so, JaikuEngine should attempt to implement a solution 
+tailored to the specific site.
+
+Worst Case
+----------
+
+If everything goes wrong, well, it may still be an actual email address, so
+try to email that address and mention that somebody is trying to subscribe to
+them but can't seem to figure out how and that maybe they should respond and
+give their possible friend some info on how they might successfully subscribe.
+
+
+
