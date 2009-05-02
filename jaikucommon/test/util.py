@@ -56,12 +56,13 @@ def exhaust_queue_any():
       break
 
 class TestXmppConnection(xmpp.XmppConnection):
-  def send_message(self, to_jid_list, message, html_message=None):
-    if html_message:
-      logging.debug('XMPP SEND -> %s: %s, html_message=%s',
-                    to_jid_list, message, html_message)
-    else:
-      logging.debug('XMPP SEND -> %s: %s', to_jid_list, message)
+  def send_message(self, to_jid_list, message, html_message=None, 
+                   atom_message=None):
+    logging.debug('XMPP SEND -> %s: %s, html_message=%s, atom_message=%s',
+                  to_jid_list,
+                  message,
+                  html_message,
+                  atom_message)
 
     for jid in to_jid_list:
       xmpp.outbox.append((jid, message, html_message))

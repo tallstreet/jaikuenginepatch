@@ -145,6 +145,25 @@ class LoginForgotTest(ViewTestCase):
     self.assertTemplateUsed(r, 'flash.html')
 
 
+  def test_login_reset(self):
+    r = self.client.post('/login/forgot', 
+                         {
+                           '_nonce': util.create_nonce(None, 'login_forgot'),
+                           'login_forgot' : '',
+                           'nick_or_email' : 'popular',
+                         })
+    email = api.email_get_actor(api.ROOT, 'popular')
+    activation_ref = api.activation_get(api.ROOT, 
+                                        email, 
+                                        'password_lost', 
+                                        email)
+    self.assert_(activation_ref)
+    hash = util.hash_generic(activation_ref.code)
+    r = self.client.get('/login/reset', {'email' : email, 'hash' : hash})
+    self.assertContains(r, 'Your password has been reset')
+    # once it's used, the activation link cannot be used again
+    r = self.client.get('/login/reset', {'email' : email, 'hash' : hash})
+    self.assertRedirectsPrefix(r, '/error', target_status_code=200)
 
   # User enters 'popular', 'popular' has a confirmed email.
   # - Send notification to that email.
@@ -261,6 +280,24 @@ class LoginForgotTest(ViewTestCase):
     self.assertTemplateUsed(r, 'forgot.html')
     self.assertContains(r, 'does not match any accounts')
 
+class LoginResetTest(ViewTestCase):
+  #def test_mixed_case(self):
+  #  activation_ref = api.activation_create(api.ROOT, 'CapitalPunishment@jaiku.com', 'password_lost', 'CapitalPunishment@jaiku.com')
+  #  code = util.hash_generic(activation_ref)
+
+
+  def test_login_forgot_nick_mixed_case(self):
+    r = self.client.post('/login/forgot', 
+                         {
+                           '_nonce': util.create_nonce(None, 'login_forgot'),
+                           'login_forgot' : '',
+                           'nick_or_email' : 'CapitalPunishment',
+                         })
+
+    r = self.assertRedirectsPrefix(r, '/login/forgot')
+    self.assertTemplateUsed(r, 'forgot.html')
+    self.assertContains(r, 'New Password Emailed')
+    self.assertTemplateUsed(r, 'flash.html')
 
 class LogoutTest(ViewTestCase):
 

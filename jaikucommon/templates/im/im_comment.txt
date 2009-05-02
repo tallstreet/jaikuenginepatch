@@ -1,2 +1,2 @@
 {% load format i18n %}
-{{actor_ref.display_nick}}{% if entry_ref.owner|nick_is_channel %}{{entry_ref.owner|display_nick}}{% endif %}: {{comment_ref.extra.content}} (on {{comment_ref.extra.entry_title|truncate:entry_title_max_length}})
+{{entry.actor_ref.display_nick}}{% if entry.owner_ref.is_channel %}{{entry.owner_ref.display_nick}}{% endif %}: {{entry.extra.content}} (on {{entry.extra.entry_title|truncate:entry_title_max_length}})

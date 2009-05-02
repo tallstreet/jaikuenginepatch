@@ -51,6 +51,7 @@ class FixturesTestCase(test.TestCase):
                'unpopular@example.com':  'foo',
                'hermit@example.com':     'baz',
                'broken@example.com':     'baz',
+               'CapitalPunishment@example.com': 'baz',
                'root@example.com':      'fakepassword',
                'hotness@example.com':    'fakepassword'};
   

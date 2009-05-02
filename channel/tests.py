@@ -37,6 +37,11 @@ class SmokeTest(ViewTestCase):
     self.assertContains(r, "Posts in #popular")
     self.assertWellformed(r)
 
+  def test_rss_and_atom_feeds(self):
+    r = self.client.get('/channel/popular')
+    self.assertContains(r, 'href="/channel/popular/rss"')
+    self.assertContains(r, 'href="/channel/popular/atom"')
+
 
 class NonExistentTest(ViewTestCase):
   def test_nonexist_channel_logged_out(self):

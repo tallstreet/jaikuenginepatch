@@ -1,4 +1,4 @@
-{% load avatar format entry %}
+{% load avatar format entry presence%}
 {% if not hide_avatar %}
 {{entry.actor_ref|linked_avatar:"u"}}
 {% endif %}
@@ -13,6 +13,9 @@
     to {{entry.owner_ref|actor_link}}
   {% endif %}
   {% if not hide_timesince %}
-    {{entry.created_at|je_timesince}} ago.
+    {{entry.created_at|je_timesince}} ago
+  {% endif %}
+  {% if entry.extra.location %}
+    in {{ entry.extra.location|location }}
   {% endif %}
 </p>

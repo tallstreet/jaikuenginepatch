@@ -123,8 +123,8 @@ class HistoryTest(ViewTestCase):
 
   def test_rss_and_atom_feeds(self):
     r = self.client.get('/user/popular')
-    self.assertContains(r, 'href="http://localhost:8080/user/popular/rss"')
-    self.assertContains(r, 'href="http://localhost:8080/user/popular/atom"')
+    self.assertContains(r, 'href="/user/popular/rss"')
+    self.assertContains(r, 'href="/user/popular/atom"')
 
 
 class SubscriptionTest(ViewTestCase):
@@ -357,7 +357,15 @@ class ContactsTest(ViewTestCase):
     self.logout()
     r = self.client.get('/user/popular/contacts')
     self.assertNotContains(r, 'Invite friends')
-
+    
+  def test_invite_link_redirects_to_login_when_logged_out(self):
+    r = self.login_and_get(None, '/user/popular/invite')
+    r = self.assertRedirectsPrefix(r, '/login?redirect_to=%2Fuser%2Fpopular%2Finvite')
+  
+  def test_invite_link_redirects_to_correct_page(self):
+    r = self.login_and_get('popular', '/user/girlfriend/invite')
+    r = self.assertRedirectsPrefix(r, '/user/popular/invite')
+    
   def test_email_notification(self):
     # new follower
 
@@ -437,6 +445,31 @@ class SettingsTest(ViewTestCase):
     r = self.login_and_get('popular', '/user/popular/settings/password')
     self.assertContains(r, 'Change Your Password')
     self.assertTemplateUsed(r, 'settings_password.html')
+
+  def test_settings_password_wrong_user(self):
+    r = self.login_and_get('unpopular', 
+                           '/user/popular/settings/password')
+    r = self.assertRedirectsPrefix(r, '/error')
+    self.assertContains(r, 'Operation not allowed')
+
+
+  def test_settings_password_mixed_case(self):
+    nick = 'CapitalPunishment'
+    r = self.login_and_get(nick, 
+                           '/user/%s/settings/password' % nick)
+    self.assertContains(r, 'Change Your Password')
+    self.assertTemplateUsed(r, 'actor/templates/settings_password.html')
+
+    r = self.client.post('/user/%s/settings/password' % nick, 
+                         {'_nonce': 
+                               util.create_nonce(nick, 'change_password'),
+                          'settings_change_password' : '',
+                          'nick' : nick,
+                          'password': 'testpassword',
+                          'confirm': 'testpassword'
+                         })
+    r = self.assertRedirectsPrefix(r, '/user/%s/settings/password' % nick)
+    self.assertContains(r, 'Password updated')
 
   def test_settings_photo(self):
     r = self.login_and_get('popular', '/user/popular/settings/photo')
@@ -533,6 +566,12 @@ class SettingsTest(ViewTestCase):
     r = self.login_and_get('popular', '/user/popular/settings/design')
     self.assertContains(r, 'Change Design')
     self.assertTemplateUsed(r, 'settings_design.html')
+
+  def test_settings_design_mixed_case(self):
+    nick = 'CapitalPunishment'
+    r = self.login_and_get(nick, '/user/%s/settings/design' % nick)
+    self.assertContains(r, 'Change Design')
+    self.assertTemplateUsed(r, 'actor/templates/settings_design.html')
 
   def test_settings_badge(self):
     r = self.login_and_get('popular', '/user/popular/settings/badge')

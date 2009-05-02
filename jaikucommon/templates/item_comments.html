@@ -35,10 +35,21 @@
   <div id="leave-comment">
     <h2>Add a Comment</h2>
     {% include 'form_error.html' %}
-    <form action="" method="post">
+    <form id="comment-form" action="" method="post">
     <div>
-      <label for="content">Your Comment</label>
-      <textarea name="content" id="content" rows="4" cols="25"></textarea>
+      <label for="comment">Your Comment</label>
+      <textarea name="content" id="comment" rows="4" cols="25" tabindex="1"></textarea>
+      {% if COMMENT_QUICKLINKS_ENABLED and participants %}
+        <p id="participant-nicks">
+        Click to insert screen name{% if COMMENT_QUICKLINKS_ACCESSKEYS_ENABLED %} (or use keyboard shortcuts 1–9){% endif %}:
+        {% for lowernick, actor_ref in participants.items|dictsort:"0"|slice:":9" %}
+          {{actor_ref|avatar:"u"}}<a href="#"{% if COMMENT_QUICKLINKS_ACCESSKEYS_ENABLED %} accesskey="{{forloop.counter}}"{% endif %}>{{actor_ref.display_nick}}</a>{% if COMMENT_QUICKLINKS_ACCESSKEYS_ENABLED %}<span>/{{forloop.counter}}</span>{% endif %}
+        {% endfor %}
+        {% for lowernick, actor_ref in participants.items|dictsort:"0"|slice:"10:25" %}
+          {{actor_ref|avatar:"u"}}<a href="#">{{actor_ref.display_nick}}</a>
+        {% endfor %}
+        </p>
+      {% endif %}
       {% if MARKDOWN_ENABLED %}
       <p class="help">
       Minimal formatting allowed (_<em>emphasis</em>_, *<strong>bold</strong>*, [link text](http://example.com/))
@@ -51,7 +62,7 @@
       <input type="hidden" name="entry" value="{{entry_ref.keyname}}" />
       <input type="hidden" name="nick" value="{{request.user.nick}}" />
       <input type="hidden" name="entry_add_comment" value="" />
-      <input type="submit" value="Submit Comment" />
+      <input type="submit" value="Submit Comment" tabindex="2"/>
     </div>
   </form>
   </div>

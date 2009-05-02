@@ -57,12 +57,7 @@
 <div id='stream'>
   {% include 'stream.html' %}
   {% include 'paging.html' %}
-
-  <p class="tools">
-    {% for feed in feeds %}
-      <a class="feed" href="{{feed.url}}">{{feed.title}}</a>
-    {% endfor %}
-  </p>
+  {% include 'feeds.html' %}
 </div>
 {% endblock %}
 

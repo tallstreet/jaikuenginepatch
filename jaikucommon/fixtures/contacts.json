@@ -54,6 +54,20 @@
              "relation": "contact"
              }
   },
+ {"pk": "relation/contact/annoying@example.com/CapitalPunishment@example.com",
+  "model": "jaikucommon.Relation",
+  "fields": {"owner": "annoying@example.com",
+             "target": "CapitalPunishment@example.com",
+             "relation": "contact"
+             }
+  },
+ {"pk": "relation/contact/CapitalPunishment@example.com/root@example.com",
+  "model": "jaikucommon.Relation",
+  "fields": {"owner": "CapitalPunishment@example.com",
+             "target": "root@example.com",
+             "relation": "contact"
+             }
+  },  
  {"pk": "relation/contact/unpopular@example.com/root@example.com",
   "model": "jaikucommon.Relation",
   "fields": {"owner": "unpopular@example.com",
@@ -82,6 +96,13 @@
              "relation": "contact"
              }
   },
+ {"pk": "relation/contact/unpopular@example.com/CapitalPunishment@example.com",
+  "model": "jaikucommon.Relation",
+  "fields": {"owner": "unpopular@example.com",
+             "target": "CapitalPunishment@example.com",
+             "relation": "contact"
+             }
+  },  
  {"pk": "relation/contact/popular@example.com/root@example.com",
   "model": "jaikucommon.Relation",
   "fields": {"owner": "popular@example.com",

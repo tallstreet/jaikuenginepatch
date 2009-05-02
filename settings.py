@@ -348,8 +348,6 @@ QUEUE_ENABLED = True
 
 # The secret to use for your cron job that processes your queue
 QUEUE_VENDOR_SECRET = 'SECRET'
-
-
 #
 # Throttling Config
 #
@@ -379,6 +377,13 @@ HIDE_COMMENTS_ENABLED = True
 MULTIADMIN_ENABLED = False
 PRIVATE_CHANNELS_ENABLED = False
 MARKDOWN_ENABLED = False
+# Lists nicks of users participating in conversations underneath comment
+# areas for posts. Clicking list items inserts @nicks into comment box.
+# The list shows a maximum of 25 nicks.
+COMMENT_QUICKLINKS_ENABLED = True
+# If enabled, adds support for using access keys 1-9 to insert @nicks into
+# comment box. Requires COMMENT_QUICKLINKS_ENABLED.
+COMMENT_QUICKLINKS_ACCESSKEYS_ENABLED = False
 
 PROFILE_DB = False
 

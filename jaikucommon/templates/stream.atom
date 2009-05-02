@@ -4,10 +4,10 @@
       xmlns:thr="http://purl.org/syndication/thread/1.0">
     {% if include_source %}
     <source>
-      <title>{{SITE_NAME}} | {{POST_NAMES}}s from {{entry.actor_ref.display_nick}}</title>
+      <title>{{SITE_NAME}} | {{POST_NAME}}s from {{entry.actor_ref.display_nick}}</title>
       <link rel="alternate" href="{{entry.actor_ref.url}}"/>
       <link rel="self" href="{{entry.actor_ref.url}}/atom"/>
-      <icon>{{entry.actor_ref|avatar_url}}</logo>
+      <icon>{{entry.actor_ref|avatar_url}}</icon>
       <author>
         <name>{{entry.actor_ref.display_nick}}</name>
       </author>

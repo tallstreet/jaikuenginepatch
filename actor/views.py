@@ -186,11 +186,6 @@ def actor_history(request, nick=None, format='html'):
   green_top = True
   sidebar_green_top = True
   selectable_icons = display.SELECTABLE_ICONS
-  feeds = ({ 'url': view.url('/rss'),
-             'title': 'rss feed'},
-           { 'url': view.url('/atom'),
-             'title': 'atom feed'})
-
   area = 'user'
 
   c = template.RequestContext(request, locals())
@@ -211,17 +206,18 @@ def actor_history(request, nick=None, format='html'):
     r = util.HttpRssResponse(t.render(c), request)
     return r
 
+@decorator.login_required
 @alternate_nick
 def actor_invite(request, nick, format='html'):
   nick = clean.nick(nick)
 
-  view = api.actor_get(request.user, nick)
+  view = api.actor_lookup_nick(request.user, nick)
   if not view:
     raise exception.UserDoesNotExistError(nick, request.user)
 
-  if not request.user or view.nick != request.user.nick:
+  if view.nick != request.user.nick:
     # Bounce the user to their own page (avoids any confusion for the wrong
-    # nick in the url).  Perhaps unnecessary.
+    # nick in the url).
     return http.HttpResponseRedirect(
         '%s/invite' % request.user.url())
   
@@ -465,6 +461,14 @@ def actor_item(request, nick=None, item=None, format='html'):
   # fetch them all at once
   actor_nicks = [entry_ref.owner, entry_ref.actor] + [c.actor for c in comments]
   actors = api.actor_get_actors(request.user, actor_nicks)
+  
+  # Creates a copy of actors with lowercase keys (Django #6904: template filter
+  # dictsort sorts case sensitive), excluding the currently logged in user.
+  participants = {}
+  for k, v in actors.iteritems():
+    if (v and
+        not (hasattr(request.user, 'nick') and request.user.nick == v.nick)):
+      participants[k.lower()] = v
 
   # Due to restrictions on Django's templating language most of the time
   # we will have to take an additional step of preparing all of our data
@@ -642,6 +646,9 @@ def actor_settings(request, nick, page='index'):
   nick = clean.nick(nick)
 
   view = api.actor_lookup_nick(api.ROOT, nick)
+  if not api.actor_owns_actor(request.user, view):
+    raise exception.ApiException(exception.PRIVACY_ERROR,
+                                 'Operation not allowed')
 
   handled = common_views.handle_view_action(
       request,
@@ -676,10 +683,10 @@ def actor_settings(request, nick, page='index'):
 
       validate.password_and_confirm(password, confirm, field = 'password')
 
-      api.settings_change_password(request.user, nick, password)
+      api.settings_change_password(request.user, view.nick, password)
       response = util.RedirectFlash(view.url() + '/settings/password',
-                                    'password updated')
-      request.user.password = password
+                                    'Password updated')
+      request.user.password = util.hash_password(request.user.nick, password)
       # TODO(mikie): change when cookie-auth is changed
       user.set_user_cookie(response, request, request.user)
       return response
@@ -706,7 +713,7 @@ def actor_settings(request, nick, page='index'):
   if page == 'mobile':
     full_page = 'Mobile Number'
 
-    mobile = api.mobile_get_actor(request.user, request.user.nick)
+    mobile = api.mobile_get_actor(request.user, view.nick)
     sms_notify = view.extra.get('sms_notify', False)
     
   elif page == 'im':
@@ -734,7 +741,7 @@ def actor_settings(request, nick, page='index'):
         unconfirmed_email = unconfirmeds[0].content
 
   elif page == 'design':
-    handled = common_views.common_design_update(request, nick)
+    handled = common_views.common_design_update(request, view.nick)
     if handled:
       return handled
     full_page = 'Look and Feel'

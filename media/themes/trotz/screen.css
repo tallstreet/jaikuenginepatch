@@ -427,6 +427,12 @@ p.foot-note {
 
 /* links */
 
+div.path h1 a:hover {
+    text-decoration: underline;
+    background: transparent;
+    color: #009bc7;
+}
+
 a:link, a:visited {
     color: #009bc7;
 }
@@ -435,17 +441,6 @@ a:hover, a:link:hover, a:visited:hover {
     background: #009bc7;
     color: #fff;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 /*  add a black border to photos */
 div.main a img.photo, div.main img.photo {

@@ -37,6 +37,7 @@ from django.contrib.auth.models import User
 
 from jaikucommon import clean
 from jaikucommon import clock
+from jaikucommon import context_processors
 from jaikucommon import exception
 from jaikucommon import imageutil
 from jaikucommon import mail
@@ -2260,7 +2261,9 @@ def login_forgot(api_user, nick_or_email):
             0x00, 'Email matches more than one account')
       actor_ref = actor_get(ROOT, activations[0].actor)
   else: 
-    actor_ref = actor_get(ROOT, nick_or_email)
+    actor_ref = actor_lookup_nick(ROOT, nick_or_email)
+    if not actor_ref:
+      raise exception.ApiNotFound('User not found: %s' % nick_or_email)     
     
   # Get the user's email.  First, has it been confirmed?
   email = email_get_actor(ROOT, actor_ref.nick)
@@ -2281,11 +2284,11 @@ def login_forgot(api_user, nick_or_email):
     email = activation_refs[0].content
 
   # Add a 'please reset this password' item to the DB.
-  activiation_ref = activation_create(ROOT, actor_ref.nick, 'password_lost', 
+  activation_ref = activation_create(ROOT, actor_ref.nick, 'password_lost', 
                                       email)
 
   # The code itself is boring.
-  code = util.hash_generic(activiation_ref.code)
+  code = util.hash_generic(activation_ref.code)
   
   # Inform the user about their thoughtlessness.
   (subject, message, html_message) = mail.email_lost_password(actor_ref, email, code)
@@ -2326,6 +2329,7 @@ def login_reset(api_user, email, hash):
   password_hash = util.hash_password(actor_ref.nick, password)
   actor_ref.password = password_hash
   actor_ref.put()
+  activation_ref.delete()
   
   return password, actor_ref.nick
 
@@ -2668,7 +2672,7 @@ def post(api_user, _task_ref=None, **kw):
 #######
 
 @public_owner_or_contact
-def presence_get(api_user, nick, at_time = None):
+def presence_get(api_user, nick, at_time=None):
   """returns the presence for the given actor if the current can view"""
   nick = clean.nick(nick)
   if not at_time:
@@ -2694,6 +2698,12 @@ def presence_get(api_user, nick, at_time = None):
         nick, at_time).get()
   return ResultWrapper(presence, presence=presence)
 
+def presence_get_safe(api_user, nick, at_time=None):
+  try:
+    return presence_get(api_user, nick, at_time)
+  except exception.ApiException:
+    return None
+
 def presence_get_actors(api_user, nicks):
   """returns the presence for the nicks given"""
   o = {}
@@ -2702,11 +2712,7 @@ def presence_get_actors(api_user, nicks):
     return o
 
   for nick in nicks:
-    try:
-      presence = presence_get(api_user, nick)
-    except exception.ApiException:
-      presence = None
-    o[nick] = presence
+    o[nick] = presence_get_safe(api_user, nick)
   return ResultWrapper(o, actors=o)
 
 @owner_required
@@ -3801,6 +3807,7 @@ def _add_entry(new_stream_ref, new_values, entry_ref=None):
                                  key_name)
 
   new_entry_ref = StreamEntry(**new_values)
+  _set_location_if_necessary(new_entry_ref)
   new_entry_ref.put()
   
   # TODO(termie): this can pretty easily get out of sync, we should probably
@@ -3827,6 +3834,15 @@ def _add_entry(new_stream_ref, new_values, entry_ref=None):
                      'since': new_entry_ref.created_at})
 
   return new_entry_ref
+
+def _set_location_if_necessary(entry_ref):
+  if 'location' in entry_ref.extra and entry_ref.extra['location']:
+    return # location is already included
+  presence = presence_get_safe(ROOT, entry_ref.actor)
+  if not presence:
+    return
+  if 'location' in presence.extra and presence.extra['location']:
+    entry_ref.extra['location'] = presence.extra['location']
 
 def _add_inbox(stream_ref, entry_ref, inboxes, shard):
   #logging.info('add_inbox %s|%s: %s', entry_ref.keyname(), shard, inboxes)
@@ -4200,7 +4216,7 @@ def _notify_im_for_entry(inboxes, actor_ref, new_stream_ref, new_entry_ref,
   else:
     _notify_im_subscribers_for_entry(subscribers_ref,
                                      actor_ref,
-                                     entry_stream_ref,
+                                     new_stream_ref,
                                      new_entry_ref)
 
 def _notify_sms_for_entry(inboxes, actor_ref, new_stream_ref, new_entry_ref,
@@ -4398,13 +4414,22 @@ def _notify_im_subscribers_for_comment(subscribers_ref, actor_ref,
     im_aliases.append(im)
   if not im_aliases:
     return
+  # We're effectively duplicationg common.display.prep_comment here
+  comment_ref.owner_ref = actor_get(ROOT, entry_ref.owner)
+  comment_ref.actor_ref = actor_ref
+  comment_ref.entry_ref = entry_ref
+  entry = comment_ref
+  entries = [entry]
 
-  c = template.Context({'actor_ref': actor_ref,
-                        'comment_ref': comment_ref,
-                        'entry_ref': entry_ref,
-                        'entry_title_max_length':
-                          settings.IM_MAX_LENGTH_OF_ENTRY_TITLES_FOR_COMMENTS},
-                       autoescape=False)
+  context = {'entry': entry,
+             'entries': entries,
+             'entry_title_max_length':
+                 settings.IM_MAX_LENGTH_OF_ENTRY_TITLES_FOR_COMMENTS,
+             }
+  # add all our settings to the context
+  context.update(context_processors.settings(None))
+
+  c = template.Context(context, autoescape=False)
   t = template.loader.get_template('jaikucommon/im/im_comment.txt')
   plain_text_message = t.render(c)
 
@@ -4413,10 +4438,14 @@ def _notify_im_subscribers_for_comment(subscribers_ref, actor_ref,
   else:
     t = template.loader.get_template('jaikucommon/im/im_comment.html')
     html_message = t.render(c)
+    
+    t = template.loader.get_template('jaikucommon/im/im_comment.atom')
+    atom_message = t.render(c)
 
   xmpp_connection.send_message(im_aliases,
                                plain_text_message,
-                               html_message=html_message)
+                               html_message=html_message,
+                               atom_message=atom_message)
 
   _reply_add_cache_im(actor_ref, subscribers_ref, entry_ref.keyname())
 
@@ -4433,9 +4462,20 @@ def _notify_im_subscribers_for_entry(subscribers_ref, actor_ref, stream_ref, ent
   if not im_aliases:
     return
 
-  c = template.Context({'actor_ref': actor_ref,
-                        'entry_ref': entry_ref},
-                       autoescape=False)
+  # We're effectively duplicationg common.display.prep_entry here
+  entry_ref.stream_ref = stream_ref
+  logging.info('stream_ref %s', stream_ref)
+  entry_ref.owner_ref = actor_get(ROOT, entry_ref.owner)
+  entry_ref.actor_ref = actor_ref
+  entry = entry_ref
+  entries = [entry]
+
+  context = {'entry': entry,
+             'entries': entries,
+             }
+  # add all our settings to the context
+  context.update(context_processors.settings(None))
+  c = template.Context(context, autoescape=False)
   t = template.loader.get_template('jaikucommon/im/im_entry.txt')
   plain_text_message = t.render(c)
   
@@ -4445,9 +4485,13 @@ def _notify_im_subscribers_for_entry(subscribers_ref, actor_ref, stream_ref, ent
     t = template.loader.get_template('jaikucommon/im/im_entry.html')
     html_message = t.render(c)
 
+    t = template.loader.get_template('jaikucommon/im/im_entry.atom')
+    atom_message = t.render(c)
+
   xmpp_connection.send_message(im_aliases,
                                plain_text_message,
-                               html_message=html_message)
+                               html_message=html_message,
+                               atom_message=atom_message)
 
   _reply_add_cache_im(actor_ref, subscribers_ref, entry_ref.keyname())
 
