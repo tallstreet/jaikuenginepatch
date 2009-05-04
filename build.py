@@ -106,11 +106,16 @@ def monkey_patch_skipped_files():
     Returns:
       True if the file is accessible, False otherwise.
     """
-    if da.IsPathInSubdirectories(logical_filename, [da.FakeFile._root_path],
-                              normcase=normcase):
-      relative_filename = logical_filename[len(da.FakeFile._root_path):]
+    logical_dirfakefile = logical_filename
+    if os.path.isdir(logical_filename):
+      logical_dirfakefile = os.path.join(logical_filename, 'foo')
 
-      #if da.FakeFile._skip_files.match(relative_filename):
+    if da.IsPathInSubdirectories(logical_dirfakefile, [da.FakeFile._root_path],
+                                 normcase=normcase):
+      relative_filename = logical_dirfakefile[len(da.FakeFile._root_path):]
+
+      #if (not FakeFile._allow_skipped_files and
+      #    FakeFile._skip_files.match(relative_filename)):
       #  logging.warning('Blocking access to skipped file "%s"',
       #                  logical_filename)
       #  return False
@@ -123,22 +128,25 @@ def monkey_patch_skipped_files():
     if logical_filename in da.FakeFile.ALLOWED_FILES:
       return True
 
-    if da.IsPathInSubdirectories(logical_filename,
-                              da.FakeFile.ALLOWED_SITE_PACKAGE_DIRS,
-                              normcase=normcase):
+    if logical_filename in da.FakeFile.ALLOWED_SITE_PACKAGE_FILES:
+      return True
+
+    if da.IsPathInSubdirectories(logical_dirfakefile,
+                                 da.FakeFile.ALLOWED_SITE_PACKAGE_DIRS,
+                                 normcase=normcase):
       return True
 
     allowed_dirs = da.FakeFile._application_paths | da.FakeFile.ALLOWED_DIRS
-    if (da.IsPathInSubdirectories(logical_filename,
-                               allowed_dirs,
-                               normcase=normcase) and
-        not da.IsPathInSubdirectories(logical_filename,
-                                   da.FakeFile.NOT_ALLOWED_DIRS,
-                                   normcase=normcase)):
+    if (da.IsPathInSubdirectories(logical_dirfakefile,
+                                  allowed_dirs,
+                                  normcase=normcase) and
+        not da.IsPathInSubdirectories(logical_dirfakefile,
+                                      da.FakeFile.NOT_ALLOWED_DIRS,
+                                      normcase=normcase)):
       return True
 
     return False
-  
+
   da.FakeFile._IsFileAccessibleNoCache = staticmethod(_patch)
 
 def generate_api_docs():
