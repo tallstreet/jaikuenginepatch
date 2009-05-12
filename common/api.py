@@ -4434,6 +4434,7 @@ def _notify_im_subscribers_for_comment(subscribers_ref, actor_ref,
   t = template.loader.get_template('common/templates/im/im_comment.txt')
   plain_text_message = t.render(c)
 
+  c = template.Context(context)
   if settings.IM_PLAIN_TEXT_ONLY:
     html_message = None
   else:
@@ -4481,6 +4482,7 @@ def _notify_im_subscribers_for_entry(subscribers_ref, actor_ref, stream_ref, ent
   t = template.loader.get_template('common/templates/im/im_entry.txt')
   plain_text_message = t.render(c)
 
+  c = template.Context(context)
   if settings.IM_PLAIN_TEXT_ONLY:
     html_message = None
   else:
