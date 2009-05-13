@@ -538,6 +538,63 @@ class ApiUnitTestBasic(ApiUnitTest):
     self.assertTrue(mail.outbox[0].body,
         'Cele Brity (celebrity) has invited you to join %s' % (settings.SITE_NAME))
 
+class ApiUnitTestChannels(ApiUnitTest):
+  def setUp(self):
+    super(ApiUnitTestChannels, self).setUp()
+    self.test_channel_nick = '#testchannel@example.com'
+    api.channel_create(api.ROOT,
+                       channel=self.test_channel_nick,
+                       nick=self.popular_nick)
+
+  def test_channel_get(self):
+    channel_ref = api.channel_get(self.popular, self.test_channel_nick)
+    self.assertEqual('#testchannel@example.com', channel_ref.nick)
+
+  def test_channel_create_twice(self):
+    def _create_channel_again():
+        api.channel_create(api.ROOT,
+                           channel=self.test_channel_nick,
+                           nick=self.popular_nick)
+
+    self.failUnlessRaises(exception.ApiException, _create_channel_again)
+
+  def test_channel_has_member(self):
+    self.assert_(api.channel_has_member(api.ROOT,
+                                        self.test_channel_nick,
+                                        self.popular_nick))
+    self.failIf(api.channel_has_member(api.ROOT,
+                                        self.test_channel_nick,
+                                        self.unpopular_nick))
+
+  def test_channel_join_twice(self):
+    def _join_channel_again():
+      api.channel_join(api.ROOT, self.popular_nick, self.test_channel_nick)
+
+    self.failUnlessRaises(exception.ApiException, _join_channel_again)
+
+  def test_channel_join_and_get_members(self):
+    api.channel_join(api.ROOT, self.celebrity_nick, self.test_channel_nick)
+    api.channel_join(api.ROOT, self.unpopular_nick, self.test_channel_nick)
+    expected_members = [self.celebrity_nick,
+                        self.popular_nick,
+                        self.unpopular_nick]
+    self.assertEquals(expected_members,
+                      api.channel_get_members(api.ROOT, self.test_channel_nick))
+
+  def test_channel_get_members_offset(self):
+    api.channel_join(api.ROOT, self.celebrity_nick, self.test_channel_nick)
+    api.channel_join(api.ROOT, self.unpopular_nick, self.test_channel_nick)
+    expected_members = [self.popular_nick, self.unpopular_nick]
+    self.assertEquals(expected_members,
+                      api.channel_get_members(api.ROOT, self.test_channel_nick,
+                                              offset=self.celebrity_nick))
+
+  def test_channel_get_members_limit(self):
+    api.channel_join(api.ROOT, self.celebrity_nick, self.test_channel_nick)
+    api.channel_join(api.ROOT, self.unpopular_nick, self.test_channel_nick)
+    self.assertEquals([self.celebrity_nick],
+                      api.channel_get_members(api.ROOT, self.test_channel_nick,
+                                              limit=1))
 
 class ApiUnitTestSubscriptions(ApiUnitTest):
   def test_subscription_request(self):

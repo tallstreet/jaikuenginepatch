@@ -1415,7 +1415,7 @@ def channel_get_members(api_user, channel, limit=24, offset=None):
   query = Relation.gql('WHERE owner = :1 AND relation = :2 AND target > :3',
                        channel,
                        'channelmember',
-                       None)
+                       offset)
   return [a.target for a in query.fetch(limit)]
 
 def channel_get_safe(api_user, channel):
