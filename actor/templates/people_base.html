@@ -1,5 +1,5 @@
 {% extends 'common/templates/base_wide.html' %}
-{% load nonce avatar vcard %}
+{% load nonce avatar vcard format %}
 
 {% block content %}
 
@@ -10,14 +10,14 @@
 <div id="side-nav">
   <ul>
     <li>
-    <a href="{{view.url}}/contacts">{{whose}} contacts</a>
+    <a href="{% url_for view request %}/contacts">{{whose}} contacts</a>
     </li>
     <li>
-    <a href="{{view.url}}/followers">{{whose}} followers</a>
+    <a href="{% url_for view request %}/followers">{{whose}} followers</a>
     </li>
     {% if request.user %}
     <li>
-    <a href="{{view.url}}/invite">Invite friends</a>
+    <a href="{% url_for view request %}/invite">Invite friends</a>
     </li>
     {% endif %}
   </ul>

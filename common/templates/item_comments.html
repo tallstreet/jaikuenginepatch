@@ -8,10 +8,10 @@
   {% if not comment.actor_ref.spam %}
   <li id="c-{{comment.uuid}}">
     <div class="top"><div class="bottom">
-      {{comment.actor_ref|linked_avatar:"u"}}
-      <p>{{comment|format_comment}}</p>
+      {% linked_avatar comment.actor_ref "u" request %}
+      <p>{% if request %}{{comment|format_comment:request}}{% else %}{{comment|format_comment}}{% endif %}</p>
       <p class="meta">
-      {{comment.created_at|je_timesince}} ago by {{comment.actor_ref|actor_link}}
+      {{comment.created_at|je_timesince}} ago by {% actor_link comment.actor_ref request %}
 
       {% entry_remove_comment request.user comment %}
       {% entry_mark_as_spam request.user comment %}

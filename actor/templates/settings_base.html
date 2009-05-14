@@ -1,15 +1,15 @@
 {% extends 'common/templates/base_wide.html' %}
-
+{% load format %}
 {% block title %}Settings {{full_page|yesno:"|,"}} {{full_page}}{% endblock %}
 
 {% block content %}
 <div class="path">
   <h1>
     {% block path %}
-      <a href="{{view.url}}">{{view.display_nick}}</a> /
+      <a href="{% url_for view request %}">{{view.display_nick}}</a> /
     
     {% ifnotequal page "index" %}
-      <a href="{{view.url}}/settings">
+      <a href="{% url_for view request %}/settings">
     {% endifnotequal %}
     Settings
     {% if full_page %}
@@ -64,18 +64,19 @@
       <a href="{{view.url}}/settings/notifications">Notification options</a>
     </li>
   </ul>
-
-  <h3>Presentation</h3>
-  <ul>
-    <li{% ifequal page "design" %} class="current"{% endifequal %}>
-      <a href="{{view.url}}/settings/design">Look and feel</a>
-    </li>
-    {% if BADGES_ENABLED %}
-      <li{% ifequal page "badge" %} class="current"{% endifequal %}>
-        <a href="{{view.url}}/settings/badge">Badges</a>
+  {% if not request.mobile %}
+    <h3>Presentation</h3>
+    <ul>
+      <li{% ifequal page "design" %} class="current"{% endifequal %}>
+        <a href="{{view.url}}/settings/design">Look and feel</a>
       </li>
-    {% endif %}
-  </ul>
+      {% if BADGES_ENABLED %}
+        <li{% ifequal page "badge" %} class="current"{% endifequal %}>
+          <a href="{{view.url}}/settings/badge">Badges</a>
+        </li>
+      {% endif %}
+    </ul>
+  {% endif %}
 {% endblock %}
 </div>
 <div class="body">

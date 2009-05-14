@@ -5,9 +5,9 @@
 <div class="main">
   <h1>
     {% ifnotequal entry.owner entry.actor %}
-    {{entry.actor_ref|actor_link}} posted to {{entry.owner_ref|actor_link}}:
+    {% actor_link entry.actor_ref request %} posted to {% actor_link entry.owner_ref request %}:
     {% else %}
-    {{entry.owner_ref|actor_link}} said:
+    {% actor_link entry.owner_ref request %} said:
     {% endifnotequal %}
   </h1>
   {% include 'common/templates/item_post.html' %}

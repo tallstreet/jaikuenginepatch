@@ -104,6 +104,7 @@ def email_comment_notification(actor_to_ref, actor_from_ref,
   """
 
   entry_url = entry_ref.url()
+  entry_mobile_url = entry_ref.url(mobile=True)
   from_name = actor_from_ref.display_nick()
   my_entry = (actor_to_ref.nick == entry_ref.actor)
   entry_actor_name = util.display_nick(entry_ref.actor)
@@ -123,9 +124,12 @@ def email_confirmation_message(actor, activation_code):
   name = _greeting_name(actor)
   # TODO(teemu): what is a canonical way to do get URLs in Django?
   activation_url = 'http://%s/confirm/email/%s' % (settings.DOMAIN, activation_code)
+  activation_mobile_url = 'http://m.%s/confirm/email/%s' % (settings.DOMAIN,
+                                                            activation_code)
 
   email_first = name
   email_link = activation_url
+  email_mobile_link = activation_mobile_url
 
   t = loader.get_template('common/templates/email/email_confirm.txt')
   c = template.Context(locals(), autoescape=False)
@@ -141,6 +145,8 @@ def email_invite(from_actor_ref, invite_code):
   full_name = _full_name(from_actor_ref)
   nick_name = from_actor_ref.display_nick()
   accept_url = 'http://%s/invite/email/%s' % (settings.DOMAIN, invite_code)
+  accept_mobile_url = 'http://m.%s/invite/email/%s' % (settings.DOMAIN,
+                                                       invite_code)
 
   t = loader.get_template('common/templates/email/email_invite.txt')
   c = template.Context(locals(), autoescape=False)
@@ -154,6 +160,8 @@ def email_invite(from_actor_ref, invite_code):
 
 def email_new_follower(owner_ref, target_ref):
   email_url = owner_ref.url()
+  email_mobile_url = owner_ref.url(mobile=True)
+
   t = loader.get_template('common/templates/email/email_new_follower.txt')
   c = template.Context(locals(), autoescape=False)
   message = t.render(c)
@@ -166,7 +174,9 @@ def email_new_follower(owner_ref, target_ref):
 
 def email_new_follower_mutual(owner_ref, target_ref):
   profile_url = owner_ref.url()
+  profile_mobile_url = owner_ref.url(mobile=True)
   full_name = _full_name(owner_ref)
+
   t = loader.get_template(
       'common/templates/email/email_new_follower_mutual.txt')
   c = template.Context(locals(), autoescape=False)
@@ -181,6 +191,9 @@ def email_new_follower_mutual(owner_ref, target_ref):
 def email_lost_password(actor, email, code):
   email_link = ("http://%s/login/reset?email=%s&hash=%s" %
                 (settings.DOMAIN, email, code))
+  email_mobile_link = ("http://m.%s/login/reset?email=%s&hash=%s" %
+                       (settings.DOMAIN, email, code))
+
   t = loader.get_template('common/templates/email/email_password.txt')
   c = template.Context(locals(), autoescape=False)
   message = t.render(c)

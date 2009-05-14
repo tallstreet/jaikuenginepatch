@@ -1,10 +1,10 @@
 {% extends 'actor/templates/people_base.html' %}
 {% block title %}{{whose}} contacts{% endblock %}
-{% load nonce avatar vcard %}
+{% load nonce avatar vcard format %}
 
 {% block people %}
   <div class="path">
-    <h1><a href="{{view.url}}/contacts">People</a> / {{whose}} contacts</h1>
+    <h1><a href="{% url_for view request %}/contacts">People</a> / {{whose}} contacts</h1>
   </div>
 
   <div class="body">

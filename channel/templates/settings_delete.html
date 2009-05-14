@@ -1,5 +1,5 @@
 {% extends 'channel/templates/settings_base.html' %}
-{% load nonce %}
+{% load nonce format %}
 {% block settings %}
 
 <div class="body">
@@ -15,7 +15,7 @@
       <input type="hidden" name="nick" value="{{view.nick}}"/>
       <div class="buttons">
         <input type="submit" value="I'm aware, please delete {{view.display_nick}}" />
-        or <a href="{{view.url}}/settings">cancel</a>
+        or <a href="{% url_for view request %}/settings">cancel</a>
       </div>
     </form>
   {% else %}

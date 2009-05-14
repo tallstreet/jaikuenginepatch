@@ -1,29 +1,32 @@
 {% extends 'actor/templates/settings_base.html' %}
+{% load format %}
 {% block title %}Settings {{full_page|yesno:"|,"}} {{full_page}}{% endblock %}
 {% block sidenav %}
 <h3>Channel settings</h3>
 <ul>
   <li{% ifequal page "details" %} class="current"{% endifequal %}>
-    <a href="{{view.url}}/settings/details">Details</a>
+    <a href="{% url_for view request %}/settings/details">Details</a>
   </li>
   <li{% ifequal page "photo" %} class="current"{% endifequal %}>
-    <a href="{{view.url}}/settings/photo">Icon</a>
+    <a href="{% url_for view request %}/settings/photo">Icon</a>
   </li>
   {% if FEEDS_ENABLED %}
     <li{% ifequal page "feeds" %} class="current"{% endifequal %}>
-      <a href="{{view.url}}/settings/feeds">Web feeds</a>
+      <a href="{% url_for view request %}/settings/feeds">Web feeds</a>
     </li>
   {% endif %}
-  <li{% ifequal page "design" %} class="current"{% endifequal %}>
-    <a href="{{view.url}}/settings/design">Presentation</a>
-  </li>
-  {% if BADGES_ENABLED %}
+  {% if not request.mobile %}
+    <li{% ifequal page "design" %} class="current"{% endifequal %}>
+      <a href="{{view.url}}/settings/design">Presentation</a>
+    </li>
+  {% endif %}
+  {% if not request.mobile and BADGES_ENABLED %}
     <li{% ifequal page "badge" %} class="current"{% endifequal %}>
       <a href="{{view.url}}/settings/badge">Badges</a>
     </li>
   {% endif %}
   <li{% ifequal page "delete" %} class="current"{% endifequal %}>
-    <a href="{{view.url}}/settings/delete">Delete channel</a>
+    <a href="{% url_for view request %}/settings/delete">Delete channel</a>
   </li>
 </ul>
 {% endblock %}

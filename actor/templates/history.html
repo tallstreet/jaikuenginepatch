@@ -36,16 +36,18 @@
   </div>
 {% endifequal %}
 
-{% ifequal view.nick request.user.nick %}
-<ul id="sub-nav">
-  <li class="first">
-    <a href="{{view.url}}/overview">Overview</a>
-  </li>
-  <li class="current">
-  <a href="{{view.url}}">Your {{POST_NAME}}s</a>
-  </li>
-</ul>
-{% endifequal %}
+{% if not request.mobile %}
+  {% ifequal view.nick request.user.nick %}
+  <ul id="sub-nav">
+    <li class="first">
+      <a href="{{view.url}}/overview">Overview</a>
+    </li>
+    <li class="current">
+    <a href="{{view.url}}">Your {{POST_NAME}}s</a>
+    </li>
+  </ul>
+  {% endifequal %}
+{% endif %}
 
 {% ifequal request.user.nick view.nick %}
 <h2>Your {{POST_NAME}}s</h2>

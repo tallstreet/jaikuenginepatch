@@ -1,11 +1,11 @@
 {% extends 'channel/templates/settings_base.html' %}
-{% load nonce %}
+{% load nonce format %}
 
 {% block settings %}
 <div class="body">
   {% include 'form_error.html' %}
   <h2>Channel Details</h2>
-  <form action="{{view.url}}/settings/{{page}}" method="post">
+  <form action="{% url_for view request %}/settings/{{page}}" method="post">
     {{request.user|noncefield:"channel_update"}}
     <input type="hidden" name="channel_update" />
     <input type="hidden" name="channel" value="{{view.nick|escape}}"/>

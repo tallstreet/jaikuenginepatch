@@ -1,9 +1,11 @@
 {% filter wordwrap:60 %}
-Yay! {{full_name}} ({{owner_ref.display_nick}}) is now following you, too. Click on the link below (or copy and paste it into your browser) to view their profile and leave them a welcome comment.
+Yay! {{full_name}} ({{owner_ref.display_nick}}) is now following you, too. Click on one of the links below (or copy and paste it into your browser) to view their profile and leave them a welcome comment.
 
 ................
 
 {{profile_url}}
+
+{{profile_mobile_url}} (mobile)
 
 ................
 

@@ -26,6 +26,7 @@ class DomainMiddleware(object):
     level = logging.DEBUG
   
     host = request.get_host()
+    request.mobile = False
     
     check_url = '%s%s (secure: %s)' % (host, 
                                        request.get_full_path(), 

@@ -1,5 +1,5 @@
 {% extends 'common/templates/base_sidebar.html' %}
-{% load nonce avatar vcard base %}
+{% load nonce avatar vcard base format %}
 {% block title %}{{view.display_nick}}{% endblock %}
 
 {% block content %}
@@ -9,7 +9,7 @@
       <ul class="float">
         <li>
           {% if not user_is_admin %}
-          You are a member. <a href="{{view.url}}?channel_part=&amp;nick={{request.user.nick|urlencode}}&amp;channel={{view.nick|urlencode}}&amp;{{request.user|nonceparam:"channel_part"}}">Leave {{view.display_nick}}</a>
+          You are a member. <a href="{% url_for view request %}?channel_part=&amp;nick={{request.user.nick|urlencode}}&amp;channel={{view.nick|urlencode}}&amp;{{request.user|nonceparam:"channel_part"}}">Leave {{view.display_nick}}</a>
           {% else %}
           <a href="{{view.url}}/settings">Edit settings</a>
           {% endif %}
@@ -29,7 +29,7 @@
       {% endwith %}
       {% if request.user %}
       <p>
-      <a href="{{view.url}}?channel_join=&amp;nick={{request.user.nick|urlencode}}&amp;channel={{view.nick|urlencode}}&amp;{{request.user|nonceparam:"channel_join"}}">+ Join {{view.display_nick}}</a>
+      <a href="{% url_for view request %}?channel_join=&amp;nick={{request.user.nick|urlencode}}&amp;channel={{view.nick|urlencode}}&amp;{{request.user|nonceparam:"channel_join"}}">+ Join {{view.display_nick}}</a>
       </p>
       {% endif %}
     </div>

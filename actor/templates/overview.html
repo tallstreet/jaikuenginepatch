@@ -1,12 +1,12 @@
 {% extends 'common/templates/base_sidebar.html' %}
-{% load nonce %}
+{% load nonce format %}
 {% block title %}Overview{% endblock %}
 
 {% block above_container %}
 {% if unconfirmed_email and not flash %}
 <div class="notice">
   <p>
-  You have not yet confirmed your email address "{{unconfirmed_email}}", if you have not received your confirmation message you can <a href="{{view.url}}/settings/email">request another</a>.
+  You have not yet confirmed your email address "{{unconfirmed_email}}", if you have not received your confirmation message you can <a href="{% url_for view request %}/settings/email">request another</a>.
   </p>
  </div>
 {% endif %}
@@ -15,14 +15,16 @@
 {% block content %}
 {% include 'common/templates/message_form.html' %}
 
-<ul id="sub-nav">
-  <li class="first current">
-    <a href="{{view.url}}/overview">Overview</a>
-  </li>
-  <li>
-    <a href="{{view.url}}">Your {{POST_NAME}}s</a>
-  </li>
-</ul>
+{% if not request.mobile %}
+  <ul id="sub-nav">
+    <li class="first current">
+      <a href="{{view.url}}/overview">Overview</a>
+    </li>
+    <li>
+      <a href="{{view.url}}">Your {{POST_NAME}}s</a>
+    </li>
+  </ul>
+{% endif %}
 
 <div id='stream'>
   <h2>Hi {{view.display_nick}}! Here's the latest from your contacts</h2>

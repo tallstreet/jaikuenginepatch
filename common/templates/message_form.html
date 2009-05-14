@@ -6,12 +6,12 @@
   {% include 'form_error.html' %}
   {% block message_title %}{% endblock %}
   <form action="" method="POST">
-    {% if not mobile_browser %}
-    <a href="{{request.user.url}}/settings/photo">{{ request.user|avatar:"f" }}</a>
+    {% if not request.mobile %}
+      <a href="{{request.user.url}}/settings/photo">{{ request.user|avatar:"f" }}</a>
     {% endif %}
     <p id="message-container">
 			<label for="message" id="message-label">Type your new message here</label>
-      <textarea id="message" name="message" rows="4" cols="25">{% if message %}{{ message|escape }}{% else %}{% if not mobile_browser %}Type your new message here{% endif %}{% endif %}</textarea>
+      <textarea id="message" name="message" rows="4" cols="25">{% if message %}{{ message|escape }}{% else %}{% if not request.mobile %}Type your new message here{% endif %}{% endif %}</textarea>
     </p>
 		<p class="buttons">
       <input type="hidden" id="location" name="location" value="{{ request.user.extra.location }}"/>
@@ -26,19 +26,18 @@
       <input type="hidden" name="channel" value="{{view.nick}}" />
       {% endifequal %}
     </p>
-    {% if not mobile_browser %}
-    <p id="counter">140 characters left</p>
-		<p id="icons">
-		  <label for="icon" id="icon-label">Icon</label>
-      <select name="icon" id="icon">
-			  <option value="">Select icon</option>
-				{% for key, icon in selectable_icons.items %}
-        <option value="{{ key }}" id="/themes/{{DEFAULT_THEME|urlencode}}/icons/{{ icon.0 }}.gif" title="{{ icon.2 }}"{% ifequal key current_icon %} selected="selected"{% endifequal %}>{{ icon.1 }}</option>
-        {% endfor %}
-      </select>
-      <a href="#" id="add-icons">+ Add Icon</a>
-		</p>
-
+    {% if not request.mobile %}
+      <p id="counter">140 characters left</p>
+      <p id="icons">
+        <label for="icon" id="icon-label">Icon</label>
+        <select name="icon" id="icon">
+          <option value="">Select icon</option>
+          {% for key, icon in selectable_icons.items %}
+          <option value="{{ key }}" id="/themes/{{DEFAULT_THEME|urlencode}}/icons/{{ icon.0 }}.gif" title="{{ icon.2 }}"{% ifequal key current_icon %} selected="selected"{% endifequal %}>{{ icon.1 }}</option>
+          {% endfor %}
+        </select>
+        <a href="#" id="add-icons">+ Add Icon</a>
+      </p>
     {% endif %}
   </form>
 </div>

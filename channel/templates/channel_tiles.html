@@ -1,10 +1,10 @@
-{% load avatar nonce %}
+{% load avatar nonce format %}
 <ul class="float">
 {% for channel in channel_tiles %}
   <li {% cycle '' 'class="odd"' %}>
-    {{channel|linked_avatar:"t"}}
+    {% linked_avatar channel "t" request %}
 
-    <h3><a href="{{channel.url}}">{{channel.display_nick}}</a></h3>
+    <h3><a href="{% url_for channel request %}">{{channel.display_nick}}</a></h3>
     {% if channel.extra.description %}
       <p>{{channel.extra.description|truncatewords:5}}</p>
     {% endif %}
@@ -12,9 +12,9 @@
       <p class="members">
         {{ channel.extra.member_count }} members | 
         {% if channel.i_am_admin %}
-        <a href="{{channel.url}}/settings">Settings</a>
+        <a href="{% url_for channel request %}/settings">Settings</a>
         {% else %}{% if channel.i_am_member %}
-        <a class="confirm" href="{{channel.url}}?part={{channel.nick|urlencode}}&amp;{{channel|nonceparam:"channel_part"}}&amp;redirect_to={{request.path}}">
+        <a class="confirm" href="{% url_for channel request %}?part={{channel.nick|urlencode}}&amp;{{channel|nonceparam:"channel_part"}}&amp;redirect_to={{request.path}}">
           Leave {{channel.display_nick}}</a>
         {% endif %}
         {% endif %}

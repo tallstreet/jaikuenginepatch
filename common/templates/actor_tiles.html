@@ -1,11 +1,11 @@
-{% load nonce avatar vcard actor %}
+{% load nonce avatar vcard actor format %}
 
 {% if actor_tiles_count %}
 <ul class="float">
   {% for actor in actor_tiles %}
   <li class="vcard{{actor.my_follower|yesno:" follower,"}}{{actor.my_contact|yesno:" contact,"}}{% cycle ' clear' '' ''%}">
-    {{actor|linked_avatar:"u"}}
-    <h3><a class="url" href="{{actor.url}}" rel="{{actor.rel}}">
+    {% linked_avatar actor "u" request %}
+    <h3><a class="url" href="{% url_for actor request %}" rel="{{actor.rel}}">
         {{actor.display_nick}}
     </a></h3>
     <p class="fn message">

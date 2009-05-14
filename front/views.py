@@ -33,7 +33,8 @@ SIDEBAR_FETCH_LIMIT = 50
 def front_front(request):
   # if the user is logged in take them to their overview
   if request.user:
-    return HttpResponseRedirect(request.user.url() + "/overview")
+    url = request.user.url(request=request)
+    return HttpResponseRedirect(url + "/overview")
 
   # NOTE: grab a bunch of extra so that we don't ever end up with
   #       less than 5

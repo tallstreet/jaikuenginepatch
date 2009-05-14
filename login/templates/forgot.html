@@ -1,6 +1,6 @@
 {% extends 'common/templates/base_single.html' %}
 {% block title %}Forgot Your Password?{% endblock %}
-{% load nonce %}
+{% load nonce format %}
 
 {% block content %}
 
@@ -21,10 +21,10 @@
 </form>
 
 <p class="centered">
-  <a href="http://{{DOMAIN}}/login">Return to Log In page</a>
+  <a href="{% url_for DOMAIN request %}/login">Return to Log In page</a>
 </p>
 <p class="centered">
-  or <a href="http://{{DOMAIN}}/">proceed to the home page</a>
+  or <a href="{% url_for DOMAIN request %}/">proceed to the home page</a>
 </p>
 
 {% endblock %}

@@ -441,12 +441,13 @@ def actor_item(request, nick=None, item=None, format='html'):
   # to be processed normally as if no action had been taken, the error
   # handling section of the template should display the errors caught
   # by the exception.handle_exception() call
+
   handled = common_views.handle_view_action(
       request,
-      {'entry_add_comment': entry_ref.url(), 
-       'entry_remove': view.url(),
-       'entry_remove_comment': entry_ref.url(),
-       'entry_mark_as_spam': entry_ref.url() 
+      {'entry_add_comment': entry_ref.url(request=request),
+       'entry_remove': view.url(request=request),
+       'entry_remove_comment': entry_ref.url(request=request),
+       'entry_mark_as_spam': entry_ref.url(request=request)
        }
       )
   if handled:

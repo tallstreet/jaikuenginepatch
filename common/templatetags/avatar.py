@@ -80,10 +80,8 @@ def avatar_url(value, arg="t"):
 
   return 'http://%s/image/%s' % (settings.DOMAIN, http.urlquote(path))
 
-@register.filter(name="linked_avatar")
-@safe
-@safe_avatar
-def linked_avatar(value, args):
+def parse_args(args):
+  """Splits comma separated argument into size and rel attribute."""
   parts = args.split(",")
   arg = parts[0]
   rel = len(parts) > 1 and parts[1] or None
@@ -93,5 +91,43 @@ def linked_avatar(value, args):
   else:
     rel_attr = ''
 
-  return ('<a class="url" href="%s"%s>%s</a>' % 
-      (value.url(), rel_attr, avatar(value, arg)))
+  return (arg, rel_attr)
+
+class LinkedAvatarNode(template.Node):
+  def __init__(self, actor, args, request):
+    self.actor = template.Variable(actor)
+    self.args = template.Variable(args)
+    self.request = template.Variable(request)
+    (self.arg, self.rel_attr) = parse_args(args)
+
+  def render(self, context):
+    try:
+      actual_actor = self.actor.resolve(context)
+      actual_request = self.request.resolve(context)
+
+      return ('<a class="url" href="%s"%s>%s</a>' % 
+          (actual_actor.url(request=actual_request),
+           self.rel_attr,
+           avatar(actual_actor, self.arg)))
+
+    except template.VariableDoesNotExist:
+      return ''
+
+@register.tag
+def linked_avatar(parser, token):
+  """
+  Custom tag for more easily being able to pass an HttpRequest object to
+  underlying functions.
+  
+  One use case is being able to return avatar with mobile link for mobile
+  users and regular links for others. This depends on request.mobile being
+  set or not.
+
+  Parameters: actor, args (arg, rel_attr), request.
+  """
+  try:
+    tag_name, actor, args, request = token.split_contents()
+  except ValueError:
+    raise template.TemplateSyntaxError, \
+      "%r tag requires exactly three arguments" % token.contents.split()[0]
+  return LinkedAvatarNode(actor, args[1:-1], request)

@@ -73,20 +73,20 @@ channel_regex = re.compile(
 
 @register.filter(name="format_actor_links")
 @safe
-def format_actor_links(value, arg=None):
+def format_actor_links(value, request=None):
   """Formats usernames / channels
   """
-  def user_replace(match):
-    return '<a href="%s">@%s</a>' % (
-        models.actor_url(match.group(1), 'user'), match.group(1))
+  value = re.sub(user_regex,
+                 lambda match: '<a href="%s">@%s</a>' % (
+                   models.actor_url(match.group(1), 'user', request=request),
+                   match.group(1)),
+                 value)
 
-  value = re.sub(user_regex, user_replace, value)
-
-  def channel_replace(match):
-    return '<a href="%s">#%s</a>' % (
-        models.actor_url(match.group(1), 'channel'), match.group(1))
-  
-  value = re.sub(channel_regex, channel_replace, value)
+  value = re.sub(channel_regex,
+                 lambda match: '<a href="%s">#%s</a>' % (
+                   models.actor_url(match.group(1), 'channel', request=request),
+                   match.group(1)),
+                 value)
   return value
 
 @register.filter(name="format_markdown")
@@ -96,11 +96,11 @@ def format_markdown(value, arg=None):
 
 @register.filter(name="format_comment")
 @safe
-def format_comment(value, arg=None):
+def format_comment(value, request=None):
   content = escape(value.extra.get('content', 'no title'))
   content = format_markdown(content)
   content = format_autolinks(content)
-  content = format_actor_links(content)
+  content = format_actor_links(content, request)
   return content
 
 @register.filter(name="truncate")
@@ -126,11 +126,6 @@ def truncate(value, arg):
   else:
     return value
 
-@register.filter
-@safe
-def actor_link(value, arg=None):
-  return '<a href="%s">%s</a>' % (value.url(), value.display_nick())
-
 @register.filter(name="entry_icon")
 @safe
 def entry_icon(value, arg=None):
@@ -142,9 +137,15 @@ def entry_icon(value, arg=None):
 
 @register.filter(name="linked_entry_title")
 @safe
-def linked_entry_title(value, arg=None):
+def linked_entry_title(value, request=None):
+  """
+  Returns an entry link.
+
+  value     an entry object.
+  request   a HttpRequest (optional).
+  """
   return '<a href="%s">%s</a>' % (
-      value.url(), 
+      value.url(request=request), 
       format_fancy(escape(value.extra['title'])).replace('\n', ' '))
 
 @register.filter
@@ -187,7 +188,100 @@ def je_timesince(value, arg=None):
 
 @register.filter
 @safe
-def entry_actor_link(value, arg=None):
-  return '<a href="%s">%s</a>' % (models.actor_url(url_nick(value), 'user'),
+def entry_actor_link(value, request=None):
+  """
+  Returns an actor html link.
+
+  value     an entry_actor object.
+  request   a HttpRequest (optional).
+  """
+  return '<a href="%s">%s</a>' % (models.actor_url(url_nick(value),
+                                                   'user',
+                                                   request=request),
                                   display_nick(value))
 
+class URLForNode(template.Node):
+  def __init__(self, entity, request):
+    self.entity = template.Variable(entity)
+    self.request = template.Variable(request)
+
+  def render(self, context):
+    try:
+      actual_entity = self.entity.resolve(context)
+      actual_request = self.request.resolve(context)
+
+      try:
+        return actual_entity.url(request=actual_request)
+      except AttributeError:
+        # treat actual_entity as a string
+        try:
+          mobile = actual_request.mobile
+        except AttributeError:
+          mobile = False
+
+        if mobile:
+          return 'http://m.' + str(actual_entity)
+        else:
+          return 'http://' + str(actual_entity)
+
+    except template.VariableDoesNotExist:
+      return ''
+
+@register.tag
+def url_for(parser, token):
+  """
+  Custom tag for more easily being able to pass an HttpRequest object to
+  underlying url() functions.
+  
+  One use case is being able to return mobile links for mobile users and
+  regular links for others. This depends on request.mobile being set or
+  not.
+
+  Observe that if entity is not an object with the method url(), it is
+  assumed to be a string.
+
+  Parameters: entity, request.
+  """
+  try:
+    tag_name, entity, request = token.split_contents()
+  except ValueError:
+    raise template.TemplateSyntaxError, \
+      "%r tag requires exactly two arguments" % token.contents.split()[0]
+  return URLForNode(entity, request)
+
+class ActorLinkNode(template.Node):
+  def __init__(self, actor, request):
+    self.actor = template.Variable(actor)
+    self.request = template.Variable(request)
+
+  def render(self, context):
+    try:
+      actual_actor = self.actor.resolve(context)
+      actual_request = self.request.resolve(context)
+
+      try:
+        url = actual_actor.url(request=actual_request)
+        return '<a href="%s">%s</a>' % (url, actual_actor.display_nick())
+      except AttributeError:
+        return ''
+    except template.VariableDoesNotExist:
+      return ''
+
+@register.tag
+def actor_link(parser, token):
+  """
+  Custom tag for more easily being able to pass an HttpRequest object to
+  underlying url() functions.
+  
+  One use case is being able to return mobile links for mobile users and
+  regular links for others. This depends on request.mobile being set or
+  not.
+
+  Parameters: actor, request.
+  """
+  try:
+    tag_name, actor, request = token.split_contents()
+  except ValueError:
+    raise template.TemplateSyntaxError, \
+      "%r tag requires exactly two arguments" % token.contents.split()[0]
+  return ActorLinkNode(actor, request)
