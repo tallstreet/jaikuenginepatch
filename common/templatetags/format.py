@@ -219,8 +219,8 @@ class URLForNode(template.Node):
         except AttributeError:
           mobile = False
 
-        if mobile:
-          return 'http://m.' + str(actual_entity)
+        if mobile and settings.SUBDOMAINS_ENABLED:
+          return 'http://m.' + settings.HOSTED_DOMAIN
         else:
           return 'http://' + str(actual_entity)
 

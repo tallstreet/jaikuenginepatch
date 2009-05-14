@@ -237,20 +237,25 @@ def actor_url(nick, actor_type, path='', request=None, mobile=False):
   NOTE: if appending a path, it should start with '/'
   """
   prefix = ""
-  try:
-    if mobile or (request and request.mobile):
-      prefix = "m."
-  except AttributeError:
-    pass
+  mobile = mobile or (request and request.mobile)
+  if mobile:
+    prefix = "m."
   
-  if settings.WILDCARD_USER_SUBDOMAINS_ENABLED and actor_type == 'user':
-    return 'http://%s.%s%s%s' % (nick, prefix, settings.HOSTED_DOMAIN, path)
-  else:
+  if (settings.WILDCARD_USER_SUBDOMAINS_ENABLED 
+      and actor_type == 'user'
+      and not mobile):
+    return 'http://%s.%s%s' % (nick, settings.HOSTED_DOMAIN, path)
+  elif mobile and settings.SUBDOMAINS_ENABLED:
     return 'http://%s%s/%s/%s%s' % (prefix,
-                                    settings.DOMAIN,
+                                    settings.HOSTED_DOMAIN,
                                     actor_type,
                                     nick,
                                     path)
+  else:
+    return 'http://%s/%s/%s%s' % (settings.DOMAIN,
+                                  actor_type,
+                                  nick,
+                                  path)
 
 class Actor(DeletedMarkerModel):
   """
