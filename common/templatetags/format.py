@@ -77,13 +77,13 @@ def format_actor_links(value, request=None):
   """Formats usernames / channels
   """
   value = re.sub(user_regex,
-                 lambda match: '<a href="%s">@%s</a>' % (
+                 lambda match: '<a href="%s" rel="user">@%s</a>' % (
                    models.actor_url(match.group(1), 'user', request=request),
                    match.group(1)),
                  value)
 
   value = re.sub(channel_regex,
-                 lambda match: '<a href="%s">#%s</a>' % (
+                 lambda match: '<a href="%s" rel="channel">#%s</a>' % (
                    models.actor_url(match.group(1), 'channel', request=request),
                    match.group(1)),
                  value)
