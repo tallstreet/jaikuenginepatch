@@ -21,6 +21,7 @@ from django.conf import settings
 from django import http
 from oauth import oauth
 from common import api
+from common import legacy
 from common import exception
 from common import oauth_util
 
@@ -35,6 +36,8 @@ URL = _xmlrpc_url()
 
 class XmlRpcDispatcher(object):
 
+  _PERSONAL_KEY = 'personal_key'
+  _API_USER_NICK_KEY = 'user'
   # for when the client makes a non-post xmlrpc request
   _ONLY_POST_ALLOWED = xmlrpclib.dumps(xmlrpclib.Fault(
       exception.INVALID_ARGUMENTS,
@@ -42,6 +45,13 @@ class XmlRpcDispatcher(object):
 
   @staticmethod
   def _get_api_user(params):
+    if (settings.API_ALLOW_LEGACY_AUTH 
+        and params.has_key(XmlRpcDispatcher._PERSONAL_KEY)
+        and params.has_key(XmlRpcDispatcher._API_USER_NICK_KEY)):
+      return legacy.authenticate_user_personal_key(
+          params[XmlRpcDispatcher._API_USER_NICK_KEY], 
+          params[XmlRpcDispatcher._PERSONAL_KEY])
+      
     oauth_parameters = oauth_util.get_oauth_params(params)
     oauth_request = oauth.OAuthRequest(http_method='POST',
                                        http_url=URL,
@@ -57,6 +67,10 @@ class XmlRpcDispatcher(object):
         if not api_user:
           raise xmlrpclib.Fault(0x00, 'Invalid API user')
         method_args = oauth_util.get_non_oauth_params(params)
+        if XmlRpcDispatcher._PERSONAL_KEY in method_args:
+          del method_args[XmlRpcDispatcher._PERSONAL_KEY]
+        if XmlRpcDispatcher._API_USER_NICK_KEY in method_args:
+          del method_args[XmlRpcDispatcher._API_USER_NICK_KEY]
         return function(api_user, **method_args).to_api()
       except oauth_util.OAuthError, e:
         raise xmlrpclib.Fault(exception.OAUTH_ERROR, e.message)
