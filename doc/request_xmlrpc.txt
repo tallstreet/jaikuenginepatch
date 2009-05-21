@@ -17,7 +17,7 @@ An example actor_get_ call (from python)::
 
   import xmlrpclib
   from oauth import oauth
-  consumer = oauth.OAuthConsumer('consumer key', 'consumer secret)
+  consumer = oauth.OAuthConsumer('consumer key', 'consumer secret')
   access_token = oauth.OAuthToken('access token key', 'access token secret')
   xmlrpc_url = 'http://api.jaiku.com/xmlrpc'
   request = oauth.OAuthRequest.from_consumer_and_token(
