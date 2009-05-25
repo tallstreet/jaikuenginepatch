@@ -20,19 +20,19 @@ An example actor_get_ call (from python)::
   consumer = oauth.OAuthConsumer('consumer key', 'consumer secret')
   access_token = oauth.OAuthToken('access token key', 'access token secret')
   xmlrpc_url = 'http://api.jaiku.com/xmlrpc'
+  params = {'nick': 'jaiku'}
   request = oauth.OAuthRequest.from_consumer_and_token(
       oauth_consumer=consumer,
       token=access_token,
       http_url=xmlrpc_url,
-      http_method='POST')
+      http_method='POST',
+      parameters=params)
   request.sign_request(
       oauth.OAuthSignatureMethod_HMAC_SHA1(),
       consumer,
       access_token)
-  params = dict(request.parameters)
-  params['nick'] = 'jaiku'
   server = xmlrpclib.ServerProxy(xmlrpc_url)
-  rv = server.actor_get(params)
+  rv = server.actor_get(request.parameters)
   print rv
 
 And the expected result should look like::

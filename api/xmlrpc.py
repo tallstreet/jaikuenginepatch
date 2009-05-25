@@ -45,17 +45,16 @@ class XmlRpcDispatcher(object):
 
   @staticmethod
   def _get_api_user(params):
-    if (settings.API_ALLOW_LEGACY_AUTH 
+    if (settings.API_ALLOW_LEGACY_AUTH
         and params.has_key(XmlRpcDispatcher._PERSONAL_KEY)
         and params.has_key(XmlRpcDispatcher._API_USER_NICK_KEY)):
       return legacy.authenticate_user_personal_key(
-          params[XmlRpcDispatcher._API_USER_NICK_KEY], 
+          params[XmlRpcDispatcher._API_USER_NICK_KEY],
           params[XmlRpcDispatcher._PERSONAL_KEY])
-      
-    oauth_parameters = oauth_util.get_oauth_params(params)
+
     oauth_request = oauth.OAuthRequest(http_method='POST',
                                        http_url=URL,
-                                       parameters=oauth_parameters)
+                                       parameters=params)
     oauth_util.verify_oauth_request(oauth_request)
     return oauth_util.get_api_user_from_oauth_request(oauth_request)
 

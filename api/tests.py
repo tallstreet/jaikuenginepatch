@@ -343,13 +343,14 @@ class XmlRpcTest(base.FixturesTestCase):
         oauth_consumer=consumer,
         token=access_token,
         http_url=xmlrpc.URL,
-        http_method='POST')
+        http_method='POST',
+        parameters={'nick': 'popular'})
     request.sign_request(oauth_util.HMAC_SHA1, consumer, access_token)
     return request
 
   def test_xmlrpc_with_legacy_key(self):
     self.overrides = test_util.override(API_ALLOW_LEGACY_AUTH=True)
-    popular_ref = api.actor_get(api.ROOT, 'popular')    
+    popular_ref = api.actor_get(api.ROOT, 'popular')
     personal_key = legacy.generate_personal_key(popular_ref)
     params = {'user': 'popular',
               'personal_key': personal_key,
@@ -358,7 +359,7 @@ class XmlRpcTest(base.FixturesTestCase):
 
   def test_xmlrpc_with_disabled_legacy_key(self):
     self.overrides = test_util.override(API_ALLOW_LEGACY_AUTH=False)
-    popular_ref = api.actor_get(api.ROOT, 'popular')    
+    popular_ref = api.actor_get(api.ROOT, 'popular')
     personal_key = legacy.generate_personal_key(popular_ref)
     params = {'user': 'popular',
               'personal_key': personal_key,
@@ -378,14 +379,11 @@ class XmlRpcTest(base.FixturesTestCase):
 
   def test_xmlrpc_with_oauth(self):
     oauth_request = self.oauth_request()
-    params = dict(oauth_request.parameters)
-    params['nick'] = 'popular'
-    self.assert_valid_actor_get_response(params)
+    self.assert_valid_actor_get_response(oauth_request.parameters)
 
   def test_xmlrpc_bad_oauth(self):
     oauth_request = self.oauth_request()
     params = dict(oauth_request.parameters)
-    params['nick'] = 'popular'
     params['oauth_key'] = 'INVALID OAUTH KEY!'
     xml = xmlrpclib.dumps((params,), 'actor_get')
     response = self.client.post('/api/xmlrpc', xml, 'text/xml')
@@ -400,4 +398,3 @@ class XmlRpcTest(base.FixturesTestCase):
   def test_get_request(self):
     response = self.client.get('/api/xmlrpc')
     self.assertContains(response, 'XML-RPC message must be an HTTP-POST request')
-
