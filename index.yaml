@@ -38,13 +38,17 @@ indexes:
   - name: created_at
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used once in query history.
 - kind: InboxEntry
   properties:
   - name: inbox
   - name: created_at
 
+<<<<<<< HEAD:index.yaml
 # Unused in query history -- copied from input.
+=======
+# Used 2 times in query history.
+>>>>>>> jaikumainline:index.yaml
 - kind: InboxEntry
   properties:
   - name: inbox
@@ -82,7 +86,7 @@ indexes:
   - name: owner
   - name: relation
 
-# Unused in query history -- copied from input.
+# Used once in query history.
 - kind: Relation
   properties:
   - name: owner
@@ -95,7 +99,7 @@ indexes:
   - name: relation
   - name: target
 
-# Unused in query history -- copied from input.
+# Used 2 times in query history.
 - kind: Relation
   properties:
   - name: relation

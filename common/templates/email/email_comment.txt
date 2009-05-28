@@ -11,11 +11,13 @@ Moi!
 
 
 To reply to{{my_entry|yesno:" or delete,"}} this comment, 
-click on the following link (or copy and paste it to your browser):
+click on one of the following links (or copy and paste it to your browser):
 
 ................
 
 {{entry_url}}
+
+{{entry_mobile_url}} (mobile)
 
 ................
 

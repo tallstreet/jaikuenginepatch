@@ -1,5 +1,5 @@
 [{"pk": "oauth/accesstoken/POPULARDESKTOPACCESSTOKEN", 
-  "model": "jaikucommon.OAuthAccessToken", 
+  "model": "common.OAuthAccessToken", 
   "fields": {"key_": "POPULARDESKTOPACCESSTOKEN",
              "secret": "secret",
              "consumer": "TESTDESKTOPCONSUMER",

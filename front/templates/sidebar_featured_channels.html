@@ -5,7 +5,7 @@
       {% for channel in featured_channels %}
         <li title="{{channel.extra.description}}">
             <a class="url" href="{{channel.url}}">
-              {{channel|linked_avatar:"t"}}
+              {% linked_avatar channel "t" request %}
       			</a>
         </li>
       {% endfor %}

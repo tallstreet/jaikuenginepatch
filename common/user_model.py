@@ -25,6 +25,7 @@ ACTOR_LIMITED_EXTRA = ('icon',
                        )
 
 class User(DeletedMarkerModel, GoogleUserTraits):
+
   """
   extra:
     contact_count - int; number of contacts
@@ -43,11 +44,6 @@ class User(DeletedMarkerModel, GoogleUserTraits):
     comments_hide [user] - boolean; Whether comments should be hidden on 
                              overview
   """
-  user = models.UserProperty()
-  #username = models.StringProperty(required=True, verbose_name=_('username'))
-  email = models.EmailProperty(verbose_name=_('e-mail address'))
-  first_name = models.StringProperty(verbose_name=_('first name'))
-  last_name = models.StringProperty(verbose_name=_('last name'))  
   nick = models.StringProperty()
   # the appengine datastore is case-sensitive whereas human brains are not, 
   # Paul is not different from paul to regular people so we need a way to 
@@ -65,14 +61,17 @@ class User(DeletedMarkerModel, GoogleUserTraits):
 
   key_template = 'actor/%(nick)s'
 
-  def url(self, path=""):
+  def url(self, path="", request=None, mobile=False):
     """ returns a url, with optional path appended
     
     NOTE: if appending a path, it should start with '/'
     """
-    logging.debug(self.type)
-    return actor_url(_get_actor_urlnick_from_nick(self.nick), self.type, path)
-                         
+    return actor_url(_get_actor_urlnick_from_nick(self.nick),
+                     self.type,
+                     path=path,
+                     request=request,
+                     mobile=mobile)
+
   def shortnick(self):
     return _get_actor_urlnick_from_nick(self.nick)
 

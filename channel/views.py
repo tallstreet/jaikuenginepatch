@@ -265,15 +265,15 @@ def channel_history(request, nick, format='html'):
     t = loader.get_template('history.html')
     return http.HttpResponse(t.render(c))
   elif format == 'json':
-    t = loader.get_template('/history.json')
+    t = loader.get_template('history.json')
     r = util.HttpJsonResponse(t.render(c), request)
     return r
   elif format == 'atom':
-    t = loader.get_template('/history.atom')
+    t = loader.get_template('history.atom')
     r = util.HttpAtomResponse(t.render(c), request)
     return r
   elif format == 'rss':
-    t = loader.get_template('/history.rss')
+    t = loader.get_template('history.rss')
     r = util.HttpRssResponse(t.render(c), request)
     return r
 
@@ -295,10 +295,10 @@ def channel_item(request, nick, item=None, format='html'):
 
   handled = common_views.handle_view_action(
       request,
-      {'entry_add_comment': entry_ref.url(), 
-       'entry_remove': view.url(),
-       'entry_remove_comment': entry_ref.url(),
-       'entry_mark_as_spam': entry_ref.url()
+      {'entry_add_comment': entry_ref.url(request=request), 
+       'entry_remove': view.url(request=request),
+       'entry_remove_comment': entry_ref.url(request=request),
+       'entry_mark_as_spam': entry_ref.url(request=request)
        }
       )
   if handled:

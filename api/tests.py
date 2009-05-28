@@ -21,6 +21,7 @@ from django.conf import settings
 from api import xmlrpc
 from common import api
 from common import clean
+from common import legacy
 from common import oauth_util
 from common import profile
 from common import util
@@ -309,22 +310,16 @@ class SmsPostTest(SmsTestCase):
 
 
 class XmlRpcTest(base.FixturesTestCase):
-  def oauth_request(self):
-    consumer = oauth.OAuthConsumer('TESTDESKTOPCONSUMER', 'secret')
-    access_token = oauth.OAuthToken('POPULARDESKTOPACCESSTOKEN', 'secret')
+  def setUp(self):
+    super(XmlRpcTest, self).setUp()
+    self.overrides = None
 
-    request = oauth.OAuthRequest.from_consumer_and_token(
-        oauth_consumer=consumer,
-        token=access_token,
-        http_url=xmlrpc.URL,
-        http_method='POST')
-    request.sign_request(oauth_util.HMAC_SHA1, consumer, access_token)
-    return request
+  def tearDown(self):
+    if self.overrides:
+      self.overrides.reset()
+    super(XmlRpcTest, self).tearDown()
 
-  def test_xmlrpc(self):
-    oauth_request = self.oauth_request()
-    params = dict(oauth_request.parameters)
-    params['nick'] = 'popular'
+  def assert_valid_actor_get_response(self, params):
     xml = xmlrpclib.dumps((params,), 'actor_get')
     response = self.client.post('/api/xmlrpc', xml, 'text/xml')
     rv = xmlrpclib.loads(response.content)
@@ -340,7 +335,54 @@ class XmlRpcTest(base.FixturesTestCase):
         }
     self.assertEquals(expected, rv[0][0])
 
-  def test_xmlrpc_bad_auth(self):
+  def oauth_request(self):
+    consumer = oauth.OAuthConsumer('TESTDESKTOPCONSUMER', 'secret')
+    access_token = oauth.OAuthToken('POPULARDESKTOPACCESSTOKEN', 'secret')
+
+    request = oauth.OAuthRequest.from_consumer_and_token(
+        oauth_consumer=consumer,
+        token=access_token,
+        http_url=xmlrpc.URL,
+        http_method='POST')
+    request.sign_request(oauth_util.HMAC_SHA1, consumer, access_token)
+    return request
+
+  def test_xmlrpc_with_legacy_key(self):
+    self.overrides = test_util.override(API_ALLOW_LEGACY_AUTH=True)
+    popular_ref = api.actor_get(api.ROOT, 'popular')    
+    personal_key = legacy.generate_personal_key(popular_ref)
+    params = {'user': 'popular',
+              'personal_key': personal_key,
+              'nick': 'popular'}
+    self.assert_valid_actor_get_response(params)
+
+  def test_xmlrpc_with_disabled_legacy_key(self):
+    self.overrides = test_util.override(API_ALLOW_LEGACY_AUTH=False)
+    popular_ref = api.actor_get(api.ROOT, 'popular')    
+    personal_key = legacy.generate_personal_key(popular_ref)
+    params = {'user': 'popular',
+              'personal_key': personal_key,
+              'nick': 'popular'}
+    xml = xmlrpclib.dumps((params,), 'actor_get')
+    response = self.client.post('/api/xmlrpc', xml, 'text/xml')
+    self.assertContains(response, 'Parameter not found')
+
+  def test_xmlrpc_bad_legacy_key(self):
+    self.overrides = test_util.override(API_ALLOW_LEGACY_AUTH=True)
+    params = {'nick': 'popular',
+              'user': 'popular',
+              'personal_key': 'INVALID PERSONAL KEY!'}
+    xml = xmlrpclib.dumps((params,), 'actor_get')
+    response = self.client.post('/api/xmlrpc', xml, 'text/xml')
+    self.assertContains(response, 'Invalid API user')
+
+  def test_xmlrpc_with_oauth(self):
+    oauth_request = self.oauth_request()
+    params = dict(oauth_request.parameters)
+    params['nick'] = 'popular'
+    self.assert_valid_actor_get_response(params)
+
+  def test_xmlrpc_bad_oauth(self):
     oauth_request = self.oauth_request()
     params = dict(oauth_request.parameters)
     params['nick'] = 'popular'
@@ -358,3 +400,4 @@ class XmlRpcTest(base.FixturesTestCase):
   def test_get_request(self):
     response = self.client.get('/api/xmlrpc')
     self.assertContains(response, 'XML-RPC message must be an HTTP-POST request')
+

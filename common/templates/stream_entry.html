@@ -1,13 +1,13 @@
 {% load avatar format entry presence %}
 {% if not hide_avatar %}
-{{entry.actor_ref|linked_avatar:"u"}}
+{% linked_avatar entry.actor_ref "u" request %}
 {% endif %}
 {{entry|entry_icon}}
-<h3>{{entry|linked_entry_title}}</h3>
+<h3>{% if request %}{{entry|linked_entry_title:request}}{% else %}{{entry|linked_entry_title}}{% endif %}</h3>
 <p class="meta">
-  By {{entry.actor_ref|actor_link}}
+  By {% actor_link entry.actor_ref request %}
   {% ifnotequal entry.actor entry.owner %}
-    to {{entry.owner_ref|actor_link}}
+    to {% actor_link entry.owner_ref request %}
   {% endifnotequal %}
   {% if not hide_timesince %}
     {{entry.created_at|je_timesince}} ago
@@ -17,9 +17,9 @@
   {% endif %}
   {% if not hide_links %}
   {% if not entry.extra.comment_count %}
-    <a href="{{entry.url}}#comments" class="add-comment">Add Comment</a>
+    <a href="{% url_for entry request %}#comments" class="add-comment">Add Comment</a>
   {% else %}
-    <a href="{{entry.url}}#comments" class="comments">{{entry.extra.comment_count}} Comment{{entry.extra.comment_count|pluralize}}</a>
+    <a href="{% url_for entry request %}#comments" class="comments">{{entry.extra.comment_count}} Comment{{entry.extra.comment_count|pluralize}}</a>
   {% endif %}
 
   {% entry_remove request.user entry user_is_admin %}

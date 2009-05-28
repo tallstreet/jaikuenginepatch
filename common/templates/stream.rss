@@ -5,7 +5,7 @@
     {% if entry.entry %}
       <description>        
         <![CDATA[
-        {% include "common/templates/stream_comment.html" %}
+        {% include "stream_comment.html" %}
          ]]>
        </description>
        <link>{{entry.url}}</link>
@@ -18,7 +18,7 @@
     {% ifequal entry.stream_ref.type 'presence' %}     
       <description>
         <![CDATA[
-        {% include "common/templates/stream_entry.html" %}
+        {% include "stream_entry.html" %}
          ]]>      
       </description>
       <link>{{entry.url}}</link>

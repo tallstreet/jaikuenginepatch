@@ -34,7 +34,7 @@ ul.float li {
     float: left;
 }
 
-div#contacts ul.float li, div.groups ul.float li {
+div#contacts ul.float li, div#followers ul.float li, div.groups ul.float li {
     overflow: hidden;
     float: none;
 }

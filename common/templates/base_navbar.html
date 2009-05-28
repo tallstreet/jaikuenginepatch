@@ -3,11 +3,12 @@
 {% block body %}
   <div id="header-container">
     <div id="header">
+      {% if not request.mobile %}
       <div id="helper-nav">
         <p id="login">
           {% block login %}
             {% if request.user.is_authenticated %}
-              Signed in as {{request.user|actor_link}} | 
+              Signed in as {% actor_link request.user request %} | 
               <a href="{{request.user.url}}/settings">Settings</a> | 
               <a href="{% url django.contrib.auth.views.logout %}">Sign Out</a>
             {% else %}
@@ -18,16 +19,18 @@
                 <a href="{% url django.contrib.auth.views.login %}?redirect_to={{request.META.PATH_INFO}}">Sign In</a>
               {% endif %}
             {% endif %}
-          {% endblock %}
+            {% endblock %}
         </p>
       </div>
-      
+      {% endif %}
+
       {% block logo %}
       <a href="/" id="logo">
         <img src="{{MEDIA_URL}}global/themes/{{DEFAULT_THEME|urlencode}}/logo.png" height="73" width="89" alt="{{SITE_NAME}}" />
       </a>
       {% endblock %}
       
+      {% if not request.mobile %}
       {% block mainnav %}
       <ul id="main-nav">
         {% if request.user.is_authenticated %} {# The logged-in navigation #}
@@ -59,6 +62,7 @@
         {% endif %}
       </ul>
       {% endblock %}
+      {% endif %}
     </div>
   </div>
   <div id="container" {% block containertag %}{% if style %} class="{{style}}"{% endif %}{% endblock %}>
@@ -73,7 +77,7 @@
 
 
   </div>
-  {% if not mobile_browser %}
+  {% if not request.mobile %}
    <script type="text/javascript" src="{{ MEDIA_URL }}combined-{{ LANGUAGE_CODE }}.js"></script>
   {% block bottomscripts %}
   {% endblock %}

@@ -5,7 +5,7 @@
       {% for member in featured_members %}
         <li title="{{member.extra.description}}">
             <a class="url" href="{{member.url}}">
-              {{member|linked_avatar:"t"}}
+              {% linked_avatar member "t" request %}
       			</a>
         </li>
       {% endfor %}

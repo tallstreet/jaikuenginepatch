@@ -12,7 +12,7 @@
     "created_at": {{entry.created_at|date:"Y-m-d\TH-i-s\Z"|escapejson}},
     "created_at_relative": "{{entry.created_at|timesince}} ago",
     "user": {% with entry.actor_ref as actor_ref %}
-    {% include 'jaikucommon.templates/user.json' %}
+    {% include 'common.templates/user.json' %}
     {% endwith %}
   }
   {% endif %}
@@ -27,7 +27,7 @@
     "created_at_relative": "{{entry.created_at|timesince}} ago",
     "comments": {{entry.extra.comment_count|escapejson}},
     "user": {% with entry.actor_ref as actor_ref %}
-    {% include 'jaikucommon.templates/user.json' %}
+    {% include 'common.templates/user.json' %}
     {% endwith %}
   }
   {% endifequal %}

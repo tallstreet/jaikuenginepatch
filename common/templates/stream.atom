@@ -18,7 +18,7 @@
     {% if entry.entry %}
       <content type="xhtml">
         <div xmlns="http://www.w3.org/1999/xhtml">
-          {% include "common/templates/stream_comment.html" %}
+          {% include "stream_comment.html" %}
         </div>
       </content>
       <thr:in-reply-to
@@ -30,7 +30,7 @@
     {% ifequal entry.stream_ref.type 'presence' %}
       <content type="xhtml">
         <div xmlns="http://www.w3.org/1999/xhtml">
-          {% include "common/templates/stream_entry.html" %}
+          {% include "stream_entry.html" %}
         </div>
       </content>
     {% endifequal %}

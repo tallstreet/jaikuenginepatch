@@ -1,5 +1,5 @@
 [{"pk": "stream/popular@example.com/presence",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "popular's presence",
              "owner": "popular@example.com",
              "type": "presence",
@@ -9,7 +9,7 @@
              }
   },
  {"pk": "stream/popular@example.com/comments",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "popular's comments",
              "owner": "popular@example.com",
              "type": "comment",
@@ -19,7 +19,7 @@
              }
   },
  {"pk": "stream/unpopular@example.com/presence",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "unpopular's presence",
              "owner": "unpopular@example.com",
              "type": "presence",
@@ -29,7 +29,7 @@
              }
   },
  {"pk": "stream/unpopular@example.com/comments",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "unpopular's comments",
              "owner": "unpopular@example.com",
              "type": "comment",
@@ -39,7 +39,7 @@
              }
   },
  {"pk": "stream/obligated@example.com/presence",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "obligated's presence",
              "owner": "obligated@example.com",
              "type": "presence",
@@ -49,7 +49,7 @@
              }
   },
  {"pk": "stream/obligated@example.com/comments",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "obligated's comments",
              "owner": "obligated@example.com",
              "type": "comment",
@@ -59,7 +59,7 @@
              }
   },
  {"pk": "stream/boyfriend@example.com/presence",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "boyfriend's presence",
              "owner": "boyfriend@example.com",
              "type": "presence",
@@ -69,7 +69,7 @@
              }
   },
  {"pk": "stream/boyfriend@example.com/comments",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "boyfriend's comments",
              "owner": "boyfriend@example.com",
              "type": "comment",
@@ -79,7 +79,7 @@
              }
   },
  {"pk": "stream/celebrity@example.com/presence",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "celebrity's presence",
              "owner": "celebrity@example.com",
              "type": "presence",
@@ -89,7 +89,7 @@
              }
   },
  {"pk": "stream/celebrity@example.com/comments",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "celebrity's comments",
              "owner": "celebrity@example.com",
              "type": "comment",
@@ -99,7 +99,7 @@
              }
   },
  {"pk": "stream/annoying@example.com/presence",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "annoying's presence",
              "owner": "annoying@example.com",
              "type": "presence",
@@ -109,7 +109,7 @@
              }
   },
  {"pk": "stream/annoying@example.com/comments",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "annoying's comments",
              "owner": "annoying@example.com",
              "type": "comment",
@@ -119,7 +119,7 @@
              }
   },
  {"pk": "stream/girlfriend@example.com/presence",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "girlfriend's presence",
              "owner": "girlfriend@example.com",
              "type": "presence",
@@ -129,7 +129,7 @@
              }
   },
  {"pk": "stream/girlfriend@example.com/comments",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "girlfriend's comments",
              "owner": "girlfriend@example.com",
              "type": "comment",
@@ -139,7 +139,7 @@
              }
   },
  {"pk": "stream/hermit@example.com/presence",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "hermit's presence",
              "owner": "hermit@example.com",
              "type": "presence",
@@ -149,7 +149,7 @@
              }
   },
  {"pk": "stream/hermit@example.com/comments",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "hermit's comments",
              "owner": "hermit@example.com",
              "type": "comments",
@@ -159,7 +159,7 @@
              }
   },
  {"pk": "stream/deleted@example.com/presence",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "deleted's presence",
              "owner": "deleted@example.com",
              "type": "presence",
@@ -169,7 +169,7 @@
              }
   },
  {"pk": "stream/deleted@example.com/comments",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "deleted's comments",
              "owner": "deleted@example.com",
              "type": "comment",
@@ -179,7 +179,7 @@
              }
   },
  {"pk": "stream/root@example.com/presence",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "root's presence",
              "owner": "root@example.com",
              "type": "presence",
@@ -189,7 +189,7 @@
              }
   },
  {"pk": "stream/root@example.com/comments",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "root's comments",
              "owner": "root@example.com",
              "type": "comment",
@@ -199,7 +199,7 @@
              }
   },
  {"pk": "stream/#popular@example.com/presence",
-  "model": "jaikucommon.stream",
+  "model": "common.stream",
   "fields": {"title": "#popular channel",
              "owner": "#popular@example.com",
              "type": "presence",

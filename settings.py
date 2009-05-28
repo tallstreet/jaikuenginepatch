@@ -44,6 +44,9 @@ COMBINE_MEDIA = {
 	'ie.css': (
 		'global/css/ie.css',
 	),
+	'mobiletrotz.css': (
+		'global/themes/trotz/mobile.css',
+	),
 	'screentrotz.css': (
 		'global/themes/trotz/screen.css',
 	),

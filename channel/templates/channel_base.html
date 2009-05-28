@@ -8,7 +8,7 @@
   <h1>{{SITE_NAME}} Channels</h1>
 </div>
 
-{% if not mobile_browser %}
+{% if not request.mobile %}
 <div id="sidebar">
   <div class="tip">
     <p>
@@ -27,6 +27,8 @@
   {% include 'sidebar_ourpicks.html' %}
   {% include 'sidebar_search.html' %}
 </div>
+{% else %}
+  {% include 'sidebar_ourpicks.html' %}
 {% endif %}
 
 <div class="body">

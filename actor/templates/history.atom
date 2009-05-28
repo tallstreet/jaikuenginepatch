@@ -9,5 +9,5 @@
     <logo>http://{{DOMAIN}}/themes/{{DEFAULT_THEME|urlencode}}/logo.gif</logo>
     <id>tag:{{DOMAIN}},{% now "Y-m-d"%}:/</id>
     <rights>Copyright 2009 {{SITE_NAME}}</rights>
-    {% include 'common/templates/stream.atom' %}
+    {% include 'stream.atom' %}
 </feed>

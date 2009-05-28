@@ -3,7 +3,7 @@
   "contact_count": {{actor_tiles_count|escapejson}},
   "contacts": [
   {% for actor_ref in actor_tiles %}
-    {% include 'jaikucommon.templates/user.json' %}
+    {% include 'common.templates/user.json' %}
     {% if not forloop.last %},{% endif %}
   {% endfor %}
   ]

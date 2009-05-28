@@ -4,7 +4,7 @@
   "url": {{view.url|escapejson}},
   "contacts": {% filter escapejson %}{{view.url}}/contacts{% endfilter %},
   {% with view as actor_ref %}
-  "user": {% include 'jaikucommon.templates/user.json' %},
+  "user": {% include 'user.json' %},
   {% endwith %}
-  "stream": {% include 'jaikucommon.templates/stream.json' %}
+  "stream": {% include 'stream.json' %}
 }

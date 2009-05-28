@@ -13,15 +13,17 @@
            </ul>
        </dd>
 
-       <dt><h2>Presentation</h2></dt>
-       <dd id="design">
-           <p>Select a custom color or upload an image as your 
-              background.
-           </p>
-           <ul>
-               <li><a href="./settings/design">Change background</a></li>
-           </ul>
-       </dd>
+       {% if not request.mobile %}
+         <dt><h2>Presentation</h2></dt>
+         <dd id="design">
+             <p>Select a custom color or upload an image as your 
+                background.
+             </p>
+             <ul>
+                 <li><a href="./settings/design">Change background</a></li>
+             </ul>
+         </dd>
+       {% endif %}
 
    </dl>
 </div>
@@ -37,7 +39,7 @@
              </ul>
          </dd>
        {% endif %}
-       {% if BADGES_ENABLED %}
+       {% if not request.mobile and BADGES_ENABLED %}
          <dt><h2>Badges</h2></dt>
          <dd id="feeds">
              <p>Create a channel badge for placing on another Web site.</p>

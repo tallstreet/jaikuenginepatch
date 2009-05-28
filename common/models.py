@@ -230,15 +230,31 @@ class Activation(CachingModel):
 
   key_template = 'activation/%(actor)s/%(type)s/%(content)s'
 
-def actor_url(nick, actor_type, path=''):
+def actor_url(nick, actor_type, path='', request=None, mobile=False):
   """ returns a url, with optional path appended
 
   NOTE: if appending a path, it should start with '/'
   """
-  if settings.WILDCARD_USER_SUBDOMAINS_ENABLED and actor_type == 'user':
+  prefix = ""
+  mobile = mobile or (request and request.mobile)
+  if mobile:
+    prefix = "m."
+  
+  if (settings.WILDCARD_USER_SUBDOMAINS_ENABLED 
+      and actor_type == 'user'
+      and not mobile):
     return 'http://%s.%s%s' % (nick, settings.HOSTED_DOMAIN, path)
+  elif mobile and settings.SUBDOMAINS_ENABLED:
+    return 'http://%s%s/%s/%s%s' % (prefix,
+                                    settings.HOSTED_DOMAIN,
+                                    actor_type,
+                                    nick,
+                                    path)
   else:
-    return 'http://%s/%s/%s%s' % (settings.DOMAIN, actor_type, nick, path)
+    return 'http://%s/%s/%s%s' % (settings.DOMAIN,
+                                  actor_type,
+                                  nick,
+                                  path)
 
 class Image(CachingModel):
   actor = models.StringProperty()     # whose image is this?
@@ -426,7 +442,7 @@ class StreamEntry(DeletedMarkerModel):
 
   key_template = '%(stream)s/%(uuid)s'
 
-  def url(self, with_anchor=True):
+  def url(self, with_anchor=True, request=None, mobile=False):
     if self.entry:
       # TODO bad?
       slug = self.entry.split("/")[-1]
@@ -440,7 +456,9 @@ class StreamEntry(DeletedMarkerModel):
       path = "%s%s" % (path, anchor)
     return actor_url(_get_actor_urlnick_from_nick(self.owner),
                      _get_actor_type_from_nick(self.owner),
-                     path)
+                     path=path,
+                     request=request,
+                     mobile=mobile)
 
                              
   def keyname(self):

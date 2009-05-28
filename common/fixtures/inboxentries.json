@@ -1,5 +1,5 @@
 [{"pk": "inboxentry/stream/popular@example.com/presence/12345",
-  "model": "jaikucommon.inboxentry",
+  "model": "common.inboxentry",
   "fields": {"uuid": "12345",
              "inbox": ["inbox/root@example.com/explore",
                        "inbox/popular@example.com/public",
@@ -18,7 +18,7 @@
              }
   },
  {"pk": "inboxentry/stream/popular@example.com/presence/12346",
-  "model": "jaikucommon.inboxentry",
+  "model": "common.inboxentry",
   "fields": {"uuid": "12346",
              "inbox": ["inbox/root@example.com/explore",
                        "inbox/popular@example.com/public",
@@ -37,7 +37,7 @@
              }
   },
  {"pk": "inboxentry/stream/popular@example.com/presence/12347",
-  "model": "jaikucommon.inboxentry",
+  "model": "common.inboxentry",
   "fields": {"uuid": "12347",
              "inbox": ["inbox/root@example.com/explore",
                        "inbox/popular@example.com/public",
@@ -56,7 +56,7 @@
              }
   },
  {"pk": "inboxentry/stream/popular@example.com/presence/12348",
-  "model": "jaikucommon.inboxentry",
+  "model": "common.inboxentry",
   "fields": {"uuid": "12348",
              "inbox": ["inbox/root@example.com/explore",
                        "inbox/popular@example.com/public",
@@ -75,7 +75,7 @@
              }
   },
  {"pk": "inboxentry/stream/deleted@example.com/presence/10347",
-  "model": "jaikucommon.inboxentry",
+  "model": "common.inboxentry",
   "fields": {"uuid": "10347",
              "inbox": ["inbox/root@example.com/explore",
                        "inbox/deleted@example.com/public",
@@ -91,7 +91,7 @@
              }
   },
  {"pk": "inboxentry/stream/#popular@example.com/presence/13345",
-  "model": "jaikucommon.inboxentry",
+  "model": "common.inboxentry",
   "fields": {"uuid": "13345",
              "inbox": ["inbox/#popular@example.com/public",
                        "inbox/#popular@example.com/contacts",
@@ -109,7 +109,7 @@
              }
   },
  {"pk": "inboxentry/stream/popular@example.com/comments/12348",
-  "model": "jaikucommon.inboxentry",
+  "model": "common.inboxentry",
   "fields": {"inbox": ["inbox/popular@example.com/private",
                        "inbox/popular@example.com/contacts",
                        "inbox/popular@example.com/public",
@@ -129,7 +129,7 @@
              }
   },
  {"pk": "inboxentry/stream/unpopular@example.com/comments/14341",
-  "model": "jaikucommon.inboxentry",
+  "model": "common.inboxentry",
   "fields": {"inbox": ["inbox/unpopular@example.com/private",
                        "inbox/unpopular@example.com/contacts",
                        "inbox/unpopular@example.com/public",
@@ -146,7 +146,7 @@
              }
   },
  {"pk": "inboxentry/stream/unpopular@example.com/comments/114341",
-  "model": "jaikucommon.inboxentry",
+  "model": "common.inboxentry",
   "fields": {"inbox": ["inbox/unpopular@example.com/private",
                        "inbox/unpopular@example.com/contacts",
                        "inbox/unpopular@example.com/public",
@@ -163,7 +163,7 @@
              }
   },
  {"pk": "inboxentry/stream/girlfriend@example.com/presence/16961",
-  "model": "jaikucommon.inboxentry",
+  "model": "common.inboxentry",
   "fields": {"uuid": "16961",
              "inbox": ["inbox/girlfriend@example.com/contacts",
                        "inbox/girlfriend@example.com/private",
@@ -177,7 +177,7 @@
              }
   },
  {"pk": "inboxentry/stream/girlfriend@example.com/comments/16962",
-  "model": "jaikucommon.inboxentry",
+  "model": "common.inboxentry",
   "fields": {"inbox": ["inbox/girlfriend@example.com/private",
                        "inbox/girlfriend@example.com/contacts",
                        "inbox/girlfriend@example.com/overview",
@@ -193,7 +193,7 @@
              }
   },
  {"pk": "inboxentry/stream/boyfriend@example.com/comments/16963",
-  "model": "jaikucommon.inboxentry",
+  "model": "common.inboxentry",
   "fields": {"inbox": ["inbox/boyfriend@example.com/private",
                        "inbox/boyfriend@example.com/contacts",
                        "inbox/boyfriend@example.com/overview",
@@ -209,7 +209,7 @@
              }
   },
  {"pk": "inboxentry/stream/popular@example.com/presence-deleted/17346",
-  "model": "jaikucommon.inboxentry",
+  "model": "common.inboxentry",
   "fields": {"uuid": "17346",
              "inbox": ["inbox/root@example.com/explore",
                        "inbox/popular@example.com/public",

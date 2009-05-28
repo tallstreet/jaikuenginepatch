@@ -2,5 +2,5 @@
 { 
   "title": "{{SITE_NAME}} | Overview",
   "url": {% filter escapejson %}{{view.url}}/overview{% endfilter %},
-  "stream": {% include 'jaikucommon.templates/stream.json' %}
+  "stream": {% include 'common.templates/stream.json' %}
 }

@@ -1,5 +1,5 @@
 [{"pk": "activation/hermit@example.com/email/hermit@example.com",
-  "model": "jaikucommon.Activation",
+  "model": "common.Activation",
   "fields": {"actor": "hermit@example.com",
              "content": "hermit@example.com",
              "type": "email",

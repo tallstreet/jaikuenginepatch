@@ -1,6 +1,6 @@
 {% load avatar format %}
 <div class="vcard" id="jaiku:{{actor.nick}}">
-  {{actor|linked_avatar:"u,contact"}}
+  {% linked_avatar actor "u,contact" request %}
   <div class="bubble">
     {# {compile_include presence-light.tpl} #}
     <h3>

@@ -35,18 +35,20 @@
     </ul>
     </dd>
 
-    <dt><h2>Presentation</h2></dt>
-    <dd id="design">
-    <p>Select a custom color or upload an image as your
-    background.
-    </p>
-    <ul>
-      <li><a href="{{view.url}}/settings/design">Change background</a></li>
-      {% if BADGES_ENABLED %}
-      <li><a href="{{view.url}}/settings/badge">Get a badge</a></li>
-      {% endif %}
-    </ul>
-    </dd>
+    {% if not request.mobile %}
+      <dt><h2>Presentation</h2></dt>
+      <dd id="design">
+      <p>Select a custom color or upload an image as your
+      background.
+      </p>
+      <ul>
+        <li><a href="{{view.url}}/settings/design">Change background</a></li>
+        {% if BADGES_ENABLED %}
+        <li><a href="{{view.url}}/settings/badge">Get a badge</a></li>
+        {% endif %}
+      </ul>
+      </dd>
+    {% endif %}
 
   </dl>
 </div>

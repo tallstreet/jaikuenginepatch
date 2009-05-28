@@ -1,5 +1,5 @@
 [{"pk": "oauth/consumer/TESTWEBCONSUMER", 
-  "model": "jaikucommon.oauthconsumer", 
+  "model": "common.oauthconsumer", 
   "fields": {"key_": "TESTWEBCONSUMER",
              "secret": "secret",
              "actor": "popular@example.com",
@@ -10,7 +10,7 @@
              }
   },
   {"pk": "oauth/consumer/TESTMOBILECONSUMER", 
-  "model": "jaikucommon.oauthconsumer", 
+  "model": "common.oauthconsumer", 
   "fields": {"key_": "TESTMOBILECONSUMER",
              "secret": "secret",
              "actor": "popular@example.com",
@@ -21,7 +21,7 @@
              }
   },
   {"pk": "oauth/consumer/TESTDESKTOPCONSUMER", 
-  "model": "jaikucommon.oauthconsumer", 
+  "model": "common.oauthconsumer", 
   "fields": {"key_": "TESTDESKTOPCONSUMER",
              "secret": "secret",
              "actor": "popular@example.com",
