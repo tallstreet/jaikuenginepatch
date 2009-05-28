@@ -19,15 +19,15 @@ from oauth import oauth
 from django.conf import settings
 
 from api import xmlrpc
-from jaikucommon import api
-from jaikucommon import clean
-from jaikucommon import oauth_util
-from jaikucommon import profile
-from jaikucommon import util
-from jaikucommon.protocol import xmpp
-from jaikucommon.protocol import sms
-from jaikucommon.test import base
-from jaikucommon.test import util as test_util
+from common import api
+from common import clean
+from common import oauth_util
+from common import profile
+from common import util
+from common.protocol import xmpp
+from common.protocol import sms
+from common.test import base
+from common.test import util as test_util
 
 class ImTestCase(base.ViewTestCase):
   endpoint = '/_ah/xmpp/message'

@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from jaikucommon import messages
-from jaikucommon import profile
-from jaikucommon import util
-from jaikucommon.tests import ViewTestCase
+from common import messages
+from common import profile
+from common import util
+from common.tests import ViewTestCase
 
 class SmokeTest(ViewTestCase):
   def test_popular_channel_public(self):

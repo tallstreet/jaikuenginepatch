@@ -39,5 +39,5 @@ urlpatterns = patterns('',
 )
 
 
-handler404 = 'jaikucommon.views.common_404'
-handler500 = 'jaikucommon.views.common_500'
+handler404 = 'common.views.common_404'
+handler500 = 'common.views.common_500'

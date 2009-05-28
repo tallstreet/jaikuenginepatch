@@ -19,11 +19,11 @@ from django.conf import settings
 from django.template import RequestContext, loader
 from django.http import HttpResponse, HttpResponseRedirect
 
-from jaikucommon import exception
-from jaikucommon import user
+from common import exception
+from common import user
 
-from jaikucommon import api, util
-from jaikucommon.display import prep_stream_dict, prep_entry_list
+from common import api, util
+from common.display import prep_stream_dict, prep_entry_list
 
 ENTRIES_PER_PAGE = 5
 SIDEBAR_LIMIT = 9

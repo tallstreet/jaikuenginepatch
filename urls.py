@@ -16,7 +16,7 @@ from django.conf import settings
 from ragendja.urlsauto import urlpatterns
 from django.conf.urls.defaults import *
 
-from jaikucommon import patterns as common_patterns
+from common import patterns as common_patterns
 
 urlpatterns = patterns('',
 ) + urlpatterns
@@ -170,7 +170,7 @@ urlpatterns += patterns('',
 
 
 # COMMON
-urlpatterns += patterns('jaikucommon.views',
+urlpatterns += patterns('common.views',
     (r'^error$', 'common_error'),
     (r'^confirm$', 'common_confirm')
 )
@@ -180,5 +180,5 @@ urlpatterns += patterns('blob.views',
     (common_patterns.AVATAR_PATH_RE, 'blob_image_jpg'),
 )
 
-handler404 = 'jaikucommon.views.common_404'
-handler500 = 'jaikucommon.views.common_500'
+handler404 = 'common.views.common_404'
+handler500 = 'common.views.common_500'

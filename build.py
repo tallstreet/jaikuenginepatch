@@ -161,9 +161,9 @@ def generate_api_docs():
     print "Please install docutils: http://docutils.sourceforge.net"
     sys.exit(1)
 
-  from jaikucommon import api
+  from common import api
   
-  a = docparser.parse_docs(name='jaikucommon.api')
+  a = docparser.parse_docs(name='common.api')
   variables = a.apidoc_links(imports=False, 
                              packages=False, 
                              submodules=False,

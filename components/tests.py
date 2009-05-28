@@ -9,7 +9,7 @@ import os
 import types
 import unittest
 
-from jaikucommon import component
+from common import component
 
 test_names = []
 

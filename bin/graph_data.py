@@ -36,14 +36,14 @@ def graph_from_models_dot(*models):
   #graph.add_subgraph(actor_graph)
   for dataset in models:
     for d in dataset:
-      if d['model'].lower() == 'jaikucommon.relation':
+      if d['model'].lower() == 'common.relation':
         continue
         # process this as an edge
         actor_graph.add_edge(pydot.Edge(src=d['fields']['owner'], 
                                   dst=d['fields']['target'], 
                                   label=d['fields']['relation']))
 
-      elif d['model'].lower() == 'jaikucommon.actor':
+      elif d['model'].lower() == 'common.actor':
         # process this as a node
         if d['fields']['privacy'] == 3:
           color = 'green'
@@ -51,7 +51,7 @@ def graph_from_models_dot(*models):
           color = 'red'
         graph.add_node(pydot.Node(name=d['fields']['nick'],
                                   color=color))
-      elif d['model'].lower() == 'jaikucommon.stream':
+      elif d['model'].lower() == 'common.stream':
         subgraph_name = d['pk'].replace("/", "_").replace("@", "_").replace(".", "_").replace("#", "X")
         streams[d['pk']] = pydot.Cluster(graph_name=subgraph_name, suppress_disconnected=False)
         streams[d['pk']].add_node(pydot.Node(name=d['pk']))
@@ -61,12 +61,12 @@ def graph_from_models_dot(*models):
 
         graph.add_subgraph(streams[d['pk']])
 
-      elif d['model'].lower() == 'jaikucommon.streamentry':
+      elif d['model'].lower() == 'common.streamentry':
         streams[d['fields']['stream']].add_edge(pydot.Edge(src=d['fields']['stream'],
                                                            dst=d['pk'],
                                                            label='entry'))
         pass
-      elif d['model'].lower() == 'jaikucommon.inboxentry':
+      elif d['model'].lower() == 'common.inboxentry':
         continue
         entry_name = d['pk'].replace("/", "_").replace("@", "_").replace(".", "_").replace("#", "X")
         entries[d['pk']] = pydot.Cluster(graph_name=entry_name, suppress_disconnected=False)
@@ -87,7 +87,7 @@ def graph_from_models_dot(*models):
 #  i = 0
 #  for dataset in models:
 #    for d in dataset:
-#      if d['model'].lower() == 'jaikucommon.relation':
+#      if d['model'].lower() == 'common.relation':
 #        continue
 #      j = i
 #      vertex_attrs['name'].append(d['pk'])

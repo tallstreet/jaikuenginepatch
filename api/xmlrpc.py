@@ -20,9 +20,9 @@ from SimpleXMLRPCServer import SimpleXMLRPCDispatcher
 from django.conf import settings
 from django import http
 from oauth import oauth
-from jaikucommon import api
-from jaikucommon import exception
-from jaikucommon import oauth_util
+from common import api
+from common import exception
+from common import oauth_util
 
 
 def _xmlrpc_url():

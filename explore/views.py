@@ -17,8 +17,8 @@ from django import template
 from django.conf import settings
 from django.template import loader
 
-from jaikucommon import api, util
-from jaikucommon.display import prep_entry_list, prep_stream_dict
+from common import api, util
+from common.display import prep_entry_list, prep_stream_dict
 
 ENTRIES_PER_PAGE = 20
 

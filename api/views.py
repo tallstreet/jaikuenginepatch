@@ -27,20 +27,20 @@ import simplejson
 from google.appengine.ext import db
 
 from api import xmlrpc
-from jaikucommon import api
-from jaikucommon import decorator
-from jaikucommon import exception
-from jaikucommon import im
-from jaikucommon import legacy
-from jaikucommon import messages
-from jaikucommon import oauth_util
-from jaikucommon import sms
-from jaikucommon import user
-from jaikucommon import util
-from jaikucommon import validate
-from jaikucommon import views as common_views
-from jaikucommon.protocol import xmpp
-from jaikucommon.protocol import sms as sms_protocol
+from common import api
+from common import decorator
+from common import exception
+from common import im
+from common import legacy
+from common import messages
+from common import oauth_util
+from common import sms
+from common import user
+from common import util
+from common import validate
+from common import views as common_views
+from common.protocol import xmpp
+from common.protocol import sms as sms_protocol
 
 
 _XML_RPC_DISPATCHER = xmlrpc.XmlRpcDispatcher(api.PublicApi.methods)

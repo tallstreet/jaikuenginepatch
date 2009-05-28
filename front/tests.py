@@ -1,5 +1,5 @@
-from jaikucommon import profile
-from jaikucommon.tests import ViewTestCase
+from common import profile
+from common.tests import ViewTestCase
 
 
 class SmokeTest(ViewTestCase):

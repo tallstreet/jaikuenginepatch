@@ -13,11 +13,11 @@
 # limitations under the License.
 
 from django.conf import settings
-from jaikucommon.tests import ViewTestCase
-from jaikucommon import api
-from jaikucommon import clean
-from jaikucommon import exception
-from jaikucommon import util
+from common.tests import ViewTestCase
+from common import api
+from common import clean
+from common import exception
+from common import util
 
 class LoginTest(ViewTestCase):
 

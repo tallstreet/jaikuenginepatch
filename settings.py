@@ -58,9 +58,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.media',
     'django.core.context_processors.request',
     'django.core.context_processors.i18n',
-    'jaikucommon.context_processors.settings',
-    'jaikucommon.context_processors.flash',
-    'jaikucommon.context_processors.components',
+    'common.context_processors.settings',
+    'common.context_processors.flash',
+    'common.context_processors.components',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -83,7 +83,7 @@ MIDDLEWARE_CLASSES = (
     'middleware.strip_whitespace.WhitespaceMiddleware',    
 )
 
-AUTHENTICATION_BACKENDS = ('jaikucommon.user.JaikuBackend',)
+AUTHENTICATION_BACKENDS = ('common.user.JaikuBackend',)
 
 # Google authentication
 #AUTH_USER_MODULE = 'ragendja.auth.google_models'
@@ -91,7 +91,7 @@ AUTHENTICATION_BACKENDS = ('jaikucommon.user.JaikuBackend',)
 # Hybrid Django/Google authentication
 #AUTH_USER_MODULE = 'ragendja.auth.hybrid_models'
 
-AUTH_USER_MODULE = 'jaikucommon.user_model'
+AUTH_USER_MODULE = 'common.user_model'
 
 GLOBALTAGS = (
     'ragendja.templatetags.ragendjatags',
@@ -111,7 +111,7 @@ INSTALLED_APPS = (
     'django.contrib.flatpages',
     'django.contrib.redirects',
     'django.contrib.sites',
-    'jaikucommon',
+    'common',
     'actor',
     'api',
     'channel',
@@ -431,7 +431,7 @@ WILDCARD_USER_SUBDOMAINS_ENABLED = False
 SUBDOMAINS_ENABLED = False
 SSL_LOGIN_ENABLED = False
 
-from jaikucommon.component import install_components
+from common.component import install_components
 install_components()
 
 from ragendja.settings_post import *

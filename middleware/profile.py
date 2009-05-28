@@ -21,8 +21,8 @@ import sys
 from django import http
 from django.conf import settings
 
-from jaikucommon import profile as common_profile
-from jaikucommon import exception
+from common import profile as common_profile
+from common import exception
 
 try:
   import cProfile as profile

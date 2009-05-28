@@ -19,10 +19,10 @@ from django import http
 from django.conf import settings
 from django.utils.http import http_date
 
-from jaikucommon.display import prep_stream_dict, prep_entry_list, prep_entry, prep_comment_list
-from jaikucommon import decorator
-from jaikucommon import exception
-from jaikucommon import api
+from common.display import prep_stream_dict, prep_entry_list, prep_entry, prep_comment_list
+from common import decorator
+from common import exception
+from common import api
 
 
 @decorator.cache_forever

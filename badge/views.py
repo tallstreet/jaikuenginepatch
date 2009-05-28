@@ -17,8 +17,8 @@ from django import template
 from django.conf import settings
 from django.template import loader
 
-from jaikucommon import api
-from jaikucommon import clean
+from common import api
+from common import clean
 
 
 def badge_badge(request, format, nick):

@@ -21,12 +21,12 @@ import urllib
 from django.conf import settings
 from django.core import mail
 
-from jaikucommon.tests import ViewTestCase
+from common.tests import ViewTestCase
 
-from jaikucommon import api
-from jaikucommon import clean
-from jaikucommon import util
-from jaikucommon.test import util as test_util
+from common import api
+from common import clean
+from common import util
+from common.test import util as test_util
 
 class HistoryTest(ViewTestCase):
   def test_public_history_when_signed_out(self):

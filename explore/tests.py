@@ -14,11 +14,11 @@
 
 from django.conf import settings
 
-from jaikucommon import api
-from jaikucommon import normalize
-from jaikucommon import profile
-from jaikucommon import util
-from jaikucommon.tests import ViewTestCase
+from common import api
+from common import normalize
+from common import profile
+from common import util
+from common.tests import ViewTestCase
 
 class ExploreTest(ViewTestCase):
 

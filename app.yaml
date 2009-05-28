@@ -60,4 +60,4 @@ handlers:
   static_dir: _generated_media
 
 - url: /.*
-  script: common/appenginepatch/main.py
+  script: aepcommon/appenginepatch/main.py

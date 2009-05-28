@@ -13,8 +13,8 @@
 # limitations under the License.
 from google.appengine.api import users
 
-from jaikucommon import api
-from jaikucommon.test import base
+from common import api
+from common.test import base
 
 def _true():
   return True

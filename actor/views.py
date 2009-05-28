@@ -18,16 +18,16 @@ from django import template
 from django.conf import settings
 from django.template import loader
 
-from jaikucommon import api
-from jaikucommon import clean
-from jaikucommon import decorator
-from jaikucommon import exception
-from jaikucommon import models
-from jaikucommon import user
-from jaikucommon import util
-from jaikucommon import validate
-from jaikucommon import display
-from jaikucommon import views as common_views
+from common import api
+from common import clean
+from common import decorator
+from common import exception
+from common import models
+from common import user
+from common import util
+from common import validate
+from common import display
+from common import views as common_views
 
 ENTRIES_PER_PAGE = 20
 CONTACTS_PER_PAGE = 48

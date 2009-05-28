@@ -134,7 +134,14 @@ indexes:
   - name: topic
   - name: target
 
-# Used 2 times in query history.
+# Used once in query history.
+- kind: common_inboxentry
+  properties:
+  - name: inbox
+  - name: created_at
+    direction: desc
+
+# Unused in query history -- copied from input.
 - kind: jaikucommon_inboxentry
   properties:
   - name: inbox

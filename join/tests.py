@@ -2,11 +2,11 @@ import Cookie
 import os
 
 from django.conf import settings
-from jaikucommon.tests import ViewTestCase
+from common.tests import ViewTestCase
 
-from jaikucommon import api
-from jaikucommon import clean
-from jaikucommon import util
+from common import api
+from common import clean
+from common import util
 
 class JoinTest(ViewTestCase):
   def setUp(self):

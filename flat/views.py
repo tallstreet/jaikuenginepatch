@@ -19,7 +19,7 @@ from django import template
 from django.conf import settings
 from django.template import loader
 
-from jaikucommon import decorator
+from common import decorator
 
 @decorator.cache_forever
 def flat_tour(request, page='create'):

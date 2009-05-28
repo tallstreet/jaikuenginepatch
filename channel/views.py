@@ -17,16 +17,16 @@ from django import template
 from django.conf import settings
 from django.template import loader
 
-from jaikucommon import api
-from jaikucommon import clean
-from jaikucommon import decorator
-from jaikucommon import display
-from jaikucommon import exception
-from jaikucommon import normalize
-from jaikucommon import user
-from jaikucommon import util
-from jaikucommon import validate
-from jaikucommon import views as common_views
+from common import api
+from common import clean
+from common import decorator
+from common import display
+from common import exception
+from common import normalize
+from common import user
+from common import util
+from common import validate
+from common import views as common_views
 
 CHANNEL_HISTORY_PER_PAGE = 20
 CHANNELS_PER_INDEX_PAGE = 12

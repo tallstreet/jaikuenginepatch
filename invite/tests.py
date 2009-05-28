@@ -3,9 +3,9 @@ import logging
 from django.conf import settings
 from django.core import mail
 
-from jaikucommon import api
-from jaikucommon import util
-from jaikucommon import tests
+from common import api
+from common import util
+from common import tests
 
 
 class SmokeTest(tests.ViewTestCase):
