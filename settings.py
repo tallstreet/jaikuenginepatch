@@ -332,8 +332,6 @@ THROTTLE_SMS_GLOBAL_MONTH = 10000
 IMAGE_UPLOAD_ENABLED = False
 IMAGE_UPLOAD_URL = 'upload.example.com'
 
-MAX_AVATAR_UPLOAD_KB = 300
-
 # Settings for Google Contacts import
 GOOGLE_CONTACTS_IMPORT_ENABLED = False
 

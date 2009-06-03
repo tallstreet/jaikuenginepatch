@@ -1161,7 +1161,7 @@ def avatar_upload(api_user, nick, content):
   # Crop to a square
   jpeg = images.crop(content,
                      0.0, 0.0, 1.0, 1.0,
-                     output_encoding = images.JPEG)
+                     output_encoding=images.JPEG)
   original_size = imageutil.size_from_jpeg(jpeg)
   if original_size and original_size[0] != original_size[1]:
     dimension = min(original_size)
@@ -1181,11 +1181,11 @@ def avatar_upload(api_user, nick, content):
     path = 'avatar_%s_%s' % (path_uuid, img_size)
 
     # TODO: Check for hash collisions before uploading (!!)
-    img_ref = image_set(api_user, 
-                        nick, 
-                        path=path, 
-                        content=content, 
-                        format='jpg', 
+    img_ref = image_set(api_user,
+                        nick,
+                        path=path,
+                        content=img_data,
+                        format='jpg',
                         size=img_size)
   # XXX end transaction
 

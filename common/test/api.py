@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import with_statement
 import datetime
 import logging
 import simplejson
@@ -31,7 +32,7 @@ from common import profile
 from common import util
 from common.protocol import sms
 from common.test import base
-
+from common.test import util as test_util
 
 
 class ApiIntegrationTest(base.FixturesTestCase):
@@ -1372,29 +1373,55 @@ class ApiUnitTestSpam(ApiUnitTest):
     self.assertEqual(set(abuse_ref.reports),
                      set([self.unpopular_nick, self.celebrity_nick]))
 
+class ApiUnitTestAvatarUpload(ApiUnitTest):
+  def setUp(self):
+    super(ApiUnitTestAvatarUpload, self).setUp()
+    with open('testdata/test_avatar.png') as avatar_file:
+      self.avatar_file_content = avatar_file.read()
+
+  def testResize(self):
+    avatar_base_path = api.avatar_upload(self.popular,
+                                         self.popular_nick,
+                                         self.avatar_file_content)
+    all_sizes = {'original': (320, 320)} # original dimension
+    all_sizes.update(api.AVATAR_IMAGE_SIZES)
+    for size, dimensions in all_sizes.items():
+      keyname = 'image/%s_%s.jpg' % (avatar_base_path, size)
+      image_ref = models.Image.get_by_key_name(keyname)
+      self.assert_(image_ref)
+      image = images.Image(image_ref.content)
+      self.assertEqual(dimensions, (image.width, image.height))
+
+  def testUploadInvalidImage(self):
+
+    def _upload_invalid_image():
+      api.avatar_upload(self.popular,
+                        self.popular_nick,
+                        'not an image')
+    self.assertRaises(exception.ApiException, _upload_invalid_image)
 
 class ApiUnitTestOAuthAccess(ApiUnitTest):
   def setUp(self):
     super(ApiUnitTestOAuthAccess, self).setUp()
-    settings.API_DISABLE_VERIFICATION = False
-    settings.API_ALLOW_ROOT_HMAC_SHA1 = False
+    self.overrides = test_util.override(API_DISABLE_VERIFICATION=False,
+                                        API_ALLOW_ROOT_HMAC_SHA1=False)
+
+  def tearDown(self):
+    self.overrides.reset()
+    super(ApiUnitTestOAuthAccess, self).tearDown()
 
   def popular_request(self, url):
     consumer = oauth.OAuthConsumer('TESTDESKTOPCONSUMER', 'secret')
     access_token = oauth.OAuthToken('POPULARDESKTOPACCESSTOKEN', 'secret')
     url = 'http://%s%s' % (settings.DOMAIN, url)
 
-    request = oauth.OAuthRequest.from_consumer_and_token(
-        consumer,
-        access_token,
-        http_url=url,
-        )
+    request = oauth.OAuthRequest.from_consumer_and_token(consumer,
+                                                         access_token,
+                                                         http_url=url)
     request.sign_request(oauth_util.HMAC_SHA1,
                          consumer,
-                         access_token
-                         )
+                         access_token)
     return request
-
 
   def test_overview(self):
     request = self.popular_request('/user/popular/overview')
