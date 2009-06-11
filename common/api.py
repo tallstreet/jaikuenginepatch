@@ -861,28 +861,79 @@ def actor_is_contact(api_user, nick, potential_contact):
   
 
 def actor_get(api_user, nick):
-  """Get an actor
+  """Returns an actor by the given nick.
 
   PARAMS:
+
     * nick - the nick of the actor
 
+      * Example - ``jaiku`` for ``jaiku`` user, or ``#jaiku``
+        for ``#jaiku`` channel
+
   RETURNS: actor_ref
+
+  An actor_ref has the following attributes:
+
+    * avatar_updated_at - timestamp of the last update to the avatar;
+      `more info on timestamp`_
+
+    * deleted_at - always null (otherwise you couldn't get to it!)
+
+    * extra - optional attributes, see description in the section below
+
+    * nick - full nick of user or channel
+
+      * Example - ``jaiku@jaiku.com`` for the ``jaiku`` user or
+        ``#jaiku@jaiku.com`` for the ``#jaiku`` channel
+    * privacy - actor's privacy setting:
+
+      * 2 = actor's jaikus are shown to contacts only
+
+      * 3 = actor's jaikus are public
+
+    * type - either 'channel' or 'user'
+
+  The 'extra' attribute is another object that contains the following *optional*
+  attributes:
+
+    * contact_count - applicable to users only
+
+    * follower_count - applicable to users only
+
+    * icon - partial path to actor's avatar image; `more info on icon`_
+
+    * description - applicable to channels only
+
+    * member_count - applicable to channels only
+
+    * admin_count - applicable to channels only
+
+    * given_name - applicable to users only
+
+    * family_name - applicable to users only
 
   EXAMPLE API RETURN:
 
   ::
 
     {'status': 'ok',
-     'rv': {'actor': {'nick': 'test@example.com',
+     'rv': {'actor': {'avatar_updated_at': '2009-01-01 00:00:00',
+                      'nick': 'test@example.com',
                       'privacy': 3,
                       'type': 'user',
-                      'extra': {'icon': '/images/avatar_23132412',
+                      'extra': {'deleted_at': null,
+                                'follower_count': 7,
+                                'follower_count': 14,
+                                'icon': 'default/animal_8',
                                 'given_name': 'Test',
                                 'family_name': 'User'
                                 }
                       }
             }
      }
+
+  .. _more info on timestamp: /api/docs/response_timestamp
+  .. _more info on icon: /api/docs/response_icon
 
   """
   nick = clean.nick(nick)
