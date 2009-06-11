@@ -15,7 +15,31 @@ You'll make a standard POST to it with a couple standard variables::
 The rest of the variables available to the call can be found on the
 description page for that call.
 
+An example actor_get_ call (from python)::
+
+  import urllib2
+  from oauth import oauth
+  consumer = oauth.OAuthConsumer('consumer key', 'consumer secret')
+  access_token = oauth.OAuthToken('access token key', 'access token secret')
+  parameters = {'nick': 'jaiku', 'method': 'actor_get'}
+  request = oauth.OAuthRequest.from_consumer_and_token(
+      oauth_consumer=consumer,
+      token=access_token,
+      http_url='http://api.jaiku.com/json',
+      http_method='POST',
+      parameters=parameters)
+  request.sign_request(
+      oauth.OAuthSignatureMethod_HMAC_SHA1(),
+      consumer,
+      access_token)
+  result = urllib2.urlopen(urllib2.Request(
+      'http://api.jaiku.com/json',
+       request.to_postdata()))
+  print result.read()
+  result.close()
+
 `More info on authentication`_
 
+.. _actor_get: /api/docs/method_actor_get
 .. _more info on authentication: /api/docs/authentication
 
