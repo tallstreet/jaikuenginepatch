@@ -125,11 +125,5 @@ indexes:
 # Unused in query history -- copied from input.
 - kind: Subscription
   properties:
-  - name: subscriber
-    direction: desc
-
-# Unused in query history -- copied from input.
-- kind: Subscription
-  properties:
   - name: topic
   - name: target
