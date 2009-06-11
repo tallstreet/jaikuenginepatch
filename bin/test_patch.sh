@@ -31,4 +31,4 @@ git checkout -b "patch_$1" master
 ./bin/download_diff.sh $1 $PATCH_NAME
 
 # Step 3: Apply!
-patch -p0 < $PATCH_NAME
+patch -p0 -U < $PATCH_NAME
