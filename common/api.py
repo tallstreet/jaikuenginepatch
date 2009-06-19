@@ -862,28 +862,79 @@ def actor_is_contact(api_user, nick, potential_contact):
   
 
 def actor_get(api_user, nick):
-  """Get an actor
+  """Returns an actor by the given nick.
 
   PARAMS:
+
     * nick - the nick of the actor
 
+      * Example - ``jaiku`` for ``jaiku`` user, or ``#jaiku``
+        for ``#jaiku`` channel
+
   RETURNS: actor_ref
+
+  An actor_ref has the following attributes:
+
+    * avatar_updated_at - timestamp of the last update to the avatar;
+      `more info on timestamp`_
+
+    * deleted_at - always null (otherwise you couldn't get to it!)
+
+    * extra - optional attributes, see description in the section below
+
+    * nick - full nick of user or channel
+
+      * Example - ``jaiku@jaiku.com`` for the ``jaiku`` user or
+        ``#jaiku@jaiku.com`` for the ``#jaiku`` channel
+    * privacy - actor's privacy setting:
+
+      * 2 = actor's jaikus are shown to contacts only
+
+      * 3 = actor's jaikus are public
+
+    * type - either 'channel' or 'user'
+
+  The 'extra' attribute is another object that contains the following *optional*
+  attributes:
+
+    * contact_count - applicable to users only
+
+    * follower_count - applicable to users only
+
+    * icon - partial path to actor's avatar image; `more info on icon`_
+
+    * description - applicable to channels only
+
+    * member_count - applicable to channels only
+
+    * admin_count - applicable to channels only
+
+    * given_name - applicable to users only
+
+    * family_name - applicable to users only
 
   EXAMPLE API RETURN:
 
   ::
 
     {'status': 'ok',
-     'rv': {'actor': {'nick': 'test@example.com',
+     'rv': {'actor': {'avatar_updated_at': '2009-01-01 00:00:00',
+                      'nick': 'test@example.com',
                       'privacy': 3,
                       'type': 'user',
-                      'extra': {'icon': '/images/avatar_23132412',
+                      'extra': {'deleted_at': null,
+                                'follower_count': 7,
+                                'follower_count': 14,
+                                'icon': 'default/animal_8',
                                 'given_name': 'Test',
                                 'family_name': 'User'
                                 }
                       }
             }
      }
+
+  .. _more info on timestamp: /api/docs/response_timestamp
+  .. _more info on icon: /api/docs/response_icon
 
   """
   nick = clean.nick(nick)
@@ -931,7 +982,7 @@ def actor_get_actors(api_user, nicks):
 
 @public_owner_or_contact
 def actor_get_channels_admin(api_user, nick, limit=48, offset=None):
-  """returns the channels the given actor is a member of"""
+  """returns the channels the given actor is an admin of"""
   nick = clean.nick(nick)
   query = Relation.gql('WHERE target = :1 AND relation = :2 AND owner > :3',
                        nick,
@@ -950,6 +1001,12 @@ def actor_get_channels_member(api_user, nick, limit=48, offset=None):
   rv = query.fetch(limit)
   return [x.owner for x in rv]
 
+def actor_get_channels_member_safe(api_user, nick, limit=48, offset=None):
+  try:
+    return actor_get_channels_member(api_user, nick, limit, offset)
+  except exception.ApiException:
+    return []
+
 @public_owner_or_contact
 def actor_get_contacts(api_user, nick, limit=48, offset=None):
   """returns the contacts for the given actor if current_actor can view them"""
@@ -959,6 +1016,12 @@ def actor_get_contacts(api_user, nick, limit=48, offset=None):
                        offset)
   results = query.fetch(limit)
   return [x.target for x in results]
+
+def actor_get_contacts_safe(api_user, nick, limit=48, offset=None):
+  try:
+    return actor_get_contacts(api_user, nick, limit, offset)
+  except exception.ApiException:
+    return []
 
 @owner_required
 def actor_get_contacts_since(api_user, nick, limit=30, since_time=None):
@@ -1162,7 +1225,7 @@ def avatar_upload(api_user, nick, content):
   # Crop to a square
   jpeg = images.crop(content,
                      0.0, 0.0, 1.0, 1.0,
-                     output_encoding = images.JPEG)
+                     output_encoding=images.JPEG)
   original_size = imageutil.size_from_jpeg(jpeg)
   if original_size and original_size[0] != original_size[1]:
     dimension = min(original_size)
@@ -1182,11 +1245,11 @@ def avatar_upload(api_user, nick, content):
     path = 'avatar_%s_%s' % (path_uuid, img_size)
 
     # TODO: Check for hash collisions before uploading (!!)
-    img_ref = image_set(api_user, 
-                        nick, 
-                        path=path, 
-                        content=content, 
-                        format='jpg', 
+    img_ref = image_set(api_user,
+                        nick,
+                        path=path,
+                        content=img_data,
+                        format='jpg',
                         size=img_size)
   # XXX end transaction
 
@@ -1427,10 +1490,9 @@ def channel_get_safe(api_user, channel):
   RETURNS:  Channel object or None
   """
   try:
-    channel_ref = channel_get(api_user, channel)
+    return channel_get(api_user, channel)
   except exception.ApiException:
     return None
-  return channel_ref
 
 @public_owner_or_member
 def channel_has_admin(api_user, channel, nick):
@@ -3140,6 +3202,12 @@ def stream_get(api_user, stream):
 def stream_get_actor(api_user, nick):
   query = Stream.gql('WHERE owner = :1', nick)
   return list(query.run())
+
+def stream_get_actor_safe(api_user, nick):
+  try:
+    return stream_get_actor(api_user, nick)
+  except exception.ApiException:
+    return []
 
 @public_owner_or_contact
 def stream_get_comment(api_user, nick):

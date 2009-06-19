@@ -1,0 +1,15 @@
+=======================
+Avatar Icon in Response
+=======================
+
+The icon values in API responses are keys to avatar images. To construct the full path, add the '/image' prefix and append the proper image suffix. The valid image suffixes are:
+
+  * _u.jpg - 30 pixel x 30 pixel
+  * _t.jpg - 50 pixel x 50 pixel
+  * _f.jpg - 60 pixel x 50 pixel
+  * _m.jpg - 175 pixel x 175 pixel
+  * _original.jpg - original uploaded image
+
+Example: For the icon value ``jaiku@jaiku.com/avatar_15``, the path to the 60 pixel x 60 pixel jpg is at ``/image/jaiku@jaiku.com/avatar_15_f.jpg``.
+
+The resized images are encoded in jpg. The encoding of the original image is preserved in '_original.jpg' version, even though it has the '.jpg' extension.

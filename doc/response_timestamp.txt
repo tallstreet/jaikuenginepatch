@@ -1,0 +1,15 @@
+=========================
+Response Timestamp Format
+=========================
+
+All timestamp parameters returned from API calls are in the format of 'YYYY-MM-DD hh:mm:ss.s', and the fields are:
+  * YYYY = four-digit year
+  * MM = two-digit month (01 through 12)
+  * DD = two-digit day of month (01 through 31)
+  * hh = two digits of hour (00 through 23)
+  * mm = two digits of minute (00 through 59)
+  * ss = two digits of second (00 through 59)
+  * s = one or more digits representing a decimal fraction of a second
+
+Example: 2009-05-30 00:50:11.962616
+
