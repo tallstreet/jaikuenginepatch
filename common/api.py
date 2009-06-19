@@ -981,7 +981,7 @@ def actor_get_actors(api_user, nicks):
 
 @public_owner_or_contact
 def actor_get_channels_admin(api_user, nick, limit=48, offset=None):
-  """returns the channels the given actor is a member of"""
+  """returns the channels the given actor is an admin of"""
   nick = clean.nick(nick)
   query = Relation.gql('WHERE target = :1 AND relation = :2 AND owner > :3',
                        nick,
@@ -1000,6 +1000,12 @@ def actor_get_channels_member(api_user, nick, limit=48, offset=None):
   rv = query.fetch(limit)
   return [x.owner for x in rv]
 
+def actor_get_channels_member_safe(api_user, nick, limit=48, offset=None):
+  try:
+    return actor_get_channels_member(api_user, nick, limit, offset)
+  except exception.ApiException:
+    return []
+
 @public_owner_or_contact
 def actor_get_contacts(api_user, nick, limit=48, offset=None):
   """returns the contacts for the given actor if current_actor can view them"""
@@ -1009,6 +1015,12 @@ def actor_get_contacts(api_user, nick, limit=48, offset=None):
                        offset)
   results = query.fetch(limit)
   return [x.target for x in results]
+
+def actor_get_contacts_safe(api_user, nick, limit=48, offset=None):
+  try:
+    return actor_get_contacts(api_user, nick, limit, offset)
+  except exception.ApiException:
+    return []
 
 @owner_required
 def actor_get_contacts_since(api_user, nick, limit=30, since_time=None):
@@ -1477,10 +1489,9 @@ def channel_get_safe(api_user, channel):
   RETURNS:  Channel object or None
   """
   try:
-    channel_ref = channel_get(api_user, channel)
+    return channel_get(api_user, channel)
   except exception.ApiException:
     return None
-  return channel_ref
 
 @public_owner_or_member
 def channel_has_admin(api_user, channel, nick):
@@ -3190,6 +3201,12 @@ def stream_get(api_user, stream):
 def stream_get_actor(api_user, nick):
   query = Stream.gql('WHERE owner = :1', nick)
   return list(query.run())
+
+def stream_get_actor_safe(api_user, nick):
+  try:
+    return stream_get_actor(api_user, nick)
+  except exception.ApiException:
+    return []
 
 @public_owner_or_contact
 def stream_get_comment(api_user, nick):

@@ -1,13 +1,13 @@
 {% load vcard %}
 <div id="contacts" class='contacts'>
   {% ifequal request.user.nick view.nick %}
-    <h2>Contacts ({{contacts_count}})</h2>
+    <h2>Contacts ({{contacts|length}})</h2>
     <a href="{{view.url}}/contacts" class="edit">Manage</a>
   {% else %}
     <h2>{{view.display_nick}}'s contacts ({{contacts_count}})</h2>
   {% endifequal %}
 
-	{% if contacts|length %}
+  {% if contacts|length %}
     <ul>
     {% for contact in contacts %}
       <li>
@@ -30,13 +30,14 @@
 	{% else %}
     {% ifequal request.user.nick view.nick %}
     <p>
-    No contacts yet. You can start by <a href="/invite">inviting some friends</a>.
+    No contacts yet. You can start by 
+      <a href="{{request.user.url}}/invite">inviting some friends</a>.
     </p>
-    {% else %}
+  {% else %}
     <p>
       You could be {{view.display_nick}}'s first contact.
     </p>
     {% endifequal %}
-	{% endif %}
+  {% endif %}
 </div>
 

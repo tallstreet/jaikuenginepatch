@@ -556,6 +556,7 @@ div#sidebar div#mobile h3.availability-gray {
     background-image: url(../images/gray.png);
 }
 
+div#sidebar div#channels a.edit, 
 div#sidebar div#streams a.edit, 
 div#sidebar div#contacts a.edit, 
 div#sidebar div#members a.edit, 
