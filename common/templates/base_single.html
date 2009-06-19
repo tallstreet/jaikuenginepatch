@@ -5,7 +5,7 @@
 {% block login %}
 {% ifnotequal area 'welcome' %}
   {% if request.user.is_authenticated %}
-    Signed in as {{request.user|actor_link}} | 
+    Signed in as {% actor_link request.user request %} | 
     <a href="{% url_for DOMAIN request %}/logout">Sign Out</a>
   {% else %}
     Don't have an account? <a href="/join?redirect_to={{redirect_to|urlencode}}">Sign Up Now</a>
