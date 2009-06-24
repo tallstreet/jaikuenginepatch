@@ -693,7 +693,7 @@ def activation_request_mobile(api_user, nick, mobile):
 @write_required
 @owner_required
 def actor_add_contact(api_user, owner, target):
-  """Adds a one-way relationshp of type 'contact' from owner to target
+  """Adds a one-way relationshp of type 'contact' from owner to target.
 
   May be called multiple times for the same owner and target and should
   always ensure the same ending conditions.
@@ -704,10 +704,15 @@ def actor_add_contact(api_user, owner, target):
 
   RETURNS: rel_ref
 
+  A relation_ref has the following attributes:
+    * owner: nick of the relationship owner
+    * relation: the type of the relation; always 'contact' in this case
+    * target: nick of the actor related to the owner
+
   EXAMPLE API RETURN:
-    
+
   ::
-  
+
     {'status': 'ok',
      'rv': {'relation': {'owner': 'test@example.com',
                          'relation': 'contact',
@@ -1034,18 +1039,51 @@ def actor_get_contacts_since(api_user, nick, limit=30, since_time=None):
 
 @owner_required
 def actor_get_contacts_avatars_since(api_user, nick, limit=30, since_time=None):
-  """returns the avatars of contacts for the given actor"""
+  """Returns the contacs of the actor by the given nick.
+
+  An actor is always considered as her own contact.
+  If the ``since_time`` parameter is set, only contacts whose avatars were
+  updated afterwards will be included.
+
+  PARAMS:
+    * nick - the nick of the actor whose contacts are to be returned
+    * limit - the number of contacts to return; defaults to 30
+    * since_time - for filtering results by avatar's last update time
+
+  ``since_time`` needs to be in one of the following formats::
+
+      '%Y-%m-%d %H:%M:%S'     # '2006-10-25 14:30:59'
+      '%Y-%m-%d %H:%M'        # '2006-10-25 14:30'
+      '%Y-%m-%d'              # '2006-10-25'
+      '%m/%d/%Y %H:%M:%S'     # '10/25/2006 14:30:59'
+      '%m/%d/%Y %H:%M'        # '10/25/2006 14:30'
+      '%m/%d/%Y'              # '10/25/2006'
+      '%m/%d/%y %H:%M:%S,     # '10/25/06 14:30:59'
+      '%m/%d/%y %H:%M'        # '10/25/06 14:30'
+      '%m/%d/%y'              # '10/25/06'
+
+  RETURNS: A list of actor_ref. See `actor_get`_ for actor_ref format.
+
+  .. _actor_get: /api/docs/method_actor_get
+  """
   limit = int(limit)
-  contacts = actor_get_contacts(api_user, nick, limit)
+  if since_time:
+    since_time = clean.datetime(since_time)
+    # we have to fetch as many as possible because of the since_time filter
+    contacts = actor_get_contacts(api_user, nick, limit=1000)
+  else:
+    # excludes self there
+    contacts = actor_get_contacts(api_user, nick, limit=(limit - 1))
   contacts.append(nick)
   contacts_ref = actor_get_actors(api_user, contacts)
   results = []
-  if since_time is not None:
-    since_time = clean.datetime(since_time)
   for contact_ref in contacts_ref.values():
-    if contact_ref:
-      if not since_time or contact_ref.avatar_updated_at > since_time:
-        results.append(contact_ref)
+    if not contact_ref:
+      continue
+    if not since_time or contact_ref.avatar_updated_at > since_time:
+      results.append(contact_ref)
+    if len(results) >= limit:
+      break
 
   return ResultWrapper(results, contacts=results)
 

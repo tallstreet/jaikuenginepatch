@@ -1429,6 +1429,47 @@ class ApiUnitTestOAuthAccess(ApiUnitTest):
     self.assertContains(r, "Hi popular! Here's the latest from your contacts")
     self.assertTemplateUsed(r, 'actor/templates/overview.html')
 
+class ApiUnitTestActorGetContactsAvatarsSince(ApiUnitTest):
+  def setUp(self):
+    super(ApiUnitTestActorGetContactsAvatarsSince, self).setUp()
+    self.celebrity = api.actor_get(api.ROOT, self.celebrity_nick)
+    self.root = api.actor_get(api.ROOT, self.root_nick)
+
+  def test_get_contacts_simple(self):
+    result = api.actor_get_contacts_avatars_since(
+        self.popular,
+        self.popular_nick)
+    self.assertEqual(3, len(result))
+    self.assertEqual(self.celebrity_nick, result.pop(0).nick)
+    self.assertEqual(self.popular_nick, result.pop(0).nick)
+    self.assertEqual(self.root_nick, result.pop(0).nick)
+
+  def test_get_contacts_with_limit(self):
+    result = api.actor_get_contacts_avatars_since(
+        self.popular,
+        self.popular_nick,
+        limit=1)
+    self.assertEqual(1, len(result))
+    self.assertEqual(self.popular_nick, result.pop(0).nick)
+
+  def test_get_contacts_with_since_time(self):
+    result = api.actor_get_contacts_avatars_since(
+        self.popular,
+        self.popular_nick,
+        since_time='2005-01-01')
+    self.assertEqual(2, len(result))
+    self.assertEqual(self.celebrity_nick, result.pop(0).nick)
+    self.assertEqual(self.root_nick, result.pop(0).nick)
+
+  def test_get_contacts_with_limit_and_since_time(self):
+    result = api.actor_get_contacts_avatars_since(
+        self.popular,
+        self.popular_nick,
+        limit=1,
+        since_time='2007-01-01')
+    self.assertEqual(1, len(result))
+    self.assertEqual(self.root_nick, result.pop(0).nick)
+
 class EmailTest(ApiUnitTest):
   default_recipient = settings.DEFAULT_UNITTEST_TO_EMAIL
 
