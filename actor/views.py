@@ -30,7 +30,6 @@ from common import views as common_views
 
 ENTRIES_PER_PAGE = 20
 CONTACTS_PER_PAGE = 48
-CHANNELS_PER_PAGE = 48
 
 # This is a decorator to make it a bit easier to deal with the possibility
 # the nick coming in via the subdomain
@@ -107,6 +106,41 @@ def actor_history(request, nick=None, format='html'):
     inbox = api.inbox_get_actor_private(request.user, view.nick,
                                         limit=(per_page + 1), offset=offset)
 
+  # START inbox generation chaos
+  # TODO(termie): refacccttttooorrrrr
+  entries = api.entry_get_entries(request.user, inbox)
+  per_page = per_page - (len(inbox) - len(entries))
+  entries, more = util.page_entries(request, entries, per_page)
+
+  stream_keys = [e.stream for e in entries]
+  try:
+    actor_streams = api.stream_get_actor(request.user, view.nick)
+  except exception.ApiException:
+    actor_streams = []
+  stream_keys += [s.key().name() for s in actor_streams]
+  streams = api.stream_get_streams(request.user, stream_keys)
+
+  try:
+    contact_nicks = api.actor_get_contacts(request.user, 
+                                           view.nick, 
+                                           limit=CONTACTS_PER_PAGE)
+  except exception.ApiException:
+    contact_nicks = []
+
+  actor_nicks = (contact_nicks +
+                 [view.nick] +
+                 [s.owner for s in streams.values()] +
+                 [e.owner for e in entries] +
+                 [e.actor for e in entries])
+  actors = api.actor_get_actors(request.user, actor_nicks)
+
+  # here comes lots of munging data into shape
+  contacts = [actors[x] for x in contact_nicks if actors[x]]
+  streams = display.prep_stream_dict(streams, actors)
+  entries = display.prep_entry_list(entries, streams, actors)
+
+  # END inbox generation chaos
+
   # If not logged in, cannot write
   is_owner = request.user and view.nick == request.user.nick
 
@@ -118,6 +152,7 @@ def actor_history(request, nick=None, format='html'):
   except exception.ApiException:
     pass
 
+
   # for add/remove contact
   if request.user:
     user_is_contact = api.actor_has_contact(request.user,
@@ -127,15 +162,32 @@ def actor_history(request, nick=None, format='html'):
   else:
     user_is_contact = False
 
+  # for sidebar streams
+  view_streams = dict([(x.key().name(), streams[x.key().name()])
+                       for x in actor_streams])
+  if request.user:
+    # un/subscribe buttons are possible only, when logged in
+
+    # TODO(termie): what if there are quite a lot of streams?
+    for stream in view_streams.values():
+      stream.subscribed = api.subscription_exists(
+          request.user,
+          stream.key().name(),
+          'inbox/%s/overview' % request.user.nick
+          )
+
+
+  # for sidebar_contacts
+  contacts_count = view.extra.get('contact_count', 0)
+  contacts_more = contacts_count > CONTACTS_PER_PAGE
+
   # Config for the template
   green_top = True
   sidebar_green_top = True
   selectable_icons = display.SELECTABLE_ICONS
   area = 'user'
 
-  template_variables = dict(locals())
-  template_variables.update(_fetch_inbox_data(request, inbox, view))
-  c = template.RequestContext(request, template_variables)
+  c = template.RequestContext(request, locals())
 
   if format == 'html':
     t = loader.get_template('actor/templates/history.html')
@@ -167,7 +219,7 @@ def actor_invite(request, nick, format='html'):
     # nick in the url).
     return http.HttpResponseRedirect(
         '%s/invite' % request.user.url())
-
+  
   handled = common_views.handle_view_action(
       request,
       { 'invite_request_email': request.path, })
@@ -215,11 +267,46 @@ def actor_overview(request, nick, format='html'):
   per_page = ENTRIES_PER_PAGE
   offset, prev = util.page_offset(request)
 
-  inbox = api.inbox_get_actor_overview(request.user,
+  inbox = api.inbox_get_actor_overview(request.user,  
                                        view.nick,
-                                       limit=(per_page + 1),
+                                       limit=(per_page + 1), 
                                        offset=offset)
 
+  # START inbox generation chaos
+  # TODO(termie): refacccttttooorrrrr
+  entries = api.entry_get_entries(request.user, inbox)
+  
+  if view.extra.get('comments_hide', 0):
+    # TODO(tyler): This is certainly not the most eloquent way to filter
+    # through entries to remove comments.
+    entries = [x for x in entries if not x.stream.endswith('comments')]
+
+  per_page = per_page - (len(inbox) - len(entries))
+  entries, more = util.page_entries(request, entries, per_page)
+
+  stream_keys = [e.stream for e in entries]
+  actor_streams = api.stream_get_actor(request.user, view.nick)
+  stream_keys += [s.key().name() for s in actor_streams]
+  streams = api.stream_get_streams(request.user, stream_keys)
+
+  contact_nicks = api.actor_get_contacts(request.user, 
+                                         view.nick, 
+                                         limit=CONTACTS_PER_PAGE)
+  actor_nicks = (contact_nicks +
+                 [view.nick] +
+                 [s.owner for s in streams.values()] +
+                 [e.owner for e in entries] +
+                 [e.actor for e in entries])
+  actors = api.actor_get_actors(request.user, actor_nicks)
+
+  # here comes lots of munging data into shape
+  # clear deleted contacts
+  contacts = [actors[x] for x in contact_nicks if actors[x]]
+  streams = display.prep_stream_dict(streams, actors)
+  entries = display.prep_entry_list(entries, streams, actors)
+
+  # END inbox generation chaos
+  
   # Check for unconfirmed emails
   unconfirmeds = api.activation_get_actor_email(request.user, view.nick)
   if unconfirmeds:
@@ -233,18 +320,26 @@ def actor_overview(request, nick, format='html'):
     pass
   presence = api.presence_get(request.user, view.nick)
 
+  # for sidebar streams
+  view_streams = dict([(x.key().name(), streams[x.key().name()])
+                       for x in actor_streams])
+
+  # for sidebar_contacts
+  contacts_count = view.extra.get('contact_count', 0)
+  contacts_more = contacts_count > CONTACTS_PER_PAGE
+
   # Config for the template
   green_top = True
   sidebar_green_top = True
   selectable_icons = display.SELECTABLE_ICONS
+
   area = 'home'
 
   # TODO(tyler/termie):  This conflicts with the global settings import.
   # Also, this seems fishy.  Do none of the settings.* items work in templates?
   import settings
-  template_variables = dict(locals())
-  template_variables.update(_fetch_inbox_data(request, inbox, view))
-  c = template.RequestContext(request, template_variables)
+  
+  c = template.RequestContext(request, locals())
 
   if format == 'html':
     t = loader.get_template('actor/templates/overview.html')
@@ -728,61 +823,3 @@ def actor_settings_redirect(request):
   nick = clean.nick(request.user.nick)
   view = api.actor_lookup_nick(request.user, nick)
   return http.HttpResponseRedirect(view.url() + request.get_full_path())
-
-def _fetch_inbox_data(request, inbox, actor_ref):
-  """Fetches inbox entries, contacts, channels, and streams.
-  """
-  entries = api.entry_get_entries(request.user, inbox)
-
-  if actor_ref.extra.get('comments_hide', 0):
-    # TODO(tyler): This is certainly not the most eloquent way to filter
-    # through entries to remove comments.
-    entries = [x for x in entries if not x.stream.endswith('comments')]
-
-  per_page = ENTRIES_PER_PAGE - (len(inbox) - len(entries))
-  entries, more = util.page_entries(request, entries, per_page)
-
-  stream_keys = [e.stream for e in entries]
-  actor_streams = api.stream_get_actor_safe(request.user, actor_ref.nick)
-  stream_keys += [s.key().name() for s in actor_streams]
-  streams = api.stream_get_streams(request.user, stream_keys)
-
-  view_streams = dict([(x.key().name(), streams[x.key().name()])
-                       for x in actor_streams])
-  if request.user:
-    # un/subscribe buttons are possible only, when logged in
-    # TODO(termie): what if there are quite a lot of streams?
-    for stream in view_streams.values():
-      stream.subscribed = api.subscription_exists(
-          request.user,
-          stream.key().name(),
-          'inbox/%s/overview' % request.user.nick
-          )
-
-  contact_nicks = api.actor_get_contacts_safe(request.user,
-                                              actor_ref.nick,
-                                              limit=CONTACTS_PER_PAGE)
-  channel_nicks = api.actor_get_channels_member_safe(request.user,
-                                                     actor_ref.nick,
-                                                     limit=CHANNELS_PER_PAGE)
-  actor_nicks = (contact_nicks +
-                 channel_nicks +
-                 [actor_ref.nick] +
-                 [s.owner for s in streams.values()] +
-                 [e.owner for e in entries] +
-                 [e.actor for e in entries])
-  actors = api.actor_get_actors(request.user, actor_nicks)
-  contacts = [actors[x] for x in contact_nicks if actors[x]]
-  channels = [actors[x] for x in channel_nicks if actors[x]]
-
-  # here comes lots of munging data into shape
-  # clear deleted contacts
-  return {'contacts': contacts,
-          'channels': channels,
-          'streams': display.prep_stream_dict(streams, actors),
-          'entries': display.prep_entry_list(entries, streams, actors),
-          'view_streams': view_streams,
-          # for sidebar_contacts
-          'contacts_more': len(contacts) > CONTACTS_PER_PAGE,
-          # for sidebar_channels
-          'channels_more': len(channels) > CHANNELS_PER_PAGE}
