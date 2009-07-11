@@ -58,6 +58,12 @@ handlers:
 
 - url: /media
   static_dir: _generated_media
+  secure: optional
+
+- url: /api/process_queue
+  script: aepcommon/appenginepatch/main.py
+  secure: optional
 
 - url: /.*
   script: aepcommon/appenginepatch/main.py
+  secure: optional

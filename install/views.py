@@ -42,7 +42,7 @@ def install_rootuser(request):
   if request.POST:
     try:
       logging.warning('Making root user: %s', settings.ROOT_NICK)
-      validate.nonce(request, 'create_root')
+      #validate.nonce(request, 'create_root')
       root_user = api.user_create_root(api.ROOT)
       return util.RedirectFlash('/install', 'Root user created')
     except:
