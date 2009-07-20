@@ -702,7 +702,7 @@ def actor_add_contact(api_user, owner, target):
     * owner - the nick of the follower
     * target - the nick of the followed
 
-  RETURNS: rel_ref
+  RETURNS: a relation_ref
 
   A relation_ref has the following attributes:
     * owner: nick of the relationship owner
@@ -875,47 +875,7 @@ def actor_get(api_user, nick):
       * Example - ``jaiku`` for ``jaiku`` user, or ``#jaiku``
         for ``#jaiku`` channel
 
-  RETURNS: actor_ref
-
-  An actor_ref has the following attributes:
-
-    * avatar_updated_at - timestamp of the last update to the avatar;
-      `more info on timestamp`_
-
-    * deleted_at - always null (otherwise you couldn't get to it!)
-
-    * extra - optional attributes, see description in the section below
-
-    * nick - full nick of user or channel
-
-      * Example - ``jaiku@jaiku.com`` for the ``jaiku`` user or
-        ``#jaiku@jaiku.com`` for the ``#jaiku`` channel
-    * privacy - actor's privacy setting:
-
-      * 2 = actor's jaikus are shown to contacts only
-
-      * 3 = actor's jaikus are public
-
-    * type - either 'channel' or 'user'
-
-  The 'extra' attribute is another object that contains the following *optional*
-  attributes:
-
-    * contact_count - applicable to users only
-
-    * follower_count - applicable to users only
-
-    * icon - partial path to actor's avatar image; `more info on icon`_
-
-    * description - applicable to channels only
-
-    * member_count - applicable to channels only
-
-    * admin_count - applicable to channels only
-
-    * given_name - applicable to users only
-
-    * family_name - applicable to users only
+  RETURNS: an `actor_ref`_
 
   EXAMPLE API RETURN:
 
@@ -939,7 +899,7 @@ def actor_get(api_user, nick):
 
   .. _more info on timestamp: /api/docs/response_timestamp
   .. _more info on icon: /api/docs/response_icon
-
+  .. _actor_ref: /api/docs/model_actor_ref
   """
   nick = clean.nick(nick)
   if not nick:
@@ -1035,24 +995,20 @@ def actor_get_contacts_avatars_since(api_user, nick, limit=30, since_time=None):
 
   PARAMS:
     * nick - the nick of the actor whose contacts are to be returned
-    * limit - the number of contacts to return; defaults to 30
-    * since_time - for filtering results by avatar's last update time
+    * limit - optional parameter; specifies the number of contacts to return
 
-  ``since_time`` needs to be in one of the following formats::
+        * defaults to 30
+        * max is 1000
+    * since_time - optional parameter; for filtering results by avatar's last
+      update time
 
-      '%Y-%m-%d %H:%M:%S'     # '2006-10-25 14:30:59'
-      '%Y-%m-%d %H:%M'        # '2006-10-25 14:30'
-      '%Y-%m-%d'              # '2006-10-25'
-      '%m/%d/%Y %H:%M:%S'     # '10/25/2006 14:30:59'
-      '%m/%d/%Y %H:%M'        # '10/25/2006 14:30'
-      '%m/%d/%Y'              # '10/25/2006'
-      '%m/%d/%y %H:%M:%S,     # '10/25/06 14:30:59'
-      '%m/%d/%y %H:%M'        # '10/25/06 14:30'
-      '%m/%d/%y'              # '10/25/06'
+      * defaults to the beginning of time
+      * see `request timestamp`_ for format
 
-  RETURNS: A list of actor_ref. See `actor_get`_ for actor_ref format.
+  RETURNS: a list of `actor_ref`_
 
-  .. _actor_get: /api/docs/method_actor_get
+  .. _actor_ref: /api/docs/model_actor_ref
+  .. _request timestamp: /api/docs/request_timestamp
   """
   limit = int(limit)
   if since_time:
@@ -1734,23 +1690,32 @@ def email_send(api_user, email, subject, message, on_behalf=None, html_message=N
 @owner_required
 @public_owner_or_contact_by_entry
 def entry_add_comment(api_user, _task_ref=None, **kw):
-  """ Add a comment to given entry
+  """Adds a comment to the given entry.
 
   PARAMS:
-
     * _task_ref - admin-only, task to resume
-    * content - the text content of the commment
-    * stream - the stream in which the entry this comment is on resides
-    * entry - the entry this comment is on
-    * uuid - a unique identifier for this comment
+    * content - the text content of the comment
+    * stream - the key to the stream in which the entry being commented on
+      resides; example: ``stream/popular@example.com/presence``
+    * entry - the key to the parent entry associated with this comment; example:
+      ``stream/popular@example.com/presence/12347``
     * nick - the actor making the comment
+    * uuid - optional; a unique identifier for this comment; if absent, a new
+      one will be generated
 
-  RETURNS: comment_ref
+  ``stream`` is formatted as 'stream/{nick}/{slug}'; and ``entry`` is formatted
+  as 'stream/{nick}/{slug}/{entry uuid}'.
+
+  For the comment stream, ``slug`` is always "comments." Similarly, for the
+  presence stream, ``slug`` is always "presence." For other streams, ``slug`` is
+  some incomprehensible uuid.
+
+  RETURNS: a `stream_entry_ref`_
 
   EXAMPLE API RETURN:
 
   ::
-  
+
     {'status': 'ok',
      'rv': {'comment': {'stream': 'stream/test@example.com/comments',
                         'uuid': '1234567890abcdef',
@@ -1767,6 +1732,7 @@ def entry_add_comment(api_user, _task_ref=None, **kw):
             }
      }
 
+  .. _stream_entry_ref: /api/docs/model_stream_entry_ref
   """
 
   content = kw.get('content', '')
@@ -1950,42 +1916,58 @@ def entry_get_inbox_since(api_user, inbox, limit=30, since_time=None):
   return ResultWrapper(entries, entries=entries)
 
 def entry_get_inbox(api_user, inbox, limit=30, offset=None):
-  inbox = inbox_get_entries_since(api_user, inbox, limit=limit, offset=offset)
+  inbox = inbox_get_entries(api_user, inbox, limit=limit, offset=offset)
   return entry_get_entries(api_user, inbox)
 
 @owner_required
 def entry_get_actor_overview(api_user, nick, limit=30, offset=None):
-  """ Get entries for a user's overview
+  """Returns stream entries for a user's overview on or before a certain time.
 
   PARAMS:
     * nick - the actor for whom to fetch the overview
-    * limit - how many entries to fetch, max 100
-    * offset - a datetime before which to retrieve entries
+    * limit - optional parameter; specifies how many entries to fetch
 
-  RETURNS: [entry_ref1, entry_ref2, ...]
+      * defaults to 30
+      * max is 1000
+    * offset - optional parameter; specifies the datetime on or before which to
+      retrieve entries
 
+      * defaults to the end of time
+      * see `request timestamp`_ for format
 
+  RETURNS: a list of `stream_entry_ref`_
+
+  .. _request timestamp: /api/docs/request_timestamp
+  .. _stream_entry_ref: /api/docs/model_stream_entry_ref
   """
   nick = clean.nick(nick)
   inbox = 'inbox/%s/overview' % nick
   return entry_get_inbox(api_user, inbox, limit=limit, offset=offset)
-  
+
 @owner_required
 def entry_get_actor_overview_since(api_user, nick, limit=30, since_time=None):
-  """ Get entries for a user's overview since a certain time
+  """Returns stream entries for a user's overview on or after a certain time.
 
   This is a useful call if you are trying to periodically poll to keep
-  up to date as it is more efficient for you to only get the updates since
-  some time near the last time you get an entry.
+  up to date as it is more efficient for you to only get the updates after the
+  last polling time.
 
   PARAMS:
     * nick - the actor for whom to fetch the overview
-    * limit - how many entries to fetch, max 100
-    * since_time - a datetime after which to retrieve entries
+    * limit - optional parameter; specifies how many entries to fetch
 
-  RETURNS: [entry_ref1, entry_ref2, ...]
+      * defaults to 30
+      * max is 1000
+    * since_time - optional parameter; specifies the datetime on or after which
+      to retrieve entries
 
+      * defaults to the beginning of time
+      * see `request timestamp`_ for format
 
+  RETURNS: a list of `stream_entry_ref`_
+
+  .. _request timestamp: /api/docs/request_timestamp
+  .. _stream_entry_ref: /api/docs/model_stream_entry_ref
   """
 
   nick = clean.nick(nick)

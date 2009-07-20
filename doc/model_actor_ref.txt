@@ -1,0 +1,34 @@
+=========
+Actor Ref
+=========
+
+An actor_ref can be either a user or a channel. It has the following attributes:
+
+  * avatar_updated_at - timestamp of the last update to the avatar;
+    `more info on timestamp`_
+  * deleted_at - always null (otherwise you couldn't get to it!)
+  * extra - optional attributes, see description in the section below
+  * nick - full nick of user or channel
+
+    * Example - ``jaiku@jaiku.com`` for the ``jaiku`` user or
+        ``#jaiku@jaiku.com`` for the ``#jaiku`` channel
+  * privacy - actor's privacy setting:
+
+    * 2 = actor's jaikus are shown to contacts only
+    * 3 = actor's jaikus are public
+  * type - either 'channel' or 'user'
+
+ The 'extra' attribute is another object that contains the following *optional*
+ attributes:
+
+  * contact_count - applicable to users only
+  * follower_count - applicable to users only
+  * icon - partial path to actor's avatar image; `more info on icon`_
+  * description - applicable to channels only
+  * member_count - applicable to channels only
+  * admin_count - applicable to channels only
+  * given_name - applicable to users only
+  * family_name - applicable to users only
+
+.. _more info on timestamp: /api/docs/response_timestamp
+.. _more info on icon: /api/docs/response_icon
