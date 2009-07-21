@@ -30,7 +30,7 @@
 	{% else %}
     {% ifequal request.user.nick view.nick %}
     <p>
-    No contacts yet. You can start by <a href="/invite">inviting some friends</a>.
+    No contacts yet. You can start by <a href="{{request.user.url}}/invite">inviting some friends</a>.
     </p>
     {% else %}
     <p>
