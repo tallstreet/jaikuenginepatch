@@ -260,6 +260,7 @@ def actor_url(nick, actor_type, path='', request=None, mobile=False):
 class Actor(DeletedMarkerModel):
   """
   extra:
+    channel_count - int; number of channels
     contact_count - int; number of contacts
     follower_count - int; number of followers
     icon - string; avatar path

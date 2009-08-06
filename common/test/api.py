@@ -597,6 +597,31 @@ class ApiUnitTestChannels(ApiUnitTest):
                       api.channel_get_members(api.ROOT, self.test_channel_nick,
                                               limit=1))
 
+  def test_channel_create_increment_count(self):
+    channel_ref = api.channel_get(self.popular, self.test_channel_nick)
+    self.assertEquals(1, channel_ref.extra['member_count'])
+    self.assertEquals(1, channel_ref.extra['admin_count'])
+    popular_ref = api.actor_get(api.ROOT, self.popular_nick)
+    self.assertEquals(1, popular_ref.extra['channel_count'])
+
+  def test_channel_join_increment_count(self):
+    hermit_ref = api.actor_get(api.ROOT, self.hermit_nick)
+    self.assertEquals(0, hermit_ref.extra.get('channel_count', 0))
+    api.channel_join(api.ROOT, self.hermit_nick, self.test_channel_nick)
+    channel_ref = api.channel_get(api.ROOT, self.test_channel_nick)
+    self.assertEquals(2, channel_ref.extra['member_count'])
+    hermit_ref = api.actor_get(api.ROOT, self.hermit_nick)
+    self.assertEquals(1, hermit_ref.extra['channel_count'])
+
+  def test_channel_part_decrement_count(self):
+    api.channel_join(api.ROOT, self.hermit_nick, self.test_channel_nick)
+    api.channel_part(api.ROOT, self.hermit_nick, self.test_channel_nick)
+    channel_ref = api.channel_get(api.ROOT, self.test_channel_nick)
+    self.assertEquals(1, channel_ref.extra['member_count'])
+    hermit_ref = api.actor_get(api.ROOT, self.hermit_nick)
+    self.assertEquals(0, hermit_ref.extra['channel_count'])
+
+
 class ApiUnitTestSubscriptions(ApiUnitTest):
   def test_subscription_request(self):
     topic = "stream/%s/presence"

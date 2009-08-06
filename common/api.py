@@ -1332,19 +1332,10 @@ def channel_browse_recent(api_user, limit=48, offset=None):
 def channel_create(api_user, **kw):
   channel_nick = clean.channel(kw.get('channel'))
   creator_nick = kw.get('nick')
-
-  params = {'nick': channel_nick,
-            'normalized_nick': channel_nick.lower(),
-            'privacy': kw.get('privacy', PRIVACY_PUBLIC),
-            'type': 'channel',
-            'password': '',
-            'extra': {'description': kw.get('description', ''),
-                      'member_count': 0,
-                      'admin_count': 0,
-                      },
-            }
-
   creator_ref = actor_get(api_user, creator_nick)
+
+  if creator_ref.is_channel():
+    raise exception.ApiException(0x00, 'Channels cannot create other channels')
 
   if not actor_owns_actor(api_user, creator_ref):
     raise exception.ApiException(
@@ -1361,9 +1352,6 @@ def channel_create(api_user, **kw):
     raise exception.ApiException(
         0x00, 'Name of the channel is already in use: %s' % channel_nick)
 
-  if creator_ref.is_channel():
-    raise exception.ApiException(0x00, 'Channels cannot create other channels')
-  
   admin_channels = actor_get_channels_admin(api_user, creator_ref.nick)
   if len(admin_channels) >= MAX_ADMINS_PER_ACTOR:
     raise exception.ApiException(
@@ -1373,9 +1361,16 @@ def channel_create(api_user, **kw):
   # also create a list of administrators and members
   # TODO allow some of these to be specified as parameters
 
-  admins = [creator_ref.nick]
-  for admin in admins:
-    params['extra']['admin_count'] += 1
+  params = {'nick': channel_nick,
+            'normalized_nick': channel_nick.lower(),
+            'privacy': kw.get('privacy', PRIVACY_PUBLIC),
+            'type': 'channel',
+            'password': '',
+            'extra': {'description': kw.get('description', ''),
+                      'member_count': 0,
+                      'admin_count': 1,
+                      },
+            }
 
   # XXX start transaction
   channel_ref = Actor(**params)
@@ -1397,7 +1392,8 @@ def channel_create(api_user, **kw):
   channel_join(api_user, creator_nick, channel_nick)
   # XXX end transaction
 
-  return channel_ref
+  # need to load the channel again, because it gets updated in channel_join()
+  return channel_get(api_user, channel_nick)
 
 @public_owner_or_member
 def channel_get(api_user, channel):
@@ -1514,8 +1510,13 @@ def channel_join(api_user, nick, channel):
   rel.put()
 
   # TODO probably a race-condition
+  count = channel_ref.extra['member_count']
   channel_ref.extra['member_count'] += 1
   channel_ref.put()
+
+  actor_ref.extra.setdefault('channel_count', 0)
+  actor_ref.extra['channel_count'] += 1
+  actor_ref.put()
 
   streams = stream_get_actor(ROOT, channel)
   for stream in streams:
@@ -1544,6 +1545,9 @@ def channel_part(api_user, nick, channel):
 
   channel_ref.extra['member_count'] -= 1
   channel_ref.put()
+
+  actor_ref.extra['channel_count'] -= 1
+  actor_ref.put()
 
   # Unsubscribe owner from all of target's streams
   streams = stream_get_actor(ROOT, channel)
