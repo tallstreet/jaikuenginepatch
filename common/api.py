@@ -1546,8 +1546,9 @@ def channel_part(api_user, nick, channel):
   channel_ref.extra['member_count'] -= 1
   channel_ref.put()
 
-  actor_ref.extra['channel_count'] -= 1
-  actor_ref.put()
+  if 'channel_count' in actor_ref.extra:
+    actor_ref.extra['channel_count'] -= 1
+    actor_ref.put()
 
   # Unsubscribe owner from all of target's streams
   streams = stream_get_actor(ROOT, channel)
