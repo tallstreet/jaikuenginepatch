@@ -21,6 +21,8 @@ import urllib
 from django.conf import settings
 from django.core import mail
 
+from actor import views
+
 from common.tests import ViewTestCase
 
 from common import api
@@ -125,6 +127,19 @@ class HistoryTest(ViewTestCase):
     r = self.client.get('/user/popular')
     self.assertContains(r, 'href="/user/popular/rss"')
     self.assertContains(r, 'href="/user/popular/atom"')
+
+  def test_browse_older(self):
+    popular_ref = api.actor_get(api.ROOT, 'popular')
+    existing_entries_per_page = views.ENTRIES_PER_PAGE
+    # change the entries per page setting to make sure that the paging
+    # link shows up
+    try:
+      views.ENTRIES_PER_PAGE = 3
+      r = self.client.get('/user/popular')
+      self.assertContains(r, '<div class="paging">')
+      self.assertContains(r, 'Older')
+    finally:
+      views.ENTRIES_PER_PAGE = existing_entries_per_page
 
 
 class SubscriptionTest(ViewTestCase):
