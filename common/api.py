@@ -4309,7 +4309,9 @@ def _notify_sms_for_entry(inboxes, actor_ref, new_stream_ref, new_entry_ref,
     mobile = mobile_get_actor(ROOT, subscriber_ref.nick)
     if not mobile:
       continue
-    mobile_numbers.append(mobile)
+    can_read_entry = entry_get_safe(subscriber_ref, new_entry_ref.keyname())
+    if can_read_entry:
+      mobile_numbers.append(mobile)
   if not mobile_numbers:
     return
   
@@ -4467,6 +4469,9 @@ def _notify_email_subscribers_for_comment(subscribers_ref, actor_ref,
       continue
     if subscriber_ref.nick == actor_ref.nick:
       continue
+    can_read_entry = entry_get_safe(subscriber_ref, comment_ref.keyname())
+    if not can_read_entry:
+      continue
 
     subject, message = mail.email_comment_notification(
         subscriber_ref,
@@ -4486,7 +4491,9 @@ def _notify_im_subscribers_for_comment(subscribers_ref, actor_ref,
     im = im_get_actor(ROOT, subscriber_ref.nick)
     if not im:
       continue
-    im_aliases.append(im)
+    can_read_entry = entry_get_safe(subscriber_ref, comment_ref.keyname())
+    if can_read_entry:
+      im_aliases.append(im)
   if not im_aliases:
     return
 
@@ -4536,7 +4543,9 @@ def _notify_im_subscribers_for_entry(subscribers_ref, actor_ref, stream_ref, ent
     im = im_get_actor(ROOT, subscriber_ref.nick)
     if not im:
       continue
-    im_aliases.append(im)
+    can_read_entry = entry_get_safe(subscriber_ref, entry_ref.keyname())
+    if can_read_entry:
+      im_aliases.append(im)
   if not im_aliases:
     return
 
