@@ -965,6 +965,12 @@ def actor_get_channels_member(api_user, nick, limit=48, offset=None):
   rv = query.fetch(limit)
   return [x.owner for x in rv]
 
+def actor_get_channels_member_safe(api_user, nick, limit=48, offset=None):
+  try:
+    return actor_get_channels_member(api_user, nick, limit, offset)
+  except exception.ApiException:
+    return []
+
 @public_owner_or_contact
 def actor_get_contacts(api_user, nick, limit=48, offset=None):
   """returns the contacts for the given actor if current_actor can view them"""
@@ -974,6 +980,12 @@ def actor_get_contacts(api_user, nick, limit=48, offset=None):
                        offset)
   results = query.fetch(limit)
   return [x.target for x in results]
+
+def actor_get_contacts_safe(api_user, nick, limit=48, offset=None):
+  try:
+    return actor_get_contacts(api_user, nick, limit, offset)
+  except exception.ApiException:
+     return []
 
 @owner_required
 def actor_get_contacts_since(api_user, nick, limit=30, since_time=None):
@@ -1880,7 +1892,7 @@ def entry_get_comments_with_entry_uuid(api_user, entry_uuid):
   comments = entry_get_entries(api_user, comment_keys)
   return ResultWrapper(comments, comments=comments, entry=entry_ref)
 
-def entry_get_entries(api_user, entries):
+def entry_get_entries(api_user, entries, hide_comments=False):
   """Turn a list of entry keys to a list of entries,
   maintaining the order.
   The list only contains values where entries
@@ -1889,7 +1901,7 @@ def entry_get_entries(api_user, entries):
   out = list()
   if not entries:
     return out
-  entries_dict = entry_get_entries_dict(api_user, entries)
+  entries_dict = entry_get_entries_dict(api_user, entries, hide_comments)
 
   for entry_key in entries:
     entry = entries_dict.get(entry_key, None)
@@ -1897,7 +1909,7 @@ def entry_get_entries(api_user, entries):
       out.append(entry)
   return out
 
-def entry_get_entries_dict(api_user, entries):
+def entry_get_entries_dict(api_user, entries, hide_comments=False):
   """Turn a list of entry keys to a dictionary of entries.
   The dictionary only contains values for keys where entries
   (and their parent entities) exist.
@@ -1906,11 +1918,13 @@ def entry_get_entries_dict(api_user, entries):
   if not entries:
     return out
 
-  entries = list(set(entries))
-  for entry in entries:
+  for entry in set(entries):
     entry_ref = entry_get_safe(api_user, entry)
     if entry_ref:
-      out[entry] = entry_ref
+      if not hide_comments:
+        out[entry] = entry_ref
+      elif not entry_ref.is_comment():
+        out[entry] = entry_ref
 
   return out
 
@@ -3225,6 +3239,12 @@ def stream_get_comment(api_user, nick):
   if not comment_stream:
     raise exception.ApiException(0x00, 'Stream not found')
   return comment_stream
+
+def stream_get_actor_safe(api_user, nick):
+  try:
+    return stream_get_actor(api_user, nick)
+  except exception.ApiException:
+    return []
 
 @public_owner_or_contact
 def stream_get_presence(api_user, nick):
