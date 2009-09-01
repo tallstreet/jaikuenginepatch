@@ -16,6 +16,7 @@ import logging
 import re
 
 from django.conf import settings
+from django.utils import html
 
 from cleanliness import encoding
 from common import component
@@ -63,20 +64,29 @@ class XmppMessage(object):
     return xmpp_service.from_request(cls, request)
 
 class XmppConnection(base.Connection):
-  def send_message(self, to_jid_list, message, html_message=None, 
+  def send_message(self, to_jid_list, message, html_message=None,
                    atom_message=None):
     if settings.IM_TEST_ONLY:
-      to_jid_list = [x for x in to_jid_list 
+      to_jid_list = [x for x in to_jid_list
                      if x.base() in settings.IM_TEST_JIDS]
 
+    raw_xml = False
     message = encoding.smart_str(message)
-    if html_message:
-      html_message = encoding.smart_str(html_message)
-    if atom_message:
-      atom_message = encoding.smart_str(atom_message)
+    body = message
+
+    if html_message or atom_message:
+      raw_xml = True
+      body_builder = ["<body>%s</body>" % (html.escape(body.strip())),]
+      if html_message:
+        html_message = encoding.smart_str(html_message)
+        body_builder.append(html_message)
+      if atom_message:
+        atom_message = encoding.smart_str(atom_message)
+        body_builder.append(atom_message)
+      body = u'\n'.join([encoding.smart_unicode(x) for x in body_builder])
+      body = body.encode('ascii', 'xmlcharrefreplace')
 
     xmpp_service = component.best['xmpp_service']
     xmpp_service.send_message([j.base() for j in to_jid_list],
-                              message,
-                              html_message=html_message,
-                              atom_message=atom_message)
+                              body,
+                              raw_xml=raw_xml)
