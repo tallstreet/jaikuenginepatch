@@ -97,15 +97,15 @@ class ChannelCountBackfiller(object):
 
 
 def auth_function():
-  return ("admin", getpass.getpass("Password:"))
+  return (raw_input("Username: "), getpass.getpass("Password:"))
 
 def main():
   parser = optparse.OptionParser()
   parser.add_option("-b", "--actor_batch_size", dest="actor_batch_size",
                     default=100,
                     help="number of actors to fetch in a single query")
-  parser.add_option("-w", "--write", dest="write", default=False,
-                    help="write results back to data store")
+  parser.add_option("-w", "--write", dest="write", action="store_true",
+                    default=False, help="write results back to data store")
   parser.add_option("-a", "--app_id", dest="app_id",
                     help="the app_id of your app, as declared in app.yaml")
   parser.add_option("-s", "--servername", dest="servername",
