@@ -86,3 +86,6 @@ handlers:
   script: "main.py"
   secure: optional
   # login: admin
+
+inbound_services:
+- xmpp_message
