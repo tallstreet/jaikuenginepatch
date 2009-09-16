@@ -143,6 +143,10 @@ def actor_history(request, nick=None, format='html'):
   contacts_count = view.extra.get('contact_count', 0)
   contacts_more = contacts_count > CONTACTS_PER_PAGE
 
+  # for sidebar channels
+  channels_count = view.extra.get('channel_count', 0)
+  channels_more = channels_count > CHANNELS_PER_PAGE
+
   # Config for the template
   green_top = True
   sidebar_green_top = True
@@ -261,6 +265,10 @@ def actor_overview(request, nick, format='html'):
   # for sidebar_contacts
   contacts_count = view.extra.get('contact_count', 0)
   contacts_more = contacts_count > CONTACTS_PER_PAGE
+
+  # for sidebar channels
+  channels_count = view.extra.get('channel_count', 0)
+  channels_more = channels_count > CHANNELS_PER_PAGE
 
   # Config for the template
   green_top = True

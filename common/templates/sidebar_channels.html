@@ -1,0 +1,37 @@
+{% load vcard %}
+<div id="channels" class='contacts'>
+  {% ifequal request.user.nick view.nick %}
+    <h2>Channels ({{ channels_count }})</h2>
+    <a href="{% url channel.views.channel_index %}" class="edit">Manage</a>
+  {% else %}
+    <h2>{{view.display_nick}}'s channels ({{channels_count}})</h2>
+  {% endifequal %}
+
+  {% if channels %}
+    <ul>
+    {% for channel in channels %}
+      <li>
+        {% with channel as actor %}
+        {% include 'common/templates/vcard_tile_rel.html' %}
+        {% endwith %}
+      </li>
+    {% endfor %}
+    </ul>
+    
+    {% if channels_more %}
+      {% ifequal request.user.nick view.nick %}
+      <p class="more">
+        <a href="{% url channel.views.channel_index %}">&#8250; More</a>
+      </p>
+      {% endifequal %}
+    {% endif %}
+  {% else %}
+    <p>
+    No channels yet.
+    {% ifequal request.user.nick view.nick %}
+    You can start by 
+    <a href="{% url channel.views.channel_browse %}">joining some channels</a>.
+    {% endifequal %}
+    </p>    
+  {% endif %}
+</div>

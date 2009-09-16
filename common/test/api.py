@@ -602,7 +602,7 @@ class ApiUnitTestChannels(ApiUnitTest):
     self.assertEquals(1, channel_ref.extra['member_count'])
     self.assertEquals(1, channel_ref.extra['admin_count'])
     popular_ref = api.actor_get(api.ROOT, self.popular_nick)
-    self.assertEquals(1, popular_ref.extra['channel_count'])
+    self.assertEquals(2, popular_ref.extra['channel_count'])
 
   def test_channel_join_increment_count(self):
     hermit_ref = api.actor_get(api.ROOT, self.hermit_nick)
