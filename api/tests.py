@@ -323,8 +323,9 @@ class XmlRpcTest(base.FixturesTestCase):
     xml = xmlrpclib.dumps((params,), 'actor_get')
     response = self.client.post('/api/xmlrpc', xml, 'text/xml')
     rv = xmlrpclib.loads(response.content)
+    actor = api.actor_get(api.ROOT, 'popular')
     expected = {
-        'actor': {'avatar_updated_at': '2009-01-01 00:00:00',
+        'actor': {'avatar_updated_at': '2001-01-01 00:00:00',
                   'extra': {'follower_count': 4,
                             'contact_count': 2,
                             'icon': 'default/animal_3'},

@@ -1,0 +1,32 @@
+================
+Stream Entry Ref
+================
+
+A stream_entry_ref can be either a comment or a simple entry. It has the
+following attributes:
+
+  * stream - the stream in which the entry resides
+  * owner - the actor who owns the stream
+  * entry - the parent entry being commented on for comment entries or ``None``
+    for simple entries.
+  * created_at - creation timestamp
+  * actor - the entry creator
+  * uuid - the uuid associated with the comment
+  * deleted_at - always null; otherwise the comment cannot be retrieved
+  * extra - optional attributes; see description in the section below
+
+The 'extra' attribute is another object that contains the following *optional*
+attributes:
+
+  * title - applicable to simple entries only
+  * icon - applicable to simple entries only
+  * comment count - applicable to simple entries only
+  * entry_title - applicable to comment entries only
+  * entry_actor - applicable to comment entries only
+  * entry_uuid - applicable to comment entries only; the uuid of the entry
+    being commented on
+  * entry_stream - applicable to comment entries only; the stream that
+    contains the entry being commented on
+  * entry_stream_type - applicable to comment entries only; can be either
+    'presence' or 'comment'
+  * location - the entry creator's location at entry creation time

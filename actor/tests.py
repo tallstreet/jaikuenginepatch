@@ -21,6 +21,8 @@ import urllib
 from django.conf import settings
 from django.core import mail
 
+from actor import views
+
 from common.tests import ViewTestCase
 
 from common import api
@@ -125,6 +127,19 @@ class HistoryTest(ViewTestCase):
     r = self.client.get('/user/popular')
     self.assertContains(r, 'href="/user/popular/rss"')
     self.assertContains(r, 'href="/user/popular/atom"')
+
+  def test_browse_older(self):
+    popular_ref = api.actor_get(api.ROOT, 'popular')
+    existing_entries_per_page = views.ENTRIES_PER_PAGE
+    # change the entries per page setting to make sure that the paging
+    # link shows up
+    try:
+      views.ENTRIES_PER_PAGE = 3
+      r = self.client.get('/user/popular')
+      self.assertContains(r, '<div class="paging">')
+      self.assertContains(r, 'Older')
+    finally:
+      views.ENTRIES_PER_PAGE = existing_entries_per_page
 
 
 class SubscriptionTest(ViewTestCase):
@@ -606,7 +621,6 @@ class NewUserTest(ViewTestCase):
 
 
 class PostTest(ViewTestCase):
-
   def test_post_message_in_overview(self):
     self.login('popular')
     msg = 'a post from unit test'
@@ -634,3 +648,48 @@ class PostTest(ViewTestCase):
     self.assertContains(r, msg)
     self.assertContains(r, 'a moment ago')
     self.assertTemplateUsed(r, 'history.html')
+
+
+class ChannelsSideBarTest(ViewTestCase):
+  def _assert_no_channel(self, r, channel_label):
+    self.assertContains(r, channel_label + ' (0)')
+    self.assertContains(r, 'No channels yet')
+
+  def _assert_popular_channel(self, r, channel_label):
+    self.assertContains(r, channel_label + ' (1)')
+    self.assertContains(r, 'channel/popular')
+
+  def test_self_history_no_channel(self):
+    r = self.login_and_get('obligated', '/user/obligated')
+    self._assert_no_channel(r, 'Channels')
+
+  def test_self_overview_no_channel(self):
+    r = self.login_and_get('obligated', '/user/obligated/overview')
+    self._assert_no_channel(r, 'Channels')
+
+  def test_other_history_no_channel(self):
+    r = self.login_and_get('celebrity', '/user/obligated')
+    self._assert_no_channel(r, "obligated's channels")
+
+  def test_other_overview_no_channel(self):
+    r = self.login_and_get('celebrity', '/user/obligated/overview')
+    r = self.assertRedirectsPrefix(r, '/user')
+    self._assert_no_channel(r, "obligated's channels")
+
+  def test_self_history_channel(self):
+    r = self.login_and_get('popular', '/user/popular')
+    self._assert_popular_channel(r, 'Channels')
+
+  def test_self_overview_channel(self):
+    r = self.login_and_get('popular', '/user/popular/overview')
+    self._assert_popular_channel(r, 'Channels')
+
+  def test_other_history_channel(self):
+    r = self.login_and_get('celebrity', '/user/popular')
+    self._assert_popular_channel(r, "popular's channels")
+
+  def test_other_overview_channel(self):
+    r = self.login_and_get('celebrity', '/user/popular/overview')
+    r = self.assertRedirectsPrefix(r, '/user')
+    self._assert_popular_channel(r, "popular's channels")
+>>>>>>> jaikumainline:actor/tests.py

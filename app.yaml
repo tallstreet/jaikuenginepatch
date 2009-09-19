@@ -67,3 +67,7 @@ handlers:
 - url: /.*
   script: aepcommon/appenginepatch/main.py
   secure: optional
+  # login: admin
+
+inbound_services:
+- xmpp_message

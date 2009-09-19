@@ -25,9 +25,9 @@ ACTOR_LIMITED_EXTRA = ('icon',
                        )
 
 class User(DeletedMarkerModel, GoogleUserTraits):
-
-  """
+ """
   extra:
+    channel_count - int; number of channels
     contact_count - int; number of contacts
     follower_count - int; number of followers
     icon - string; avatar path
@@ -107,12 +107,12 @@ class User(DeletedMarkerModel, GoogleUserTraits):
 
   def is_restricted(self):
     return self.privacy == PRIVACY_CONTACTS
-
+    
   def __repr__(self):
     # Get all properties, but not directly as property objects, because
     # constructor requires values to be passed in.
     d = dict([(k, self.__getattribute__(k)) for k in self.properties().keys()])
-    return "%s(**%s)" % (self.__class__.__name__, repr(d))
+    return "%s(**%s)" % (self.__class__.__name__, repr(d))    
 
   class Meta:
     verbose_name = _('user')
