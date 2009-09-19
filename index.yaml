@@ -38,13 +38,13 @@ indexes:
   - name: created_at
     direction: desc
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: InboxEntry
   properties:
   - name: inbox
   - name: created_at
 
-# Used 2 times in query history.
+# Unused in query history -- copied from input.
 - kind: InboxEntry
   properties:
   - name: inbox
@@ -82,7 +82,7 @@ indexes:
   - name: owner
   - name: relation
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: Relation
   properties:
   - name: owner
@@ -95,7 +95,7 @@ indexes:
   - name: relation
   - name: target
 
-# Used 2 times in query history.
+# Unused in query history -- copied from input.
 - kind: Relation
   properties:
   - name: relation
@@ -128,12 +128,46 @@ indexes:
   - name: topic
   - name: target
 
-# Used once in query history.
+# Used 18 times in query history.
 - kind: common_inboxentry
   properties:
   - name: inbox
   - name: created_at
     direction: desc
+
+# Used 18 times in query history.
+- kind: common_relation
+  properties:
+  - name: owner
+  - name: relation
+  - name: target
+
+# Used 17 times in query history.
+- kind: common_relation
+  properties:
+  - name: relation
+  - name: target
+  - name: owner
+
+# Used 6 times in query history.
+- kind: common_streamentry
+  properties:
+  - name: stream
+  - name: created_at
+    direction: desc
+
+# Used 3 times in query history.
+- kind: common_subscription
+  properties:
+  - name: topic
+  - name: target
+
+# Used once in query history.
+- kind: common_user
+  properties:
+  - name: deleted_at
+  - name: type
+  - name: nick
 
 # Unused in query history -- copied from input.
 - kind: jaikucommon_inboxentry
