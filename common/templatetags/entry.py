@@ -40,7 +40,7 @@ def is_actor_or_owner(user, entry, is_admin = False):
   return user.nick == entry.actor or user.nick == entry.owner
 
 def is_not_actor(user, entry, is_admin = None):
-  if not user:
+  if not user or user.is_anonymous():
     return False
   return user.nick != entry.actor
 

@@ -39,14 +39,14 @@ BUCKETS = {'minute': lambda: _d2t(utcnow()) + 60,
 
 def throttle_key(actor_ref, action, bucket):
   nick = ''
-  if actor_ref:
+  if actor_ref and actor_ref.is_authenticated():
     nick = actor_ref.nick
   return 'throttle/%s/%s/%s' % (nick, action, bucket)
 
 def throttle(actor_ref, action, **kw):
   """ enforces throttling of some action per user with defined limits
   """
-  if actor_ref and actor_ref.nick == settings.ROOT_NICK:
+  if actor_ref and actor_ref.is_authenticated() and actor_ref.nick == settings.ROOT_NICK:
     return
 
   already_throttled = False

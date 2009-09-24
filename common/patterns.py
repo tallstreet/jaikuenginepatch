@@ -163,6 +163,16 @@ class SignInHandler(PatternHandler):
     password = match.group(3)
 
     self.service.sign_in(sender, nick, password)
+    
+    
+class SignInHandlerNoLogin(PatternHandler):
+  """
+  Pattern handler to claim an existing account from a follow-only account.
+  """
+  pattern = re.compile(r"""^\s*(claim|sign\s+in)""", re.I)
+
+  def handle(self, sender, match, message):
+    self.service.sign_in(sender)    
 
 
 class SignOutHandler(PatternHandler):

@@ -9,7 +9,7 @@
     <logo>http://{{DOMAIN}}/{{DEFAULT_THEME|urlencode}}/logo.gif</logo>
     <id>tag:{{NS_DOMAIN}},{% now "Y-m-d"%}:/</id>
     <rights>Copyright 2009 {{SITE_NAME}}</rights>
-    {% include 'common/templates/stream.atom' %}
+    {% include 'common/stream.atom' %}
 </feed>
     
     

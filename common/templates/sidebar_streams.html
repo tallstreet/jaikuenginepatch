@@ -31,7 +31,7 @@
           {% endifequal %}
         {% endif %}
         </h4>
-        {% if request.user %}
+        {% if request.user.is_authenticated %}
         {% ifnotequal request.user.nick view.nick %}
           {% if stream.subscribed %}
           <a

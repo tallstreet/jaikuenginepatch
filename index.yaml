@@ -11,194 +11,48 @@ indexes:
 # your application using appcfg.py.
 
 # Unused in query history -- copied from input.
-- kind: Actor
-  properties:
-  - name: deleted_at
-  - name: type
-  - name: nick
-
-# Unused in query history -- copied from input.
-- kind: Actor
-  properties:
-  - name: type
-  - name: deleted_at
-
-# Unused in query history -- copied from input.
-- kind: InboxEntry
-  properties:
-  - name: deleted_at
-  - name: inbox
-  - name: created_at
-
-# Unused in query history -- copied from input.
-- kind: InboxEntry
-  properties:
-  - name: deleted_at
-  - name: inbox
-  - name: created_at
-    direction: desc
-
-# Unused in query history -- copied from input.
-- kind: InboxEntry
+- kind: common_inboxentry
   properties:
   - name: inbox
   - name: created_at
 
-# Unused in query history -- copied from input.
-- kind: InboxEntry
-  properties:
-  - name: inbox
-  - name: created_at
-    direction: desc
-
-# Unused in query history -- copied from input.
-- kind: KeyValue
-  properties:
-  - name: actor
-  - name: keyname
-
-# Unused in query history -- copied from input.
-- kind: OAuthAccessToken
-  properties:
-  - name: actor
-  - name: created_at
-
-# Unused in query history -- copied from input.
-- kind: OAuthConsumer
-  properties:
-  - name: actor
-  - name: created_at
-
-# Unused in query history -- copied from input.
-- kind: Presence
-  properties:
-  - name: actor
-  - name: updated_at
-    direction: desc
-
-# Unused in query history -- copied from input.
-- kind: Relation
-  properties:
-  - name: owner
-  - name: relation
-
-# Unused in query history -- copied from input.
-- kind: Relation
-  properties:
-  - name: owner
-  - name: relation
-  - name: target
-
-# Unused in query history -- copied from input.
-- kind: Relation
-  properties:
-  - name: relation
-  - name: target
-
-# Unused in query history -- copied from input.
-- kind: Relation
-  properties:
-  - name: relation
-  - name: target
-  - name: owner
-
-# Unused in query history -- copied from input.
-- kind: Stream
-  properties:
-  - name: owner
-  - name: type
-
-# Unused in query history -- copied from input.
-- kind: StreamEntry
-  properties:
-  - name: stream
-  - name: created_at
-    direction: desc
-
-# Unused in query history -- copied from input.
-- kind: Subscription
-  properties:
-  - name: owner=
-  - name: target=
-  - name: topic=
-
-# Unused in query history -- copied from input.
-- kind: Subscription
-  properties:
-  - name: topic
-  - name: target
-
-# Used 18 times in query history.
+# Used once in query history.
 - kind: common_inboxentry
   properties:
   - name: inbox
   - name: created_at
     direction: desc
 
-# Used 18 times in query history.
+# Unused in query history -- copied from input.
 - kind: common_relation
   properties:
   - name: owner
   - name: relation
   - name: target
 
-# Used 17 times in query history.
+# Unused in query history -- copied from input.
 - kind: common_relation
   properties:
   - name: relation
   - name: target
   - name: owner
 
-# Used 6 times in query history.
+# Unused in query history -- copied from input.
 - kind: common_streamentry
   properties:
   - name: stream
   - name: created_at
     direction: desc
 
-# Used 3 times in query history.
+# Unused in query history -- copied from input.
 - kind: common_subscription
   properties:
   - name: topic
   - name: target
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: common_user
   properties:
   - name: deleted_at
   - name: type
   - name: nick
-
-# Unused in query history -- copied from input.
-- kind: jaikucommon_inboxentry
-  properties:
-  - name: inbox
-  - name: created_at
-    direction: desc
-
-# Unused in query history -- copied from input.
-- kind: jaikucommon_relation
-  properties:
-  - name: owner
-  - name: relation
-  - name: target
-
-# Unused in query history -- copied from input.
-- kind: jaikucommon_relation
-  properties:
-  - name: relation
-  - name: target
-  - name: owner
-
-# Unused in query history -- copied from input.
-- kind: jaikucommon_streamentry
-  properties:
-  - name: stream
-  - name: created_at
-    direction: desc
-
-# Unused in query history -- copied from input.
-- kind: jaikucommon_subscription
-  properties:
-  - name: topic
-  - name: target

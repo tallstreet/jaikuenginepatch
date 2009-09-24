@@ -53,7 +53,7 @@ def channel_create(request, format='html'):
   c = template.RequestContext(request, locals())
 
   if format == 'html':
-    t = loader.get_template('create.html')
+    t = loader.get_template('channel/create.html')
     return http.HttpResponse(t.render(c))
 
 
@@ -107,7 +107,7 @@ def channel_index(request, format='html'):
   c = template.RequestContext(request, locals())
 
   if format == 'html':
-    t = loader.get_template('index.html')
+    t = loader.get_template('channel/index.html')
     return http.HttpResponse(t.render(c))
 
 
@@ -121,7 +121,7 @@ def channel_index_signedout(request, format='html'):
   c = template.RequestContext(request, locals())
 
   if format == 'html':
-    t = loader.get_template('index_signedout.html')
+    t = loader.get_template('channel/index_signedout.html')
     return http.HttpResponse(t.render(c))
 
 
@@ -165,7 +165,7 @@ def channel_history(request, nick, format='html'):
 
   user_can_post = False
   user_is_admin = False
-  if not request.user:
+  if not request.user or request.user.is_anonymous():
     pass
   elif api.channel_has_admin(request.user, view.nick, request.user.nick):
     privacy = 'private'
@@ -247,7 +247,7 @@ def channel_history(request, nick, format='html'):
   # for sidebar streams (copied from actor/views.py.  refactor)
   view_streams = dict([(x.key().name(), streams[x.key().name()])
                        for x in actor_streams])
-  if request.user:
+  if request.user and request.user.is_authenticated():
     # un/subscribe buttons are possible only, when logged in
 
     # TODO(termie): what if there are quite a lot of streams?
@@ -262,18 +262,18 @@ def channel_history(request, nick, format='html'):
   c = template.RequestContext(request, locals())
 
   if format == 'html':
-    t = loader.get_template('history.html')
+    t = loader.get_template('channel/history.html')
     return http.HttpResponse(t.render(c))
   elif format == 'json':
-    t = loader.get_template('history.json')
+    t = loader.get_template('channel/history.json')
     r = util.HttpJsonResponse(t.render(c), request)
     return r
   elif format == 'atom':
-    t = loader.get_template('history.atom')
+    t = loader.get_template('channel/history.atom')
     r = util.HttpAtomResponse(t.render(c), request)
     return r
   elif format == 'rss':
-    t = loader.get_template('history.rss')
+    t = loader.get_template('channel/history.rss')
     r = util.HttpRssResponse(t.render(c), request)
     return r
 
@@ -305,7 +305,7 @@ def channel_item(request, nick, item=None, format='html'):
     return handled
 
   admins = api.channel_get_admins(request.user, channel=view.nick)
-  user_is_admin = request.user and request.user.nick in admins
+  user_is_admin = request.user and request.user.is_authenticated() and request.user.nick in admins
 
   comments = api.entry_get_comments(request.user, entry)
 
@@ -335,10 +335,10 @@ def channel_item(request, nick, item=None, format='html'):
   # rendering
   c = template.RequestContext(request, locals())
   if format == 'html':
-    t = loader.get_template('item.html')
+    t = loader.get_template('channel/item.html')
     return http.HttpResponse(t.render(c))
   elif format == 'json':
-    t = loader.get_template('/item.json')
+    t = loader.get_template('channel/item.json')
     r = http.HttpResponse(t.render(c))
     r['Content-type'] = 'text/javascript'
     return r
@@ -364,7 +364,7 @@ def channel_browse(request, format='html'):
 
   # TODO(tyler): Other output formats.
   if format == 'html':
-    t = loader.get_template('browse.html')
+    t = loader.get_template('channel/browse.html')
     return http.HttpResponse(t.render(c))
 
 def channel_members(request, nick=None, format='html'):
@@ -410,7 +410,7 @@ def channel_members(request, nick=None, format='html'):
   c = template.RequestContext(request, locals())
 
   if format == 'html':
-    t = loader.get_template('members.html')
+    t = loader.get_template('channel/members.html')
     return http.HttpResponse(t.render(c))
 
 
@@ -483,8 +483,13 @@ def channel_settings(request, nick, page='index'):
   # main settings page
   if page != 'index':
     full_page = page.capitalize()
-
+    
   # rendering
   c = template.RequestContext(request, locals())
-  t = loader.get_template('settings_%s.html' % page)
+  t = loader.get_template('channel/settings_%s.html' % page)
+  
+  import logging
+  logging.debug(page)
+  import logging
+  logging.debug(t)
   return http.HttpResponse(t.render(c))

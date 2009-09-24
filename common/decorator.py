@@ -28,7 +28,7 @@ def debug_only(handler):
 
 def login_required(handler):
   def _wrapper(request, *args, **kw):
-    if not request.user:
+    if not request.user or request.user.is_anonymous():
       raise exception.LoginRequiredException()
     return handler(request, *args, **kw)
   _wrapper.__name__ = handler.__name__

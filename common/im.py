@@ -69,6 +69,7 @@ NICK_RE = re.compile(r"""^[a-zA-Z][a-zA-Z0-9]{2,15}$""")
 
 class ImService(base.Service):
   handlers = [patterns.SignInHandler,
+              patterns.SignInHandlerNoLogin,
               patterns.SignOutHandler,
               patterns.PromotionHandler,
               patterns.HelpHandler,
@@ -182,6 +183,28 @@ class ImService(base.Service):
                          HELP_FOOTER])
 
     self.send_message([from_jid], welcome)
+    
+
+  def sign_in(self, from_jid):
+    jid_ref = api.actor_lookup_im(api.ROOT, from_jid.base())
+    if jid_ref:
+      raise exception.ValidationError(
+          "You are already signed in, please SIGN OUT first")
+
+    user_ref = api.actor_lookup_email(api.ROOT, from_jid.base())
+
+    im_ref = api.im_associate(api.ROOT, user_ref.nick, from_jid.base())
+
+    welcome = '\n'.join([HELP_WELCOME_NICK % user_ref.display_nick(),
+                         HELP_POST,
+                         HELP_CHANNEL_POST,
+                         HELP_COMMENT,
+                         HELP_FOLLOW,
+                         HELP_STOP,
+                         HELP_MORE,
+                         HELP_FOOTER])
+
+    self.send_message([from_jid], welcome)    
 
   def sign_out(self, from_jid):
     jid_ref = api.actor_lookup_im(api.ROOT, from_jid.base())

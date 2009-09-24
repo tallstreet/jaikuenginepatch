@@ -30,7 +30,7 @@
   {% endif %}
 </div>
 
-{% if request.user %}
+{% if request.user.is_authenticated %}
   {% if not request.user.spam %}
   <div id="leave-comment">
     <h2>Add a Comment</h2>

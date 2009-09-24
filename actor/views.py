@@ -78,7 +78,7 @@ def actor_history(request, nick=None, format='html'):
     return handled
 
   privacy = 'public'
-  if request.user:
+  if request.user and request.user.is_authenticated():
     if view.nick == request.user.nick:
       privacy = 'private'
     # ROOT because we care whether or not request.user is a contact of
@@ -117,7 +117,7 @@ def actor_history(request, nick=None, format='html'):
                                                               view)
 
   # If not logged in, cannot write
-  is_owner = request.user and view.nick == request.user.nick
+  is_owner = request.user and request.user.is_authenticated() and view.nick == request.user.nick
 
   try:
     presence = api.presence_get(request.user, view.nick)
@@ -129,7 +129,7 @@ def actor_history(request, nick=None, format='html'):
 
 
   # for add/remove contact
-  if request.user:
+  if request.user and request.user.is_authenticated():
     user_is_contact = api.actor_has_contact(request.user,
                                             request.user.nick,
                                             view.nick)
@@ -760,7 +760,7 @@ def actor_settings(request, nick, page='index'):
   return http.HttpResponse(t.render(c))
 
 def actor_settings_redirect(request):
-  if not request.user:
+  if not request.user or request.user.is_anonymous():
     return http.HttpResponseRedirect(
         '/login?redirect_to=%s' % request.get_full_path())
   nick = clean.nick(request.user.nick)
@@ -798,7 +798,7 @@ def _get_sidebar_streams(actor_streams, streams, request_user=None):
   result = dict([(x.key().name(), streams[x.key().name()])
                  for x in actor_streams])
   # un/subscribe buttons are possible only when logged in
-  if request_user:
+  if request_user and request_user.is_authenticated():
     # TODO(termie): what if there are quite a lot of streams?
     for stream in result.values():
       stream.subscribed = api.subscription_exists(

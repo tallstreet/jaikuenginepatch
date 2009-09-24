@@ -20,7 +20,7 @@
         {% include 'vcard_full.html' %}
       {% endwith %}
 
-      {% if request.user %}
+      {% if request.user.is_authenticated %}
         {% if user_is_contact %}
         <p class="contact">
           {{view.display_nick}} is your contact.

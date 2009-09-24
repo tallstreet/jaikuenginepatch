@@ -124,7 +124,7 @@ def generate_password():
   return hash_generic(generate_uuid())[:8]
 
 def create_nonce(user, action, offset=0):
-  if not user:
+  if not user or user.is_anonymous():
     nick = ""
   else:
     try:
